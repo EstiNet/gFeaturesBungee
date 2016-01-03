@@ -5,10 +5,12 @@ import java.io.IOException;
 
 import net.estinet.gFeaturesBungee.Commands.*;
 import net.estinet.gFeaturesBungee.Commands.EstiMail.SlashMail;
+import net.estinet.gFeaturesBungee.XML.Start;
 import net.md_5.bungee.api.plugin.Plugin;
 
 public class Listeners extends Plugin{
 	public static String version = "1.0.5";
+	Start s = new Start();
 	File fs = new File("plugins/gFeatures");
 	File f = new File("plugins/gFeatures/mail.xml");
 	public void onEnable(){
@@ -20,6 +22,7 @@ public class Listeners extends Plugin{
 		if(!f.isFile()){
 			try {
 				f.createNewFile();
+				s.start(f);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
