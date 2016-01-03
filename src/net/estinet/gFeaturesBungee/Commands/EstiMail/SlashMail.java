@@ -25,7 +25,7 @@ public class SlashMail extends Command{
 					sender.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] /mail send [Player] [Message].");
 				}
 				else if(args[0].equalsIgnoreCase("clear")){
-					
+					Gloze.clear(player);
 				}
 				else{
 					sender.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] Do /mail help.");
@@ -46,10 +46,11 @@ public class SlashMail extends Command{
 					}
 					else{
 						String message = "";
-						for(int i = 2; i == args.length; i++){
+						for(int i = 2; i != args.length; i++){
 							message += args[i];
 						}
 						Gloze.send(sender, args[1], message);
+						sender.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "]" + ChatColor.DARK_AQUA + " Mail sent!");
 					}
 				}
 				else{

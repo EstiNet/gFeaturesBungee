@@ -34,7 +34,7 @@ public class Join implements Listener{
 
 					NodeList list = doc.getElementsByTagName("player");
 
-					for(int i = 0; i == list.getLength(); i++){
+					for(int i = 0; i != list.getLength(); i++){
 						Node node = list.item(i);
 						if(node.getAttributes().getNamedItem("uuid").equals(event.getPlayer().getUUID())){
 							//SHOW HOW MANY EMAILS
