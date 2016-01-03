@@ -19,7 +19,7 @@ public class SlashMail extends Command{
 			ProxiedPlayer player = (ProxiedPlayer) sender;
 			if(args.length == 1){
 				if(args[0].equalsIgnoreCase("read")){
-					
+					//Add soon
 				}
 				else if(args[0].equalsIgnoreCase("send")){
 					sender.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] /mail send [Player] [Message].");
@@ -39,10 +39,17 @@ public class SlashMail extends Command{
 					sender.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] Do /mail help.");
 				}
 			}
-			else if(args.length == 3){
+			else if(args.length >= 3){
 				if(args[0].equalsIgnoreCase("send")){
 					if(!Gloze.check(args[1])){
-						
+						sender.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "]" + ChatColor.RED + " Player not found.");
+					}
+					else{
+						String message = "";
+						for(int i = 2; i == args.length; i++){
+							message += args[i];
+						}
+						Gloze.send(sender, args[1], message);
 					}
 				}
 				else{

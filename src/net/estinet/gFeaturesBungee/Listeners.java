@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import net.estinet.gFeaturesBungee.Commands.*;
+import net.estinet.gFeaturesBungee.Commands.EstiMail.SlashMail;
 import net.md_5.bungee.api.plugin.Plugin;
 
 public class Listeners extends Plugin{
@@ -29,6 +30,7 @@ public class Listeners extends Plugin{
 		getProxy().getPluginManager().registerCommand(this, new SlashSkyblock());
 		getProxy().getPluginManager().registerCommand(this, new SlashSurvival());
 		getProxy().getPluginManager().registerCommand(this, new SlashCreative());
+		getProxy().getPluginManager().registerCommand(this, new SlashMail());
 		getLogger().info("Enabled!");
 		getLogger().info("_______________________________________________");
 	}
