@@ -13,15 +13,44 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import net.estinet.gFeaturesBungee.MojangAPI.UUIDFetcher;
-import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class Gloze {
+	@SuppressWarnings("deprecation")
+	public static String read(ProxiedPlayer p){
+		String finali = "";
+		try{
+		File fXmlFile = new File("/Users/mkyong/staff.xml");
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+		Document doc = dBuilder.parse(fXmlFile);
+		NodeList first = doc.getFirstChild().getChildNodes();
+		for(int i = 0; i != first.getLength(); i++){
+			if(first.item(i).getAttributes().getNamedItem("uuid").equals(p.getUUID())){
+				for(int it = 0; it!= first.item(i).getChildNodes().getLength(); it++){
+					Node nod = first.item(i).getChildNodes().item(it);
+					finali += ChatColor.WHITE + nod.getNodeName() + ": " + nod.getTextContent();
+				}
+			}
+		}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		if(finali.equals("")){
+			return ChatColor.DARK_AQUA + "You have no mail. :(";
+		}
+		return finali;
+	}
+	@SuppressWarnings("deprecation")
 	public static void clear(ProxiedPlayer p){
 		try {
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -33,7 +62,12 @@ public class Gloze {
 			NodeList players = doc.getFirstChild().getChildNodes();
 			for(int i = 0; i != players.getLength(); i++){
 				if(players.item(i).getAttributes().getNamedItem("uuid").equals(p.getUUID())){
-					
+					doc.getFirstChild().removeChild(players.item(i));
+					Element staff = doc.createElement("player");
+					doc.getFirstChild().appendChild(staff);			
+					Attr attr = doc.createAttribute("uuid");
+					attr.setValue(p.getUUID());
+					staff.setAttributeNode(attr);
 				}
 			}
 
@@ -57,7 +91,8 @@ public class Gloze {
 				e.printStackTrace();
 			}
 	}
-	public static void send(CommandSender p, String send, String message){
+	@SuppressWarnings("deprecation")
+	public static void send(ProxiedPlayer p, String send, String message){
 
 		try {
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -69,13 +104,10 @@ public class Gloze {
 			NodeList players = doc.getFirstChild().getChildNodes();
 			for(int i = 0; i != players.getLength(); i++){
 				List<String> names = new ArrayList<>();
-				names.add(p.getName());
+				names.add(send);
 				UUIDFetcher uuids = new UUIDFetcher(names);
 				if(players.item(i).getAttributes().getNamedItem("uuid").equals(uuids.call().get(uuids).toString())){
-					List<String> name = new ArrayList<>();
-					name.add(p.getName());
-					UUIDFetcher uuid = new UUIDFetcher(name);
-					Element lastname = doc.createElement(uuid.call().get(name).toString());
+					Element lastname = doc.createElement(p.getUUID());
 					lastname.appendChild(doc.createTextNode(message));
 					players.item(i).appendChild(lastname);
 				}
@@ -102,6 +134,25 @@ public class Gloze {
 			}
 	}
 	public static boolean check(String send){
+		try{
+		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+
+		Document doc = docBuilder.parse(new File("plugins/gFeatures/mail.xml"));
+
+		NodeList players = doc.getFirstChild().getChildNodes();
+		List<String> names = new ArrayList<>();
+		names.add(send);
+		UUIDFetcher uuids = new UUIDFetcher(names);
+		for(int i = 0; i != players.getLength(); i++){
+			if(players.item(i).getAttributes().getNamedItem("uuid").equals(uuids.call().get(uuids).toString())){
+				return true;
+			}
+		}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 		return false;
 	}
 }

@@ -49,7 +49,7 @@ public class SlashMail extends Command{
 						for(int i = 2; i != args.length; i++){
 							message += args[i];
 						}
-						Gloze.send(sender, args[1], message);
+						Gloze.send(player, args[1], message);
 						sender.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "]" + ChatColor.DARK_AQUA + " Mail sent!");
 					}
 				}
