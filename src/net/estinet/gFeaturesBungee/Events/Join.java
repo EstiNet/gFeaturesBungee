@@ -24,9 +24,7 @@ import net.md_5.bungee.api.plugin.Listener;
 
 public class Join implements Listener{
 	public void onPostLogin(PostLoginEvent event){
-		Thread thr = new Thread(new Runnable(){
-			public void run(){
-				try {
+			try{
 					String filepath = "plugins/gFeatures/mail.xml";
 					DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 					DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -50,9 +48,6 @@ public class Join implements Listener{
 				} catch (SAXException sae) {
 					sae.printStackTrace();
 				}
-			}
-		});
-		thr.start();
 	}
 	public void otherwise(PostLoginEvent event){
 

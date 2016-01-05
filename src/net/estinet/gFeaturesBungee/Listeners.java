@@ -5,6 +5,8 @@ import java.io.IOException;
 
 import net.estinet.gFeaturesBungee.Commands.*;
 import net.estinet.gFeaturesBungee.Commands.EstiMail.SlashMail;
+import net.estinet.gFeaturesBungee.Events.Join;
+import net.estinet.gFeaturesBungee.Events.Switch;
 import net.estinet.gFeaturesBungee.XML.Start;
 import net.md_5.bungee.api.plugin.Plugin;
 
@@ -34,6 +36,8 @@ public class Listeners extends Plugin{
 		getProxy().getPluginManager().registerCommand(this, new SlashSurvival());
 		getProxy().getPluginManager().registerCommand(this, new SlashCreative());
 		getProxy().getPluginManager().registerCommand(this, new SlashMail());
+		getProxy().getPluginManager().registerListener(this, new Join());
+		getProxy().getPluginManager().registerListener(this, new Switch());
 		getLogger().info("Enabled!");
 		getLogger().info("_______________________________________________");
 	}
