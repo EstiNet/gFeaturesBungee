@@ -19,6 +19,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 
@@ -36,9 +37,11 @@ public class Join implements Listener{
 						Node node = list.item(i);
 						if(node.getAttributes().getNamedItem("uuid").equals(event.getPlayer().getUUID())){
 							//SHOW HOW MANY EMAILS
+							BungeeCord.getInstance().getLogger().info("Player exists.");
 							return;
 						}
 					}
+					BungeeCord.getInstance().getLogger().info("Player doesn't exist.");
 					otherwise(event);
 
 				} catch (ParserConfigurationException pce) {
@@ -60,22 +63,16 @@ public class Join implements Listener{
 
 			// staff elements
 			Element staff = doc.createElement("player");
-			doc.getFirstChild().appendChild(staff);
-
-			// set attribute to staff element
 			Attr attr = doc.createAttribute("uuid");
 			attr.setValue(event.getPlayer().getUUID());
 			staff.setAttributeNode(attr);
+			doc.getFirstChild().appendChild(staff);
 
 			// write the content into xml file
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
 			StreamResult result = new StreamResult(new File("plugins/gFeatures/mail.xml"));
-
-			// Output to console for testing
-			// StreamResult result = new StreamResult(System.out);
-
 			transformer.transform(source, result);
 
 		  } catch (ParserConfigurationException pce) {
