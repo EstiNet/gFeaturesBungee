@@ -37,7 +37,7 @@ public class Join implements Listener{
 
 					for(int i = 0; i != list.getLength(); i++){
 						Node node = list.item(i);
-						if(node.getAttributes().getNamedItem("uuid").equals(event.getPlayer().getUUID())){
+						if(node.getAttributes().getNamedItem("uuid").getNodeValue().equals(event.getPlayer().getUUID())){
 							//SHOW HOW MANY EMAILS
 							BungeeCord.getInstance().getLogger().info("Player exists.");
 							return;

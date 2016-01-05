@@ -11,13 +11,13 @@ import net.estinet.gFeaturesBungee.XML.Start;
 import net.md_5.bungee.api.plugin.Plugin;
 
 public class Listeners extends Plugin{
-	public static String version = "1.0.5";
+	public static String version = "1.0.7";
 	Start s = new Start();
 	File fs = new File("plugins/gFeatures");
 	File f = new File("plugins/gFeatures/mail.xml");
 	public void onEnable(){
 		getLogger().info("_______________________________________________");
-		getLogger().info("Enabling gFeaturesBungee version " + version + "...");
+		getLogger().info("Enabling gFeaturesBungee versions " + version + "...");
 		if(!fs.isDirectory()){
 			fs.mkdir();
 		}
