@@ -18,7 +18,13 @@ public class SlashMail extends Command{
 		if(sender instanceof ProxiedPlayer){
 			ProxiedPlayer player = (ProxiedPlayer) sender;
 			if(args.length == 1){
-				if(args[0].equalsIgnoreCase("read")){
+				if(args[0].equalsIgnoreCase("help")){
+					sender.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + "---EstiMail Help---");
+					sender.sendMessage(ChatColor.GOLD + "/mail read : Displays your inbox.");
+					sender.sendMessage(ChatColor.GOLD + "/mail send [Player] [Message] : Sends a player an email.");
+					sender.sendMessage(ChatColor.GOLD + "/mail clear : Clears your inbox.");
+				}
+				else if(args[0].equalsIgnoreCase("read")){
 					//Add soon
 				}
 				else if(args[0].equalsIgnoreCase("send")){

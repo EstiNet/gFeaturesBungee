@@ -22,8 +22,10 @@ import org.xml.sax.SAXException;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
+import net.md_5.bungee.event.EventHandler;
 
 public class Join implements Listener{
+	@EventHandler
 	public void onPostLogin(PostLoginEvent event){
 			try{
 					String filepath = "plugins/gFeatures/mail.xml";
