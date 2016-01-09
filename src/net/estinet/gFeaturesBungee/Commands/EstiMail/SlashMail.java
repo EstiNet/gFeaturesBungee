@@ -26,6 +26,7 @@ public class SlashMail extends Command{
 				}
 				else if(args[0].equalsIgnoreCase("read")){
 					//Add soon
+					sender.sendMessage(Gloze.read(player));
 				}
 				else if(args[0].equalsIgnoreCase("send")){
 					sender.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] /mail send [Player] [Message].");
