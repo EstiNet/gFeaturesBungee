@@ -32,6 +32,7 @@ public class SlashMail extends Command{
 				}
 				else if(args[0].equalsIgnoreCase("clear")){
 					Gloze.clear(player);
+					sender.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] Mail cleared.");
 				}
 				else{
 					sender.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] Do /mail help.");
