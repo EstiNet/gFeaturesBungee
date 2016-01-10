@@ -7,6 +7,9 @@ import java.util.UUID;
 
 import com.google.common.base.Charsets;
 import com.google.gson.JsonParser;
+
+import net.md_5.bungee.BungeeCord;
+
 import com.google.gson.JsonObject;
 
 public class UUIDFetcher
@@ -47,8 +50,8 @@ public class UUIDFetcher
 	    	}
 	    	catch (Exception e)
 	    	{
-	    		System.out.println("Unable to get UUID for: " + name + "! Giving offline UUID!");
-	    		//e.printStackTrace();
+	    		BungeeCord.getInstance().getLogger().info("Unable to get UUID for: " + name + "! Giving offline UUID!");
+	    		e.printStackTrace();
 	    		uuid = UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes(Charsets.UTF_8)).toString();
 	    	}
 		}
