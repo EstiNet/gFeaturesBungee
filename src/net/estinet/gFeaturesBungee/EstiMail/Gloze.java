@@ -1,6 +1,9 @@
 package net.estinet.gFeaturesBungee.EstiMail;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.UUID;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -16,6 +19,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import net.estinet.gFeaturesBungee.MojangAPI.NameFetcher;
 import net.estinet.gFeaturesBungee.MojangAPI.UUIDFetcher;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.ChatColor;
@@ -32,10 +36,12 @@ public class Gloze {
 		Document doc = dBuilder.parse(fXmlFile);
 		NodeList first = doc.getFirstChild().getChildNodes();
 		for(int i = 0; i != first.getLength(); i++){
-			if(first.item(i).getAttributes().getNamedItem("uuid").equals(p.getUUID())){
-				for(int it = 0; it!= first.item(i).getChildNodes().getLength(); it++){
+			if(first.item(i).getAttributes().getNamedItem("uuid").getNodeValue().equals(p.getUUID())){
+				for(int it = 0; it != first.item(i).getChildNodes().getLength(); it++){
 					Node nod = first.item(i).getChildNodes().item(it);
-					finali += ChatColor.WHITE + nod.getNodeName() + ": " + nod.getTextContent();
+					String hex =  nod.getAttributes().getNamedItem("uuid").getNodeValue().replaceFirst( "(\\p{XDigit}{8})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}+)", "$1-$2-$3-$4-$5" );
+					NameFetcher nf = new NameFetcher(Arrays.asList(UUID.fromString(hex)));
+					finali += ChatColor.GOLD + nf.call().get(hex) + ": " + ChatColor.AQUA + nod.getTextContent() + "\n";
 				}
 			}
 		}
@@ -103,8 +109,10 @@ public class Gloze {
 			NodeList players = doc.getFirstChild().getChildNodes();
 			for(int i = 0; i != players.getLength(); i++){
 				if(players.item(i).getAttributes().getNamedItem("uuid").getNodeValue().equals(UUIDFetcher.getUUIDOf(send).toString())){
-					BungeeCord.getInstance().getLogger().info(p.getUUID().toString());
-					Element lastname = doc.createElement(p.getUUID().toString());
+					Element lastname = doc.createElement("mesail");
+					Attr attr = doc.createAttribute("uuid");
+					attr.setValue(p.getUUID());
+					lastname.setAttributeNode(attr);
 					lastname.appendChild(doc.createTextNode(message));
 					players.item(i).appendChild(lastname);
 				}
