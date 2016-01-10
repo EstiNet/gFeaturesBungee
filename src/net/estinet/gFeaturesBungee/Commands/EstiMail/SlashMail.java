@@ -26,13 +26,14 @@ public class SlashMail extends Command{
 				}
 				else if(args[0].equalsIgnoreCase("read")){
 					//Add soon
+					player.sendMessage(Gloze.read(player));
 				}
 				else if(args[0].equalsIgnoreCase("send")){
 					sender.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] /mail send [Player] [Message].");
 				}
 				else if(args[0].equalsIgnoreCase("clear")){
 					Gloze.clear(player);
-					sender.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] Mail cleared.");
+					sender.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] " + ChatColor.DARK_AQUA + "Mail cleared!");
 				}
 				else{
 					sender.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] Do /mail help.");

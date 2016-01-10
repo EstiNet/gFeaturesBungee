@@ -26,7 +26,7 @@ public class Gloze {
 	public static String read(ProxiedPlayer p){
 		String finali = "";
 		try{
-		File fXmlFile = new File("/Users/mkyong/staff.xml");
+		File fXmlFile = new File("plugins/gFeatures/mail.xml");
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Document doc = dBuilder.parse(fXmlFile);
@@ -44,7 +44,7 @@ public class Gloze {
 			e.printStackTrace();
 		}
 		if(finali.equals("")){
-			return ChatColor.DARK_AQUA + "You have no mail. :(";
+			return ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] " + ChatColor.DARK_AQUA + "You have no mail. :(";
 		}
 		return finali;
 	}
@@ -91,7 +91,8 @@ public class Gloze {
 	}
 	@SuppressWarnings("deprecation")
 	public static void send(ProxiedPlayer p, String send, String message){
-
+		BungeeCord.getInstance().getPluginManager().getPlugin("gFeatures").getProxy().getScheduler().runAsync(BungeeCord.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
+			public void run(){
 		try {
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -102,7 +103,8 @@ public class Gloze {
 			NodeList players = doc.getFirstChild().getChildNodes();
 			for(int i = 0; i != players.getLength(); i++){
 				if(players.item(i).getAttributes().getNamedItem("uuid").getNodeValue().equals(UUIDFetcher.getUUIDOf(send).toString())){
-					Element lastname = doc.createElement(p.getUUID());
+					BungeeCord.getInstance().getLogger().info(p.getUUID().toString());
+					Element lastname = doc.createElement(p.getUUID().toString());
 					lastname.appendChild(doc.createTextNode(message));
 					players.item(i).appendChild(lastname);
 				}
@@ -127,6 +129,8 @@ public class Gloze {
 			catch(Exception e){
 				e.printStackTrace();
 			}
+		}
+		});
 	}
 	public static boolean check(String send){
 		try{
@@ -137,8 +141,6 @@ public class Gloze {
 
 		NodeList players = doc.getFirstChild().getChildNodes();
 		for(int i = 0; i != players.getLength(); i++){
-			BungeeCord.getInstance().getLogger().info(UUIDFetcher.getUUIDOf(send).toString());
-			BungeeCord.getInstance().getLogger().info(players.item(i).getAttributes().getNamedItem("uuid").getNodeValue());
 			if(players.item(i).getAttributes().getNamedItem("uuid").getNodeValue().equals(UUIDFetcher.getUUIDOf(send).toString())){
 				return true;
 			}

@@ -102,7 +102,7 @@ public class UUIDFetcher implements Callable<Map<String, UUID>> {
         return new UUID(mostSignificant, leastSignificant);
     }
 
-    public static UUID getUUIDOf(String name) throws Exception {
-        return new UUIDFetcher(Arrays.asList(name)).call().get(name);
+    public static String getUUIDOf(String name) throws Exception {
+        return new UUIDFetcher(Arrays.asList(name)).call().get(name).toString().replace("-", "");
     }
 }
