@@ -3,15 +3,21 @@ package org.json.simple.parser;
 import java.util.List;
 import java.util.Map;
 
-public abstract interface ContainerFactory
-{
-  public abstract Map createObjectContainer();
-  
-  public abstract List creatArrayContainer();
-}
-
-
-/* Location:              C:\json-simple-1.1.1.jar!\org\json\simple\parser\ContainerFactory.class
- * Java compiler version: 2 (46.0)
- * JD-Core Version:       0.7.1
+/**
+ * Container factory for creating containers for JSON object and JSON array.
+ * 
+ * @see org.json.simple.parser.JSONParser#parse(java.io.Reader, ContainerFactory)
+ * 
+ * @author FangYidong<fangyidong@yahoo.com.cn>
  */
+public interface ContainerFactory {
+	/**
+	 * @return A Map instance to store JSON object, or null if you want to use org.json.simple.JSONObject.
+	 */
+	Map createObjectContainer();
+	
+	/**
+	 * @return A List instance to store JSON array, or null if you want to use org.json.simple.JSONArray. 
+	 */
+	List creatArrayContainer();
+}

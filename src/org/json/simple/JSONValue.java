@@ -1,278 +1,272 @@
-/*     */ package org.json.simple;
-/*     */ 
-/*     */ import java.io.IOException;
-/*     */ import java.io.Reader;
-/*     */ import java.io.StringReader;
-/*     */ import java.io.Writer;
-/*     */ import java.util.List;
-/*     */ import java.util.Map;
-/*     */ import org.json.simple.parser.JSONParser;
-/*     */ import org.json.simple.parser.ParseException;
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ public class JSONValue
-/*     */ {
-/*     */   public static Object parse(Reader in)
-/*     */   {
-/*     */     try
-/*     */     {
-/*  41 */       JSONParser parser = new JSONParser();
-/*  42 */       return parser.parse(in);
-/*     */     }
-/*     */     catch (Exception e) {}
-/*  45 */     return null;
-/*     */   }
-/*     */   
-/*     */   public static Object parse(String s)
-/*     */   {
-/*  50 */     StringReader in = new StringReader(s);
-/*  51 */     return parse(in);
-/*     */   }
-/*     */   
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */   public static Object parseWithException(Reader in)
-/*     */     throws IOException, ParseException
-/*     */   {
-/*  72 */     JSONParser parser = new JSONParser();
-/*  73 */     return parser.parse(in);
-/*     */   }
-/*     */   
-/*     */   public static Object parseWithException(String s) throws ParseException {
-/*  77 */     JSONParser parser = new JSONParser();
-/*  78 */     return parser.parse(s);
-/*     */   }
-/*     */   
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */   public static void writeJSONString(Object value, Writer out)
-/*     */     throws IOException
-/*     */   {
-/*  96 */     if (value == null) {
-/*  97 */       out.write("null");
-/*  98 */       return;
-/*     */     }
-/*     */     
-/* 101 */     if ((value instanceof String)) {
-/* 102 */       out.write(34);
-/* 103 */       out.write(escape((String)value));
-/* 104 */       out.write(34);
-/* 105 */       return;
-/*     */     }
-/*     */     
-/* 108 */     if ((value instanceof Double)) {
-/* 109 */       if ((((Double)value).isInfinite()) || (((Double)value).isNaN())) {
-/* 110 */         out.write("null");
-/*     */       } else
-/* 112 */         out.write(value.toString());
-/* 113 */       return;
-/*     */     }
-/*     */     
-/* 116 */     if ((value instanceof Float)) {
-/* 117 */       if ((((Float)value).isInfinite()) || (((Float)value).isNaN())) {
-/* 118 */         out.write("null");
-/*     */       } else
-/* 120 */         out.write(value.toString());
-/* 121 */       return;
-/*     */     }
-/*     */     
-/* 124 */     if ((value instanceof Number)) {
-/* 125 */       out.write(value.toString());
-/* 126 */       return;
-/*     */     }
-/*     */     
-/* 129 */     if ((value instanceof Boolean)) {
-/* 130 */       out.write(value.toString());
-/* 131 */       return;
-/*     */     }
-/*     */     
-/* 134 */     if ((value instanceof JSONStreamAware)) {
-/* 135 */       ((JSONStreamAware)value).writeJSONString(out);
-/* 136 */       return;
-/*     */     }
-/*     */     
-/* 139 */     if ((value instanceof JSONAware)) {
-/* 140 */       out.write(((JSONAware)value).toJSONString());
-/* 141 */       return;
-/*     */     }
-/*     */     
-/* 144 */     if ((value instanceof Map)) {
-/* 145 */       JSONObject.writeJSONString((Map)value, out);
-/* 146 */       return;
-/*     */     }
-/*     */     
-/* 149 */     if ((value instanceof List)) {
-/* 150 */       JSONArray.writeJSONString((List)value, out);
-/* 151 */       return;
-/*     */     }
-/*     */     
-/* 154 */     out.write(value.toString());
-/*     */   }
-/*     */   
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */   public static String toJSONString(Object value)
-/*     */   {
-/* 172 */     if (value == null) {
-/* 173 */       return "null";
-/*     */     }
-/* 175 */     if ((value instanceof String)) {
-/* 176 */       return "\"" + escape((String)value) + "\"";
-/*     */     }
-/* 178 */     if ((value instanceof Double)) {
-/* 179 */       if ((((Double)value).isInfinite()) || (((Double)value).isNaN())) {
-/* 180 */         return "null";
-/*     */       }
-/* 182 */       return value.toString();
-/*     */     }
-/*     */     
-/* 185 */     if ((value instanceof Float)) {
-/* 186 */       if ((((Float)value).isInfinite()) || (((Float)value).isNaN())) {
-/* 187 */         return "null";
-/*     */       }
-/* 189 */       return value.toString();
-/*     */     }
-/*     */     
-/* 192 */     if ((value instanceof Number)) {
-/* 193 */       return value.toString();
-/*     */     }
-/* 195 */     if ((value instanceof Boolean)) {
-/* 196 */       return value.toString();
-/*     */     }
-/* 198 */     if ((value instanceof JSONAware)) {
-/* 199 */       return ((JSONAware)value).toJSONString();
-/*     */     }
-/* 201 */     if ((value instanceof Map)) {
-/* 202 */       return JSONObject.toJSONString((Map)value);
-/*     */     }
-/* 204 */     if ((value instanceof List)) {
-/* 205 */       return JSONArray.toJSONString((List)value);
-/*     */     }
-/* 207 */     return value.toString();
-/*     */   }
-/*     */   
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */   public static String escape(String s)
-/*     */   {
-/* 216 */     if (s == null)
-/* 217 */       return null;
-/* 218 */     StringBuffer sb = new StringBuffer();
-/* 219 */     escape(s, sb);
-/* 220 */     return sb.toString();
-/*     */   }
-/*     */   
-/*     */ 
-/*     */ 
-/*     */ 
-/*     */   static void escape(String s, StringBuffer sb)
-/*     */   {
-/* 228 */     for (int i = 0; i < s.length(); i++) {
-/* 229 */       char ch = s.charAt(i);
-/* 230 */       switch (ch) {
-/*     */       case '"': 
-/* 232 */         sb.append("\\\"");
-/* 233 */         break;
-/*     */       case '\\': 
-/* 235 */         sb.append("\\\\");
-/* 236 */         break;
-/*     */       case '\b': 
-/* 238 */         sb.append("\\b");
-/* 239 */         break;
-/*     */       case '\f': 
-/* 241 */         sb.append("\\f");
-/* 242 */         break;
-/*     */       case '\n': 
-/* 244 */         sb.append("\\n");
-/* 245 */         break;
-/*     */       case '\r': 
-/* 247 */         sb.append("\\r");
-/* 248 */         break;
-/*     */       case '\t': 
-/* 250 */         sb.append("\\t");
-/* 251 */         break;
-/*     */       case '/': 
-/* 253 */         sb.append("\\/");
-/* 254 */         break;
-/*     */       
-/*     */       default: 
-/* 257 */         if (((ch >= 0) && (ch <= '\037')) || ((ch >= '') && (ch <= '')) || ((ch >= ' ') && (ch <= '⃿'))) {
-/* 258 */           String ss = Integer.toHexString(ch);
-/* 259 */           sb.append("\\u");
-/* 260 */           for (int k = 0; k < 4 - ss.length(); k++) {
-/* 261 */             sb.append('0');
-/*     */           }
-/* 263 */           sb.append(ss.toUpperCase());
-/*     */         }
-/*     */         else {
-/* 266 */           sb.append(ch);
-/*     */         }
-/*     */         break;
-/*     */       }
-/*     */     }
-/*     */   }
-/*     */ }
-
-
-/* Location:              C:\json-simple-1.1.1.jar!\org\json\simple\JSONValue.class
- * Java compiler version: 2 (46.0)
- * JD-Core Version:       0.7.1
+/*
+ * $Id: JSONValue.java,v 1.1 2006/04/15 14:37:04 platform Exp $
+ * Created on 2006-4-15
  */
+package org.json.simple;
+
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.Writer;
+import java.util.List;
+import java.util.Map;
+
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+
+/**
+ * @author FangYidong<fangyidong@yahoo.com.cn>
+ */
+public class JSONValue {
+	/**
+	 * Parse JSON text into java object from the input source. 
+	 * Please use parseWithException() if you don't want to ignore the exception.
+	 * 
+	 * @see org.json.simple.parser.JSONParser#parse(Reader)
+	 * @see #parseWithException(Reader)
+	 * 
+	 * @param in
+	 * @return Instance of the following:
+	 *	org.json.simple.JSONObject,
+	 * 	org.json.simple.JSONArray,
+	 * 	java.lang.String,
+	 * 	java.lang.Number,
+	 * 	java.lang.Boolean,
+	 * 	null
+	 * 
+	 */
+	public static Object parse(Reader in){
+		try{
+			JSONParser parser=new JSONParser();
+			return parser.parse(in);
+		}
+		catch(Exception e){
+			return null;
+		}
+	}
+	
+	public static Object parse(String s){
+		StringReader in=new StringReader(s);
+		return parse(in);
+	}
+	
+	/**
+	 * Parse JSON text into java object from the input source.
+	 * 
+	 * @see org.json.simple.parser.JSONParser
+	 * 
+	 * @param in
+	 * @return Instance of the following:
+	 * 	org.json.simple.JSONObject,
+	 * 	org.json.simple.JSONArray,
+	 * 	java.lang.String,
+	 * 	java.lang.Number,
+	 * 	java.lang.Boolean,
+	 * 	null
+	 * 
+	 * @throws IOException
+	 * @throws ParseException
+	 */
+	public static Object parseWithException(Reader in) throws IOException, ParseException{
+		JSONParser parser=new JSONParser();
+		return parser.parse(in);
+	}
+	
+	public static Object parseWithException(String s) throws ParseException{
+		JSONParser parser=new JSONParser();
+		return parser.parse(s);
+	}
+	
+    /**
+     * Encode an object into JSON text and write it to out.
+     * <p>
+     * If this object is a Map or a List, and it's also a JSONStreamAware or a JSONAware, JSONStreamAware or JSONAware will be considered firstly.
+     * <p>
+     * DO NOT call this method from writeJSONString(Writer) of a class that implements both JSONStreamAware and (Map or List) with 
+     * "this" as the first parameter, use JSONObject.writeJSONString(Map, Writer) or JSONArray.writeJSONString(List, Writer) instead. 
+     * 
+     * @see org.json.simple.JSONObject#writeJSONString(Map, Writer)
+     * @see org.json.simple.JSONArray#writeJSONString(List, Writer)
+     * 
+     * @param value
+     * @param writer
+     */
+	public static void writeJSONString(Object value, Writer out) throws IOException {
+		if(value == null){
+			out.write("null");
+			return;
+		}
+		
+		if(value instanceof String){		
+            out.write('\"');
+			out.write(escape((String)value));
+            out.write('\"');
+			return;
+		}
+		
+		if(value instanceof Double){
+			if(((Double)value).isInfinite() || ((Double)value).isNaN())
+				out.write("null");
+			else
+				out.write(value.toString());
+			return;
+		}
+		
+		if(value instanceof Float){
+			if(((Float)value).isInfinite() || ((Float)value).isNaN())
+				out.write("null");
+			else
+				out.write(value.toString());
+			return;
+		}		
+		
+		if(value instanceof Number){
+			out.write(value.toString());
+			return;
+		}
+		
+		if(value instanceof Boolean){
+			out.write(value.toString());
+			return;
+		}
+		
+		if((value instanceof JSONStreamAware)){
+			((JSONStreamAware)value).writeJSONString(out);
+			return;
+		}
+		
+		if((value instanceof JSONAware)){
+			out.write(((JSONAware)value).toJSONString());
+			return;
+		}
+		
+		if(value instanceof Map){
+			JSONObject.writeJSONString((Map)value, out);
+			return;
+		}
+		
+		if(value instanceof List){
+			JSONArray.writeJSONString((List)value, out);
+            return;
+		}
+		
+		out.write(value.toString());
+	}
+
+	/**
+	 * Convert an object to JSON text.
+	 * <p>
+	 * If this object is a Map or a List, and it's also a JSONAware, JSONAware will be considered firstly.
+	 * <p>
+	 * DO NOT call this method from toJSONString() of a class that implements both JSONAware and Map or List with 
+	 * "this" as the parameter, use JSONObject.toJSONString(Map) or JSONArray.toJSONString(List) instead. 
+	 * 
+	 * @see org.json.simple.JSONObject#toJSONString(Map)
+	 * @see org.json.simple.JSONArray#toJSONString(List)
+	 * 
+	 * @param value
+	 * @return JSON text, or "null" if value is null or it's an NaN or an INF number.
+	 */
+	public static String toJSONString(Object value){
+		if(value == null)
+			return "null";
+		
+		if(value instanceof String)
+			return "\""+escape((String)value)+"\"";
+		
+		if(value instanceof Double){
+			if(((Double)value).isInfinite() || ((Double)value).isNaN())
+				return "null";
+			else
+				return value.toString();
+		}
+		
+		if(value instanceof Float){
+			if(((Float)value).isInfinite() || ((Float)value).isNaN())
+				return "null";
+			else
+				return value.toString();
+		}		
+		
+		if(value instanceof Number)
+			return value.toString();
+		
+		if(value instanceof Boolean)
+			return value.toString();
+		
+		if((value instanceof JSONAware))
+			return ((JSONAware)value).toJSONString();
+		
+		if(value instanceof Map)
+			return JSONObject.toJSONString((Map)value);
+		
+		if(value instanceof List)
+			return JSONArray.toJSONString((List)value);
+		
+		return value.toString();
+	}
+
+	/**
+	 * Escape quotes, \, /, \r, \n, \b, \f, \t and other control characters (U+0000 through U+001F).
+	 * @param s
+	 * @return
+	 */
+	public static String escape(String s){
+		if(s==null)
+			return null;
+        StringBuffer sb = new StringBuffer();
+        escape(s, sb);
+        return sb.toString();
+    }
+
+    /**
+     * @param s - Must not be null.
+     * @param sb
+     */
+    static void escape(String s, StringBuffer sb) {
+		for(int i=0;i<s.length();i++){
+			char ch=s.charAt(i);
+			switch(ch){
+			case '"':
+				sb.append("\\\"");
+				break;
+			case '\\':
+				sb.append("\\\\");
+				break;
+			case '\b':
+				sb.append("\\b");
+				break;
+			case '\f':
+				sb.append("\\f");
+				break;
+			case '\n':
+				sb.append("\\n");
+				break;
+			case '\r':
+				sb.append("\\r");
+				break;
+			case '\t':
+				sb.append("\\t");
+				break;
+			case '/':
+				sb.append("\\/");
+				break;
+			default:
+                //Reference: http://www.unicode.org/versions/Unicode5.1.0/
+				if((ch>='\u0000' && ch<='\u001F') || (ch>='\u007F' && ch<='\u009F') || (ch>='\u2000' && ch<='\u20FF')){
+					String ss=Integer.toHexString(ch);
+					sb.append("\\u");
+					for(int k=0;k<4-ss.length();k++){
+						sb.append('0');
+					}
+					sb.append(ss.toUpperCase());
+				}
+				else{
+					sb.append(ch);
+				}
+			}
+		}//for
+	}
+
+}
