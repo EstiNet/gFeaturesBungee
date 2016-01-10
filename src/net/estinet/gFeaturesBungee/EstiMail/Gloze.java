@@ -1,9 +1,6 @@
 package net.estinet.gFeaturesBungee.EstiMail;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.UUID;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -19,7 +16,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import net.estinet.gFeaturesBungee.MojangAPI.NameFetcher;
 import net.estinet.gFeaturesBungee.MojangAPI.UUIDFetcher;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.ChatColor;
@@ -29,6 +25,7 @@ public class Gloze {
 	@SuppressWarnings("deprecation")
 	public static String read(ProxiedPlayer p){
 		String finali = "";
+		finali = ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "]";
 		try{
 		File fXmlFile = new File("plugins/gFeatures/mail.xml");
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -39,9 +36,7 @@ public class Gloze {
 			if(first.item(i).getAttributes().getNamedItem("uuid").getNodeValue().equals(p.getUUID())){
 				for(int it = 0; it != first.item(i).getChildNodes().getLength(); it++){
 					Node nod = first.item(i).getChildNodes().item(it);
-					String hex =  nod.getAttributes().getNamedItem("uuid").getNodeValue().replaceFirst( "(\\p{XDigit}{8})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}{4})(\\p{XDigit}+)", "$1-$2-$3-$4-$5" );
-					NameFetcher nf = new NameFetcher(Arrays.asList(UUID.fromString(hex)));
-					finali += ChatColor.GOLD + nf.call().get(hex) + ": " + ChatColor.AQUA + nod.getTextContent() + "\n";
+					finali += "\n" + ChatColor.GOLD + nod.getAttributes().getNamedItem("name").getNodeValue() + ": " + ChatColor.AQUA + nod.getTextContent();
 				}
 			}
 		}
@@ -70,7 +65,7 @@ public class Gloze {
 					Element staff = doc.createElement("player");
 					doc.getFirstChild().appendChild(staff);			
 					Attr attr = doc.createAttribute("uuid");
-					attr.setValue(p.getUUID());
+					attr.setValue(p.getUniqueId().toString());
 					staff.setAttributeNode(attr);
 				}
 			}
@@ -95,7 +90,6 @@ public class Gloze {
 				e.printStackTrace();
 			}
 	}
-	@SuppressWarnings("deprecation")
 	public static void send(ProxiedPlayer p, String send, String message){
 		BungeeCord.getInstance().getPluginManager().getPlugin("gFeatures").getProxy().getScheduler().runAsync(BungeeCord.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
 			public void run(){
@@ -110,8 +104,8 @@ public class Gloze {
 			for(int i = 0; i != players.getLength(); i++){
 				if(players.item(i).getAttributes().getNamedItem("uuid").getNodeValue().equals(UUIDFetcher.getUUIDOf(send).toString())){
 					Element lastname = doc.createElement("mesail");
-					Attr attr = doc.createAttribute("uuid");
-					attr.setValue(p.getUUID());
+					Attr attr = doc.createAttribute("name");
+					attr.setValue(p.getName());
 					lastname.setAttributeNode(attr);
 					lastname.appendChild(doc.createTextNode(message));
 					players.item(i).appendChild(lastname);

@@ -1,6 +1,7 @@
 package net.estinet.gFeaturesBungee.Commands.EstiMail;
 
 import net.estinet.gFeaturesBungee.EstiMail.Gloze;
+import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -49,6 +50,8 @@ public class SlashMail extends Command{
 			}
 			else if(args.length >= 3){
 				if(args[0].equalsIgnoreCase("send")){
+					BungeeCord.getInstance().getPluginManager().getPlugin("gFeatures").getProxy().getScheduler().runAsync(BungeeCord.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
+						public void run(){
 					if(!Gloze.check(args[1])){
 						sender.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "]" + ChatColor.RED + " Player not found.");
 					}
@@ -60,6 +63,7 @@ public class SlashMail extends Command{
 						Gloze.send(player, args[1], message);
 						sender.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "]" + ChatColor.DARK_AQUA + " Mail sent!");
 					}
+						}});
 				}
 				else{
 					sender.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] Do /mail help.");

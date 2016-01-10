@@ -19,6 +19,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import net.estinet.gFeaturesBungee.EstiMail.Gloze;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -37,8 +38,8 @@ public class Join implements Listener{
 
 					for(int i = 0; i != list.getLength(); i++){
 						Node node = list.item(i);
-						if(node.getAttributes().getNamedItem("uuid").getNodeValue().equals(event.getPlayer().getUUID())){
-							//SHOW HOW MANY EMAILS
+						if(node.getAttributes().getNamedItem("uuid").getNodeValue().equals(event.getPlayer().getUniqueId().toString())){
+							event.getPlayer().sendMessage(Gloze.read(event.getPlayer()));
 							BungeeCord.getInstance().getLogger().info("Player exists.");
 							return;
 						}
@@ -66,7 +67,7 @@ public class Join implements Listener{
 			// staff elements
 			Element staff = doc.createElement("player");
 			Attr attr = doc.createAttribute("uuid");
-			attr.setValue(event.getPlayer().getUUID());
+			attr.setValue(event.getPlayer().getUniqueId().toString());
 			staff.setAttributeNode(attr);
 			doc.getFirstChild().appendChild(staff);
 
