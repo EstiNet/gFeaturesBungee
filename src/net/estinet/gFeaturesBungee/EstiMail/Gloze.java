@@ -101,7 +101,7 @@ public class Gloze {
 
 			NodeList players = doc.getFirstChild().getChildNodes();
 			for(int i = 0; i != players.getLength(); i++){
-				if(players.item(i).getAttributes().getNamedItem("uuid").getNodeValue().equals(UUIDFetcher.getUUIDFromName(send, false))){
+				if(players.item(i).getAttributes().getNamedItem("uuid").getNodeValue().equals(UUIDFetcher.getUUIDOf(send).toString())){
 					Element lastname = doc.createElement(p.getUUID());
 					lastname.appendChild(doc.createTextNode(message));
 					players.item(i).appendChild(lastname);
@@ -137,9 +137,9 @@ public class Gloze {
 
 		NodeList players = doc.getFirstChild().getChildNodes();
 		for(int i = 0; i != players.getLength(); i++){
-			BungeeCord.getInstance().getLogger().info(UUIDFetcher.getUUIDFromName(send, false));
+			BungeeCord.getInstance().getLogger().info(UUIDFetcher.getUUIDOf(send).toString());
 			BungeeCord.getInstance().getLogger().info(players.item(i).getAttributes().getNamedItem("uuid").getNodeValue());
-			if(players.item(i).getAttributes().getNamedItem("uuid").getNodeValue().equals(UUIDFetcher.getUUIDFromName(send, false))){
+			if(players.item(i).getAttributes().getNamedItem("uuid").getNodeValue().equals(UUIDFetcher.getUUIDOf(send).toString())){
 				return true;
 			}
 		}
