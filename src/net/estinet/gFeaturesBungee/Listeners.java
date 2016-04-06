@@ -35,8 +35,9 @@ public class Listeners extends Plugin{
 		getProxy().getPluginManager().registerCommand(this, new SlashSkyblock());
 		getProxy().getPluginManager().registerCommand(this, new SlashSurvival());
 		getProxy().getPluginManager().registerCommand(this, new SlashCreative());
-		getProxy().getPluginManager().registerCommand(this, new SlashMail());
-		getProxy().getPluginManager().registerListener(this, new Join());
+		//Disable /mail for now :(
+		//getProxy().getPluginManager().registerCommand(this, new SlashMail());
+		//getProxy().getPluginManager().registerListener(this, new Join());
 		getProxy().getPluginManager().registerListener(this, new Switch());
 		getLogger().info("Enabled!");
 		getLogger().info("_______________________________________________");
