@@ -9,6 +9,7 @@ import org.bukkit.command.Command;
 
 import net.estinet.gFeatures.Command.EstiCommand;
 import net.estinet.gFeatures.Plus.Skript.SkriptManager;
+import net.md_5.bungee.api.ProxyServer;
 
 /*
 gFeatures
@@ -32,7 +33,6 @@ https://github.com/EstiNet/gFeatures
 public class Enabler {
 	public void onEnable(){
 		List<gFeature> features = Basic.getFeatures();
-		List<Extension> extensions = Basic.getExtensions();
 		for(gFeature feature : features){
 			if(feature.getState().equals(FeatureState.ENABLE)){
 				try{
@@ -43,26 +43,11 @@ public class Enabler {
 				}
 			}
 		}
-		for(Extension extension : extensions){
-			if(extension.getState().equals(FeatureState.ENABLE) && extension.getType().equals(ExtensionsType.Skript)){
-				SkriptManager sm = new SkriptManager();
-				try {
-					Bukkit.getLogger().info(extension.getName() + " is ENABLED.");
-					sm.Enable(extension, extension.getName());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			else if(extension.getState().equals(FeatureState.ENABLE) && extension.getType().equals(ExtensionsType.Utility)){
-				gUtility gu = (gUtility) extension;
-				gu.enable();
-			}
-		}
 
 		for(EstiCommand command : Basic.getCommands()){
 			if(Basic.getFeature(command.getFeature().getName()).getState().equals(FeatureState.ENABLE)){
 				try{
-					Method commandMap = Bukkit.getServer().getClass().getMethod("getCommandMap", null);
+					Method commandMap = ProxyServer.getInstance().getClass().getMethod("getCommandMap", null);
 					Object cmdmap = commandMap.invoke(Bukkit.getServer(), null);
 					Method register = cmdmap.getClass().getMethod("register", String.class, Command.class);
 					register.invoke(cmdmap, command.getName(), command);

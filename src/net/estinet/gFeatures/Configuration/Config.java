@@ -6,6 +6,8 @@ import java.io.IOException;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
+import net.md_5.bungee.api.ProxyServer;
+
 /*
 gFeatures
 https://github.com/EstiNet/gFeatures
@@ -30,7 +32,7 @@ public class Config {
 		File f = new File(path);
 		if(!(f.isDirectory())){
 			f.mkdir();
-			Bukkit.getLogger().info(ChatColor.GOLD + "[gFeatures] " + message);
+			ProxyServer.getInstance().getLogger().info(ChatColor.GOLD + "[gFeatures] " + message);
 			return;
 		}
 		else{
@@ -45,7 +47,7 @@ public class Config {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			Bukkit.getLogger().info(ChatColor.GOLD + "[gFeatures] " + message);
+			ProxyServer.getInstance().getLogger().info(ChatColor.GOLD + "[gFeatures] " + message);
 			return;
 		}
 		else{

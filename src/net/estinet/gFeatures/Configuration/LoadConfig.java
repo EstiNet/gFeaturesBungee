@@ -34,11 +34,9 @@ public class LoadConfig {
 	static Config config = new Config();
 	static File f = new File("plugins/gFeatures/Config.yml");
 	static List<gFeature> features = Basic.getFeatures();
-	static List<Extension> extensions = Basic.getExtensions();
 	public static void load(){
 		YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(f);
 		List<gFeature> featur = new ArrayList<>();
-		List<Extension> extension = new ArrayList<>();
 		for(gFeature feature : features){
 			if((yamlFile.get("Config.Plugins." + feature.getName()).equals("true"))){
 				feature.setState(FeatureState.ENABLE);
@@ -48,16 +46,6 @@ public class LoadConfig {
 			}
 			featur.add(feature);
 		}
-		for(Extension extend : extensions){
-			if((yamlFile.get("Config.Extensions."+ extend.getType().toString() + "." + extend.getName()).equals("true"))){
-				extend.setState(FeatureState.ENABLE);
-			}
-			else{
-				extend.setState(FeatureState.DISABLE);
-			}
-			extension.add(extend);
-		}
 		Basic.setFeatures(featur);
-		Basic.setExtensions(extension);
 	}
 }

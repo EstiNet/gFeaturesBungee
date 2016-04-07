@@ -1,10 +1,11 @@
 package net.estinet.gFeatures;
 
-import org.bukkit.Bukkit;
+import java.util.concurrent.TimeUnit;
 
 import net.estinet.gFeatures.API.Logger.Debug;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.estinet.gFeatures.ClioteSky.Network.Protocol.Output.OutputAlive;
+import net.md_5.bungee.api.ProxyServer;
 
 /*
 gFeatures
@@ -29,27 +30,9 @@ public class gLoop {
 	public void start(){
 		/*
 		 * Initialize gFeatures Core loops here.
-		 * 
 		 */
-		if(Basic.getSQLState()){
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(Bukkit.getServer().getPluginManager().getPlugin("gFeatures"), new Runnable() {
-        	public void run(){
-        		Thread th = new Thread(new Runnable(){
-        			public void run(){
-        				try{
-        					Basic.recieveSQLPlayers();
-        				}
-        				catch(Exception e){
-        					Debug.print(e.getMessage());
-        				}
-        			}
-        		});
-        		th.start();
-        	}
-        }, 2000L, 2000L);
-		}
 		if(ClioteSky.isEnable()){
-			Bukkit.getScheduler().scheduleSyncRepeatingTask(Bukkit.getServer().getPluginManager().getPlugin("gFeatures"), new Runnable() {
+			ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
 	        	public void run(){
 	        		Thread th = new Thread(new Runnable(){
 	        			public void run(){
@@ -60,7 +43,7 @@ public class gLoop {
 	        		});
 	        		th.start();
 	        	}
-	        }, 200L, 200L);
+	        }, 200L, 99_999_999_999_999_999L, TimeUnit.MICROSECONDS);
 		}
 	}
 }

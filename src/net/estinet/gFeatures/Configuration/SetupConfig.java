@@ -34,7 +34,6 @@ public class SetupConfig {
 	static Config config = new Config();
 	static File f = new File("plugins/gFeatures/Config.yml");
 	static List<gFeature> features = Basic.getFeatures();
-	static List<Extension> extensions = Basic.getExtensions();
 	public static void setup(){
 		config.createDirectory("plugins/gFeatures", "Setup the gFeatures directory for use!");
 		config.createFile("plugins/gFeatures/Config.yml", "Setup the gFeatures config for use!");
@@ -53,17 +52,6 @@ public class SetupConfig {
 		}
 		if(!(yamlFile.contains("Config.Extensions"))){
 			yamlFile.createSection("Config.Extensions");
-		}
-		for(ExtensionsType type : ExtensionsType.values()){
-			if(!(yamlFile.contains("Config.Extensions." + type.toString()))){
-				yamlFile.createSection("Config.Extensions." + type.toString());
-			}
-		}
-		for(Extension extend : extensions){
-			if(!(yamlFile.contains("Config.Extensions." + extend.getType().toString() + "." + extend.getName()))){
-				yamlFile.createSection("Config.Extensions." + extend.getType().toString() + "." + extend.getName());
-				yamlFile.set("Config.Extensions." + extend.getType().toString() + "." + extend.getName() , "false");
-			}
 		}
 		if(!(yamlFile.contains("Config.MySQL"))){
 			yamlFile.createSection("Config.MySQL");

@@ -36,7 +36,6 @@ public class Listeners extends Plugin{
 	Library library = new Library();
 	CommandLibrary commands = new CommandLibrary();
 	Setup setup = new Setup();
-	Entrly entrly = new Entrly();
 	gLoop gl = new gLoop();
 	ClioteInit ccu = new ClioteInit();
 
@@ -66,12 +65,6 @@ public class Listeners extends Plugin{
 			e.printStackTrace();
 		}
 		enable.onEnable();
-		try{
-			Obtain.start();
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
 		gl.start();
 		getLogger().info("Complete!");
 		getLogger().info("_________________________________________________________________________");

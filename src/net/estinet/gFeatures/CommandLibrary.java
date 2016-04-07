@@ -7,6 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import net.estinet.gFeatures.Command.EstiCommand;
+import net.md_5.bungee.api.ProxyServer;
 
 /*
 gFeatures
@@ -34,8 +35,8 @@ public class CommandLibrary {
 			onCommand(sender, cmd, label, args);
 		}
 		catch(Exception e){
-			Bukkit.getLogger().info("Error occurred when executing a gFeatures command.");
-			Bukkit.getLogger().info("Here's the error:");
+			ProxyServer.getInstance().getLogger().info("Error occurred when executing a gFeatures command.");
+			ProxyServer.getInstance().getLogger().info("Here's the error:");
 			e.printStackTrace();
 		}
 	}

@@ -3,6 +3,7 @@ package net.estinet.gFeatures.API.Logger;
 import org.bukkit.Bukkit;
 
 import net.estinet.gFeatures.Listeners;
+import net.md_5.bungee.api.ProxyServer;
 
 /*
 gFeatures
@@ -26,7 +27,7 @@ https://github.com/EstiNet/gFeatures
 public class Debug {
 	public static void print(String str){
 		if(Listeners.debug == true){
-			Bukkit.getLogger().info("[Debug] " + str);
+			ProxyServer.getInstance().getLogger().info("[Debug] " + str);
 		} 
 	}
 }

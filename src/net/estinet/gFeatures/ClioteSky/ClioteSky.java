@@ -9,6 +9,7 @@ import net.estinet.gFeatures.API.Logger.Debug;
 import net.estinet.gFeatures.ClioteSky.API.ClioteHook;
 import net.estinet.gFeatures.ClioteSky.Network.NetworkThread;
 import net.estinet.gFeatures.ClioteSky.Network.Protocol.Packet;
+import net.md_5.bungee.api.ProxyServer;
 
 public class ClioteSky {
 	private static String address = "";
@@ -77,10 +78,10 @@ public class ClioteSky {
 		return port;
 	}
 	public static void printError(String errorCode){
-		Bukkit.getLogger().info("[ClioteSky Error] " + errorCode);
+		ProxyServer.getInstance().getLogger().info("[ClioteSky Error] " + errorCode);
 	}
 	public static void printLine(String line){
-		Bukkit.getLogger().info("[ClioteSky] " + line);
+		ProxyServer.getInstance().getLogger().info("[ClioteSky] " + line);
 	}
 	public static boolean isAliveCache() {
 		return aliveCache;

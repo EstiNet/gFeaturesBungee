@@ -6,10 +6,8 @@ import net.estinet.gFeatures.ClioteSky.ClioteInit;
 import net.estinet.gFeatures.ClioteSky.Network.NetworkThread;
 import net.estinet.gFeatures.Configuration.LoadConfig;
 import net.estinet.gFeatures.Configuration.SetupConfig;
-import net.estinet.gFeatures.SQL.Player.EstiPlayer;
-import net.estinet.gFeatures.SQL.Player.EstiSet;
-import net.estinet.gFeatures.SQL.Player.Key;
-import net.estinet.gFeatures.SQL.Update.Obtain;
+import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.plugin.Plugin;
 
 /*
 gFeatures
@@ -36,10 +34,10 @@ public class CoreCommands{
 		if(cmd.getName().equalsIgnoreCase("plugin")){
 			if(sender.hasPermission("gFeatures.command.plugins")){
 				String plugins = "EstiNet";
-				for(Plugin plugin : Bukkit.getPluginManager().getPlugins()){
+				for(Plugin plugin : ProxyServer.getInstance().getPluginManager().getPlugins()){
 					plugins += ", " + plugin.getName();
 				}
-				sender.sendMessage("Plugins (" + Bukkit.getServer().getPluginManager().getPlugins().length + "): " + ChatColor.GREEN + plugins);
+				sender.sendMessage("Plugins (" + ProxyServer.getInstance().getPluginManager().getPlugins().size() + "): " + ChatColor.GREEN + plugins);
 			}
 			else{
 				sender.sendMessage("Plugins (1): " + ChatColor.GREEN + "gFeatures");
@@ -115,23 +113,22 @@ public class CoreCommands{
 						Setup setup = new Setup();
 						Load load = new Load();
 						ClioteInit ccu = new ClioteInit();
-						Bukkit.getLogger().info("_________________________________________________________________________");
-						Bukkit.getLogger().info("Stopping gFeatures!");
-						Bukkit.getLogger().info("Current version: " + Listeners.version);
-						Bukkit.getLogger().info("Turning off modules!");
+						ProxyServer.getInstance().getLogger().info("_________________________________________________________________________");
+						ProxyServer.getInstance().getLogger().info("Stopping gFeatures!");
+						ProxyServer.getInstance().getLogger().info("Current version: " + Listeners.version);
+						ProxyServer.getInstance().getLogger().info("Turning off modules!");
 						disable.onDisable();
-						Bukkit.getLogger().info("Complete!");
-						Bukkit.getLogger().info("_________________________________________________________________________");
-						Bukkit.getLogger().info("_________________________________________________________________________");
-						Bukkit.getLogger().info("Starting gFeatures!");
-						Bukkit.getLogger().info("Current version: " + Listeners.version);
-						Bukkit.getLogger().info("Starting modules!");
+						ProxyServer.getInstance().getLogger().info("Complete!");
+						ProxyServer.getInstance().getLogger().info("_________________________________________________________________________");
+						ProxyServer.getInstance().getLogger().info("_________________________________________________________________________");
+						ProxyServer.getInstance().getLogger().info("Starting gFeatures!");
+						ProxyServer.getInstance().getLogger().info("Current version: " + Listeners.version);
+						ProxyServer.getInstance().getLogger().info("Starting modules!");
 						setup.onSetup();
 						SetupConfig.setup();
 						LoadConfig.load();
 						ccu.enable();
 						enable.onEnable();
-						Basic.addPlayerSection("Setup", "DO NOT REMOVE!");
 						load.load();
 						try{
 							Obtain.start();
@@ -141,7 +138,7 @@ public class CoreCommands{
 						}
 						gLoop gl = new gLoop();
 						gl.start();
-						Bukkit.getLogger().info(" Complete!");
+						ProxyServer.getInstance().getLogger().info(" Complete!");
 						Bukkit.getLogger().info("_________________________________________________________________________");
 						sender.sendMessage(ChatColor.GRAY + "Reload complete.");
 						break;
