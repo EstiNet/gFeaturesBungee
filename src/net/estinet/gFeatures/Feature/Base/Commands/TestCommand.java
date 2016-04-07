@@ -1,14 +1,19 @@
 package net.estinet.gFeatures.Feature.Base.Commands;
 
-import org.bukkit.Bukkit;
+import net.estinet.gFeatures.EstiCommand;
+import net.estinet.gFeatures.gFeature;
+import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.ProxyServer;
 
-import net.estinet.gFeatures.Command.CommandExecutable;
+public class TestCommand extends EstiCommand{
 
-public class TestCommand extends CommandExecutable{
+	public TestCommand(gFeature feature) {
+		super("test", "gFeatures.test", new String[0], feature);
+	}
 
 	@Override
-	public void run() {
-		Bukkit.getLogger().info("Test! I can implement " + cmd.getDescription());
+	public void execute(CommandSender arg0, String[] arg1) {
+		ProxyServer.getInstance().getLogger().info("Test!");
 	}
 	
 }

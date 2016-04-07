@@ -1,6 +1,6 @@
 package net.estinet.gFeatures.Feature.Base;
 
-import org.bukkit.Bukkit;
+import net.md_5.bungee.api.ProxyServer;
 
 /*
 gFeatures
@@ -24,7 +24,7 @@ https://github.com/EstiNet/gFeatures
 public class Enable{
 	static ConfigHub ch = new ConfigHub();
 	public static void onEnable(){
-		Bukkit.getLogger().info("Base Plugin enabled!");
+		ProxyServer.getInstance().getLogger().info("Base Plugin enabled!");
 		ch.setupConfig();
 	}
 }

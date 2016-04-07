@@ -1,6 +1,6 @@
 package net.estinet.gFeatures.Feature.Base;
 
-import org.bukkit.Bukkit;
+import net.md_5.bungee.api.ProxyServer;
 
 /*
 gFeatures
@@ -23,6 +23,6 @@ https://github.com/EstiNet/gFeatures
 
 public class Disable{
 	public static void onDisable(){
-		Bukkit.getLogger().info("Base Plugin Disabled!");
+		ProxyServer.getInstance().getLogger().info("Base Plugin Disabled!");
 	}
 }
