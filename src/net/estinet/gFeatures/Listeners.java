@@ -50,7 +50,7 @@ public class Listeners extends Plugin{
 		/*
 		 * Temp fix for listeners. Register listners here :/
 		 */
-		getProxy().getPluginManager().registerListener(this, arg1);
+		getProxy().getPluginManager().registerListener(this, new Library());
 		try{
 			setup.onSetup();
 			SetupConfig.setup();

@@ -30,11 +30,5 @@ public class Setup {
 		 * to add to the Basic class. :D
 		 */
 		net.estinet.gFeatures.Feature.Base.Configure.onSetup();
-
-		/*
-		 * Initialize your Utilities here.
-		 * Make sure that you have your onSetup() setup
-		 * to add to the Basic class. :D
-		 */
 	}
 }

@@ -2,8 +2,6 @@ package net.estinet.gFeatures;
 
 import java.util.List;
 
-import net.estinet.gFeatures.API.PlayerStats.Load;
-import net.estinet.gFeatures.API.PlayerStats.gPlayer;
 import net.estinet.gFeatures.ClioteSky.ClioteInit;
 import net.estinet.gFeatures.ClioteSky.Network.NetworkThread;
 import net.estinet.gFeatures.Configuration.LoadConfig;
@@ -12,12 +10,6 @@ import net.estinet.gFeatures.SQL.Player.EstiPlayer;
 import net.estinet.gFeatures.SQL.Player.EstiSet;
 import net.estinet.gFeatures.SQL.Player.Key;
 import net.estinet.gFeatures.SQL.Update.Obtain;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.Plugin;
 
 /*
 gFeatures

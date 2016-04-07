@@ -57,22 +57,5 @@ public class Library implements Listener{
 			catch (SecurityException e) {}
 			catch (ConcurrentModificationException e) {}
 		}
-		List<Extension> extensions = Basic.getExtensions();
-		List<gUtility> utilities = new ArrayList<>();
-		for(Extension ext : extensions){
-			if(ext.getType().equals(ExtensionsType.Utility)){
-				utilities.add((gUtility) ext);
-			}
-		}
-		for(gUtility utility : utilities){
-			try {
-				if(!(utility.getClass().getDeclaredMethod(methodname).equals(null))){
-					if(utility.getState().equals(FeatureState.ENABLE)){
-					utility.eventTrigger(event);
-					}
-				}
-			} catch (NoSuchMethodException e) {} 
-			catch (SecurityException e) {}
-		}
     }
 }
