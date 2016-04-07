@@ -1,10 +1,8 @@
 package net.estinet.gFeatures;
 
-import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.List;
 
-import net.md_5.bungee.api.event.LoginEvent;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PlayerHandshakeEvent;
 import net.md_5.bungee.api.event.ServerSwitchEvent;

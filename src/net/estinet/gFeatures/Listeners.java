@@ -6,6 +6,7 @@ import net.estinet.gFeatures.Configuration.LoadConfig;
 import net.estinet.gFeatures.Configuration.SetupConfig;
 import net.estinet.gFeatures.SQL.Update.Entrly;
 import net.estinet.gFeatures.SQL.Update.Obtain;
+import net.estinet.gFeaturesBungee.Commands.SlashCreative;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -43,7 +44,6 @@ public class Listeners extends Plugin{
 
 	@Override
 	public void onEnable(){
-		
 		getLogger().info("_________________________________________________________________________");
 		getLogger().info("Starting gFeatures.");
 		getLogger().info("Current version: " + version);
@@ -65,6 +65,8 @@ public class Listeners extends Plugin{
 		}
 		enable.onEnable();
 		gl.start();
+		commands.commandEnabler();
+		getProxy().getPluginManager().registerCommand(this, new SlashgFeatures());
 		getLogger().info("Complete!");
 		getLogger().info("_________________________________________________________________________");
 	}

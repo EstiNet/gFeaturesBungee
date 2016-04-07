@@ -62,5 +62,4 @@ public class gFeature{
 	public void enable(){}
 	public void disable(){}
 	public void eventTrigger(Event event){}
-	public void commandTrigger(CommandSender sender, Command cmd, String label, String[] args){}
 }

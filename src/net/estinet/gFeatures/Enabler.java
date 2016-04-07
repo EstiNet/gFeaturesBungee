@@ -39,19 +39,5 @@ public class Enabler {
 				}
 			}
 		}
-
-		for(EstiCommand command : Basic.getCommands()){
-			if(Basic.getFeature(command.getFeature().getName()).getState().equals(FeatureState.ENABLE)){
-				try{
-					Method commandMap = ProxyServer.getInstance().getClass().getMethod("getCommandMap", null);
-					Object cmdmap = commandMap.invoke(ProxyServer.getInstance(), null);
-					Method register = cmdmap.getClass().getMethod("register", String.class, Command.class);
-					register.invoke(cmdmap, command.getName(), command);
-				}
-				catch(Exception e){
-					e.printStackTrace();
-				}
-			}
-		}
 	}
 }
