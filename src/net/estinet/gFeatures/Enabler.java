@@ -4,11 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-
 import net.estinet.gFeatures.Command.EstiCommand;
-import net.estinet.gFeatures.Plus.Skript.SkriptManager;
 import net.md_5.bungee.api.ProxyServer;
 
 /*
@@ -48,7 +44,7 @@ public class Enabler {
 			if(Basic.getFeature(command.getFeature().getName()).getState().equals(FeatureState.ENABLE)){
 				try{
 					Method commandMap = ProxyServer.getInstance().getClass().getMethod("getCommandMap", null);
-					Object cmdmap = commandMap.invoke(Bukkit.getServer(), null);
+					Object cmdmap = commandMap.invoke(ProxyServer.getInstance(), null);
 					Method register = cmdmap.getClass().getMethod("register", String.class, Command.class);
 					register.invoke(cmdmap, command.getName(), command);
 				}

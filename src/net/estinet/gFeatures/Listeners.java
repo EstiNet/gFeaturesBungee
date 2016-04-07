@@ -6,6 +6,8 @@ import net.estinet.gFeatures.Configuration.LoadConfig;
 import net.estinet.gFeatures.Configuration.SetupConfig;
 import net.estinet.gFeatures.SQL.Update.Entrly;
 import net.estinet.gFeatures.SQL.Update.Obtain;
+import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Plugin;
 
 /*
@@ -46,9 +48,6 @@ public class Listeners extends Plugin{
 		getLogger().info("Starting gFeatures.");
 		getLogger().info("Current version: " + version);
 		getLogger().info("Starting modules!");
-		/*
-		 * Temp fix for listeners. Register listners here :/
-		 */
 		getProxy().getPluginManager().registerListener(this, new Library());
 		try{
 			setup.onSetup();
@@ -78,10 +77,5 @@ public class Listeners extends Plugin{
 		disable.onDisable();
 		getLogger().info("Complete!");
 		getLogger().info("_________________________________________________________________________");
-	}
-	@Override
-	public boolean onCommand(final CommandSender sender, Command cmd, String label, String[] args) {
-		commands.Commands(sender, cmd, label, args);
-		return true;
 	}
 }

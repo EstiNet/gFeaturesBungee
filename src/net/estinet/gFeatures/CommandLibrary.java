@@ -1,12 +1,5 @@
 package net.estinet.gFeatures;
 
-import java.util.List;
-
-import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-
-import net.estinet.gFeatures.Command.EstiCommand;
 import net.md_5.bungee.api.ProxyServer;
 
 /*
@@ -29,31 +22,11 @@ https://github.com/EstiNet/gFeatures
 */
 
 public class CommandLibrary {
-	
-	public void Commands(final CommandSender sender, Command cmd, String label, String[] args){
-		try{
-			onCommand(sender, cmd, label, args);
-		}
-		catch(Exception e){
-			ProxyServer.getInstance().getLogger().info("Error occurred when executing a gFeatures command.");
-			ProxyServer.getInstance().getLogger().info("Here's the error:");
-			e.printStackTrace();
-		}
-	}
-	
-	public void onCommand(final CommandSender sender, Command cmd, String label, String[] args){
-		for(EstiCommand commandd : Basic.getCommands()){
-			if(commandd.getName().equals(cmd.getName())){
-				try{
-					commandd.execute(sender, label, args);
-				}
-				catch(Exception e){
-					e.printStackTrace();
-				}
+	public void commandEnabler(){
+		for(EstiCommand command : Basic.getCommands()){
+			if(Basic.getFeature(command.feature.getName()).getState().equals(FeatureState.ENABLE)){
+				ProxyServer.getInstance().getPluginManager().registerCommand(ProxyServer.getInstance().getPluginManager().getPlugin("gFeature"), command);
 			}
 		}
-		
-		CoreCommands cc = new CoreCommands();
-		cc.onCommand(sender, cmd, label, args);
 	}
 }

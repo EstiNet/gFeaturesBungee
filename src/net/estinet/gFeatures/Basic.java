@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import net.estinet.gFeatures.Command.EstiCommand;
+import net.md_5.bungee.api.plugin.Command;
 
 /*
 gFeatures
@@ -53,7 +54,7 @@ public class Basic {
 		}
 		return null;
 	}
-	public static EstiCommand getCommand(String name){
+	public static Command getCommand(String name){
 		for(EstiCommand command : commands){
 			if(command.getName().equalsIgnoreCase(name)){
 				return command;
