@@ -32,6 +32,12 @@ import org.bukkit.event.world.WorldLoadEvent;
 
 import com.shampaggon.crackshot.events.WeaponDamageEntityEvent;
 
+import net.md_5.bungee.api.event.PlayerDisconnectEvent;
+import net.md_5.bungee.api.event.PlayerHandshakeEvent;
+import net.md_5.bungee.api.event.ServerSwitchEvent;
+import net.md_5.bungee.api.plugin.Listener;
+import net.md_5.bungee.event.EventHandler;
+
 /*
 gFeatures
 https://github.com/EstiNet/gFeatures
@@ -51,87 +57,18 @@ https://github.com/EstiNet/gFeatures
    limitations under the License.
 */
 
-public class Library {
-	public void onPlayerJoin(PlayerJoinEvent event){
-		check("onPlayerJoin", event);
+public class Library implements Listener{
+	@EventHandler
+	public void onPlayerJoin(PlayerHandshakeEvent event){
+		check("onPlayerHandshake", event);
 	}
-	public void onPlayerLeave(PlayerQuitEvent event){
-		check("onPlayerLeave", event);
+	@EventHandler
+	public void onPlayerLeave(PlayerDisconnectEvent event){
+		check("onPlayerDisconnect", event);
 	}
-    public void onPlayerMove(PlayerMoveEvent event){
-    	check("onPlayerMove", event);
-    }
-    public void onPlayerRespawn(PlayerRespawnEvent event){
-    	check("onPlayerRespawn", event);
-    }
-    public void onPlayerDeath(PlayerDeathEvent event){
-    	check("onPlayerDeath", event);
-    }
-    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-    	check("onEntityDamageByEntity", event);
-    }
-    public void onWeaponDamageEntity(WeaponDamageEntityEvent event) {
-    	check("onWeaponDamageEntity", event);
-    }
-    public void onPlayerInteract(PlayerInteractEvent event){
-    	check("onPlayerInteract", event);
-    }
-    public void onPlayerBreakBlock(BlockBreakEvent event){
-    	check("onPlayerBreakBlock", event);
-    }
-    public void onPlayerChat(AsyncPlayerChatEvent event){
-    	check("onPlayerChat", event);
-    }
-    public void onPlayerCommand(PlayerCommandPreprocessEvent event){
-    	check("onPlayerCommand", event);
-    }
-    public void onPlayerOpenInventory(InventoryOpenEvent event){
-    	check("onPlayerOpenInventory", event);
-    }
-    public void onPlayerItemHeld(PlayerItemHeldEvent event){
-    	check("onPlayerItemHeld", event);
-    }
-    public void onInventoryClick(InventoryClickEvent event){
-    	check("onInventoryClick", event);
-    }
-    public void onEntityExplode(EntityExplodeEvent event){
-    	check("onEntityExplode", event);
-    }
-    public void onFoodLevelChange(FoodLevelChangeEvent event){
-    	check("onFoodLevelChange", event);
-    }
-    public void onPlayerDrop(PlayerDropItemEvent event){
-    	check("onPlayerDrop", event);
-    }
-    public void onPlayerToggleFlight(PlayerToggleFlightEvent event){
-    	check("onPlayerToggleFlight", event);
-    }
-    public void onEntityDamage(EntityDamageEvent event){
-    	check("onEntityDamage", event);
-    }
-    public void onPlayerInteractEntity(PlayerInteractEntityEvent event){
-    	check("onPlayerInteractEntity", event);
-    }
-    public void onWeatherChange(WeatherChangeEvent event){
-    	check("onWeatherChange", event);
-    }
-    public void onPlayerLogin(PlayerLoginEvent event){
-    	check("onPlayerLogin", event);
-    }
-    public void onWorldLoad(WorldLoadEvent event){
-    	check("onWorldLoad", event);
-    }
-    public void onPlayerPickup(PlayerPickupItemEvent event){
-    	check("onPlayerPickup", event);
-    }
-    public void onPlayerAnimate(org.bukkit.event.player.PlayerAnimationEvent event) {
-    	check("onPlayerAnimate", event);
-	}
-	public void onInventory(InventoryEvent event) {
-		check("onInventory", event);
-	}
-	public void onInventoryInteract(org.bukkit.event.inventory.InventoryInteractEvent event) {
-		check("onInventoryInteract", event);
+	@EventHandler
+	public void onServerSwitch(ServerSwitchEvent event){
+		check("onServerSwitch", event);
 	}
     public void check(String methodname, Event event){
     	List<gFeature> features = Basic.getFeatures();
