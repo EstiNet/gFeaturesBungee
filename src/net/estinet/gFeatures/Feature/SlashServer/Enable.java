@@ -1,4 +1,4 @@
-package net.estinet.gFeatures.Feature.Base;
+package net.estinet.gFeatures.Feature.SlashServer;
 
 import net.md_5.bungee.api.ProxyServer;
 
