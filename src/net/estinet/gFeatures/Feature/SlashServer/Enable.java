@@ -22,9 +22,7 @@ https://github.com/EstiNet/gFeatures
 */
 
 public class Enable{
-	static ConfigHub ch = new ConfigHub();
 	public static void onEnable(){
-		ProxyServer.getInstance().getLogger().info("Base Plugin enabled!");
-		ch.setupConfig();
+		ProxyServer.getInstance().getLogger().info("[SlashServer] Enabled.");
 	}
 }

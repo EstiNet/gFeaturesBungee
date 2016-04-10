@@ -1,24 +1,25 @@
-package net.estinet.gFeaturesBungee.Commands;
+package net.estinet.gFeatures.Feature.SlashServer.Commands;
 
+import net.estinet.gFeatures.EstiCommand;
+import net.estinet.gFeatures.gFeature;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.plugin.Command;
 
-public class SlashHub extends Command{
-	 public SlashHub(){
-	        super("hub", "basic", new String[0]);
-	 }
+public class SlashCreative extends EstiCommand{
+	public SlashCreative(gFeature feature){
+		super("creative", "basic", new String[0], feature);
+	}
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
 		if(sender instanceof ProxiedPlayer){
-            ProxiedPlayer player = (ProxiedPlayer) sender;
-            	ServerInfo target = ProxyServer.getInstance().getServerInfo("Hub");
-            	player.connect(target);
+			ProxiedPlayer player = (ProxiedPlayer) sender;
+			ServerInfo target = ProxyServer.getInstance().getServerInfo("Creative");
+			player.connect(target);
 		}
 		else{
 			sender.sendMessage(new ComponentBuilder("This command can only be run by a player!").color(ChatColor.AQUA).create());

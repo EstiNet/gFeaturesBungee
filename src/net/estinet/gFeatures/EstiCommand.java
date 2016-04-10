@@ -10,5 +10,4 @@ public abstract class EstiCommand extends Command{
 		super(name, permission, aliases);
 		this.feature = feature;
 	}
-
 }

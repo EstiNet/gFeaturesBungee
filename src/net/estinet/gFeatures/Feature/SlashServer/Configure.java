@@ -1,4 +1,4 @@
-package net.estinet.gFeatures.Feature.Base;
+package net.estinet.gFeatures.Feature.SlashServer;
 
 import net.estinet.gFeatures.Basic;
 import net.estinet.gFeatures.Configs;
@@ -25,7 +25,7 @@ https://github.com/EstiNet/gFeatures
 public class Configure{
 	@Configs
 	public static void onSetup(){
-		Base base = new Base("Base", "1.2.5");
+		SlashServer base = new SlashServer("SlashServer", "1.0.0");
 		Basic.addFeature(base);
 		
 		Basic.addCommand(new TestCommand(base));
