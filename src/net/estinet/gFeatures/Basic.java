@@ -2,9 +2,7 @@ package net.estinet.gFeatures;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import net.estinet.gFeatures.Command.EstiCommand;
 import net.md_5.bungee.api.plugin.Command;
 
 /*
@@ -28,7 +26,6 @@ https://github.com/EstiNet/gFeatures
 
 public class Basic {
 	public static File f = new File("plugins/gFeatures/Config.yml");
-	public static YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(f);
 	
 	static Setup setup = new Setup();
 	

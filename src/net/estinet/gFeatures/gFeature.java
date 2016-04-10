@@ -62,4 +62,7 @@ public class gFeature{
 	public void enable(){}
 	public void disable(){}
 	public void eventTrigger(Event event){}
+	public void onPlayerHandshake(){}
+	public void onPlayerDisconnect(){}
+	public void onServerSwitch(){}
 }

@@ -1,11 +1,10 @@
 package net.estinet.gFeatures.Feature.Base;
 
-import org.bukkit.event.Event;
-import org.bukkit.event.player.PlayerJoinEvent;
-
 import net.estinet.gFeatures.Events;
 import net.estinet.gFeatures.Retrieval;
 import net.estinet.gFeatures.gFeature;
+import net.md_5.bungee.api.event.PlayerHandshakeEvent;
+import net.md_5.bungee.api.plugin.Event;
 
 /*
 gFeatures
@@ -43,10 +42,11 @@ public class Base extends gFeature implements Events{
 	}
 	@Override
 	public void eventTrigger(Event event) {
-		if(event.getEventName().equalsIgnoreCase("playerjoinevent")){
-			eh.onPlayerJoin((PlayerJoinEvent)event);
+		if(event.getClass().getName().equalsIgnoreCase("playerhandshakeevent")){
+			eh.onPlayerJoin((PlayerHandshakeEvent)event);
 		}
 	}
+	@Override
 	@Retrieval
-	public void onPlayerJoin(){}
+	public void onPlayerHandshake(){}
 }

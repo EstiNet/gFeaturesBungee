@@ -1,13 +1,16 @@
 package net.estinet.gFeatures.Configuration;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.bukkit.configuration.file.YamlConfiguration;
+import java.util.Properties;
 
 import net.estinet.gFeatures.Basic;
-import net.estinet.gFeatures.Extension;
 import net.estinet.gFeatures.FeatureState;
 import net.estinet.gFeatures.gFeature;
 
@@ -35,17 +38,45 @@ public class LoadConfig {
 	static File f = new File("plugins/gFeatures/Config.yml");
 	static List<gFeature> features = Basic.getFeatures();
 	public static void load(){
-		YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(f);
-		List<gFeature> featur = new ArrayList<>();
-		for(gFeature feature : features){
-			if((yamlFile.get("Config.Plugins." + feature.getName()).equals("true"))){
-				feature.setState(FeatureState.ENABLE);
+
+		Properties prop = new Properties();
+		InputStream input = null;
+
+		try {
+
+			input = new FileInputStream("plugins/gFeatures/Config.yml");
+
+			// load a properties file
+			prop.load(input);
+
+			// get the property value and print it out
+			try{
+				List<gFeature> featur = new ArrayList<>();
+				for(gFeature feature : features){
+					if((prop.getProperty("Plugins." + feature.getName()).equals("true"))){
+						feature.setState(FeatureState.ENABLE);
+					}
+					else{
+						feature.setState(FeatureState.DISABLE);
+					}
+					featur.add(feature);
+				}
+				Basic.setFeatures(featur);
 			}
-			else{
-				feature.setState(FeatureState.DISABLE);
+			catch(Exception e){
+				e.printStackTrace();
 			}
-			featur.add(feature);
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (input != null) {
+				try {
+					input.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
-		Basic.setFeatures(featur);
+
 	}
 }

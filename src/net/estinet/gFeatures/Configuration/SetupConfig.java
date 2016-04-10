@@ -1,15 +1,16 @@
 package net.estinet.gFeatures.Configuration;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
+import java.util.Properties;
 
 import net.estinet.gFeatures.Basic;
-import net.estinet.gFeatures.Extension;
-import net.estinet.gFeatures.ExtensionsType;
 import net.estinet.gFeatures.gFeature;
-
-import org.bukkit.configuration.file.YamlConfiguration;
 
 /*
 gFeatures
@@ -28,64 +29,79 @@ https://github.com/EstiNet/gFeatures
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-*/
+ */
 
 public class SetupConfig {
+
 	static Config config = new Config();
 	static File f = new File("plugins/gFeatures/Config.yml");
 	static List<gFeature> features = Basic.getFeatures();
 	public static void setup(){
 		config.createDirectory("plugins/gFeatures", "Setup the gFeatures directory for use!");
 		config.createFile("plugins/gFeatures/Config.yml", "Setup the gFeatures config for use!");
-		YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(f);
-		if(!(yamlFile.contains("Config"))){
-		yamlFile.createSection("Config");
-		}
-		if(!(yamlFile.contains("Config.Plugins"))){
-		yamlFile.createSection("Config.Plugins");
-		}
-		for(gFeature feature : features){
-			if(!(yamlFile.contains("Config.Plugins." + feature.getName()))){
-				yamlFile.createSection("Config.Plugins." + feature.getName());
-				yamlFile.set("Config.Plugins." + feature.getName() , "false");
-			}
-		}
-		if(!(yamlFile.contains("Config.Extensions"))){
-			yamlFile.createSection("Config.Extensions");
-		}
-		if(!(yamlFile.contains("Config.MySQL"))){
-			yamlFile.createSection("Config.MySQL");
-			yamlFile.createSection("Config.MySQL.Address");
-			yamlFile.createSection("Config.MySQL.Port");
-			yamlFile.createSection("Config.MySQL.TableName");
-			yamlFile.createSection("Config.MySQL.Username");
-			yamlFile.createSection("Config.MySQL.Password");
-			yamlFile.createSection("Config.MySQL.State");
-			yamlFile.set("Config.MySQL.Port", "3306");
-			yamlFile.set("Config.MySQL.Address", "localhost");
-			yamlFile.set("Config.MySQL.TableName", "gfeatures");
-			yamlFile.set("Config.MySQL.Username", "root");
-			yamlFile.set("Config.MySQL.Password", "pass123");
-			yamlFile.set("Config.MySQL.State", "false");
-		}
-		if(!(yamlFile.contains("Config.ClioteSky"))){
-			yamlFile.createSection("Config.ClioteSky.Address");
-			yamlFile.createSection("Config.ClioteSky.Port");
-			yamlFile.createSection("Config.ClioteSky.Category");
-			yamlFile.createSection("Config.ClioteSky.Name");
-			yamlFile.createSection("Config.ClioteSky.Password");
-			yamlFile.createSection("Config.ClioteSky.Enable");
-			yamlFile.set("Config.ClioteSky.Address", "localhost");
-			yamlFile.set("Config.ClioteSky.Port", "36000");
-			yamlFile.set("Config.ClioteSky.Category", "Default");
-			yamlFile.set("Config.ClioteSky.Name", "Server");
-			yamlFile.set("Config.ClioteSky.Password", "password");
-			yamlFile.set("Config.ClioteSky.Enable", "false");
-		}
+
+		Properties prop = new Properties();
+		OutputStream output = null;
+		InputStream input = null;
 		try {
-			yamlFile.save(f);
-		} catch (IOException e) {
-			e.printStackTrace();
+			input = new FileInputStream(f.getPath());
+			prop.load(input);
+			input.close();
+			output = new FileOutputStream(f.getPath());
+			for(gFeature feature : features){
+				if(!(prop.containsKey("Plugins." + feature.getName()))){
+					prop.setProperty("Plugins." + feature.getName() , "false");
+				}
+			}
+			if(!(prop.containsKey("MySQL.Port"))){
+				prop.setProperty("MySQL.Port", "3306");
+			}
+			if(!(prop.containsKey("MySQL.Address"))){
+				prop.setProperty("MySQL.Address", "localhost");
+			}
+			if(!(prop.containsKey("MySQL.TableName"))){
+				prop.setProperty("MySQL.TableName", "gfeatures");
+			}
+			if(!(prop.containsKey("MySQL.Username"))){
+				prop.setProperty("MySQL.Username", "root");
+			}
+			if(!(prop.containsKey("MySQL.Password"))){
+				prop.setProperty("MySQL.Password", "pass123");
+			}
+			if(!(prop.containsKey("MySQL.State"))){
+				prop.setProperty("MySQL.State", "false");
+			}
+			if(!(prop.containsKey("ClioteSky.Address"))){
+				prop.setProperty("ClioteSky.Address", "localhost");
+			}
+			if(!(prop.containsKey("ClioteSky.Port"))){
+				prop.setProperty("ClioteSky.Port", "36000");
+			}
+			if(!(prop.containsKey("ClioteSky.Category"))){
+				prop.setProperty("ClioteSky.Category", "Default");
+			}
+			if(!(prop.containsKey("ClioteSky.Name"))){
+				prop.setProperty("ClioteSky.Name", "Server");
+			}
+			if(!(prop.containsKey("ClioteSky.Password"))){
+				prop.setProperty("ClioteSky.Password", "password");
+			}
+			if(!(prop.containsKey("ClioteSky.Enable"))){
+				prop.setProperty("ClioteSky.Enable", "false");
+			}
+			// save properties to project root folder
+			prop.store(output, null);
+
+		} catch (IOException io) {
+			io.printStackTrace();
+		} finally {
+			if (output != null) {
+				try {
+					output.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 }

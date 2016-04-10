@@ -1,7 +1,5 @@
 package net.estinet.gFeatures.API.Logger;
 
-import org.bukkit.Bukkit;
-
 import net.estinet.gFeatures.Listeners;
 import net.md_5.bungee.api.ProxyServer;
 

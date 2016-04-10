@@ -31,11 +31,11 @@ https://github.com/EstiNet/gFeatures
 
 public class Library implements Listener{
 	@EventHandler
-	public void onPlayerJoin(PlayerHandshakeEvent event){
+	public void onPlayerHandshake(PlayerHandshakeEvent event){
 		check("onPlayerHandshake", event);
 	}
 	@EventHandler
-	public void onPlayerLeave(PlayerDisconnectEvent event){
+	public void onPlayerDisconnect(PlayerDisconnectEvent event){
 		check("onPlayerDisconnect", event);
 	}
 	@EventHandler

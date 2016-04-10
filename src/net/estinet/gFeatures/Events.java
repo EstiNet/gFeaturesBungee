@@ -20,4 +20,7 @@ https://github.com/EstiNet/gFeatures
 */
 
 public interface Events {
+	public void onPlayerHandshake();
+	public void onPlayerDisconnect();
+	public void onServerSwitch();
 }
