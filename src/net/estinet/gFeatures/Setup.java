@@ -30,5 +30,7 @@ public class Setup {
 		 * to add to the Basic class. :D
 		 */
 		net.estinet.gFeatures.Feature.Base.Configure.onSetup();
+		net.estinet.gFeatures.Feature.ServerRedirect.Configure.onSetup();
+		net.estinet.gFeatures.Feature.SlashServer.Configure.onSetup();
 	}
 }

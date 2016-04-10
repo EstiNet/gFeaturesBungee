@@ -31,7 +31,6 @@ public class gLoop {
 		/*
 		 * Initialize gFeatures Core loops here.
 		 */
-		if(ClioteSky.isEnable()){
 			ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
 	        	public void run(){
 	        		Thread th = new Thread(new Runnable(){
@@ -44,6 +43,5 @@ public class gLoop {
 	        		th.start();
 	        	}
 	        }, 200L, 99_999_999_999_999_999L, TimeUnit.MICROSECONDS);
-		}
 	}
 }
