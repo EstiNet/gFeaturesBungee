@@ -1,4 +1,4 @@
 name: gFeatures
-main: net.estinet.gFeaturesBungee.Listeners
-version: 1.0.5
+main: net.estinet.gFeatures.Listeners
+version: 3.4.0c
 author: _InDev_

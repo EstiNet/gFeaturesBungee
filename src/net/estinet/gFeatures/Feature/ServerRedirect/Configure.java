@@ -25,10 +25,7 @@ https://github.com/EstiNet/gFeatures
 public class Configure{
 	@Configs
 	public static void onSetup(){
-		Base base = new Base("Base", "1.2.5");
+		ServerRedirect base = new ServerRedirect("ServerRedirect", "1.0.0");
 		Basic.addFeature(base);
-		
-		Basic.addCommand(new TestCommand(base));
-		
 	}
 }
