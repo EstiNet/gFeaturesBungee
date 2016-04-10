@@ -18,8 +18,11 @@ https://github.com/EstiNet/gFeatures
    limitations under the License.
 */
 
+import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.event.PlayerHandshakeEvent;
+
 public class EventHub{
-	public void onPlayerJoin(PlayerJoinEvent event){
-		Bukkit.getLogger().info("Player Joined!");
+	public void onPlayerJoin(PlayerHandshakeEvent event){
+		ProxyServer.getInstance().getLogger().info("Player Joined!");
 	}
 }

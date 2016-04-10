@@ -6,13 +6,13 @@ import java.io.InputStreamReader;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.net.SocketException;
-
-import org.bukkit.Bukkit;
+import java.util.concurrent.TimeUnit;
 
 import net.estinet.gFeatures.API.Logger.Debug;
 import net.estinet.gFeatures.ClioteSky.ClioteConfigUtil;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.estinet.gFeatures.ClioteSky.Network.Protocol.Output.OutputHello;
+import net.md_5.bungee.api.ProxyServer;
 
 public class NetworkThread {
 	public static Socket clientSocket = null;
@@ -81,11 +81,11 @@ public class NetworkThread {
 						outToServer.writeBytes(message + "\n");
 					outToServer.flush();
 					ClioteSky.setSyncedOutput(true);
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Bukkit.getServer().getPluginManager().getPlugin("gFeatures"), new Runnable() {
-			        	public void run(){
-			        		ClioteSky.setSyncedOutput(false);
-			        	}
-			        }, 15L);
+					ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
+			            public void run() {
+			            	ClioteSky.setSyncedOutput(false);
+			            }
+			         }, 15, TimeUnit.SECONDS);
 					}
 					catch(NullPointerException e){
 						ClioteConfigUtil ccu = new ClioteConfigUtil();

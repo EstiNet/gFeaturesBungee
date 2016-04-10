@@ -3,22 +3,48 @@ package net.estinet.gFeatures.ClioteSky;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import org.bukkit.configuration.file.YamlConfiguration;
+import java.io.InputStream;
+import java.util.Properties;
 
 public class ClioteConfigUtil {
 	public void load(){
-		File f = new File("plugins/gFeatures/Config.yml");
-		YamlConfiguration yamlFile = YamlConfiguration.loadConfiguration(f);
-		ClioteSky.setName(yamlFile.get("Config.ClioteSky.Name").toString());
-		ClioteSky.setCategory(yamlFile.get("Config.ClioteSky.Category").toString());
-		ClioteSky.setAddress(yamlFile.get("Config.ClioteSky.Address").toString());
-		ClioteSky.setEnable(Boolean.parseBoolean(yamlFile.get("Config.ClioteSky.Enable").toString()));
-		ClioteSky.setPassword(yamlFile.get("Config.ClioteSky.Password").toString());
-		ClioteSky.setPort(yamlFile.get("Config.ClioteSky.Port").toString());
+		Properties prop = new Properties();
+		InputStream input = null;
+
+		try {
+
+			input = new FileInputStream("plugins/gFeatures/Config.yml");
+
+			// load a properties file
+			prop.load(input);
+
+			// get the property value and print it out
+			try{
+				ClioteSky.setName(prop.getProperty("Config.ClioteSky.Name").toString());
+				ClioteSky.setCategory(prop.getProperty("Config.ClioteSky.Category").toString());
+				ClioteSky.setAddress(prop.getProperty("Config.ClioteSky.Address").toString());
+				ClioteSky.setEnable(Boolean.parseBoolean(prop.getProperty("Config.ClioteSky.Enable").toString()));
+				ClioteSky.setPassword(prop.getProperty("Config.ClioteSky.Password").toString());
+				ClioteSky.setPort(prop.getProperty("Config.ClioteSky.Port").toString());
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (input != null) {
+				try {
+					input.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		File file = new File("plugins/gFeatures/cliotecache.txt");
 		if(!file.exists()){
 			try {
