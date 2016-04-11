@@ -15,7 +15,7 @@ public class SlashgFeatures extends Command{
 	public void execute(CommandSender sender, String[] args){
 		try {
 			if(args.length == 0){
-				sender.sendMessage(ChatColor.GRAY + "Please do /gFeatures help.");
+				sender.sendMessage(ChatColor.GRAY + "Please do /gFeaturesBungee help.");
 			}
 			else if(args.length == 1){
 				switch(args[0]){
@@ -24,11 +24,11 @@ public class SlashgFeatures extends Command{
 					break;
 				case "help":
 					sender.sendMessage(ChatColor.GRAY + "------Help------");
-					sender.sendMessage(ChatColor.GRAY + "/gFeatures version : States the version.");
-					sender.sendMessage(ChatColor.GRAY + "/gFeatures list : Lists all features with their states and versions also.");
-					sender.sendMessage(ChatColor.GRAY + "/gFeatures featurestate <Feature> : Gets the state of the feature.");
-					sender.sendMessage(ChatColor.GRAY + "/gFeatures send <Message> : Sends a manual message to the ClioteSky server.");
-					sender.sendMessage(ChatColor.GRAY + "/gFeatures debug : Turns on debug messages.");
+					sender.sendMessage(ChatColor.GRAY + "/gFeaturesBungee version : States the version.");
+					sender.sendMessage(ChatColor.GRAY + "/gFeaturesBungee list : Lists all features with their states and versions also.");
+					sender.sendMessage(ChatColor.GRAY + "/gFeaturesBungee featurestate <Feature> : Gets the state of the feature.");
+					sender.sendMessage(ChatColor.GRAY + "/gFeaturesBungee send <Message> : Sends a manual message to the ClioteSky server.");
+					sender.sendMessage(ChatColor.GRAY + "/gFeaturesBungee debug : Turns on debug messages.");
 					break;
 				case "list":
 					List<gFeature> features = Basic.getFeatures();
@@ -47,7 +47,7 @@ public class SlashgFeatures extends Command{
 					}
 					break;
 				case "featurestate":
-					sender.sendMessage(ChatColor.GRAY + "Usage: /gFeatures featurestate <Plugin>");
+					sender.sendMessage(ChatColor.GRAY + "Usage: /gFeaturesBungee featurestate <Plugin>");
 					break;
 				case "debug":
 					if(Listeners.debug == true){
@@ -60,7 +60,7 @@ public class SlashgFeatures extends Command{
 					}
 					break;
 				default:
-					sender.sendMessage(ChatColor.GRAY + "Please do /gFeatures help.");
+					sender.sendMessage(ChatColor.GRAY + "Please do /gFeaturesBungee help.");
 					break;
 				}
 			}
@@ -76,7 +76,7 @@ public class SlashgFeatures extends Command{
 					sender.sendMessage(ChatColor.GRAY + "Sent message " + args[1] + " to ClioteSky.");
 					break;
 				default:
-					sender.sendMessage(ChatColor.GRAY + "Please do /gFeatures help.");
+					sender.sendMessage(ChatColor.GRAY + "Please do /gFeaturesBungee help.");
 					break;
 				}
 			}
@@ -92,7 +92,7 @@ public class SlashgFeatures extends Command{
 					sender.sendMessage(ChatColor.GRAY + "Sent message " + output + "to ClioteSky.");
 					break;
 				default:
-					sender.sendMessage(ChatColor.GRAY + "Please do /gFeatures help.");
+					sender.sendMessage(ChatColor.GRAY + "Please do /gFeaturesBungee help.");
 					break;
 				}
 			}

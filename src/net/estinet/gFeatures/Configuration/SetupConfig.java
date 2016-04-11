@@ -53,24 +53,6 @@ public class SetupConfig {
 					prop.setProperty("Plugins." + feature.getName() , "false");
 				}
 			}
-			if(!(prop.containsKey("MySQL.Port"))){
-				prop.setProperty("MySQL.Port", "3306");
-			}
-			if(!(prop.containsKey("MySQL.Address"))){
-				prop.setProperty("MySQL.Address", "localhost");
-			}
-			if(!(prop.containsKey("MySQL.TableName"))){
-				prop.setProperty("MySQL.TableName", "gfeatures");
-			}
-			if(!(prop.containsKey("MySQL.Username"))){
-				prop.setProperty("MySQL.Username", "root");
-			}
-			if(!(prop.containsKey("MySQL.Password"))){
-				prop.setProperty("MySQL.Password", "pass123");
-			}
-			if(!(prop.containsKey("MySQL.State"))){
-				prop.setProperty("MySQL.State", "false");
-			}
 			if(!(prop.containsKey("ClioteSky.Address"))){
 				prop.setProperty("ClioteSky.Address", "localhost");
 			}
