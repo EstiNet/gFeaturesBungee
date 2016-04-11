@@ -9,7 +9,7 @@ import net.md_5.bungee.api.plugin.Command;
 
 public class SlashgFeatures extends Command{
 	public SlashgFeatures(){
-		super("gFeatures", "gFeatures.admin", "gf");
+		super("gFeaturesBungee", "gFeatures.admin", "gfb");
 	}
 	@SuppressWarnings("deprecation")
 	public void execute(CommandSender sender, String[] args){
