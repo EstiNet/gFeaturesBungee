@@ -3,7 +3,6 @@ package net.estinet.gFeatures;
 import java.util.concurrent.TimeUnit;
 
 import net.estinet.gFeatures.API.Logger.Debug;
-import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.estinet.gFeatures.ClioteSky.Network.Protocol.Output.OutputAlive;
 import net.md_5.bungee.api.ProxyServer;
 
@@ -24,24 +23,19 @@ https://github.com/EstiNet/gFeatures
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-*/
+ */
 
 public class gLoop {
 	public void start(){
 		/*
 		 * Initialize gFeatures Core loops here.
 		 */
-			ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
-	        	public void run(){
-	        		Thread th = new Thread(new Runnable(){
-	        			public void run(){
-	        				OutputAlive oa = new OutputAlive();
-	        				oa.run(null);
-	        				Debug.print("[ClioteSky] Pinging server...");
-	        			}
-	        		});
-	        		th.start();
-	        	}
-	        }, 200L, 99_999_999_999_999_999L, TimeUnit.MICROSECONDS);
+		ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
+			public void run(){
+				OutputAlive oa = new OutputAlive();
+				oa.run(null);
+				Debug.print("[ClioteSky] Pinging server...");
+			}
+		}, 5, 9999999999999L, TimeUnit.SECONDS);
 	}
 }

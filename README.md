@@ -5,7 +5,7 @@ The core of EstiNet.
 EstiNet - The flow of creativity.
 
 ##Version
-gFeatures Core/API: 3.4.0c
+gFeatures Core/API: 3.4.1c
 
 ## Info
 gFeatures (Bungee) is the BungeeCord version of gFeatures. It can communicate with gFeatures (Spigot) through ClioteSky.
