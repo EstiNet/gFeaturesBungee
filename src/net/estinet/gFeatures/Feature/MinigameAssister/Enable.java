@@ -1,4 +1,6 @@
-package net.estinet.gFeatures;
+package net.estinet.gFeatures.Feature.MinigameAssister;
+
+import net.md_5.bungee.api.ProxyServer;
 
 /*
 gFeatures
@@ -17,22 +19,10 @@ https://github.com/EstiNet/gFeatures
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
- */
+*/
 
-public class Setup {
-	Configs config;
-	public void onSetup() {
-		//Well, unfortunate part of the API :(
-
-		/*
-		 * Initialize your plugins here.
-		 * Make sure that you have your onSetup() setup
-		 * to add to the Basic class. :D
-		 */
-		net.estinet.gFeatures.Feature.Base.Configure.onSetup();
-		net.estinet.gFeatures.Feature.ServerRedirect.Configure.onSetup();
-		net.estinet.gFeatures.Feature.SlashServer.Configure.onSetup();
-		net.estinet.gFeatures.Feature.Alerts.Configure.onSetup();
-		net.estinet.gFeatures.Feature.MinigameAssister.Configure.onSetup();
+public class Enable{
+	public static void onEnable(){
+		ProxyServer.getInstance().getLogger().info("[MinigameAssister] enabled!");
 	}
 }
