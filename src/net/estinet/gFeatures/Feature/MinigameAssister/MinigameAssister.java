@@ -6,8 +6,6 @@ import net.md_5.bungee.api.plugin.Event;
 
 public class MinigameAssister extends gFeature implements Events{
 	
-	EventHub eh = new EventHub();
-	
 	public MinigameAssister(String featurename, String d) {
 		super(featurename, d);
 	}
