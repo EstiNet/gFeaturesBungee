@@ -12,5 +12,8 @@ public class Configure{
 		
 		MAClioteHook grch = new MAClioteHook(base);
 		ClioteSky.addClioteHook(grch);
+		
+		ConfirmClioteHook cch = new ConfirmClioteHook(base);
+		ClioteSky.addClioteHook(cch);
 	}
 }
