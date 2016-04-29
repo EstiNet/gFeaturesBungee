@@ -14,6 +14,8 @@ public class ConfirmClioteHook extends ClioteHook{
 	public void run(List<String> args, String categoryName, String clioteName){
 		try{
 			MinigameAssister.servers.put(new MGServer(clioteName, categoryName), MGState.WAIT);
+			SendAll sa = new SendAll();
+			sa.sendAllInfo();
 		}
 		catch(Exception e){
 			e.printStackTrace();

@@ -13,15 +13,12 @@ public class MGGetClioteHook extends ClioteHook{
 	}
 	@Override
 	public void run(List<String> args, String categoryName, String clioteName){
-		String category = args.get(0);
 		try{
 			CliotePing cp = new CliotePing();
 			for(MGServer mgs : MinigameAssister.servers.keySet()){
-				if(mgs.getCategory().equals(category)){
-					cp.sendMessage("mgreturn recieve " + mgs.getName() + " " + MinigameAssister.servers.get(mgs), clioteName);
-				}
-			}
-			cp.sendMessage("mgreturn done", clioteName);
+				cp.sendMessage("mgrecieve " + mgs.getName() + " " + MinigameAssister.servers.get(mgs), clioteName);
+			} //MGS.getName() should be the name of the Cliote as well as server...
+			cp.sendMessage("mgdone", clioteName);
 		}
 		catch(Exception e){
 			e.printStackTrace();
