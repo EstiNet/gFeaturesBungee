@@ -3,7 +3,6 @@ package net.estinet.gFeatures.Feature.MinigameAssister;
 import net.estinet.gFeatures.Basic;
 import net.estinet.gFeatures.Configs;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
-import net.estinet.gFeatures.Feature.gHub.MGDoneClioteHook;
 
 public class Configure{
 	@Configs
@@ -18,5 +17,7 @@ public class Configure{
 		ClioteSky.addClioteHook(cch);
 		StartClioteHook mgsch = new StartClioteHook(base);
 		ClioteSky.addClioteHook(mgsch);
+		MGGetClioteHook mgch = new MGGetClioteHook(base);
+		ClioteSky.addClioteHook(mgch);
 	}
 }
