@@ -3,6 +3,7 @@ package net.estinet.gFeatures.Feature.MinigameAssister;
 import java.util.List;
 
 import net.estinet.gFeatures.gFeature;
+import net.estinet.gFeatures.API.Logger.Debug;
 import net.estinet.gFeatures.ClioteSky.API.ClioteHook;
 
 public class ConfirmClioteHook extends ClioteHook{
@@ -13,7 +14,14 @@ public class ConfirmClioteHook extends ClioteHook{
 	@Override
 	public void run(List<String> args, String categoryName, String clioteName){
 		try{
-			MinigameAssister.servers.replace(new MGServer(clioteName, categoryName), MGState.WAIT);
+			Debug.print("Comparing " + clioteName + " " + categoryName);
+			if(!MinigameAssister.servers.containsKey(new MGServer(clioteName, categoryName))){
+				MinigameAssister.servers.put(clioteName, MGState.WAIT);
+			}
+			else{
+				Debug.print("Was found.");
+				MinigameAssister.servers.replace(clioteName, MGState.WAIT);
+			}
 			SendAll sa = new SendAll();
 			sa.sendAllInfo();
 		}

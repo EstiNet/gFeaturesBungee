@@ -16,8 +16,8 @@ public class MGGetClioteHook extends ClioteHook{
 		try{
 			CliotePing cp = new CliotePing();
 			cp.sendMessage("mgstart", "MinigameHubs");
-			for(MGServer mgs : MinigameAssister.servers.keySet()){
-				cp.sendMessage("mgrecieve " + mgs.getName() + " " + MinigameAssister.servers.get(mgs), clioteName);
+			for(String mgs : MinigameAssister.servers.keySet()){
+				cp.sendMessage("mgrecieve " + mgs + " " + MinigameAssister.servers.get(mgs), clioteName);
 			} //MGS.getName() should be the name of the Cliote as well as server...
 			cp.sendMessage("mgdone", clioteName);
 		}

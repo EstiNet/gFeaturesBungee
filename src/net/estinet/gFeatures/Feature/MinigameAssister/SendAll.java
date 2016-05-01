@@ -6,8 +6,8 @@ public class SendAll {
 	public void sendAllInfo(){
 		CliotePing cp = new CliotePing();
 		cp.sendMessage("mgstart", "MinigameHubs");
-		for(MGServer mgs : MinigameAssister.servers.keySet()){
-			cp.sendMessage("mgrecieve " + mgs.getName() + " " + MinigameAssister.servers.get(mgs), "MinigameHubs");
+		for(String mgs : MinigameAssister.servers.keySet()){
+			cp.sendMessage("mgrecieve " + mgs + " " + MinigameAssister.servers.get(mgs), "MinigameHubs");
 		}
 		cp.sendMessage("mgdone", "MinigameHubs");
 	}

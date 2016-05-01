@@ -14,8 +14,8 @@ public class SlashListgames extends EstiCommand{
 	@Override
 	public void execute(CommandSender sender, String[] args) {
 		sender.sendMessage("Servers:");
-		for(MGServer mgs : MinigameAssister.servers.keySet()){
-			sender.sendMessage(mgs.getName() + " " + mgs.getCategory());
+		for(String mgs : MinigameAssister.servers.keySet()){
+			sender.sendMessage(mgs + " " + MinigameAssister.servers.get(mgs));
 		}
 	}
 }
