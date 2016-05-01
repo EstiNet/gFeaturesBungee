@@ -15,7 +15,7 @@ public class MAClioteHook extends ClioteHook{
 	public void run(List<String> args, String categoryName, String clioteName){
 		try{
 			Debug.print("Comparing " + clioteName + " " + categoryName);
-			if(!MinigameAssister.servers.containsKey(new MGServer(clioteName, categoryName))){
+			if(!MinigameAssister.servers.containsKey(clioteName)){
 				MinigameAssister.servers.put(clioteName, MGState.OFFLINE);
 			}
 			else{

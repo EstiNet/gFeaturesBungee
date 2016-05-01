@@ -6,21 +6,21 @@ import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.API.Logger.Debug;
 import net.estinet.gFeatures.ClioteSky.API.ClioteHook;
 
-public class StartClioteHook extends ClioteHook{
+public class MGMapClioteHook extends ClioteHook{
 
-	public StartClioteHook(gFeature feature) {
-		super(feature, "mgstart");
+	public MGMapClioteHook(gFeature feature) {
+		super(feature, "mgmap");
 	}
 	@Override
 	public void run(List<String> args, String categoryName, String clioteName){
 		try{
 			Debug.print("Comparing " + clioteName + " " + categoryName);
-			if(!MinigameAssister.servers.containsKey(clioteName)){
-				MinigameAssister.servers.put(clioteName, MGState.STARTED);
+			if(!MinigameAssister.maps.containsKey(clioteName)){
+				MinigameAssister.maps.put(clioteName, args.get(0));
 			}
 			else{
 				Debug.print("Was found.");
-				MinigameAssister.servers.replace(clioteName, MGState.STARTED);
+				MinigameAssister.maps.replace(clioteName, args.get(0));
 			}
 			SendAll sa = new SendAll();
 			sa.sendAllInfo();
@@ -29,4 +29,5 @@ public class StartClioteHook extends ClioteHook{
 			e.printStackTrace();
 		}
 	}
+
 }

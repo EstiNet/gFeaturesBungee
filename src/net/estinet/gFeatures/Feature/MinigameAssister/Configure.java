@@ -8,7 +8,7 @@ import net.estinet.gFeatures.Feature.MinigameAssister.Commands.SlashListgames;
 public class Configure{
 	@Configs
 	public static void onSetup(){
-		MinigameAssister base = new MinigameAssister("MinigameAssister", "1.0.0");
+		MinigameAssister base = new MinigameAssister("MinigameAssister", "1.0.1");
 		Basic.addFeature(base);
 		
 		MAClioteHook grch = new MAClioteHook(base);
