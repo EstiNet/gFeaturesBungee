@@ -3,6 +3,7 @@ package net.estinet.gFeatures.Feature.MinigameAssister;
 import net.estinet.gFeatures.Basic;
 import net.estinet.gFeatures.Configs;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
+import net.estinet.gFeatures.Feature.MinigameAssister.Commands.SlashListgames;
 
 public class Configure{
 	@Configs
@@ -19,5 +20,6 @@ public class Configure{
 		ClioteSky.addClioteHook(mgsch);
 		MGGetClioteHook mgch = new MGGetClioteHook(base);
 		ClioteSky.addClioteHook(mgch);
+		Basic.addCommand(new SlashListgames(base));
 	}
 }
