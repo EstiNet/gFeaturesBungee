@@ -20,6 +20,8 @@ public class Configure{
 		ClioteSky.addClioteHook(mgsch);
 		MGGetClioteHook mgch = new MGGetClioteHook(base);
 		ClioteSky.addClioteHook(mgch);
+		MGMapClioteHook mmap = new MGMapClioteHook(base);
+		ClioteSky.addClioteHook(mmap);
 		Basic.addCommand(new SlashListgames(base));
 	}
 }

@@ -14,7 +14,7 @@ public class MGMapClioteHook extends ClioteHook{
 	@Override
 	public void run(List<String> args, String categoryName, String clioteName){
 		try{
-			Debug.print("Comparing " + clioteName + " " + categoryName);
+			Debug.print("Comparing mgmap " + clioteName + " " + categoryName);
 			if(!MinigameAssister.maps.containsKey(clioteName)){
 				MinigameAssister.maps.put(clioteName, args.get(0));
 			}
