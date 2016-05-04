@@ -24,7 +24,7 @@ https://github.com/EstiNet/gFeatures
 public class Enable{
 	static ConfigHub ch = new ConfigHub();
 	public static void onEnable(){
-		ProxyServer.getInstance().getLogger().info("Base Plugin enabled!");
+		ProxyServer.getInstance().getLogger().info("[EstiMail] Enabled!");
 		ch.setupConfig();
 	}
 }

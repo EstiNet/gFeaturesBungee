@@ -1,4 +1,4 @@
-package net.estinet.gFeatures.Feature.Base;
+package net.estinet.gFeatures.Feature.EstiMail;
 
 import net.estinet.gFeatures.Basic;
 import net.estinet.gFeatures.Configs;
@@ -25,10 +25,10 @@ https://github.com/EstiNet/gFeatures
 public class Configure{
 	@Configs
 	public static void onSetup(){
-		Base base = new Base("Base", "1.2.5");
+		EstiMail base = new EstiMail("EstiMail", "1.0.0");
 		Basic.addFeature(base);
 		
-		Basic.addCommand(new TestCommand(base));
+		//Basic.addCommand(new TestCommand(base));
 		
 	}
 }
