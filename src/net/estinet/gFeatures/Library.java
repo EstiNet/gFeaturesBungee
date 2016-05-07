@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PlayerHandshakeEvent;
+import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.event.ServerSwitchEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
@@ -41,6 +42,10 @@ public class Library implements Listener{
 	@EventHandler
 	public void onServerSwitch(ServerSwitchEvent event){
 		check("onServerSwitch", event);
+	}
+	@EventHandler
+	public void onPostLogin(PostLoginEvent event){
+		check("onPostLogin", event);
 	}
     public void check(String methodname, Event event){
     	List<gFeature> features = Basic.getFeatures();

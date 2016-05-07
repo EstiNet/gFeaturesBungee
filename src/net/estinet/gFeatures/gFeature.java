@@ -65,4 +65,5 @@ public class gFeature{
 	public void onPlayerHandshake(){}
 	public void onPlayerDisconnect(){}
 	public void onServerSwitch(){}
+	public void onPostLogin(){}
 }

@@ -18,11 +18,49 @@ https://github.com/EstiNet/gFeatures
    limitations under the License.
 */
 
+import java.util.concurrent.TimeUnit;
+
+import net.estinet.gFeatures.ClioteSky.API.CliotePing;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.event.PlayerHandshakeEvent;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.event.PlayerDisconnectEvent;
+import net.md_5.bungee.api.event.PostLoginEvent;
+import net.md_5.bungee.api.event.ServerSwitchEvent;
 
 public class EventHub{
-	public void onPlayerJoin(PlayerHandshakeEvent event){
-		ProxyServer.getInstance().getLogger().info("Player Joined!");
+	@SuppressWarnings("deprecation")
+	public void onPlayerJoin(PostLoginEvent event){
+		for(ProxiedPlayer player : ProxyServer.getInstance().getPlayers()){
+			if(!player.getServer().getInfo().getName().equalsIgnoreCase(event.getPlayer().getServer().getInfo().getName())){
+				player.sendMessage("[" + event.getPlayer().getServer().getInfo().getName() + "] " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Join" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName());
+			}
+		}
+		CliotePing cp = new CliotePing();
+		cp.sendMessage("consolechat " + event.getPlayer().getServer().getInfo().getName() + " " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Join" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName(), "all");
+	}
+	@SuppressWarnings("deprecation")
+	public void onPlayerDisconnect(PlayerDisconnectEvent event){
+		for(ProxiedPlayer player : ProxyServer.getInstance().getPlayers()){
+			if(!player.getServer().getInfo().getName().equalsIgnoreCase(event.getPlayer().getServer().getInfo().getName())){
+				player.sendMessage("[" + event.getPlayer().getServer().getInfo().getName() + "] " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Leave" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName());
+			}
+		}
+		CliotePing cp = new CliotePing();
+		cp.sendMessage("consolechat " + event.getPlayer().getServer().getInfo().getName() + " " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Leave" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName(), "all");
+	}
+	@SuppressWarnings("deprecation")
+	public void onServerSwitch(ServerSwitchEvent event){
+		String previous = event.getPlayer().getServer().getInfo().getName();
+		ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
+            public void run() {
+            	for(ProxiedPlayer player : ProxyServer.getInstance().getPlayers()){
+        			player.sendMessage(ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Switch" + ChatColor.GOLD + "] " + ChatColor.RESET + "(" + previous + " -> " + event.getPlayer().getServer().getInfo().getName() + ") " + event.getPlayer().getName());
+        		}
+        		CliotePing cp = new CliotePing();
+        		cp.sendMessage("consolechat " + event.getPlayer().getServer().getInfo().getName() + " " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Switch" + ChatColor.GOLD + "] " + ChatColor.RESET + "(" + previous + " -> " + event.getPlayer().getServer().getInfo().getName() + ") " + event.getPlayer().getName(), "all");
+        	
+            }
+         }, 1, TimeUnit.SECONDS);
 	}
 }
