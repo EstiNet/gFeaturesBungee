@@ -1,4 +1,4 @@
-package net.estinet.gFeatures.Feature.Base;
+package net.estinet.gFeatures.Feature.EstiChat;
 /*
 gFeatures
 https://github.com/EstiNet/gFeatures

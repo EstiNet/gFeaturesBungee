@@ -1,4 +1,4 @@
-package net.estinet.gFeatures.Feature.Base;
+package net.estinet.gFeatures.Feature.EstiChat;
 
 import net.md_5.bungee.api.ProxyServer;
 
@@ -24,7 +24,7 @@ https://github.com/EstiNet/gFeatures
 public class Enable{
 	static ConfigHub ch = new ConfigHub();
 	public static void onEnable(){
-		ProxyServer.getInstance().getLogger().info("Base Plugin enabled!");
+		ProxyServer.getInstance().getLogger().info("[EstiChat] Enabled!");
 		ch.setupConfig();
 	}
 }
