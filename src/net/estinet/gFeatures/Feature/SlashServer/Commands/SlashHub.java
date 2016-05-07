@@ -19,11 +19,11 @@ public class SlashHub extends EstiCommand{
 		if(sender instanceof ProxiedPlayer){
 			ProxiedPlayer player = (ProxiedPlayer) sender;
 			if(player.getServer().getInfo().getName().equals("Factions") || player.getServer().getInfo().getName().equals("Survival") || player.getServer().getInfo().getName().equals("Skyblock") || player.getServer().getInfo().getName().equals("Creative") || player.getServer().getInfo().getName().equals("gWars") ){
-				ServerInfo target = ProxyServer.getInstance().getServerInfo("Hub");
+				ServerInfo target = ProxyServer.getInstance().getServerInfo("Hub1");
 				player.connect(target);
 			}
 			else{
-				ServerInfo target = ProxyServer.getInstance().getServerInfo("MinigameHub");
+				ServerInfo target = ProxyServer.getInstance().getServerInfo("MinigameHub1");
 				player.connect(target);
 			}
 		}

@@ -18,11 +18,11 @@ public class ChatClioteHook extends ClioteHook{
 	@Override
 	public void run(List<String> args, String categoryName, String clioteName){
 		try{
-			ProxyServer.getInstance().getLogger().info("helpme");
 			String mgs = "";
 			for(String arg : args){
 				mgs += arg + " ";
 			}
+			
 			ProxyServer.getInstance().getLogger().info(mgs);
 			for(ProxiedPlayer player : ProxyServer.getInstance().getPlayers()){
 				if(!player.getServer().getInfo().getName().equalsIgnoreCase(clioteName)){
