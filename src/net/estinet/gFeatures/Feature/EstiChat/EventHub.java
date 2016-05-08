@@ -63,7 +63,7 @@ public class EventHub{
 			EstiChat.switcher.put(event.getPlayer().getName(), null);
 		}
 	}
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "unused" })
 	public void onServerSwitch(ServerSwitchEvent event){
 		String previous;
 		previous = event.getPlayer().getServer().getInfo().getName();
