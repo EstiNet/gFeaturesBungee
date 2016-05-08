@@ -31,6 +31,7 @@ public class EventHub{
 				if(!f.isDirectory()){
 					f.mkdir();
 				}
+				EstiMail.getMail(event.getPlayer());
 			}});
 	}
 }

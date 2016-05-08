@@ -68,7 +68,7 @@ public class SlashMail extends EstiCommand{
 							else{
 								String message = "";
 								for(int i = 2; i != args.length; i++){
-									message += args[i];
+									message += args[i] + " ";
 								}
 								EstiMail.sendMail(player.getName(), uuid, message);
 								sender.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "]" + ChatColor.DARK_AQUA + " Mail sent!");

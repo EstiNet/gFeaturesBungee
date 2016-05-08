@@ -25,7 +25,7 @@ import net.estinet.gFeatures.Feature.EstiMail.Commands.SlashMail;
 public class Configure{
 	@Configs
 	public static void onSetup(){
-		EstiMail base = new EstiMail("EstiMail", "1.0.0");
+		EstiMail base = new EstiMail("EstiMail", "1.0.1");
 		Basic.addFeature(base);
 		
 		Basic.addCommand(new SlashMail(base));

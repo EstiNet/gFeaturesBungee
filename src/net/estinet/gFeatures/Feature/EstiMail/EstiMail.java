@@ -17,9 +17,9 @@ import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.plugin.Event;
 
 public class EstiMail extends gFeature implements Events{
-	
+
 	EventHub eh = new EventHub();
-	
+
 	public EstiMail(String featurename, String d) {
 		super(featurename, d);
 	}
@@ -40,7 +40,8 @@ public class EstiMail extends gFeature implements Events{
 	@Override
 	@Retrieval
 	public void onPostLogin(){}
-	
+
+	@SuppressWarnings("deprecation")
 	public static void sendMail(String senderName, String recieverUUID, String mail){
 		File f = new File("plugins/gFeatures/EstiMail/" + recieverUUID);
 		if(!f.isDirectory()){
@@ -59,9 +60,15 @@ public class EstiMail extends gFeature implements Events{
 			}
 			try {
 				PrintWriter pw = new PrintWriter(fs);
-				pw.write(senderName + "\n");
+				pw.write(senderName + "\r\n");
 				pw.write(mail);
 				pw.close();
+				try{
+				if(!(ProxyServer.getInstance().getPlayer(recieverUUID) == null)){
+					ProxyServer.getInstance().getPlayer(recieverUUID).sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] " + ChatColor.RESET + "You have new mail! Do /mail read to check!");
+				}
+				}
+				catch(NullPointerException e){}
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -72,24 +79,26 @@ public class EstiMail extends gFeature implements Events{
 		File f = new File("plugins/gFeatures/EstiMail/" + reciever.getUniqueId().toString());
 		File[] array = f.listFiles();
 		String line = null;
-		int linenum = 1;
 		boolean hasmail = false;
 		String name = "";
 		for(File fs : array){
+			ProxyServer.getInstance().getLogger().info(fs.getAbsolutePath());
 			try {
 				FileReader fr = new FileReader(fs);
 				BufferedReader br = new BufferedReader(fr);
+				int linenum = 1;
 				while((line = br.readLine()) != null) {
+					ProxyServer.getInstance().getLogger().info(line);
 					if(linenum == 1){
 						name = line;
-	                }
+					}
 					else if(linenum == 2){
-						 reciever.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] " + ChatColor.RESET + "" + name + ": " + line);
-						 hasmail = true;
+						reciever.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] " + ChatColor.RESET + "" + name + ": " + line);
+						hasmail = true;
 					}
 					linenum++;
-	            }   
-	            br.close(); 
+				}   
+				br.close(); 
 			} catch (IOException e){
 				e.printStackTrace();
 			}
