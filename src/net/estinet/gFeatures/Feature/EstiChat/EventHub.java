@@ -51,15 +51,16 @@ public class EventHub{
 	}
 	@SuppressWarnings("deprecation")
 	public void onServerSwitch(ServerSwitchEvent event){
-		String previous = event.getPlayer().getServer().getInfo().getName();
+		String previous = new String(event.getPlayer().getServer().getInfo().getName());
 		ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
             public void run() {
+            	if(!previous.equals(event.getPlayer().getServer().getInfo().getName())){
             	for(ProxiedPlayer player : ProxyServer.getInstance().getPlayers()){
         			player.sendMessage(ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Switch" + ChatColor.GOLD + "] " + ChatColor.RESET + "(" + previous + " -> " + event.getPlayer().getServer().getInfo().getName() + ") " + event.getPlayer().getName());
         		}
         		CliotePing cp = new CliotePing();
         		cp.sendMessage("consolechat " + event.getPlayer().getServer().getInfo().getName() + " " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Switch" + ChatColor.GOLD + "] " + ChatColor.RESET + "(" + previous + " -> " + event.getPlayer().getServer().getInfo().getName() + ") " + event.getPlayer().getName(), "all");
-        	
+            	}
             }
          }, 1, TimeUnit.SECONDS);
 	}

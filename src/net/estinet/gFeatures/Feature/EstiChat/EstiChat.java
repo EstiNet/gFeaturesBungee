@@ -26,14 +26,13 @@ public class EstiChat extends gFeature implements Events{
 	}
 	@Override
 	public void eventTrigger(Event event) {
-		ProxyServer.getInstance().getLogger().info(event.getClass().getName().substring(0, 26));
-		if(event.getClass().getName().substring(0, 26).equalsIgnoreCase("postloginevent")){
+		if(event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("postloginevent")){
 			eh.onPlayerJoin((PostLoginEvent)event);
 		}
-		else if(event.getClass().getName().substring(0, 26).equalsIgnoreCase("playerdisconnectevent")){
+		else if(event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("playerdisconnectevent")){
 			eh.onPlayerDisconnect((PlayerDisconnectEvent)event);
 		}
-		else if(event.getClass().getName().substring(0, 26).equalsIgnoreCase("serverswitchevent")){
+		else if(event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("serverswitchevent")){
 			eh.onServerSwitch((ServerSwitchEvent)event);
 		}
 	}

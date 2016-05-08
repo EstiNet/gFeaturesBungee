@@ -23,7 +23,7 @@ public class EstiMail extends gFeature implements Events{
 	}
 	@Override
 	public void eventTrigger(Event event) {
-		if(event.getClass().getName().equalsIgnoreCase("playerhandshakeevent")){
+		if(event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("playerhandshakeevent")){
 			eh.onPlayerJoin((PlayerHandshakeEvent)event);
 		}
 	}
