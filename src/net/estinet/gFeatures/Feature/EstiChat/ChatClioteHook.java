@@ -18,6 +18,9 @@ public class ChatClioteHook extends ClioteHook{
 	@Override
 	public void run(List<String> args, String categoryName, String clioteName){
 		try{
+			String name = args.get(0);
+			args.remove(0);
+			String servername = ProxyServer.getInstance().getPlayer(name).getServer().getInfo().getName();
 			String mgs = "";
 			for(String arg : args){
 				mgs += arg + " ";
@@ -25,13 +28,13 @@ public class ChatClioteHook extends ClioteHook{
 			
 			ProxyServer.getInstance().getLogger().info(mgs);
 			for(ProxiedPlayer player : ProxyServer.getInstance().getPlayers()){
-				if(!player.getServer().getInfo().getName().equalsIgnoreCase(clioteName)){
-					player.sendMessage("[" + clioteName + "] " + mgs);
-					Debug.print("[EstiChat] Sent player " + player.getName() + " " + "[" + clioteName + "] " + mgs);
+				if(!player.getServer().getInfo().getName().equalsIgnoreCase(servername)){
+					player.sendMessage("[" + servername + "] " + mgs);
+					Debug.print("[EstiChat] Sent player " + player.getName() + " " + "[" + servername + "] " + mgs);
 				}
 			}
 			CliotePing cp = new CliotePing();
-			cp.sendMessage("consolechat " + clioteName + " " + mgs, "all");
+			cp.sendMessage("consolechat " + servername + " " + mgs, "all");
 		}
 		catch(Exception e){
 			e.printStackTrace();
