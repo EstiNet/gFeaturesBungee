@@ -1,15 +1,19 @@
 package net.estinet.gFeatures.Feature.EstiChat;
 
+import java.util.HashMap;
+
 import net.estinet.gFeatures.Events;
 import net.estinet.gFeatures.Retrieval;
 import net.estinet.gFeatures.gFeature;
-import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
+import net.md_5.bungee.api.event.ServerConnectEvent;
 import net.md_5.bungee.api.event.ServerSwitchEvent;
 import net.md_5.bungee.api.plugin.Event;
 
 public class EstiChat extends gFeature implements Events{
+	
+	public static HashMap<String, String> switcher = new HashMap<>();
 	
 	EventHub eh = new EventHub();
 	
@@ -35,6 +39,9 @@ public class EstiChat extends gFeature implements Events{
 		else if(event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("serverswitchevent")){
 			eh.onServerSwitch((ServerSwitchEvent)event);
 		}
+		else if(event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("serverconnectevent")){
+			eh.onServerConnect((ServerConnectEvent)event);
+		}
 	}
 	@Override
 	@Retrieval
@@ -42,6 +49,9 @@ public class EstiChat extends gFeature implements Events{
 	@Override
 	@Retrieval
 	public void onPlayerDisconnect(){}
+	@Override
+	@Retrieval
+	public void onServerConnect(){}
 	@Override
 	@Retrieval
 	public void onServerSwitch(){}

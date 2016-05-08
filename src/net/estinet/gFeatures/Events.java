@@ -24,4 +24,5 @@ public interface Events {
 	public void onPlayerDisconnect();
 	public void onServerSwitch();
 	public void onPostLogin();
+	public void onServerConnect();
 }
