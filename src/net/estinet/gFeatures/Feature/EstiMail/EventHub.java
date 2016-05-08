@@ -16,13 +16,21 @@ https://github.com/EstiNet/gFeatures
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-*/
+ */
 
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.event.PlayerHandshakeEvent;
+import java.io.File;
+
+import net.md_5.bungee.BungeeCord;
+import net.md_5.bungee.api.event.PostLoginEvent;
 
 public class EventHub{
-	public void onPlayerJoin(PlayerHandshakeEvent event){
-		ProxyServer.getInstance().getLogger().info("Player Joined!");
+	public void onPlayerJoin(PostLoginEvent event){
+		BungeeCord.getInstance().getPluginManager().getPlugin("gFeatures").getProxy().getScheduler().runAsync(BungeeCord.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
+			public void run(){
+				File f = new File("plugins/gFeatures/EstiMail/" + event.getPlayer().getUniqueId().toString());
+				if(!f.isDirectory()){
+					f.mkdir();
+				}
+			}});
 	}
 }

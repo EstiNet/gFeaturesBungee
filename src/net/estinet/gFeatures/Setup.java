@@ -35,5 +35,6 @@ public class Setup {
 		net.estinet.gFeatures.Feature.Alerts.Configure.onSetup();
 		net.estinet.gFeatures.Feature.MinigameAssister.Configure.onSetup();
 		net.estinet.gFeatures.Feature.EstiChat.Configure.onSetup();
+		net.estinet.gFeatures.Feature.EstiMail.Configure.onSetup();
 	}
 }

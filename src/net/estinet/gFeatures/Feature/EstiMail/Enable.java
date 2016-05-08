@@ -1,4 +1,4 @@
-package net.estinet.gFeatures.Feature.Base;
+package net.estinet.gFeatures.Feature.EstiMail;
 
 import net.md_5.bungee.api.ProxyServer;
 

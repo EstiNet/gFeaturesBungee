@@ -2,7 +2,6 @@ package net.estinet.gFeatures.Feature.EstiMail;
 
 import net.estinet.gFeatures.Basic;
 import net.estinet.gFeatures.Configs;
-import net.estinet.gFeatures.Feature.Base.Commands.TestCommand;
 /*
 gFeatures
 https://github.com/EstiNet/gFeatures
@@ -21,6 +20,7 @@ https://github.com/EstiNet/gFeatures
    See the License for the specific language governing permissions and
    limitations under the License.
 */
+import net.estinet.gFeatures.Feature.EstiMail.Commands.SlashMail;
 
 public class Configure{
 	@Configs
@@ -28,7 +28,6 @@ public class Configure{
 		EstiMail base = new EstiMail("EstiMail", "1.0.0");
 		Basic.addFeature(base);
 		
-		//Basic.addCommand(new TestCommand(base));
-		
+		Basic.addCommand(new SlashMail(base));
 	}
 }
