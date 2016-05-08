@@ -30,4 +30,8 @@ public class EstiMail extends gFeature implements Events{
 	@Override
 	@Retrieval
 	public void onPlayerHandshake(){}
+	
+	public static void sendMail(String uuid, String mail){
+		
+	}
 }
