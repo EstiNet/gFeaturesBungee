@@ -9,6 +9,7 @@ import net.estinet.gFeatures.Feature.EstiMail.EstiMail;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
@@ -59,6 +60,7 @@ public class SlashMail extends EstiCommand{
 							String uuid = "";
 							try {
 								uuid = uid.call().get(args[1]).toString();
+								ProxyServer.getInstance().getLogger().info(uuid);
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
