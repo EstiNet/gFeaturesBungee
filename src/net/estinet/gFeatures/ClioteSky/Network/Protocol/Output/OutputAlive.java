@@ -32,7 +32,7 @@ public class OutputAlive extends Packet{
 						}
 					}
 				}
-			}, 100, TimeUnit.SECONDS);
+			}, 5, TimeUnit.SECONDS);
 		}
 	}
 }
