@@ -19,7 +19,10 @@ https://github.com/EstiNet/gFeatures
 */
 
 import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 
+import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
 
 public class EventHub{
@@ -28,5 +31,18 @@ public class EventHub{
 		if(!f.isDirectory()){
 			f.mkdir();
 		}
+	}
+
+	public void onPlayerDisconnect(PlayerDisconnectEvent event) {
+		File f = new File("plugins/gFeatures/Friendship/" + event.getPlayer().getUniqueId() + "/seen");
+		if(!f.exists()){
+			try {
+				f.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		PrintWriter pw = new PrintWriter(f);
+		
 	}
 }
