@@ -24,7 +24,7 @@ import net.md_5.bungee.api.event.PostLoginEvent;
 
 public class EventHub{
 	public void onPlayerJoin(PostLoginEvent event){
-		File f = new File("plugins/gFeatures/Friendship/" + event.getPlayer().getUniqueId());
+		File f = new File("plugins/gFeatures/Friendship/" + event.getPlayer().getUniqueId() + "/");
 		if(!f.isDirectory()){
 			f.mkdir();
 		}

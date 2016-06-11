@@ -20,7 +20,6 @@ https://github.com/EstiNet/gFeatures
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-import net.estinet.gFeatures.Feature.Friendship.Commands.FriendsCommand;
 
 public class Configure{
 	@Configs
@@ -28,7 +27,6 @@ public class Configure{
 		Friendship base = new Friendship("Friendship", "1.0.0");
 		Basic.addFeature(base);
 		
-		Basic.addCommand(new FriendsCommand(base));
 		
 	}
 }
