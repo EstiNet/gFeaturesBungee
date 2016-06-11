@@ -6,7 +6,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 
 import net.estinet.gFeatures.Events;
 import net.estinet.gFeatures.Retrieval;
@@ -47,11 +50,11 @@ public class Friendship extends gFeature implements Events{
 	@Override
 	@Retrieval
 	public void onPostLogin(){}
-	
+
 	@Override
 	@Retrieval
 	public void onPlayerDisconnect(){}
-	
+
 	@SuppressWarnings("deprecation")
 	public static void friendRequest(ProxiedPlayer requester, String friend){
 		File f = new File("plugins/gFeatures/Friendship/" + requester.getUniqueId() + "/" + friend);
@@ -218,6 +221,29 @@ public class Friendship extends gFeature implements Events{
 		}
 	}
 	public static void getStatusDetails(String uuid, String cliotename){
-		CliotePing cp = new CliotePing();
+		if(ProxyServer.getInstance().getPlayer(uuid) != null){
+			CliotePing cp = new CliotePing();
+			cp.sendMessage("frienddetails online " + ProxyServer.getInstance().getPlayer(uuid).getServer().getInfo().getName(), cliotename);
+		}
+		else{
+			CliotePing cp = new CliotePing();
+			File f = new File("plugins/gFeatures/Friendship/" + uuid + "/seen");
+			try {
+				FileReader fr = new FileReader(f);
+				BufferedReader br = new BufferedReader(fr);
+				String date = br.readLine();
+				String server = br.readLine();
+				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+				long diff = Calendar.getInstance().getTimeInMillis() - dateFormat.parse(date).getTime();
+				long diffSeconds = diff / 1000 % 60;
+				long diffMinutes = diff / (60 * 1000) % 60;
+				long diffHours = diff / (60 * 60 * 1000) % 24;
+				long diffDays = diff / (24 * 60 * 60 * 1000);
+				cp.sendMessage("frienddetails offline " + server + " " + diffDays + " days, " + diffHours + " hours, " + diffMinutes + " minutes & " + diffSeconds + " seconds ago.", cliotename);
+				br.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
