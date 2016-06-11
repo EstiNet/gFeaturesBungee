@@ -16,6 +16,7 @@ import net.estinet.gFeatures.ClioteSky.API.CliotePing;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.plugin.Event;
 
@@ -39,11 +40,18 @@ public class Friendship extends gFeature implements Events{
 		if(event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("postloginevent")){
 			eh.onPlayerJoin((PostLoginEvent)event);
 		}
+		else if(event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("playerdisconnectevent")){
+			eh.onPlayerDisconnect((PlayerDisconnectEvent)event);
+		}
 	}
 	@Override
 	@Retrieval
 	public void onPostLogin(){}
-
+	
+	@Override
+	@Retrieval
+	public void onPlayerDisconnect(){}
+	
 	@SuppressWarnings("deprecation")
 	public static void friendRequest(ProxiedPlayer requester, String friend){
 		File f = new File("plugins/gFeatures/Friendship/" + requester.getUniqueId() + "/" + friend);
@@ -177,15 +185,39 @@ public class Friendship extends gFeature implements Events{
 					f.delete();
 				}
 				br.close();
+				CliotePing cp = new CliotePing();
+				cp.sendMessage("friendreq done", cliotename);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	public static void getFriends(ProxiedPlayer p){
-
+	public static void getFriends(ProxiedPlayer p, String cliotename){
+		File f = new File("plugins/gFeatures/Friendship/" + p.getUniqueId() + "/");
+		for(File fs : f.listFiles()){
+			try {
+				FileReader fr = new FileReader(fs);
+				BufferedReader br = new BufferedReader(fr);
+				String status = br.readLine();
+				if(!(status == null)){
+					if(status.equals("confirmed")){
+						CliotePing cp = new CliotePing();
+						UUIDFetcher uuid = new UUIDFetcher(Arrays.asList(fs.getName()));
+						cp.sendMessage("friendget " + uuid.call().get(fs.getName()).toString() + " " + p.getName() , cliotename);
+					}
+				}
+				else{
+					f.delete();
+				}
+				br.close();
+				CliotePing cp = new CliotePing();
+				cp.sendMessage("friendget done " + p.getName(), cliotename);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
-	public static void getStatusDetails(ProxiedPlayer p){
-
+	public static void getStatusDetails(String uuid, String cliotename){
+		CliotePing cp = new CliotePing();
 	}
 }
