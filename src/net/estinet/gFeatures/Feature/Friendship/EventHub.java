@@ -19,8 +19,12 @@ https://github.com/EstiNet/gFeatures
 */
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
@@ -42,7 +46,24 @@ public class EventHub{
 				e.printStackTrace();
 			}
 		}
-		PrintWriter pw = new PrintWriter(f);
+		else{
+			f.delete();
+			try {
+				f.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		try {
+			PrintWriter pw = new PrintWriter(f);
+			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			Calendar cal = Calendar.getInstance();
+			pw.write(dateFormat.format(cal.getTime()));
+			pw.write(event.getPlayer().getServer().getInfo().getName());
+			pw.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		
 	}
 }
