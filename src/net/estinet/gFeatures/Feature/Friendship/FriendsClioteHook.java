@@ -27,7 +27,7 @@ public class FriendsClioteHook extends ClioteHook{
 				File f = new File("plugins/gFeatures/Friendship/" + uf.call().get(args.get(2)) + "/");
 				ProxyServer.getInstance().getLogger().info(f.getPath());
 				if(f.isDirectory()){
-					Friendship.friendRequest(p, args.get(2));
+					Friendship.friendRequest(p, uf.call().get(args.get(2)).toString());
 				}
 				else{
 					p.sendMessage("[" + ChatColor.GOLD + "Friends" + ChatColor.WHITE + "] " + ChatColor.RED + "Player has never joined, or they don't exist!");

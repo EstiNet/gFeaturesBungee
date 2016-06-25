@@ -194,9 +194,9 @@ public class Friendship extends gFeature implements Events{
 				String status = br.readLine();
 				if(!(status == null)){
 					if(status.equals("pending")){
-						CliotePing cp = new CliotePing();
 						UUIDFetcher uuid = new UUIDFetcher(Arrays.asList(fs.getName()));
-						cp.sendMessage("friendreq " + uuid.call().get(fs.getName()).toString() + " " + p.getName() , cliotename);
+						CliotePing cp = new CliotePing();
+						cp.sendMessage("friendreq " + uuid.call().get(fs.getName()) + " " + p.getName() , cliotename);
 					}
 				}
 				else{
