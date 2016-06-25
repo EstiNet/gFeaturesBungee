@@ -24,7 +24,7 @@ https://github.com/EstiNet/gFeatures
 public class Configure{
 	@Configs
 	public static void onSetup(){
-		Friendship base = new Friendship("Friendship", "1.0.0");
+		Friendship base = new Friendship("Friendship", "1.0.0");//
 		Basic.addFeature(base);
 		
 		

@@ -158,7 +158,7 @@ public class Friendship extends gFeature implements Events{
 	public static void unFriend(ProxiedPlayer unfriender, String hate){
 		File f = new File("plugins/gFeatures/Friendship/" + unfriender.getUniqueId() + "/" + hate);
 		File fs = new File("plugins/gFeatures/Friendship/" + hate + "/" + unfriender.getUniqueId());
-		if(!fs.exists() && !f.exists()){
+		if((!fs.exists() && !f.exists()) || (!fs.exists() | !f.exists())){
 			UUIDFetcher uf = new UUIDFetcher(Arrays.asList(hate));
 			try {
 				unfriender.sendMessage("[" + ChatColor.GOLD + "Friends" + ChatColor.WHITE + "] " + uf.call().get(hate) + " is not added as a friend.");
@@ -199,7 +199,7 @@ public class Friendship extends gFeature implements Events{
 				}
 				br.close();
 				CliotePing cp = new CliotePing();
-				cp.sendMessage("friendreq done", cliotename);
+				cp.sendMessage("friendreq done " + p.getName(), cliotename);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
