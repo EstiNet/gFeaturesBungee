@@ -43,7 +43,7 @@ public class FriendsClioteHook extends ClioteHook{
 				//Gets all friend requests of player
 				break;
 			case "obtain":
-				Friendship.getStatusDetails(args.get(0), clioteName);
+				Friendship.getStatusDetails(args.get(1), clioteName);
 				//Get specific details of player
 				break;
 			case "unfriend":
