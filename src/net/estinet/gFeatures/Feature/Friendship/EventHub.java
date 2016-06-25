@@ -58,7 +58,7 @@ public class EventHub{
 			PrintWriter pw = new PrintWriter(f);
 			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			Calendar cal = Calendar.getInstance();
-			pw.write(dateFormat.format(cal.getTime()));
+			pw.write(dateFormat.format(cal.getTime()) + "\n");
 			pw.write(event.getPlayer().getServer().getInfo().getName());
 			pw.close();
 		} catch (FileNotFoundException e) {

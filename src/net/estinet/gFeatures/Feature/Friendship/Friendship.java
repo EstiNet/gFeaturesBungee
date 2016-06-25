@@ -155,29 +155,34 @@ public class Friendship extends gFeature implements Events{
 		}
 	}
 	@SuppressWarnings("deprecation")
-	public static void unFriend(ProxiedPlayer unfriender, String hate){
-		File f = new File("plugins/gFeatures/Friendship/" + unfriender.getUniqueId() + "/" + hate);
-		File fs = new File("plugins/gFeatures/Friendship/" + hate + "/" + unfriender.getUniqueId());
-		if((!fs.exists() && !f.exists()) || (!fs.exists() | !f.exists())){
-			UUIDFetcher uf = new UUIDFetcher(Arrays.asList(hate));
-			try {
-				unfriender.sendMessage("[" + ChatColor.GOLD + "Friends" + ChatColor.WHITE + "] " + uf.call().get(hate) + " is not added as a friend.");
-			} catch (Exception e) {
-				e.printStackTrace();
+	public static void unFriend(ProxiedPlayer unfriender, String hates){
+		try{
+			UUIDFetcher uf = new UUIDFetcher(Arrays.asList(hates));
+			String hate = uf.call().get(hates).toString();
+			File f = new File("plugins/gFeatures/Friendship/" + unfriender.getUniqueId() + "/" + hate);
+			File fs = new File("plugins/gFeatures/Friendship/" + hate + "/" + unfriender.getUniqueId());
+			if((!fs.exists() && !f.exists()) || (!fs.exists() | !f.exists())){
+				try {
+					unfriender.sendMessage("[" + ChatColor.GOLD + "Friends" + ChatColor.WHITE + "] " + hates + " is not added as a friend.");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			else{
+				f.delete();
+				fs.delete();
+				try {
+					unfriender.sendMessage("[" + ChatColor.GOLD + "Friends" + ChatColor.WHITE + "] Unfriended " + hates + ".");
+					if(ProxyServer.getInstance().getPlayer(hate) != null){
+						ProxyServer.getInstance().getPlayer(hate).sendMessage("[" + ChatColor.GOLD + "Friends" + ChatColor.WHITE + "] " + unfriender.getName() + " unfriended you!");
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
-		else{
-			f.delete();
-			fs.delete();
-			UUIDFetcher uf = new UUIDFetcher(Arrays.asList(hate));
-			try {
-				unfriender.sendMessage("[" + ChatColor.GOLD + "Friends" + ChatColor.WHITE + "] Unfriended " + uf.call().get(hate) + ".");
-				if(ProxyServer.getInstance().getPlayer(hate) != null){
-					ProxyServer.getInstance().getPlayer(hate).sendMessage("[" + ChatColor.GOLD + "Friends" + ChatColor.WHITE + "] " + unfriender.getName() + " unfriended you!");
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		catch(Exception e){
+			e.printStackTrace();
 		}
 	}
 	public static void getFriendRequests(ProxiedPlayer p, String cliotename){
