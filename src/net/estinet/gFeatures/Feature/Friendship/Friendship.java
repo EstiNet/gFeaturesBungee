@@ -157,17 +157,27 @@ public class Friendship extends gFeature implements Events{
 	@SuppressWarnings("deprecation")
 	public static void unFriend(ProxiedPlayer unfriender, String hate){
 		File f = new File("plugins/gFeatures/Friendship/" + unfriender.getUniqueId() + "/" + hate);
-		f.delete();
 		File fs = new File("plugins/gFeatures/Friendship/" + hate + "/" + unfriender.getUniqueId());
-		fs.delete();
-		UUIDFetcher uf = new UUIDFetcher(Arrays.asList(hate));
-		try {
-			unfriender.sendMessage("[" + ChatColor.GOLD + "Friends" + ChatColor.WHITE + "] Unfriended " + uf.call().get(hate) + ".");
-			if(ProxyServer.getInstance().getPlayer(hate) != null){
-				ProxyServer.getInstance().getPlayer(hate).sendMessage("[" + ChatColor.GOLD + "Friends" + ChatColor.WHITE + "] " + unfriender.getName() + " unfriended you!");
+		if(!fs.exists() && !f.exists()){
+			UUIDFetcher uf = new UUIDFetcher(Arrays.asList(hate));
+			try {
+				unfriender.sendMessage("[" + ChatColor.GOLD + "Friends" + ChatColor.WHITE + "] " + uf.call().get(hate) + " is not added as a friend.");
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		}
+		else{
+			f.delete();
+			fs.delete();
+			UUIDFetcher uf = new UUIDFetcher(Arrays.asList(hate));
+			try {
+				unfriender.sendMessage("[" + ChatColor.GOLD + "Friends" + ChatColor.WHITE + "] Unfriended " + uf.call().get(hate) + ".");
+				if(ProxyServer.getInstance().getPlayer(hate) != null){
+					ProxyServer.getInstance().getPlayer(hate).sendMessage("[" + ChatColor.GOLD + "Friends" + ChatColor.WHITE + "] " + unfriender.getName() + " unfriended you!");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	public static void getFriendRequests(ProxiedPlayer p, String cliotename){
