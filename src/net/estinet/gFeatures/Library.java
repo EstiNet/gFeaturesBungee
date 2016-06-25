@@ -3,6 +3,7 @@ package net.estinet.gFeatures;
 import java.util.ConcurrentModificationException;
 import java.util.List;
 
+import net.estinet.gFeatures.API.Resolver.JoinHandler;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PlayerHandshakeEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
@@ -46,6 +47,8 @@ public class Library implements Listener{
 	}
 	@EventHandler
 	public void onPostLogin(PostLoginEvent event){
+		JoinHandler jh = new JoinHandler();
+		jh.init(event.getPlayer());
 		check("onPostLogin", event);
 	}
 	@EventHandler

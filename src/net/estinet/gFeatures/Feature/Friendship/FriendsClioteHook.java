@@ -43,7 +43,6 @@ public class FriendsClioteHook extends ClioteHook{
 				//Gets all friends of player
 				break;
 			case "requests":
-				ProxyServer.getInstance().getLogger().info("requests");
 				Friendship.getFriendRequests(ProxyServer.getInstance().getPlayer(args.get(1)), clioteName);
 				//Gets all friend requests of player
 				break;

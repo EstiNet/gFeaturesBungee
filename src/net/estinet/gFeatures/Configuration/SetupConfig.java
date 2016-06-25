@@ -39,6 +39,7 @@ public class SetupConfig {
 	public static void setup(){
 		config.createDirectory("plugins/gFeatures", "Setup the gFeatures directory for use!");
 		config.createFile("plugins/gFeatures/Config.yml", "Setup the gFeatures config for use!");
+		config.createDirectory("plugins/gFeatures/Resolver", "Setup the Resolver utility directory!");
 
 		Properties prop = new Properties();
 		OutputStream output = null;

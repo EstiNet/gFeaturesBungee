@@ -1,5 +1,6 @@
 package net.estinet.gFeatures;
 
+import net.estinet.gFeatures.API.Resolver.EnableResolver;
 import net.estinet.gFeatures.ClioteSky.ClioteInit;
 import net.estinet.gFeatures.Configuration.LoadConfig;
 import net.estinet.gFeatures.Configuration.SetupConfig;
