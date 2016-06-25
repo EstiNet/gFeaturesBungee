@@ -221,9 +221,16 @@ public class Friendship extends gFeature implements Events{
 		}
 	}
 	public static void getStatusDetails(String uuid, String cliotename){
+		UUIDFetcher uuids = new UUIDFetcher(Arrays.asList(uuid));
+		String name = "";
+		try {
+			name = uuids.call().get(uuid).toString();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 		if(ProxyServer.getInstance().getPlayer(uuid) != null){
 			CliotePing cp = new CliotePing();
-			cp.sendMessage("frienddetails online " + ProxyServer.getInstance().getPlayer(uuid).getServer().getInfo().getName(), cliotename);
+			cp.sendMessage("frienddetails online " + ProxyServer.getInstance().getPlayer(uuid).getServer().getInfo().getName() + " " + name, cliotename);
 		}
 		else{
 			CliotePing cp = new CliotePing();
@@ -239,7 +246,7 @@ public class Friendship extends gFeature implements Events{
 				long diffMinutes = diff / (60 * 1000) % 60;
 				long diffHours = diff / (60 * 60 * 1000) % 24;
 				long diffDays = diff / (24 * 60 * 60 * 1000);
-				cp.sendMessage("frienddetails offline " + server + " " + diffDays + " days, " + diffHours + " hours, " + diffMinutes + " minutes & " + diffSeconds + " seconds ago.", cliotename);
+				cp.sendMessage("frienddetails offline " + name + " " + server + " " + diffDays + " days, " + diffHours + " hours, " + diffMinutes + " minutes & " + diffSeconds + " seconds ago.", cliotename);
 				br.close();
 			} catch (Exception e) {
 				e.printStackTrace();
