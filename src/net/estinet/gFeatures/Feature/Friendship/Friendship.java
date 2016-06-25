@@ -14,6 +14,7 @@ import java.util.Calendar;
 import net.estinet.gFeatures.Events;
 import net.estinet.gFeatures.Retrieval;
 import net.estinet.gFeatures.gFeature;
+import net.estinet.gFeatures.API.MojangAPI.BungeeNameFetcher;
 import net.estinet.gFeatures.API.MojangAPI.UUIDFetcher;
 import net.estinet.gFeatures.ClioteSky.API.CliotePing;
 import net.md_5.bungee.api.ChatColor;
@@ -194,17 +195,22 @@ public class Friendship extends gFeature implements Events{
 				String status = br.readLine();
 				if(!(status == null)){
 					if(status.equals("pending")){
-						UUIDFetcher uuid = new UUIDFetcher(Arrays.asList(fs.getName()));
 						CliotePing cp = new CliotePing();
-						cp.sendMessage("friendreq " + uuid.call().get(fs.getName()) + " " + p.getName() , cliotename);
+						cp.sendMessage("friendreq " + BungeeNameFetcher.getName(fs.getName()) + " " + p.getName() , cliotename);
 					}
 				}
 				else{
 					f.delete();
 				}
 				br.close();
-				CliotePing cp = new CliotePing();
-				cp.sendMessage("friendreq done " + p.getName(), cliotename);
+				ProxyServer.getInstance().getScheduler().runAsync(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
+					@Override
+					public void run() {
+						CliotePing cp = new CliotePing();
+						cp.sendMessage("friendreq done " + p.getName(), cliotename);
+					}
+				});
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -220,16 +226,20 @@ public class Friendship extends gFeature implements Events{
 				if(!(status == null)){
 					if(status.equals("confirmed")){
 						CliotePing cp = new CliotePing();
-						UUIDFetcher uuid = new UUIDFetcher(Arrays.asList(fs.getName()));
-						cp.sendMessage("friendget " + uuid.call().get(fs.getName()).toString() + " " + p.getName() , cliotename);
+						cp.sendMessage("friendget " + BungeeNameFetcher.getName(fs.getName()) + " " + p.getName() , cliotename);
 					}
 				}
 				else{
 					f.delete();
 				}
 				br.close();
-				CliotePing cp = new CliotePing();
-				cp.sendMessage("friendget done " + p.getName(), cliotename);
+				ProxyServer.getInstance().getScheduler().runAsync(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
+					@Override
+					public void run() {
+						CliotePing cp = new CliotePing();
+						cp.sendMessage("friendget done " + p.getName(), cliotename);
+					}
+				});
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
