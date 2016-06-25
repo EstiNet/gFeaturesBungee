@@ -25,7 +25,7 @@ import net.estinet.gFeatures.ClioteSky.ClioteSky;
 public class Configure{
 	@Configs
 	public static void onSetup(){
-		Friendship base = new Friendship("Friendship", "1.0.0");
+		Friendship base = new Friendship("Friendship", "1.0.5");
 		Basic.addFeature(base);
 		
 		FriendsClioteHook mmap = new FriendsClioteHook(base);

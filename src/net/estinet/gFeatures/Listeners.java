@@ -1,6 +1,5 @@
 package net.estinet.gFeatures;
 
-import net.estinet.gFeatures.API.Resolver.EnableResolver;
 import net.estinet.gFeatures.ClioteSky.ClioteInit;
 import net.estinet.gFeatures.Configuration.LoadConfig;
 import net.estinet.gFeatures.Configuration.SetupConfig;
@@ -26,7 +25,7 @@ https://github.com/EstiNet/gFeatures
  */
 
 public class Listeners extends Plugin{
-	public static final String version = "3.4.1c";
+	public static final String version = "3.5.0c";
 	public static boolean debug = false;
 
 	Enabler enable = new Enabler();

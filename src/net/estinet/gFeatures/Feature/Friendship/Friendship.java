@@ -126,7 +126,7 @@ public class Friendship extends gFeature implements Events{
 		//UUIDFetcher uf = new UUIDFetcher(Arrays.asList(friend));
 		String name = "";
 		try {
-			name = ResolverFetcher.getUUIDfromName(name);
+			name = ResolverFetcher.getUUIDfromName(friend);
 			//name = uf.call().get(friend).toString();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -143,6 +143,7 @@ public class Friendship extends gFeature implements Events{
 		}
 		File fs = new File("plugins/gFeatures/Friendship/" + name + "/" + confirmer.getUniqueId());
 		fs.delete();
+		System.out.println(fs.getPath());
 		try {
 			fs.createNewFile();
 			PrintWriter pw = new PrintWriter(fs);
@@ -223,6 +224,7 @@ public class Friendship extends gFeature implements Events{
 		File f = new File("plugins/gFeatures/Friendship/" + p.getUniqueId() + "/");
 		for(File fs : f.listFiles()){
 			if(!fs.getName().equals("seen")){
+				ProxyServer.getInstance().getLogger().info(fs.getName());
 				try {
 					FileReader fr = new FileReader(fs);
 					BufferedReader br = new BufferedReader(fr);
@@ -231,6 +233,7 @@ public class Friendship extends gFeature implements Events{
 						if(status.equals("confirmed")){
 							CliotePing cp = new CliotePing();
 							cp.sendMessage("friendget " + ResolverFetcher.getNamefromUUID(fs.getName()) + " " + p.getName() , cliotename);
+							Friendship.getStatusDetails(ResolverFetcher.getNamefromUUID(fs.getName()), cliotename);
 						}
 					}
 					else{

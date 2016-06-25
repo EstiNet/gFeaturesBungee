@@ -1,11 +1,10 @@
 package net.estinet.gFeatures.Feature.Friendship;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.List;
 
 import net.estinet.gFeatures.gFeature;
-import net.estinet.gFeatures.API.MojangAPI.UUIDFetcher;
+import net.estinet.gFeatures.API.Resolver.ResolverFetcher;
 import net.estinet.gFeatures.ClioteSky.API.ClioteHook;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
@@ -23,11 +22,10 @@ public class FriendsClioteHook extends ClioteHook{
 			switch(args.get(0)){
 			case "request":
 				ProxiedPlayer p = ProxyServer.getInstance().getPlayer(args.get(1));
-				UUIDFetcher uf = new UUIDFetcher(Arrays.asList(args.get(2)));
-				File f = new File("plugins/gFeatures/Friendship/" + uf.call().get(args.get(2)) + "/");
+				File f = new File("plugins/gFeatures/Friendship/" + ResolverFetcher.getUUIDfromName(args.get(2)) + "/");
 				ProxyServer.getInstance().getLogger().info(f.getPath());
 				if(f.isDirectory()){
-					Friendship.friendRequest(p, uf.call().get(args.get(2)).toString());
+					Friendship.friendRequest(p, ResolverFetcher.getUUIDfromName(args.get(2)).toString());
 				}
 				else{
 					p.sendMessage("[" + ChatColor.GOLD + "Friends" + ChatColor.WHITE + "] " + ChatColor.RED + "Player has never joined, or they don't exist!");

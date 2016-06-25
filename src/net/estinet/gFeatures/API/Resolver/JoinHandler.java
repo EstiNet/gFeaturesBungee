@@ -19,6 +19,9 @@ public class JoinHandler {
 		if(!cur.exists()){
 			try {
 				cur.createNewFile();
+				PrintWriter pw = new PrintWriter(cur);
+				pw.write(p.getName());
+				pw.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
