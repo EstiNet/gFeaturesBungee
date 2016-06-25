@@ -2,7 +2,6 @@ package net.estinet.gFeatures.Feature.Friendship;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,8 +13,9 @@ import java.util.Calendar;
 import net.estinet.gFeatures.Events;
 import net.estinet.gFeatures.Retrieval;
 import net.estinet.gFeatures.gFeature;
-import net.estinet.gFeatures.API.MojangAPI.BungeeNameFetcher;
-import net.estinet.gFeatures.API.MojangAPI.UUIDFetcher;
+//import net.estinet.gFeatures.API.MojangAPI.BungeeNameFetcher;
+//import net.estinet.gFeatures.API.MojangAPI.UUIDFetcher;
+import net.estinet.gFeatures.API.Resolver.ResolverFetcher;
 import net.estinet.gFeatures.ClioteSky.API.CliotePing;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
@@ -123,10 +123,11 @@ public class Friendship extends gFeature implements Events{
 	}
 	@SuppressWarnings("deprecation")
 	public static void friendConfirm(ProxiedPlayer confirmer, String friend){
-		UUIDFetcher uf = new UUIDFetcher(Arrays.asList(friend));
+		//UUIDFetcher uf = new UUIDFetcher(Arrays.asList(friend));
 		String name = "";
 		try {
-			name = uf.call().get(friend).toString();
+			name = ResolverFetcher.getUUIDfromName(name);
+			//name = uf.call().get(friend).toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -158,8 +159,9 @@ public class Friendship extends gFeature implements Events{
 	@SuppressWarnings("deprecation")
 	public static void unFriend(ProxiedPlayer unfriender, String hates){
 		try{
-			UUIDFetcher uf = new UUIDFetcher(Arrays.asList(hates));
-			String hate = uf.call().get(hates).toString();
+			//UUIDFetcher uf = new UUIDFetcher(Arrays.asList(hates));
+			//String hate = uf.call().get(hates).toString();
+			String hate = ResolverFetcher.getUUIDfromName(hates);
 			File f = new File("plugins/gFeatures/Friendship/" + unfriender.getUniqueId() + "/" + hate);
 			File fs = new File("plugins/gFeatures/Friendship/" + hate + "/" + unfriender.getUniqueId());
 			if((!fs.exists() && !f.exists()) || (!fs.exists() | !f.exists())){
@@ -197,7 +199,7 @@ public class Friendship extends gFeature implements Events{
 					if(!(status == null)){
 						if(status.equals("pending")){
 							CliotePing cp = new CliotePing();
-							cp.sendMessage("friendreq " + BungeeNameFetcher.getName(fs.getName()) + " " + p.getName() , cliotename);
+							cp.sendMessage("friendreq " + ResolverFetcher.getNamefromUUID(fs.getName()) + " " + p.getName() , cliotename);
 						}
 					}
 					else{
@@ -228,7 +230,7 @@ public class Friendship extends gFeature implements Events{
 					if(!(status == null)){
 						if(status.equals("confirmed")){
 							CliotePing cp = new CliotePing();
-							cp.sendMessage("friendget " + BungeeNameFetcher.getName(fs.getName()) + " " + p.getName() , cliotename);
+							cp.sendMessage("friendget " + ResolverFetcher.getNamefromUUID(fs.getName()) + " " + p.getName() , cliotename);
 						}
 					}
 					else{
@@ -250,20 +252,21 @@ public class Friendship extends gFeature implements Events{
 		});
 	}
 	public static void getStatusDetails(String uuid, String cliotename){
-		UUIDFetcher uuids = new UUIDFetcher(Arrays.asList(uuid));
+		//UUIDFetcher uuids = new UUIDFetcher(Arrays.asList(uuid));
 		String name = "";
 		try {
-			name = uuids.call().get(uuid).toString();
+			//name = uuids.call().get(uuid).toString();
+			name = ResolverFetcher.getUUIDfromName(uuid);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 		if(ProxyServer.getInstance().getPlayer(uuid) != null){
 			CliotePing cp = new CliotePing();
-			cp.sendMessage("frienddetails online " + ProxyServer.getInstance().getPlayer(uuid).getServer().getInfo().getName() + " " + name, cliotename);
+			cp.sendMessage("frienddetails online " + ProxyServer.getInstance().getPlayer(uuid).getServer().getInfo().getName() + " " + uuid, cliotename);
 		}
 		else{
 			CliotePing cp = new CliotePing();
-			File f = new File("plugins/gFeatures/Friendship/" + uuid + "/seen");
+			File f = new File("plugins/gFeatures/Friendship/" + name + "/seen");
 			try {
 				FileReader fr = new FileReader(f);
 				BufferedReader br = new BufferedReader(fr);
@@ -275,7 +278,7 @@ public class Friendship extends gFeature implements Events{
 				long diffMinutes = diff / (60 * 1000) % 60;
 				long diffHours = diff / (60 * 60 * 1000) % 24;
 				long diffDays = diff / (24 * 60 * 60 * 1000);
-				cp.sendMessage("frienddetails offline " + name + " " + server + " " + diffDays + " days, " + diffHours + " hours, " + diffMinutes + " minutes & " + diffSeconds + " seconds ago.", cliotename);
+				cp.sendMessage("frienddetails offline " + uuid + " " + server + " " + diffDays + " days, " + diffHours + " hours, " + diffMinutes + " minutes & " + diffSeconds + " seconds ago.", cliotename);
 				br.close();
 			} catch (Exception e) {
 				e.printStackTrace();
