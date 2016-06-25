@@ -189,61 +189,65 @@ public class Friendship extends gFeature implements Events{
 	public static void getFriendRequests(ProxiedPlayer p, String cliotename){
 		File f = new File("plugins/gFeatures/Friendship/" + p.getUniqueId() + "/");
 		for(File fs : f.listFiles()){
-			try {
-				FileReader fr = new FileReader(fs);
-				BufferedReader br = new BufferedReader(fr);
-				String status = br.readLine();
-				if(!(status == null)){
-					if(status.equals("pending")){
-						CliotePing cp = new CliotePing();
-						cp.sendMessage("friendreq " + BungeeNameFetcher.getName(fs.getName()) + " " + p.getName() , cliotename);
+			if(!fs.getName().equals("seen")){
+				try {
+					FileReader fr = new FileReader(fs);
+					BufferedReader br = new BufferedReader(fr);
+					String status = br.readLine();
+					if(!(status == null)){
+						if(status.equals("pending")){
+							CliotePing cp = new CliotePing();
+							cp.sendMessage("friendreq " + BungeeNameFetcher.getName(fs.getName()) + " " + p.getName() , cliotename);
+						}
 					}
-				}
-				else{
-					f.delete();
-				}
-				br.close();
-				ProxyServer.getInstance().getScheduler().runAsync(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
-					@Override
-					public void run() {
-						CliotePing cp = new CliotePing();
-						cp.sendMessage("friendreq done " + p.getName(), cliotename);
+					else{
+						f.delete();
 					}
-				});
-
-			} catch (Exception e) {
-				e.printStackTrace();
+					br.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
+		ProxyServer.getInstance().getScheduler().runAsync(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
+			@Override
+			public void run() {
+				CliotePing cp = new CliotePing();
+				cp.sendMessage("friendreq done " + p.getName(), cliotename);
+			}
+		});
 	}
 	public static void getFriends(ProxiedPlayer p, String cliotename){
 		File f = new File("plugins/gFeatures/Friendship/" + p.getUniqueId() + "/");
 		for(File fs : f.listFiles()){
-			try {
-				FileReader fr = new FileReader(fs);
-				BufferedReader br = new BufferedReader(fr);
-				String status = br.readLine();
-				if(!(status == null)){
-					if(status.equals("confirmed")){
-						CliotePing cp = new CliotePing();
-						cp.sendMessage("friendget " + BungeeNameFetcher.getName(fs.getName()) + " " + p.getName() , cliotename);
+			if(!fs.getName().equals("seen")){
+				try {
+					FileReader fr = new FileReader(fs);
+					BufferedReader br = new BufferedReader(fr);
+					String status = br.readLine();
+					if(!(status == null)){
+						if(status.equals("confirmed")){
+							CliotePing cp = new CliotePing();
+							cp.sendMessage("friendget " + BungeeNameFetcher.getName(fs.getName()) + " " + p.getName() , cliotename);
+						}
 					}
-				}
-				else{
-					f.delete();
-				}
-				br.close();
-				ProxyServer.getInstance().getScheduler().runAsync(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
-					@Override
-					public void run() {
-						CliotePing cp = new CliotePing();
-						cp.sendMessage("friendget done " + p.getName(), cliotename);
+					else{
+						f.delete();
 					}
-				});
-			} catch (Exception e) {
-				e.printStackTrace();
+					br.close();
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
+		ProxyServer.getInstance().getScheduler().runAsync(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
+			@Override
+			public void run() {
+				CliotePing cp = new CliotePing();
+				cp.sendMessage("friendget done " + p.getName(), cliotename);
+			}
+		});
 	}
 	public static void getStatusDetails(String uuid, String cliotename){
 		UUIDFetcher uuids = new UUIDFetcher(Arrays.asList(uuid));
