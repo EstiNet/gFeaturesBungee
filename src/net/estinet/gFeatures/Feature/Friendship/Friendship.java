@@ -123,7 +123,14 @@ public class Friendship extends gFeature implements Events{
 	}
 	@SuppressWarnings("deprecation")
 	public static void friendConfirm(ProxiedPlayer confirmer, String friend){
-		File f = new File("plugins/gFeatures/Friendship/" + confirmer.getUniqueId() + "/" + friend);
+		UUIDFetcher uf = new UUIDFetcher(Arrays.asList(friend));
+		String name = "";
+		try {
+			name = uf.call().get(friend).toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		File f = new File("plugins/gFeatures/Friendship/" + confirmer.getUniqueId() + "/" + name);
 		f.delete();
 		try {
 			f.createNewFile();
@@ -133,7 +140,7 @@ public class Friendship extends gFeature implements Events{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		File fs = new File("plugins/gFeatures/Friendship/" + friend + "/" + confirmer.getUniqueId());
+		File fs = new File("plugins/gFeatures/Friendship/" + name + "/" + confirmer.getUniqueId());
 		fs.delete();
 		try {
 			fs.createNewFile();
@@ -143,14 +150,7 @@ public class Friendship extends gFeature implements Events{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		UUIDFetcher uf = new UUIDFetcher(Arrays.asList(friend));
-		String name = "";
-		try {
-			name = uf.call().get(friend).toString();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		confirmer.sendMessage("[" + ChatColor.GOLD + "Friends" + ChatColor.WHITE + "] You and " + name + " are now friends!");
+		confirmer.sendMessage("[" + ChatColor.GOLD + "Friends" + ChatColor.WHITE + "] You and " + friend + " are now friends!");
 		if(ProxyServer.getInstance().getPlayer(name) != null){
 			ProxyServer.getInstance().getPlayer(name).sendMessage("[" + ChatColor.GOLD + "Friends" + ChatColor.WHITE + "] You and " + confirmer.getName() + " are now friends!");
 		}
