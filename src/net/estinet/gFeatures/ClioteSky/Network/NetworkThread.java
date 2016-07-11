@@ -85,7 +85,7 @@ public class NetworkThread {
 			            public void run() {
 			            	ClioteSky.setSyncedOutput(false);
 			            }
-			         }, 1, TimeUnit.SECONDS);
+			         }, 30, TimeUnit.MICROSECONDS);
 					}
 					catch(NullPointerException e){
 						ClioteConfigUtil ccu = new ClioteConfigUtil();
