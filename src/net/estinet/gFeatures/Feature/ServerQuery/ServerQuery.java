@@ -3,7 +3,7 @@ package net.estinet.gFeatures.Feature.ServerQuery;
 import net.estinet.gFeatures.Events;
 import net.estinet.gFeatures.Retrieval;
 import net.estinet.gFeatures.gFeature;
-import net.md_5.bungee.api.event.PlayerHandshakeEvent;
+import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.plugin.Event;
 
@@ -27,9 +27,15 @@ public class ServerQuery extends gFeature implements Events{
 		if(event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("postloginevent")){
 			eh.onPlayerJoin((PostLoginEvent)event);
 		}
+		else if(event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("playerdisconnectevent")){
+			eh.onPlayerLeave((PlayerDisconnectEvent)event);
+		}
 	}
 	@Override
 	@Retrieval
 	public void onPostLogin(){}
 	
+	@Override
+	@Retrieval
+	public void onPlayerDisconnect(){}
 }
