@@ -2,6 +2,7 @@ package net.estinet.gFeatures.Feature.ServerQuery;
 
 import net.estinet.gFeatures.Basic;
 import net.estinet.gFeatures.Configs;
+import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.estinet.gFeatures.Feature.Base.Commands.TestCommand;
 /*
 gFeatures
@@ -25,10 +26,10 @@ https://github.com/EstiNet/gFeatures
 public class Configure{
 	@Configs
 	public static void onSetup(){
-		ServerQuery base = new ServerQuery("Base", "1.0.0");
+		ServerQuery base = new ServerQuery("ServerQuery", "1.0.0");
 		Basic.addFeature(base);
 		
-		Basic.addCommand(new TestCommand(base));
-		
+		ServerQueryClioteHook sqch = new ServerQueryClioteHook(base);
+		ClioteSky.addClioteHook(sqch);
 	}
 }
