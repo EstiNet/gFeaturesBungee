@@ -15,14 +15,16 @@ public class ServerQueryClioteHook extends ClioteHook{
 	@Override
 	public void run(List<String> args, String categoryName, String clioteName){
 		try{
-			CliotePing cp = new CliotePing();
-			switch(args.get(0)){
-			case "online":
-				cp.sendMessage("info online " + ProxyServer.getInstance().getOnlineCount(), clioteName);
-				break;
-			case "serverget":
-				cp.sendMessage("info serverget " + args.get(1) + " " + ProxyServer.getInstance().getPlayer(args.get(2)).getServer().getInfo().getName(), clioteName);
-				break;
+			if(!clioteName.equals("Bungee")){
+				CliotePing cp = new CliotePing();
+				switch(args.get(0)){
+				case "online":
+					cp.sendMessage("info online " + ProxyServer.getInstance().getOnlineCount(), clioteName);
+					break;
+				case "serverget":
+					cp.sendMessage("info serverget " + args.get(1) + " " + ProxyServer.getInstance().getPlayer(args.get(2)).getServer().getInfo().getName(), clioteName);
+					break;
+				}
 			}
 		}
 		catch(Exception e){
