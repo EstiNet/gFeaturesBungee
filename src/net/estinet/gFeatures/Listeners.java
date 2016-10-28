@@ -25,7 +25,7 @@ https://github.com/EstiNet/gFeatures
  */
 
 public class Listeners extends Plugin{
-	public static final String version = "3.5.0c";
+	public static final String version = "3.5.1c";
 	public static boolean debug = false;
 
 	Enabler enable = new Enabler();

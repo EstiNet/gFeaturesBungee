@@ -64,6 +64,12 @@ public class ClioteConfigUtil {
 		}
 	}
 	public void addCacheEntry(String message){
+		if(message.split(" ")[0].equalsIgnoreCase("hello")){
+			return;
+		}
+		if(message.split(" ")[0].equalsIgnoreCase("create")){
+			return;
+		}
 		File file = new File("plugins/gFeatures/cliotecache.txt");
 		ClioteSky.cachedQueries.add(message);
 		BufferedWriter output;

@@ -14,6 +14,6 @@ public class EventHub {
 	
 	public void onPlayerLeave(PlayerDisconnectEvent event){
 		CliotePing cp = new CliotePing();
-		cp.sendMessage("info online " + ProxyServer.getInstance().getOnlineCount(), "all");
+		cp.sendMessage("info online " + (ProxyServer.getInstance().getOnlineCount()-1), "all");
 	}
 }
