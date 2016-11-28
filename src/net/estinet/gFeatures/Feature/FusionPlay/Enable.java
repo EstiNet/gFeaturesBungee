@@ -1,5 +1,6 @@
 package net.estinet.gFeatures.Feature.FusionPlay;
 
+import net.estinet.gFeatures.ClioteSky.API.CliotePing;
 import net.md_5.bungee.api.ProxyServer;
 
 /*
@@ -26,5 +27,7 @@ public class Enable{
 	public static void onEnable(){
 		ProxyServer.getInstance().getLogger().info("[FusionPlay] EstiNet presents FusionPlay (Enabled!).");
 		ch.setupConfig();
+		CliotePing cp = new CliotePing();
+		cp.sendMessage("fusionplay obtain", "all");
 	}
 }

@@ -34,5 +34,31 @@ public class FusionPlay extends gFeature implements Events{
 	@Override
 	@Retrieval
 	public void onPlayerHandshake(){}
-
+	
+	public static List<FusionCon> getConnectionPair(int id){
+		List<FusionCon> list = new ArrayList<>();
+		for(FusionCon fc : connections){
+			if(fc.getID() == id){
+				list.add(fc);
+			}
+		}
+		return list;
+	}
+	public static boolean hasConnection(String clioteName){
+		for(FusionCon fc : connections){
+			if(fc.getClioteName().equals(clioteName)){
+				return true;
+			}
+		}
+		return false;
+	}
+	public static int getConnectionArrayID(String clioteName){
+		for(int i = 0; i < connections.size(); i++){
+			FusionCon fc = connections.get(i);
+			if(fc.getClioteName().equals(clioteName)){
+				return i;
+			}
+		}
+		return -1;
+	}
 }
