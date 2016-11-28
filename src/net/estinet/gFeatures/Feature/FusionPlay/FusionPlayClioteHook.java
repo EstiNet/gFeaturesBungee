@@ -38,11 +38,7 @@ public class FusionPlayClioteHook extends ClioteHook{
 					}
 					break;
 				case "done":
-					FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.OFFLINE);
-					ServerInfo si = BungeeCord.getInstance().getServerInfo(clioteName);
-					for(ProxiedPlayer pp : si.getPlayers()){
-						
-					}
+					FusionPlay.replaceConnection(clioteName);
 					break;
 				}
 			}

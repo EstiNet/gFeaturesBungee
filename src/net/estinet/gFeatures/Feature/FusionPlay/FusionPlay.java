@@ -8,6 +8,10 @@ import java.util.Queue;
 import net.estinet.gFeatures.Events;
 import net.estinet.gFeatures.Retrieval;
 import net.estinet.gFeatures.gFeature;
+import net.estinet.gFeatures.ClioteSky.API.CliotePing;
+import net.md_5.bungee.BungeeCord;
+import net.md_5.bungee.api.config.ServerInfo;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PlayerHandshakeEvent;
 import net.md_5.bungee.api.plugin.Event;
 
@@ -84,13 +88,20 @@ public class FusionPlay extends gFeature implements Events{
 		return -1;
 	}
 	public static void replaceConnection(String clioteName){
+		FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.OFFLINE);
+		int id = FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).getID();
 		FusionCon fc = queueConnections.peek();
 		if(!connections.get(getConnectionArrayID(clioteName)).getCurrentType().equals(fc.getCurrentType())){
 			if(fc.getStatus().equals(FusionStatus.NOTASSIGNED)){
+				CliotePing cp = new CliotePing();
+				cp.sendMessage("fusionplay start", fc.getClioteName()); //PLZ IMPLEMENT
+				ServerInfo cur = BungeeCord.getInstance().getServerInfo(clioteName);
+				ServerInfo si = BungeeCord.getInstance().getServerInfo(fc.getClioteName());
+				for(ProxiedPlayer pp : cur.getPlayers()){
+					pp.connect(si);
+				}
 				
 			}
-			//Move Players
-			for()
 		}
 	}
 	public static boolean isPairedID(int id){
