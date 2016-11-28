@@ -23,6 +23,7 @@ public class Setup {
 	Configs config;
 	public void onSetup() {
 		//Well, unfortunate part of the API :(
+		// It's not thaaat bad ~Seshpenguin
 
 		/*
 		 * Initialize your plugins here.
@@ -38,5 +39,6 @@ public class Setup {
 		net.estinet.gFeatures.Feature.EstiMail.Configure.onSetup();
 		net.estinet.gFeatures.Feature.Friendship.Configure.onSetup();
 		net.estinet.gFeatures.Feature.ServerQuery.Configure.onSetup();
+		net.estinet.gFeatures.Feature.FusionPlay.Configure.onSetup();
 	}
 }
