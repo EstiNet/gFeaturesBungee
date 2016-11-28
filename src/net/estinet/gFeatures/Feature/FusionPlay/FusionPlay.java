@@ -1,7 +1,9 @@
 package net.estinet.gFeatures.Feature.FusionPlay;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import net.estinet.gFeatures.Events;
 import net.estinet.gFeatures.Retrieval;
@@ -11,7 +13,10 @@ import net.md_5.bungee.api.plugin.Event;
 
 public class FusionPlay extends gFeature implements Events{
 	
-	public static List<FusionCon> connections = new ArrayList<>();
+	private static List<FusionCon> connections = new ArrayList<>();
+	public static List<Integer> usedID = new ArrayList<>();
+	public static Queue<FusionCon> queueConnections = new LinkedList<FusionCon>();
+	
 	EventHub eh = new EventHub();
 	
 	public FusionPlay(String featurename, String d) {
@@ -35,6 +40,23 @@ public class FusionPlay extends gFeature implements Events{
 	@Retrieval
 	public void onPlayerHandshake(){}
 	
+	public static List<FusionCon> getConnections(){
+		return connections;
+	}
+	public static void addConnection(FusionCon fc){
+		connections.add(fc);
+	}
+	public static void removeConnection(FusionCon fc){
+		connections.remove(fc);
+	}
+	public static void removeConnection(String clioteName){
+		connections.remove(getConnectionArrayID(clioteName));
+	}
+	public static void addID(int id){
+		if(!usedID.contains(id)){
+			usedID.add(id);
+		}
+	}
 	public static List<FusionCon> getConnectionPair(int id){
 		List<FusionCon> list = new ArrayList<>();
 		for(FusionCon fc : connections){
@@ -61,4 +83,27 @@ public class FusionPlay extends gFeature implements Events{
 		}
 		return -1;
 	}
+	public static void replaceConnection(String clioteName){
+		FusionCon fc = queueConnections.peek();
+		if(!connections.get(getConnectionArrayID(clioteName)).getCurrentType().equals(fc.getCurrentType())){
+			if(fc.getStatus().equals(FusionStatus.NOTASSIGNED)){
+				
+			}
+			//Move Players
+			for()
+		}
+	}
+	public static boolean isPairedID(int id){
+		int nums = 0;
+		for(FusionCon fc : connections){
+			if(fc.getID() == id){
+				nums++;
+			}
+		}
+		if(nums > 1){
+			return true;
+		}
+		return false;
+	}
+	
 }

@@ -4,7 +4,7 @@ public class FusionCon {
 	private String curType = "";
 	private String clioteName = "";
 	private int id = 0;
-	private boolean status = false;
+	private FusionStatus status = FusionStatus.OFFLINE;
 	public FusionCon(String clioteName){
 		this.clioteName = clioteName;
 	}
@@ -12,7 +12,7 @@ public class FusionCon {
 		this.clioteName = clioteName;
 		this.id = id;
 	}
-	public boolean isOn(){
+	public FusionStatus getStatus(){
 		return status;
 	}
 	public String getCurrentType(){
@@ -24,7 +24,7 @@ public class FusionCon {
 	public int getID(){
 		return id;
 	}
-	public void setStatus(boolean status){
+	public void setStatus(FusionStatus status){
 		this.status = status;
 	}
 	public void setID(int id){
