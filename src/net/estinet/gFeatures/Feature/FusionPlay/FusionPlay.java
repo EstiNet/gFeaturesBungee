@@ -1,5 +1,8 @@
 package net.estinet.gFeatures.Feature.FusionPlay;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.estinet.gFeatures.Events;
 import net.estinet.gFeatures.Retrieval;
 import net.estinet.gFeatures.gFeature;
@@ -8,6 +11,7 @@ import net.md_5.bungee.api.plugin.Event;
 
 public class FusionPlay extends gFeature implements Events{
 	
+	public static List<FusionCon> connections = new ArrayList<>();
 	EventHub eh = new EventHub();
 	
 	public FusionPlay(String featurename, String d) {
