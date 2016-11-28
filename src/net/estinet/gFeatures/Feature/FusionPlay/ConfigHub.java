@@ -24,6 +24,6 @@ https://github.com/EstiNet/gFeatures
 public class ConfigHub {
 	Config config = new Config();
 	public void setupConfig(){
-		config.createDirectory("plugins/gFeatures/FusionPlay", "FusionPlay plugin directory set!");
+		config.createDirectory("plugins/gFeatures/FusionPlay", "[FusionPlay] plugin directory set!");
 	}
 }
