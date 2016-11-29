@@ -1,6 +1,7 @@
 package net.estinet.gFeatures.Feature.FusionPlay;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -16,13 +17,13 @@ import net.md_5.bungee.api.event.PlayerHandshakeEvent;
 import net.md_5.bungee.api.plugin.Event;
 
 public class FusionPlay extends gFeature implements Events{
-	
+
 	private static List<FusionCon> connections = new ArrayList<>();
 	public static List<Integer> usedID = new ArrayList<>();
 	public static Queue<FusionCon> queueConnections = new LinkedList<FusionCon>();
-	
+
 	EventHub eh = new EventHub();
-	
+
 	public FusionPlay(String featurename, String d) {
 		super(featurename, d);
 	}
@@ -43,7 +44,7 @@ public class FusionPlay extends gFeature implements Events{
 	@Override
 	@Retrieval
 	public void onPlayerHandshake(){}
-	
+
 	public static List<FusionCon> getConnections(){
 		return connections;
 	}
@@ -90,16 +91,23 @@ public class FusionPlay extends gFeature implements Events{
 	public static void replaceConnection(String clioteName){
 		FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.OFFLINE);
 		int id = FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).getID();
+		FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setID(-1);
 		FusionCon fc = queueConnections.peek();
 		if(!connections.get(getConnectionArrayID(clioteName)).getCurrentType().equals(fc.getCurrentType())){
-			if(fc.getStatus().equals(FusionStatus.NOTASSIGNED)){
-				CliotePing cp = new CliotePing();
-				cp.sendMessage("fusionplay start", fc.getClioteName()); //PLZ IMPLEMENT
-				ServerInfo cur = BungeeCord.getInstance().getServerInfo(clioteName);
-				ServerInfo si = BungeeCord.getInstance().getServerInfo(fc.getClioteName());
-				for(ProxiedPlayer pp : cur.getPlayers()){
-					pp.connect(si);
-				}
+			queueConnections.poll();
+			CliotePing cp = new CliotePing();
+			cp.sendMessage("fusionplay start", fc.getClioteName()); //PLZ IMPLEMENT
+			fc.setStatus(FusionStatus.WAITING);
+			fc.setID(id);
+			ServerInfo cur = BungeeCord.getInstance().getServerInfo(clioteName);
+			ServerInfo si = BungeeCord.getInstance().getServerInfo(fc.getClioteName());
+			for(ProxiedPlayer pp : cur.getPlayers()){
+				pp.connect(si);
+			}
+		}
+		else{
+			Iterator li = queueConnections.iterator();
+			while(li.hasNext()){
 				
 			}
 		}
@@ -116,5 +124,5 @@ public class FusionPlay extends gFeature implements Events{
 		}
 		return false;
 	}
-	
+
 }
