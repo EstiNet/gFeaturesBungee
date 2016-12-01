@@ -92,9 +92,8 @@ public class FusionPlay extends gFeature implements Events{
 		FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.OFFLINE);
 		int id = FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).getID();
 		FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setID(-1);
-		FusionCon fc = queueConnections.peek();
+		FusionCon fc = queueConnections.poll();
 		if(!connections.get(getConnectionArrayID(clioteName)).getCurrentType().equals(fc.getCurrentType())){
-			queueConnections.poll();
 			CliotePing cp = new CliotePing();
 			cp.sendMessage("fusionplay start", fc.getClioteName()); //PLZ IMPLEMENT
 			fc.setStatus(FusionStatus.WAITING);
@@ -106,10 +105,10 @@ public class FusionPlay extends gFeature implements Events{
 			}
 		}
 		else{
-			Iterator li = queueConnections.iterator();
-			while(li.hasNext()){
-				
-			}
+			fc.setStatus(FusionStatus.OFFLINE);
+			fc.setID(id);
+			CliotePing cp = new CliotePing();
+			cp.sendMessage("fusionplay other", fc.getClioteName());
 		}
 	}
 	public static boolean isPairedID(int id){

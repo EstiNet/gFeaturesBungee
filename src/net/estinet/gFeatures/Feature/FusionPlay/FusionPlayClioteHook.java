@@ -6,9 +6,6 @@ import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.API.Logger.Debug;
 import net.estinet.gFeatures.ClioteSky.API.ClioteHook;
 import net.estinet.gFeatures.ClioteSky.API.CliotePing;
-import net.md_5.bungee.BungeeCord;
-import net.md_5.bungee.api.config.ServerInfo;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class FusionPlayClioteHook extends ClioteHook{
 
@@ -36,6 +33,10 @@ public class FusionPlayClioteHook extends ClioteHook{
 						fc.setStatus(FusionStatus.NOTASSIGNED);
 						FusionPlay.addConnection(fc);
 					}
+					break; //Don't make it enable every time, use other if requested
+				case "otherup":
+					FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.WAITING);
+					
 					break;
 				case "done":
 					FusionPlay.replaceConnection(clioteName);
