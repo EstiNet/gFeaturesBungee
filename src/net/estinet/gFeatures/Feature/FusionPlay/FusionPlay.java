@@ -62,7 +62,7 @@ public class FusionPlay extends gFeature implements Events{
 			usedID.add(id);
 		}
 	}
-	public static List<FusionCon> getConnectionPair(int id){
+	public static List<FusionCon> getConnectionsFromID(int id){
 		List<FusionCon> list = new ArrayList<>();
 		for(FusionCon fc : connections){
 			if(fc.getID() == id){
@@ -91,7 +91,6 @@ public class FusionPlay extends gFeature implements Events{
 	public static void replaceConnection(String clioteName){
 		FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.OFFLINE);
 		int id = FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).getID();
-		FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setID(-1);
 		FusionCon fc = queueConnections.poll();
 		if(!connections.get(getConnectionArrayID(clioteName)).getCurrentType().equals(fc.getCurrentType())){
 			CliotePing cp = new CliotePing();
@@ -103,13 +102,39 @@ public class FusionPlay extends gFeature implements Events{
 			for(ProxiedPlayer pp : cur.getPlayers()){
 				pp.connect(si);
 			}
+			FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setID(-1);
 		}
 		else{
-			fc.setStatus(FusionStatus.OFFLINE);
-			fc.setID(id);
+			FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(fc.getClioteName())).setStatus(FusionStatus.OFFLINE);
+			FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(fc.getClioteName())).setID(id);
 			CliotePing cp = new CliotePing();
 			cp.sendMessage("fusionplay other", fc.getClioteName());
 		}
+	}
+	public static FusionCon getPairedConFromID(FusionCon fc){
+		for(FusionCon fcs : getConnectionsFromID(fc.getID())){
+			if(!fcs.getClioteName().equals(fc.getClioteName())){
+				return fcs;
+			}
+		}
+		return fc;
+	}
+	public static FusionCon getConnection(String clioteName){
+		for(FusionCon fc : connections){
+			if(fc.getClioteName().equals(clioteName)){
+				return fc;
+			}
+		}
+		return null;
+	}
+	public static FusionCon getPairedConFromID(String clioteName){
+		FusionCon fc = getConnection(clioteName);
+		for(FusionCon fcs : getConnectionsFromID(fc.getID())){
+			if(!fcs.getClioteName().equals(fc.getClioteName())){
+				return fcs;
+			}
+		}
+		return fc;
 	}
 	public static boolean isPairedID(int id){
 		int nums = 0;

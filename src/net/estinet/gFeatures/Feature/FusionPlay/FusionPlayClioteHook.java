@@ -6,6 +6,9 @@ import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.API.Logger.Debug;
 import net.estinet.gFeatures.ClioteSky.API.ClioteHook;
 import net.estinet.gFeatures.ClioteSky.API.CliotePing;
+import net.md_5.bungee.BungeeCord;
+import net.md_5.bungee.api.config.ServerInfo;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class FusionPlayClioteHook extends ClioteHook{
 
@@ -36,10 +39,18 @@ public class FusionPlayClioteHook extends ClioteHook{
 					break; //Don't make it enable every time, use other if requested
 				case "otherup":
 					FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.WAITING);
-					
+					ServerInfo cur = BungeeCord.getInstance().getServerInfo(FusionPlay.getPairedConFromID(clioteName).getClioteName());
+					ServerInfo si = BungeeCord.getInstance().getServerInfo(clioteName);
+					FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(FusionPlay.getPairedConFromID(clioteName).getClioteName())).setID(-1);
+					for(ProxiedPlayer pp : cur.getPlayers()){
+						pp.connect(si); //make sure the other server restarts after everyone logs off
+					} //if the server just came back from a forced minigame switch
+					break;
+				case "started": //the server has started the minigame
+					FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.INGAME);
 					break;
 				case "done":
-					FusionPlay.replaceConnection(clioteName);
+					FusionPlay.replaceConnection(clioteName); //when a minigame has finished
 					break;
 				}
 			}
