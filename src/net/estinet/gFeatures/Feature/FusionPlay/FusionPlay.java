@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import com.lambdaworks.redis.RedisClient;
+import com.lambdaworks.redis.api.StatefulRedisConnection;
+import com.lambdaworks.redis.api.sync.RedisCommands;
 
 import net.estinet.gFeatures.Events;
 import net.estinet.gFeatures.Retrieval;
@@ -20,6 +23,12 @@ public class FusionPlay extends gFeature implements Events{
 	private static List<FusionCon> connections = new ArrayList<>();
 	public static List<Integer> usedID = new ArrayList<>();
 	public static Queue<FusionCon> queueConnections = new LinkedList<FusionCon>();
+	
+	public static RedisClient redisClient = null;
+	public static StatefulRedisConnection<String, String> connection = null;
+	public static RedisCommands<String, String> syncCommands = null;
+	
+	public static String IP = "", port = "", password = "", databaseNum = "";
 
 	EventHub eh = new EventHub();
 
