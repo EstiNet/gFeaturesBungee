@@ -46,7 +46,7 @@ public class FusionPlay extends gFeature implements Events{
 	@Override
 	public void eventTrigger(Event event) {
 		if(event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("playerhandshakeevent")){
-			eh.onPlayerJoin((PlayerHandshakeEvent)event);
+			//eh.onPlayerJoin((PlayerHandshakeEvent)event);
 		}
 	}
 	@Override

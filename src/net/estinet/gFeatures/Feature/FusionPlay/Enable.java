@@ -1,5 +1,8 @@
 package net.estinet.gFeatures.Feature.FusionPlay;
 
+import com.lambdaworks.redis.RedisClient;
+import com.lambdaworks.redis.RedisURI;
+
 import net.estinet.gFeatures.ClioteSky.API.CliotePing;
 import net.md_5.bungee.api.ProxyServer;
 
@@ -20,13 +23,26 @@ https://github.com/EstiNet/gFeatures
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-*/
+ */
 
 public class Enable{
 	static ConfigHub ch = new ConfigHub();
 	public static void onEnable(){
 		ProxyServer.getInstance().getLogger().info("[FusionPlay] Enabled!");
 		ch.setupConfig();
+		System.out.println("[FusionPlay] Connecting to Redis...");
+
+		RedisURI ruri = new RedisURI();
+		ruri.setDatabase(Integer.parseInt(FusionPlay.databaseNum));
+		ruri.setPort(Integer.parseInt(FusionPlay.port));
+		ruri.setPassword(FusionPlay.password);
+		ruri.setHost(FusionPlay.IP);
+
+		FusionPlay.redisClient = RedisClient.create(ruri);
+		FusionPlay.connection = FusionPlay.redisClient.connect();
+		FusionPlay.syncCommands = FusionPlay.connection.sync();
+
+		System.out.println("[FusionPlay] Connected!");
 		CliotePing cp = new CliotePing();
 		cp.sendMessage("fusionplay obtain", "all");
 	}

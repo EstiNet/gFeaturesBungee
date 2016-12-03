@@ -10,7 +10,6 @@ import java.util.Properties;
 
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.Configuration.Config;
-import net.estinet.gFeatures.Feature.Shop.Shop;
 
 /*
 gFeatures
