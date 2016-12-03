@@ -135,16 +135,26 @@ public class FusionPlay extends gFeature implements Events{
 		}
 		return fc;
 	}
-	public static List<FusionCon> getCurrentGames(){
+	public static List<FusionCon> getCurrentAvailableGames(){
 		List<FusionCon> cons = new ArrayList<>();
 		for(int i = 0; i < connections.size(); i++){
-			if(isPaired)
+			if(isValidID(i)){
+				for(FusionCon fc : getConnectionsFromID(i)){
+					if(fc.getStatus().equals(FusionStatus.WAITING)){
+						cons.add(fc);
+					}
+				}
+			}
 		}
+		return cons;
 	}
 	public static boolean isValidID(int num){
 		for(FusionCon fc : connections){
-			
+			if(fc.getID() == num){
+				return true;
+			}
 		}
+		return false;
 	}
 	public static boolean isPairedID(int id){
 		int nums = 0;
