@@ -29,12 +29,12 @@ public class Listeners extends Plugin{
 				e.printStackTrace();
 			}
 		}
-		getProxy().getPluginManager().registerCommand(this, new SlashHub());
+		/*getProxy().getPluginManager().registerCommand(this, new SlashHub());
 		getProxy().getPluginManager().registerCommand(this, new SlashFactions());
 		getProxy().getPluginManager().registerCommand(this, new SlashgWars());
 		getProxy().getPluginManager().registerCommand(this, new SlashSkyblock());
 		getProxy().getPluginManager().registerCommand(this, new SlashSurvival());
-		getProxy().getPluginManager().registerCommand(this, new SlashCreative());
+		getProxy().getPluginManager().registerCommand(this, new SlashCreative());*/
 		//Disable /mail for now :(
 		//getProxy().getPluginManager().registerCommand(this, new SlashMail());
 		//getProxy().getPluginManager().registerListener(this, new Join());

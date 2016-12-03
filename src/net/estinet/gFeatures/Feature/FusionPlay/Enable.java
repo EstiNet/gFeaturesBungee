@@ -25,7 +25,7 @@ https://github.com/EstiNet/gFeatures
 public class Enable{
 	static ConfigHub ch = new ConfigHub();
 	public static void onEnable(){
-		ProxyServer.getInstance().getLogger().info("[FusionPlay] EstiNet presents FusionPlay (Enabled!).");
+		ProxyServer.getInstance().getLogger().info("[FusionPlay] Enabled!");
 		ch.setupConfig();
 		CliotePing cp = new CliotePing();
 		cp.sendMessage("fusionplay obtain", "all");

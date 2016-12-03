@@ -1,5 +1,7 @@
 package net.estinet.gFeatures.Feature.FusionPlay;
 
+import java.io.File;
+
 import net.estinet.gFeatures.Configuration.Config;
 
 /*
@@ -25,5 +27,10 @@ public class ConfigHub {
 	Config config = new Config();
 	public void setupConfig(){
 		config.createDirectory("plugins/gFeatures/FusionPlay", "[FusionPlay] plugin directory set!");
+		File f = new File("plugins/gFeatures/FusionPlay/config.properties");
+		if(!f.exists()){
+			config.createFile("plugins/gFeatures/FusionPlay/config.properties", "[FusionPlay] plugins config file created!");
+			
+		}
 	}
 }
