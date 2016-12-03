@@ -27,7 +27,14 @@ public class FusionPlayClioteHook extends ClioteHook{
 						if(FusionPlay.checkIfServerNeed()){
 							FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.WAITING);
 							cp.sendMessage("fusionplay start", clioteName);
-							
+							for(int i = 0; true; i++){
+								if(!FusionPlay.isValidID(i)){
+									FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setID(i);
+									break;
+								}
+							}
+							FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setCurrentType(args.get(1));
+							Debug.print("[FusionPlay] Added " + clioteName + " into ID server pool.");
 						}
 						else{
 							FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.NOTASSIGNED);
@@ -38,11 +45,16 @@ public class FusionPlayClioteHook extends ClioteHook{
 						}
 					}
 					else{
+						if(FusionPlay.checkIfServerNeed()){
+							
+						}
 						FusionCon fc = new FusionCon(clioteName);
-						fc.setID(0);
+						fc.setID(-1);
 						fc.setCurrentType(args.get(1));
 						fc.setStatus(FusionStatus.NOTASSIGNED);
+						FusionPlay.queueConnections.add(fc);
 						FusionPlay.addConnection(fc);
+						Debug.print("[FusionPlay] Added " + clioteName + " to waiting queue.");
 					}
 					break; //Don't make it enable every time, use other if requested
 				case "otherup": //[type] parameter

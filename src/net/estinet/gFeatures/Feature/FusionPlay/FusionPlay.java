@@ -23,11 +23,11 @@ public class FusionPlay extends gFeature implements Events{
 	private static List<FusionCon> connections = new ArrayList<>();
 	public static List<Integer> usedID = new ArrayList<>();
 	public static Queue<FusionCon> queueConnections = new LinkedList<FusionCon>();
-	
+
 	public static RedisClient redisClient = null;
 	public static StatefulRedisConnection<String, String> connection = null;
 	public static RedisCommands<String, String> syncCommands = null;
-	
+
 	public static String IP = "", port = "", password = "", databaseNum = "";
 	public static int maxNumOfGames = 1;
 
