@@ -1,7 +1,6 @@
 package net.estinet.gFeatures.Feature.FusionPlay;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -135,6 +134,17 @@ public class FusionPlay extends gFeature implements Events{
 			}
 		}
 		return fc;
+	}
+	public static List<FusionCon> getCurrentGames(){
+		List<FusionCon> cons = new ArrayList<>();
+		for(int i = 0; i < connections.size(); i++){
+			if(isPaired)
+		}
+	}
+	public static boolean isValidID(int num){
+		for(FusionCon fc : connections){
+			
+		}
 	}
 	public static boolean isPairedID(int id){
 		int nums = 0;

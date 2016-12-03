@@ -21,24 +21,25 @@ public class FusionPlayClioteHook extends ClioteHook{
 			if(!clioteName.equals("Bungee")){
 				CliotePing cp = new CliotePing();
 				switch(args.get(0)){
-				case "online":
+				case "online": //[type] parameter
 					if(FusionPlay.hasConnection(clioteName)){
 						FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.NOTASSIGNED);
 						FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setID(-1);
-						FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setCurrentType("NONE");
+						FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setCurrentType(args.get(1));
 						FusionPlay.queueConnections.add(FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)));
 						Debug.print("[FusionPlay] Added " + clioteName + " to waiting queue.");
 					}
 					else{
 						FusionCon fc = new FusionCon(clioteName);
 						fc.setID(0);
-						fc.setCurrentType("NONE");
+						fc.setCurrentType(args.get(1));
 						fc.setStatus(FusionStatus.NOTASSIGNED);
 						FusionPlay.addConnection(fc);
 					}
 					break; //Don't make it enable every time, use other if requested
-				case "otherup":
+				case "otherup": //[type] parameter
 					FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.WAITING);
+					FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setCurrentType(args.get(1));
 					ServerInfo cur = BungeeCord.getInstance().getServerInfo(FusionPlay.getPairedConFromID(clioteName).getClioteName());
 					ServerInfo si = BungeeCord.getInstance().getServerInfo(clioteName);
 					FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(FusionPlay.getPairedConFromID(clioteName).getClioteName())).setID(-1);
