@@ -29,6 +29,7 @@ public class FusionPlay extends gFeature implements Events{
 	public static RedisCommands<String, String> syncCommands = null;
 	
 	public static String IP = "", port = "", password = "", databaseNum = "";
+	public static int maxNumOfGames = 1;
 
 	EventHub eh = new EventHub();
 
@@ -96,11 +97,20 @@ public class FusionPlay extends gFeature implements Events{
 		}
 		return -1;
 	}
+	@SuppressWarnings("deprecation")
 	public static void replaceConnection(String clioteName){
 		FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.OFFLINE);
 		int id = FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).getID();
 		FusionCon fc = queueConnections.poll();
-		if(!connections.get(getConnectionArrayID(clioteName)).getCurrentType().equals(fc.getCurrentType())){
+		if(fc == null){//temporary, until there are servers to take care and dynamic allocation
+			for(ProxiedPlayer pp : BungeeCord.getInstance().getServerInfo(clioteName).getPlayers()){
+				pp.connect(BungeeCord.getInstance().getServerInfo("MinigameHub"));
+				pp.sendMessage("Sorry! One of our servers went offline, and we can't restore the session!");
+			}
+			FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.OFFLINE);
+			FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setID(-1);
+		}
+		else if(!connections.get(getConnectionArrayID(clioteName)).getCurrentType().equals(fc.getCurrentType())){
 			CliotePing cp = new CliotePing();
 			cp.sendMessage("fusionplay start", fc.getClioteName()); //PLZ IMPLEMENT
 			fc.setStatus(FusionStatus.WAITING);
@@ -157,6 +167,28 @@ public class FusionPlay extends gFeature implements Events{
 		}
 		return cons;
 	}
+	public static List<FusionCon> getCurrentCachedGames(){
+		List<FusionCon> cons = new ArrayList<>();
+		for(FusionCon fc : connections){
+			if(fc.getStatus().equals(FusionStatus.NOTASSIGNED)){
+				cons.add(fc);
+			}
+		}
+		return cons;
+	}
+	public static List<FusionCon> getCurrentOnlineGames(){
+		List<FusionCon> cons = new ArrayList<>();
+		for(int i = 0; i < connections.size(); i++){
+			if(isValidID(i)){
+				for(FusionCon fc : getConnectionsFromID(i)){
+					if(fc.getStatus().equals(FusionStatus.WAITING) || fc.getStatus().equals(FusionStatus.INGAME)){
+						cons.add(fc);
+					}
+				}
+			}
+		}
+		return cons;
+	}
 	public static boolean isValidID(int num){
 		for(FusionCon fc : connections){
 			if(fc.getID() == num){
@@ -177,5 +209,10 @@ public class FusionPlay extends gFeature implements Events{
 		}
 		return false;
 	}
-
+	public static boolean checkIfServerNeed(){
+		if((getCurrentOnlineGames().size()+1 < getCurrentCachedGames().size()) && getCurrentOnlineGames().size() < maxNumOfGames){
+			return true;
+		}
+		return false;
+	}
 }

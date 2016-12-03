@@ -56,13 +56,16 @@ public class ConfigHub {
 			if(!(prop.containsKey("Redis.DatabaseNumber"))){
 				prop.setProperty("Redis.DatabaseNumber", "2");
 			}
+			if(!(prop.containsKey("Server.maxNumOfServers"))){
+				prop.setProperty("Server.maxNumOfServers", "1");
+			}
 			// save properties to project root folder
 			prop.store(output, null);
 			FusionPlay.IP = prop.getProperty("Redis.IP") + "";
 			FusionPlay.port = prop.getProperty("Redis.Port") + "";
 			FusionPlay.password = prop.getProperty("Redis.Password") + "";
 			FusionPlay.databaseNum = prop.getProperty("Redis.DatabaseNumber") + "";
-
+			FusionPlay.maxNumOfGames = Integer.parseInt(prop.getProperty("Server.maxNumOfServers"));
 		} catch (IOException io) {
 			io.printStackTrace();
 		} finally {

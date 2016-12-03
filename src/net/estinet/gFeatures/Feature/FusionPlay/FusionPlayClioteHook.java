@@ -15,6 +15,7 @@ public class FusionPlayClioteHook extends ClioteHook{
 	public FusionPlayClioteHook(gFeature feature) {
 		super(feature, "fusionplay");
 	}
+	//hi 2017 :DDDDDDDD
 	@Override
 	public void run(List<String> args, String categoryName, String clioteName){
 		try{
@@ -23,11 +24,18 @@ public class FusionPlayClioteHook extends ClioteHook{
 				switch(args.get(0)){
 				case "online": //[type] parameter
 					if(FusionPlay.hasConnection(clioteName)){
-						FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.NOTASSIGNED);
-						FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setID(-1);
-						FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setCurrentType(args.get(1));
-						FusionPlay.queueConnections.add(FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)));
-						Debug.print("[FusionPlay] Added " + clioteName + " to waiting queue.");
+						if(FusionPlay.checkIfServerNeed()){
+							FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.WAITING);
+							cp.sendMessage("fusionplay start", clioteName);
+							
+						}
+						else{
+							FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.NOTASSIGNED);
+							FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setID(-1);
+							FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setCurrentType(args.get(1));
+							FusionPlay.queueConnections.add(FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)));
+							Debug.print("[FusionPlay] Added " + clioteName + " to waiting queue.");
+						}
 					}
 					else{
 						FusionCon fc = new FusionCon(clioteName);
@@ -43,6 +51,7 @@ public class FusionPlayClioteHook extends ClioteHook{
 					ServerInfo cur = BungeeCord.getInstance().getServerInfo(FusionPlay.getPairedConFromID(clioteName).getClioteName());
 					ServerInfo si = BungeeCord.getInstance().getServerInfo(clioteName);
 					FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(FusionPlay.getPairedConFromID(clioteName).getClioteName())).setID(-1);
+					cp.sendMessage("fusionplay start", clioteName);
 					for(ProxiedPlayer pp : cur.getPlayers()){
 						pp.connect(si); //make sure the other server restarts after everyone logs off
 					} //if the server just came back from a forced minigame switch
