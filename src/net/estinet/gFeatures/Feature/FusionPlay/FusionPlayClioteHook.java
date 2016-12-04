@@ -86,6 +86,7 @@ public class FusionPlayClioteHook extends ClioteHook{
 					for(ProxiedPlayer pp : cur.getPlayers()){
 						pp.connect(si); //make sure the other server restarts after everyone logs off
 					} //if the server just came back from a forced minigame switch
+					FusionPlay.syncCommands.set("server-" + FusionPlay.getConnection(FusionPlay.getPairedConFromID(clioteName).getClioteName()).getID(), FusionPlay.getConnection(FusionPlay.getPairedConFromID(clioteName).getClioteName()).getCurrentType() + " " + FusionPlay.getPairedConFromID(clioteName).getClioteName());
 					break;
 				case "started": //the server has started the minigame
 					FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.INGAME);

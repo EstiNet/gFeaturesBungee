@@ -122,6 +122,7 @@ public class FusionPlay extends gFeature implements Events{
 			for(ProxiedPlayer pp : cur.getPlayers()){
 				pp.connect(si);
 			}
+			FusionPlay.syncCommands.set("server-" + fc.getID(), fc.getCurrentType() + " " + fc.getClioteName());
 			FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setID(-1); //Make sure that the server restart 
 		}
 		else{
