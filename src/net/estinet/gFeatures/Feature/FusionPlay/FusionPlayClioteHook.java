@@ -94,6 +94,23 @@ public class FusionPlayClioteHook extends ClioteHook{
 				case "done":
 					FusionPlay.replaceConnection(clioteName); //when a minigame has finished
 					break;
+				case "alive"://when checking cached servers
+					FusionCon fc = null;
+					for(int i = 0; i < FusionPlay.cliotesOnCheck.size(); i++){
+						if(FusionPlay.cliotesOnCheck.get(i).getClioteName().equals(clioteName)){
+							fc = FusionPlay.cliotesOnCheck.get(i);
+							FusionPlay.cliotesOnCheck.remove(i);
+						}
+					}
+					fc.setStatus(FusionStatus.WAITING);
+					ServerInfo curs = BungeeCord.getInstance().getServerInfo(FusionPlay.getPairedConFromID(clioteName).getClioteName());
+					ServerInfo sis = BungeeCord.getInstance().getServerInfo(fc.getClioteName());
+					for(ProxiedPlayer pp : curs.getPlayers()){
+						pp.connect(sis);
+					}
+					FusionPlay.syncCommands.set("server-" + fc.getID(), fc.getCurrentType() + " " + fc.getClioteName());
+					FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(FusionPlay.getPairedConFromID(clioteName).getClioteName())).setID(-1); //Make sure that the server restart 
+					break;
 				}
 			}
 		}

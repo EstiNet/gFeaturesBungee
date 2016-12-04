@@ -23,7 +23,8 @@ public class FusionPlay extends gFeature implements Events{
 	private static List<FusionCon> connections = new ArrayList<>();
 	public static List<Integer> usedID = new ArrayList<>();
 	public static Queue<FusionCon> queueConnections = new LinkedList<FusionCon>();
-
+	public static List<FusionCon> cliotesOnCheck = new ArrayList<>();
+	
 	public static RedisClient redisClient = null;
 	public static StatefulRedisConnection<String, String> connection = null;
 	public static RedisCommands<String, String> syncCommands = null;
@@ -115,15 +116,10 @@ public class FusionPlay extends gFeature implements Events{
 		else if(!connections.get(getConnectionArrayID(clioteName)).getCurrentType().equals(fc.getCurrentType())){
 			CliotePing cp = new CliotePing();
 			cp.sendMessage("fusionplay start", fc.getClioteName()); //PLZ IMPLEMENT
-			fc.setStatus(FusionStatus.WAITING);
 			fc.setID(id);
-			ServerInfo cur = BungeeCord.getInstance().getServerInfo(clioteName);
-			ServerInfo si = BungeeCord.getInstance().getServerInfo(fc.getClioteName());
-			for(ProxiedPlayer pp : cur.getPlayers()){
-				pp.connect(si);
-			}
-			FusionPlay.syncCommands.set("server-" + fc.getID(), fc.getCurrentType() + " " + fc.getClioteName());
-			FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setID(-1); //Make sure that the server restart 
+			cliotesOnCheck.add(fc);
+			//delay
+			
 		}
 		else{
 			FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(fc.getClioteName())).setStatus(FusionStatus.OFFLINE);
