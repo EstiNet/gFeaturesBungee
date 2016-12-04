@@ -60,8 +60,7 @@ public class Enable{
                 	cp.sendMessage("fusionplay alive", fc.getClioteName());
                 	FusionPlay.cliotesOnCheck.add(fc);
                 	ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
-        	            @SuppressWarnings("deprecation")
-						public void run() {
+        	            public void run() {
         	            	if(FusionPlay.cliotesOnCheck.contains(fc)){
         	            		FusionPlay.cliotesOnCheck.remove(fc);
         	            		FusionPlay.usedID.remove((Object)fc.getID());

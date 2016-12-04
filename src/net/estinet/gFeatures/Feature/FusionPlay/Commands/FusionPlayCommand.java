@@ -13,6 +13,7 @@ public class FusionPlayCommand extends EstiCommand{
 		super("fusionplay", "gFeatures.admin", new String[0], feature);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void execute(CommandSender sender, String[] args) {
 		if(args.length == 1){
@@ -25,7 +26,7 @@ public class FusionPlayCommand extends EstiCommand{
 			case "list":
 				sender.sendMessage(ChatColor.AQUA + "FusionPlay List:");
 				for(FusionCon fc : FusionPlay.getConnections()){
-					sender.sendMessage(ChatColor.DARK_AQUA + "");
+					sender.sendMessage(ChatColor.DARK_AQUA + fc.getClioteName() + "| ID:" + fc.getID() + " Status:" + fc.getStatus() + " Type:" + fc.getCurrentType());
 				}
 				break;
 			}
