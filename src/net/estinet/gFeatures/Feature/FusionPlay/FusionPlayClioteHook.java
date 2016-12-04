@@ -76,7 +76,7 @@ public class FusionPlayClioteHook extends ClioteHook{
 						}
 					}
 					break; //Don't make it enable every time, use other if requested
-				case "otherup": //[type] parameter
+				case "otherup": //[currentminigametype] sent parameter
 					FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.WAITING);
 					FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setCurrentType(args.get(1));
 					ServerInfo cur = BungeeCord.getInstance().getServerInfo(FusionPlay.getPairedConFromID(clioteName).getClioteName());
@@ -93,6 +93,17 @@ public class FusionPlayClioteHook extends ClioteHook{
 					break;
 				case "done":
 					FusionPlay.replaceConnection(clioteName); //when a minigame has finished
+					break;
+				case "otheralive":
+					FusionCon fcs = null;
+					for(int i = 0; i < FusionPlay.cliotesOnCheck.size(); i++){
+						if(FusionPlay.cliotesOnCheck.get(i).getClioteName().equals(clioteName)){
+							fcs = FusionPlay.cliotesOnCheck.get(i);
+							FusionPlay.cliotesOnCheck.remove(i);
+						}
+					}
+					FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.OFFLINE);
+					FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setID(fcs.getID());
 					break;
 				case "alive"://when checking cached servers
 					FusionCon fc = null;

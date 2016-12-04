@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.TimeUnit;
+
 import com.lambdaworks.redis.RedisClient;
 import com.lambdaworks.redis.api.StatefulRedisConnection;
 import com.lambdaworks.redis.api.sync.RedisCommands;
@@ -11,8 +13,11 @@ import com.lambdaworks.redis.api.sync.RedisCommands;
 import net.estinet.gFeatures.Events;
 import net.estinet.gFeatures.Retrieval;
 import net.estinet.gFeatures.gFeature;
+import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.estinet.gFeatures.ClioteSky.API.CliotePing;
 import net.md_5.bungee.BungeeCord;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PlayerHandshakeEvent;
@@ -119,11 +124,19 @@ public class FusionPlay extends gFeature implements Events{
 			fc.setID(id);
 			cliotesOnCheck.add(fc);
 			//delay
-			
+			ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
+	            public void run() {
+	            	if(cliotesOnCheck.contains(fc)){
+	            		cliotesOnCheck.remove(fc);
+	            		for(ProxiedPlayer pp : BungeeCord.getInstance().getServerInfo(clioteName).getPlayers()){
+	        				pp.sendMessage(ChatColor.DARK_GRAY + "Please wait a bit longer, shuffling servers...");
+	        			}
+	            		replaceConnection(clioteName);
+	            	}
+	            }
+	         }, 10, TimeUnit.SECONDS);
 		}
 		else{
-			FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(fc.getClioteName())).setStatus(FusionStatus.OFFLINE);
-			FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(fc.getClioteName())).setID(id);
 			CliotePing cp = new CliotePing();
 			cp.sendMessage("fusionplay other", fc.getClioteName());
 		}
