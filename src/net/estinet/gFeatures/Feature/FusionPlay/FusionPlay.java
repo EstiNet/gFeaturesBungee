@@ -120,7 +120,7 @@ public class FusionPlay extends gFeature implements Events{
 		}
 		else if(!connections.get(getConnectionArrayID(clioteName)).getCurrentType().equals(fc.getCurrentType())){
 			CliotePing cp = new CliotePing();
-			cp.sendMessage("fusionplay start", fc.getClioteName()); //PLZ IMPLEMENT
+			cp.sendMessage("fusionplay start", fc.getClioteName()); //ADD ALIVE CHECK
 			fc.setID(id);
 			cliotesOnCheck.add(fc);
 			ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
@@ -133,11 +133,11 @@ public class FusionPlay extends gFeature implements Events{
 	            		replaceConnection(clioteName);
 	            	}
 	            }
-	         }, 10, TimeUnit.SECONDS);
+	         }, 5, TimeUnit.SECONDS);
 		}
 		else{
 			CliotePing cp = new CliotePing();
-			cp.sendMessage("fusionplay other", fc.getClioteName());
+			cp.sendMessage("fusionplay other", fc.getClioteName()); //ADD ALIVE CHECK
 			cliotesOnCheck.add(fc);
 			ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
 	            public void run() {
@@ -149,7 +149,7 @@ public class FusionPlay extends gFeature implements Events{
 	            		replaceConnection(clioteName);
 	            	}
 	            }
-	         }, 10, TimeUnit.SECONDS);
+	         }, 5, TimeUnit.SECONDS);
 		}
 	}
 	public static FusionCon getPairedConFromID(FusionCon fc){
