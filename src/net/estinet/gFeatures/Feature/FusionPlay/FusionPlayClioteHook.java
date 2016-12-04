@@ -24,17 +24,21 @@ public class FusionPlayClioteHook extends ClioteHook{
 				switch(args.get(0)){
 				case "online": //[type] parameter
 					if(FusionPlay.hasConnection(clioteName)){
-						if(FusionPlay.checkIfServerNeed()){
+						if(FusionPlay.getConnection(clioteName).getStatus().equals(FusionStatus.INGAME) || FusionPlay.getConnection(clioteName).getStatus().equals(FusionStatus.WAITING)){
+							FusionPlay.replaceConnection(clioteName);
+						}
+						else if(FusionPlay.checkIfServerNeed()){
 							FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.WAITING);
 							cp.sendMessage("fusionplay start", clioteName);
 							for(int i = 0; true; i++){
 								if(!FusionPlay.isValidID(i)){
 									FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setID(i);
+									FusionPlay.addID(i);
 									break;
 								}
 							}
 							FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setCurrentType(args.get(1));
-
+							FusionPlay.syncCommands.set("server-" + FusionPlay.getConnection(clioteName).getID(), FusionPlay.getConnection(clioteName).getCurrentType() + " " + clioteName);
 							Debug.print("[FusionPlay] Added " + clioteName + " into ID server pool.");
 						}
 						else{
@@ -53,11 +57,13 @@ public class FusionPlayClioteHook extends ClioteHook{
 							for(int i = 0; true; i++){
 								if(!FusionPlay.isValidID(i)){
 									fc.setID(i);
+									FusionPlay.addID(i);
 									break;
 								}
 							}
 							fc.setCurrentType(args.get(1));
 							FusionPlay.addConnection(fc);
+							FusionPlay.syncCommands.set("server-" + FusionPlay.getConnection(clioteName).getID(), FusionPlay.getConnection(clioteName).getCurrentType() + " " + clioteName);
 							Debug.print("[FusionPlay] Added " + clioteName + " into ID server pool.");
 						}
 						else{

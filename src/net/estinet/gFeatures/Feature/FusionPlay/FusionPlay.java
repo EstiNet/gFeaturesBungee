@@ -108,6 +108,8 @@ public class FusionPlay extends gFeature implements Events{
 				pp.sendMessage("Sorry! One of our servers went offline, and we can't restore the session!");
 			}
 			FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.OFFLINE);
+			FusionPlay.syncCommands.del("server-" + FusionPlay.getConnection(clioteName).getID());
+			usedID.remove((Object)FusionPlay.getConnection(clioteName).getID());
 			FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setID(-1);
 		}
 		else if(!connections.get(getConnectionArrayID(clioteName)).getCurrentType().equals(fc.getCurrentType())){
