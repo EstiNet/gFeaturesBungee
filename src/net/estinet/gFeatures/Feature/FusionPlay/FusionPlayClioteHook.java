@@ -34,6 +34,7 @@ public class FusionPlayClioteHook extends ClioteHook{
 								}
 							}
 							FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setCurrentType(args.get(1));
+
 							Debug.print("[FusionPlay] Added " + clioteName + " into ID server pool.");
 						}
 						else{
@@ -45,16 +46,28 @@ public class FusionPlayClioteHook extends ClioteHook{
 						}
 					}
 					else{
-						if(FusionPlay.checkIfServerNeed()){
-							
-						}
 						FusionCon fc = new FusionCon(clioteName);
-						fc.setID(-1);
-						fc.setCurrentType(args.get(1));
-						fc.setStatus(FusionStatus.NOTASSIGNED);
-						FusionPlay.queueConnections.add(fc);
-						FusionPlay.addConnection(fc);
-						Debug.print("[FusionPlay] Added " + clioteName + " to waiting queue.");
+						if(FusionPlay.checkIfServerNeed()){
+							fc.setStatus(FusionStatus.WAITING);
+							cp.sendMessage("fusionplay start", clioteName);
+							for(int i = 0; true; i++){
+								if(!FusionPlay.isValidID(i)){
+									fc.setID(i);
+									break;
+								}
+							}
+							fc.setCurrentType(args.get(1));
+							FusionPlay.addConnection(fc);
+							Debug.print("[FusionPlay] Added " + clioteName + " into ID server pool.");
+						}
+						else{
+							fc.setID(-1);
+							fc.setCurrentType(args.get(1));
+							fc.setStatus(FusionStatus.NOTASSIGNED);
+							FusionPlay.queueConnections.add(fc);
+							FusionPlay.addConnection(fc);
+							Debug.print("[FusionPlay] Added " + clioteName + " to waiting queue.");
+						}
 					}
 					break; //Don't make it enable every time, use other if requested
 				case "otherup": //[type] parameter
