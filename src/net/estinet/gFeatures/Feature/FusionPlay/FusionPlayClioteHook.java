@@ -94,7 +94,7 @@ public class FusionPlayClioteHook extends ClioteHook{
 				case "done":
 					FusionPlay.replaceConnection(clioteName); //when a minigame has finished
 					break;
-				case "otheralive":
+				case "otheralive"://when checking restarted cache servers
 					FusionCon fcs = null;
 					for(int i = 0; i < FusionPlay.cliotesOnCheck.size(); i++){
 						if(FusionPlay.cliotesOnCheck.get(i).getClioteName().equals(clioteName)){
@@ -105,7 +105,7 @@ public class FusionPlayClioteHook extends ClioteHook{
 					FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.OFFLINE);
 					FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setID(fcs.getID());
 					break;
-				case "alive"://when checking cached servers
+				case "cachealive"://when checking cached servers
 					FusionCon fc = null;
 					for(int i = 0; i < FusionPlay.cliotesOnCheck.size(); i++){
 						if(FusionPlay.cliotesOnCheck.get(i).getClioteName().equals(clioteName)){

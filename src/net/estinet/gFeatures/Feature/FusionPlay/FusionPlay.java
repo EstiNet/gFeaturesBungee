@@ -111,7 +111,7 @@ public class FusionPlay extends gFeature implements Events{
 		if(fc == null){//temporary, until there are servers to take care and dynamic allocation
 			for(ProxiedPlayer pp : BungeeCord.getInstance().getServerInfo(clioteName).getPlayers()){
 				pp.connect(BungeeCord.getInstance().getServerInfo("MinigameHub"));
-				pp.sendMessage("Sorry! One of our servers went offline, and we can't restore the session!");
+				pp.sendMessage(ChatColor.DARK_GRAY + "Sorry! One of our servers went offline, and we can't restore the session!");
 			}
 			FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.OFFLINE);
 			FusionPlay.syncCommands.del("server-" + FusionPlay.getConnection(clioteName).getID());
@@ -123,7 +123,6 @@ public class FusionPlay extends gFeature implements Events{
 			cp.sendMessage("fusionplay start", fc.getClioteName()); //PLZ IMPLEMENT
 			fc.setID(id);
 			cliotesOnCheck.add(fc);
-			//delay
 			ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
 	            public void run() {
 	            	if(cliotesOnCheck.contains(fc)){
@@ -139,6 +138,18 @@ public class FusionPlay extends gFeature implements Events{
 		else{
 			CliotePing cp = new CliotePing();
 			cp.sendMessage("fusionplay other", fc.getClioteName());
+			cliotesOnCheck.add(fc);
+			ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
+	            public void run() {
+	            	if(cliotesOnCheck.contains(fc)){
+	            		cliotesOnCheck.remove(fc);
+	            		for(ProxiedPlayer pp : BungeeCord.getInstance().getServerInfo(clioteName).getPlayers()){
+	        				pp.sendMessage(ChatColor.DARK_GRAY + "Please wait a bit longer, shuffling servers...");
+	        			}
+	            		replaceConnection(clioteName);
+	            	}
+	            }
+	         }, 10, TimeUnit.SECONDS);
 		}
 	}
 	public static FusionCon getPairedConFromID(FusionCon fc){
