@@ -122,6 +122,13 @@ public class FusionPlayClioteHook extends ClioteHook{
 					FusionPlay.syncCommands.set("server-" + fc.getID(), fc.getCurrentType() + " " + fc.getClioteName());
 					FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(FusionPlay.getPairedConFromID(clioteName).getClioteName())).setID(-1); //Make sure that the server restart 
 					break;
+				case "alive":
+					for(int i = 0; i < FusionPlay.cliotesOnCheck.size(); i++){
+						if(FusionPlay.cliotesOnCheck.get(i).getClioteName().equals(clioteName)){
+							FusionPlay.cliotesOnCheck.remove(i);
+						}
+					}
+					break;
 				}
 			}
 		}

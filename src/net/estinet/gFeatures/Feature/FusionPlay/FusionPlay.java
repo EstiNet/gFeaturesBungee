@@ -127,6 +127,7 @@ public class FusionPlay extends gFeature implements Events{
 	            public void run() {
 	            	if(cliotesOnCheck.contains(fc)){
 	            		cliotesOnCheck.remove(fc);
+	            		connections.get(FusionPlay.getConnectionArrayID(fc.getClioteName())).setStatus(FusionStatus.OFFLINE);
 	            		for(ProxiedPlayer pp : BungeeCord.getInstance().getServerInfo(clioteName).getPlayers()){
 	        				pp.sendMessage(ChatColor.DARK_GRAY + "Please wait a bit longer, shuffling servers...");
 	        			}
@@ -143,6 +144,7 @@ public class FusionPlay extends gFeature implements Events{
 	            public void run() {
 	            	if(cliotesOnCheck.contains(fc)){
 	            		cliotesOnCheck.remove(fc);
+	            		connections.get(FusionPlay.getConnectionArrayID(fc.getClioteName())).setStatus(FusionStatus.OFFLINE);
 	            		for(ProxiedPlayer pp : BungeeCord.getInstance().getServerInfo(clioteName).getPlayers()){
 	        				pp.sendMessage(ChatColor.DARK_GRAY + "Please wait a bit longer, shuffling servers...");
 	        			}

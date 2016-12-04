@@ -64,9 +64,10 @@ public class Enable{
 						public void run() {
         	            	if(FusionPlay.cliotesOnCheck.contains(fc)){
         	            		FusionPlay.cliotesOnCheck.remove(fc);
-        	            		for(ProxiedPlayer pp : BungeeCord.getInstance().getServerInfo(fc.getClioteName()).getPlayers()){
-        	        				pp.sendMessage(ChatColor.DARK_GRAY + "Please wait a bit longer, shuffling servers...");
-        	        			}
+        	            		FusionPlay.usedID.remove((Object)fc.getID());
+        	            		FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(fc.getClioteName())).setID(-1);
+        	            		FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(fc.getClioteName())).setStatus(FusionStatus.OFFLINE);
+        	            		FusionPlay.syncCommands.del("server-" + fc.getID());
         	            		FusionPlay.replaceConnection(fc.getClioteName());
         	            	}
         	            }
