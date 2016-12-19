@@ -20,12 +20,12 @@ https://github.com/EstiNet/gFeatures
 
 import java.io.File;
 
-import net.md_5.bungee.BungeeCord;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.event.PostLoginEvent;
 
 public class EventHub{
 	public void onPlayerJoin(PostLoginEvent event){
-		BungeeCord.getInstance().getPluginManager().getPlugin("gFeatures").getProxy().getScheduler().runAsync(BungeeCord.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
+		ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures").getProxy().getScheduler().runAsync(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
 			public void run(){
 				File f = new File("plugins/gFeatures/EstiMail/" + event.getPlayer().getUniqueId().toString());
 				if(!f.isDirectory()){

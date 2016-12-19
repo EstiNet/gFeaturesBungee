@@ -7,7 +7,6 @@ import com.lambdaworks.redis.RedisURI;
 
 import net.estinet.gFeatures.API.Logger.Debug;
 import net.estinet.gFeatures.ClioteSky.API.CliotePing;
-import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -53,7 +52,7 @@ public class Enable{
 		cp.sendMessage("fusionplay obtain", "all");
 		FusionPlay.syncCommands.flushdb();
 		
-		BungeeCord.getInstance().getScheduler().schedule(BungeeCord.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
+		ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
             @Override
             public void run() {
                 for(FusionCon fc : FusionPlay.getCurrentOnlineGames()){

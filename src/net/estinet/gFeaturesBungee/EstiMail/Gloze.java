@@ -17,8 +17,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import net.estinet.gFeaturesBungee.MojangAPI.UUIDFetcher;
-import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 public class Gloze {
@@ -91,7 +91,7 @@ public class Gloze {
 			}
 	}
 	public static void send(ProxiedPlayer p, String send, String message){
-		BungeeCord.getInstance().getPluginManager().getPlugin("gFeatures").getProxy().getScheduler().runAsync(BungeeCord.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
+		ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures").getProxy().getScheduler().runAsync(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
 			public void run(){
 		try {
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();

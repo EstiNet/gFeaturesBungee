@@ -13,14 +13,10 @@ import com.lambdaworks.redis.api.sync.RedisCommands;
 import net.estinet.gFeatures.Events;
 import net.estinet.gFeatures.Retrieval;
 import net.estinet.gFeatures.gFeature;
-import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.estinet.gFeatures.ClioteSky.API.CliotePing;
-import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.event.PlayerHandshakeEvent;
 import net.md_5.bungee.api.plugin.Event;
 
 public class FusionPlay extends gFeature implements Events{
@@ -109,8 +105,8 @@ public class FusionPlay extends gFeature implements Events{
 		int id = FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).getID();
 		FusionCon fc = queueConnections.poll();
 		if(fc == null){//temporary, until there are servers to take care and dynamic allocation
-			for(ProxiedPlayer pp : BungeeCord.getInstance().getServerInfo(clioteName).getPlayers()){
-				pp.connect(BungeeCord.getInstance().getServerInfo("MinigameHub"));
+			for(ProxiedPlayer pp : ProxyServer.getInstance().getServerInfo(clioteName).getPlayers()){
+				pp.connect(ProxyServer.getInstance().getServerInfo("MinigameHub"));
 				pp.sendMessage(ChatColor.DARK_GRAY + "Sorry! One of our servers went offline, and we can't restore the session!");
 			}
 			FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.OFFLINE);
@@ -128,7 +124,7 @@ public class FusionPlay extends gFeature implements Events{
 	            	if(cliotesOnCheck.contains(fc)){
 	            		cliotesOnCheck.remove(fc);
 	            		connections.get(FusionPlay.getConnectionArrayID(fc.getClioteName())).setStatus(FusionStatus.OFFLINE);
-	            		for(ProxiedPlayer pp : BungeeCord.getInstance().getServerInfo(clioteName).getPlayers()){
+	            		for(ProxiedPlayer pp : ProxyServer.getInstance().getServerInfo(clioteName).getPlayers()){
 	        				pp.sendMessage(ChatColor.DARK_GRAY + "Please wait a bit longer, shuffling servers...");
 	        			}
 	            		replaceConnection(clioteName);
@@ -145,7 +141,7 @@ public class FusionPlay extends gFeature implements Events{
 	            	if(cliotesOnCheck.contains(fc)){
 	            		cliotesOnCheck.remove(fc);
 	            		connections.get(FusionPlay.getConnectionArrayID(fc.getClioteName())).setStatus(FusionStatus.OFFLINE);
-	            		for(ProxiedPlayer pp : BungeeCord.getInstance().getServerInfo(clioteName).getPlayers()){
+	            		for(ProxiedPlayer pp : ProxyServer.getInstance().getServerInfo(clioteName).getPlayers()){
 	        				pp.sendMessage(ChatColor.DARK_GRAY + "Please wait a bit longer, shuffling servers...");
 	        			}
 	            		replaceConnection(clioteName);

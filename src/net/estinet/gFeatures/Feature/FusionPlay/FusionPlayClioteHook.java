@@ -6,7 +6,7 @@ import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.API.Logger.Debug;
 import net.estinet.gFeatures.ClioteSky.API.ClioteHook;
 import net.estinet.gFeatures.ClioteSky.API.CliotePing;
-import net.md_5.bungee.BungeeCord;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
@@ -79,8 +79,8 @@ public class FusionPlayClioteHook extends ClioteHook{
 				case "otherup": //[currentminigametype] sent parameter
 					FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.WAITING);
 					FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setCurrentType(args.get(1));
-					ServerInfo cur = BungeeCord.getInstance().getServerInfo(FusionPlay.getPairedConFromID(clioteName).getClioteName());
-					ServerInfo si = BungeeCord.getInstance().getServerInfo(clioteName);
+					ServerInfo cur = ProxyServer.getInstance().getServerInfo(FusionPlay.getPairedConFromID(clioteName).getClioteName());
+					ServerInfo si = ProxyServer.getInstance().getServerInfo(clioteName);
 					FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(FusionPlay.getPairedConFromID(clioteName).getClioteName())).setID(-1);
 					cp.sendMessage("fusionplay start", clioteName);
 					for(ProxiedPlayer pp : cur.getPlayers()){
@@ -114,8 +114,8 @@ public class FusionPlayClioteHook extends ClioteHook{
 						}
 					}
 					fc.setStatus(FusionStatus.WAITING);
-					ServerInfo curs = BungeeCord.getInstance().getServerInfo(FusionPlay.getPairedConFromID(clioteName).getClioteName());
-					ServerInfo sis = BungeeCord.getInstance().getServerInfo(fc.getClioteName());
+					ServerInfo curs = ProxyServer.getInstance().getServerInfo(FusionPlay.getPairedConFromID(clioteName).getClioteName());
+					ServerInfo sis = ProxyServer.getInstance().getServerInfo(fc.getClioteName());
 					for(ProxiedPlayer pp : curs.getPlayers()){
 						pp.connect(sis);
 					}

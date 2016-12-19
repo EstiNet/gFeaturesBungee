@@ -20,7 +20,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import net.estinet.gFeaturesBungee.EstiMail.Gloze;
-import net.md_5.bungee.BungeeCord;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
@@ -40,11 +40,11 @@ public class Join implements Listener{
 						Node node = list.item(i);
 						if(node.getAttributes().getNamedItem("uuid").getNodeValue().equals(event.getPlayer().getUniqueId().toString())){
 							event.getPlayer().sendMessage(Gloze.read(event.getPlayer()));
-							BungeeCord.getInstance().getLogger().info("Player exists.");
+							ProxyServer.getInstance().getLogger().info("Player exists.");
 							return;
 						}
 					}
-					BungeeCord.getInstance().getLogger().info("Player doesn't exist.");
+					ProxyServer.getInstance().getLogger().info("Player doesn't exist.");
 					otherwise(event);
 
 				} catch (ParserConfigurationException pce) {

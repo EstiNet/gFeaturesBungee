@@ -6,7 +6,6 @@ import net.estinet.gFeatures.EstiCommand;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.API.MojangAPI.UUIDFetcher;
 import net.estinet.gFeatures.Feature.EstiMail.EstiMail;
-import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
@@ -54,7 +53,7 @@ public class SlashMail extends EstiCommand{
 			}
 			else if(args.length >= 3){
 				if(args[0].equalsIgnoreCase("send")){
-					BungeeCord.getInstance().getPluginManager().getPlugin("gFeatures").getProxy().getScheduler().runAsync(BungeeCord.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
+					ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures").getProxy().getScheduler().runAsync(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
 						public void run(){
 							UUIDFetcher uid = new UUIDFetcher(Arrays.asList(args[1]));
 							String uuid = "";

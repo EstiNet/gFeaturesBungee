@@ -4,7 +4,7 @@ import java.util.List;
 
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.ClioteSky.API.ClioteHook;
-import net.md_5.bungee.BungeeTitle;
+import net.md_5.bungee.api.BungeeTitle;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -23,6 +23,7 @@ public class AlertClioteHook extends ClioteHook{
 				message += add + " ";
 			}
 			TextComponent tc = new TextComponent(message);
+			
 			BungeeTitle bt = new BungeeTitle();
 			bt.title(new TextComponent(ChatColor.BOLD + "[" + ChatColor.RED + "Alert" + ChatColor.RESET + "" + ChatColor.BOLD + "]"));
 			bt.subTitle(tc);

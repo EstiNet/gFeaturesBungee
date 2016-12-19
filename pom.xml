@@ -62,6 +62,10 @@
 			<id>bungeecord-repo</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</repository>
+		<repository>
+			<id>bungeecord-proxy</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/net/md-5/bungeecord-proxy/</url>
+		</repository>
 	</repositories>
 	<dependencies>
 		<dependency>
