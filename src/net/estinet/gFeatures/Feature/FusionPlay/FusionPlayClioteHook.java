@@ -25,9 +25,11 @@ public class FusionPlayClioteHook extends ClioteHook{
 				case "online": //[type] parameter
 					if(FusionPlay.hasConnection(clioteName)){
 						if(FusionPlay.getConnection(clioteName).getStatus().equals(FusionStatus.INGAME) || FusionPlay.getConnection(clioteName).getStatus().equals(FusionStatus.WAITING)){
+							Debug.print("[FusionPlay] Otherup for server: " + clioteName);
 							FusionPlay.replaceConnection(clioteName);
 						}
 						else if(FusionPlay.checkIfServerNeed()){
+							Debug.print("[FusionPlay] A server joined? Perfect, we need more!");
 							FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.WAITING);
 							cp.sendMessage("fusionplay start", clioteName);
 							for(int i = 0; true; i++){
@@ -52,6 +54,7 @@ public class FusionPlayClioteHook extends ClioteHook{
 					else{
 						FusionCon fc = new FusionCon(clioteName);
 						if(FusionPlay.checkIfServerNeed()){
+							Debug.print("[FusionPlay] A server joined? Perfect, we need more!");
 							fc.setStatus(FusionStatus.WAITING);
 							cp.sendMessage("fusionplay start", clioteName);
 							for(int i = 0; true; i++){
@@ -67,6 +70,7 @@ public class FusionPlayClioteHook extends ClioteHook{
 							Debug.print("[FusionPlay] Added " + clioteName + " into ID server pool.");
 						}
 						else{
+							Debug.print("[FusionPlay] Otherup for server: " + clioteName);
 							fc.setID(-1);
 							fc.setCurrentType(args.get(1));
 							fc.setStatus(FusionStatus.NOTASSIGNED);

@@ -231,7 +231,7 @@ public class FusionPlay extends gFeature implements Events{
 		return false;
 	}
 	public static boolean checkIfServerNeed(){
-		if((getCurrentOnlineGames().size()+1 < getCurrentCachedGames().size()) && getCurrentOnlineGames().size() < maxNumOfGames){
+		if((getCurrentOnlineGames().size() < getCurrentCachedGames().size()) && getCurrentOnlineGames().size() < maxNumOfGames){
 			return true;
 		}
 		return false;
