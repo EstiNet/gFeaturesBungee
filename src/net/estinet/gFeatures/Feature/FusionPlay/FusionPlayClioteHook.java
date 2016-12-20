@@ -31,7 +31,7 @@ public class FusionPlayClioteHook extends ClioteHook{
 						else if(FusionPlay.checkIfServerNeed()){
 							Debug.print("[FusionPlay] A server joined? Perfect, we need more!");
 							FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.WAITING);
-							cp.sendMessage("fusionplay start", clioteName);
+							cp.sendMessage("fusionplay start new", clioteName);
 							for(int i = 0; true; i++){
 								if(!FusionPlay.isValidID(i)){
 									FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setID(i);
@@ -56,7 +56,7 @@ public class FusionPlayClioteHook extends ClioteHook{
 						if(FusionPlay.checkIfServerNeed()){
 							Debug.print("[FusionPlay] A server joined? Perfect, we need more!");
 							fc.setStatus(FusionStatus.WAITING);
-							cp.sendMessage("fusionplay start", clioteName);
+							cp.sendMessage("fusionplay start new", clioteName);
 							for(int i = 0; true; i++){
 								if(!FusionPlay.isValidID(i)){
 									fc.setID(i);
@@ -109,26 +109,23 @@ public class FusionPlayClioteHook extends ClioteHook{
 					FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setID(fcs.getID());
 					break;
 				case "cachealive"://when checking cached servers
-					FusionCon fc = null;
-					for(int i = 0; i < FusionPlay.cliotesOnCheck.size(); i++){
-						if(FusionPlay.cliotesOnCheck.get(i).getClioteName().equals(clioteName)){
-							fc = FusionPlay.cliotesOnCheck.get(i);
-							FusionPlay.cliotesOnCheck.remove(i);
+					if(args.size() == 1){
+						FusionCon fc = null;
+						for(int i = 0; i < FusionPlay.cliotesOnCheck.size(); i++){
+							if(FusionPlay.cliotesOnCheck.get(i).getClioteName().equals(clioteName)){
+								fc = FusionPlay.cliotesOnCheck.get(i);
+								FusionPlay.cliotesOnCheck.remove(i);
+							}
 						}
-					}
-					try{
 						fc.setStatus(FusionStatus.WAITING);
+						ServerInfo curs = ProxyServer.getInstance().getServerInfo(FusionPlay.getPairedConFromID(clioteName).getClioteName());
+						ServerInfo sis = ProxyServer.getInstance().getServerInfo(fc.getClioteName());
+						for(ProxiedPlayer pp : curs.getPlayers()){
+							pp.connect(sis);
+						}
+						FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(FusionPlay.getPairedConFromID(clioteName).getClioteName())).setID(-1); //Make sure that the server restart 
 					}
-					catch(Exception e){
-						//In case if the server was assigned on online.
-					}
-					ServerInfo curs = ProxyServer.getInstance().getServerInfo(FusionPlay.getPairedConFromID(clioteName).getClioteName());
-					ServerInfo sis = ProxyServer.getInstance().getServerInfo(fc.getClioteName());
-					for(ProxiedPlayer pp : curs.getPlayers()){
-						pp.connect(sis);
-					}
-					FusionPlay.syncCommands.set("server-" + fc.getID(), fc.getCurrentType() + " " + fc.getClioteName());
-					FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(FusionPlay.getPairedConFromID(clioteName).getClioteName())).setID(-1); //Make sure that the server restart 
+					FusionPlay.syncCommands.set("server-" + FusionPlay.getConnection(clioteName).getID(), FusionPlay.getConnection(clioteName).getCurrentType() + " " + FusionPlay.getConnection(clioteName).getClioteName());
 					break;
 				case "alive":
 					for(int i = 0; i < FusionPlay.cliotesOnCheck.size(); i++){
