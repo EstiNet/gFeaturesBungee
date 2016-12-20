@@ -70,7 +70,6 @@ public class FusionPlayClioteHook extends ClioteHook{
 							Debug.print("[FusionPlay] Added " + clioteName + " into ID server pool.");
 						}
 						else{
-							Debug.print("[FusionPlay] Otherup for server: " + clioteName);
 							fc.setID(-1);
 							fc.setCurrentType(args.get(1));
 							fc.setStatus(FusionStatus.NOTASSIGNED);
@@ -117,7 +116,12 @@ public class FusionPlayClioteHook extends ClioteHook{
 							FusionPlay.cliotesOnCheck.remove(i);
 						}
 					}
-					fc.setStatus(FusionStatus.WAITING);
+					try{
+						fc.setStatus(FusionStatus.WAITING);
+					}
+					catch(Exception e){
+						//In case if the server was assigned on online.
+					}
 					ServerInfo curs = ProxyServer.getInstance().getServerInfo(FusionPlay.getPairedConFromID(clioteName).getClioteName());
 					ServerInfo sis = ProxyServer.getInstance().getServerInfo(fc.getClioteName());
 					for(ProxiedPlayer pp : curs.getPlayers()){

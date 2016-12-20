@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import com.lambdaworks.redis.RedisClient;
 import com.lambdaworks.redis.api.StatefulRedisConnection;
 import com.lambdaworks.redis.api.sync.RedisCommands;
+import com.lambdaworks.redis.api.sync.RedisStringCommands;
 
 import net.estinet.gFeatures.Events;
 import net.estinet.gFeatures.Retrieval;
@@ -231,7 +232,7 @@ public class FusionPlay extends gFeature implements Events{
 		return false;
 	}
 	public static boolean checkIfServerNeed(){
-		if((getCurrentOnlineGames().size() < getCurrentCachedGames().size()) && getCurrentOnlineGames().size() < maxNumOfGames){
+		if((getCurrentOnlineGames().size() <= getCurrentCachedGames().size()) && getCurrentOnlineGames().size() < maxNumOfGames){
 			return true;
 		}
 		return false;
