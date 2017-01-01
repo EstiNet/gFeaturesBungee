@@ -40,7 +40,8 @@ public class FusionPlayClioteHook extends ClioteHook{
 								}
 							}
 							FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setCurrentType(args.get(1));
-							FusionPlay.syncCommands.set("server-" + FusionPlay.getConnection(clioteName).getID(), FusionPlay.getConnection(clioteName).getCurrentType() + " " + clioteName);
+							//FusionPlay.syncCommands.set("server-" + FusionPlay.getConnection(clioteName).getID(), FusionPlay.getConnection(clioteName).getCurrentType() + " " + clioteName);
+							FusionPlay.dumpToRedis();
 							Debug.print("[FusionPlay] Added " + clioteName + " into ID server pool.");
 						}
 						else{
@@ -66,7 +67,8 @@ public class FusionPlayClioteHook extends ClioteHook{
 							}
 							fc.setCurrentType(args.get(1));
 							FusionPlay.addConnection(fc);
-							FusionPlay.syncCommands.set("server-" + FusionPlay.getConnection(clioteName).getID(), FusionPlay.getConnection(clioteName).getCurrentType() + " " + clioteName);
+							//FusionPlay.syncCommands.set("server-" + FusionPlay.getConnection(clioteName).getID(), FusionPlay.getConnection(clioteName).getCurrentType() + " " + clioteName);
+							FusionPlay.dumpToRedis();
 							Debug.print("[FusionPlay] Added " + clioteName + " into ID server pool.");
 						}
 						else{
@@ -89,7 +91,8 @@ public class FusionPlayClioteHook extends ClioteHook{
 					for(ProxiedPlayer pp : cur.getPlayers()){
 						pp.connect(si); //make sure the other server restarts after everyone logs off
 					} //if the server just came back from a forced minigame switch
-					FusionPlay.syncCommands.set("server-" + FusionPlay.getConnection(FusionPlay.getPairedConFromID(clioteName).getClioteName()).getID(), FusionPlay.getConnection(FusionPlay.getPairedConFromID(clioteName).getClioteName()).getCurrentType() + " " + FusionPlay.getPairedConFromID(clioteName).getClioteName());
+					//FusionPlay.syncCommands.set("server-" + FusionPlay.getConnection(FusionPlay.getPairedConFromID(clioteName).getClioteName()).getID(), FusionPlay.getConnection(FusionPlay.getPairedConFromID(clioteName).getClioteName()).getCurrentType() + " " + FusionPlay.getPairedConFromID(clioteName).getClioteName());
+					FusionPlay.dumpToRedis();
 					break;
 				case "started": //the server has started the minigame
 					FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.INGAME);
@@ -106,7 +109,7 @@ public class FusionPlayClioteHook extends ClioteHook{
 						}
 					}
 					FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.OFFLINE);
-					FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setID(fcs.getID());
+					FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setID(FusionPlay.getConnection(args.get(1)).getID());
 					break;
 				case "cachealive"://when checking cached servers
 					if(args.size() == 1){
@@ -125,7 +128,8 @@ public class FusionPlayClioteHook extends ClioteHook{
 						}
 						FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(FusionPlay.getPairedConFromID(clioteName).getClioteName())).setID(-1); //Make sure that the server restart 
 					}
-					FusionPlay.syncCommands.set("server-" + FusionPlay.getConnection(clioteName).getID(), FusionPlay.getConnection(clioteName).getCurrentType() + " " + FusionPlay.getConnection(clioteName).getClioteName());
+					//FusionPlay.syncCommands.set("server-" + FusionPlay.getConnection(clioteName).getClioteName(), FusionPlay.getConnection(clioteName).getCurrentType() + " " + FusionPlay.getConnection(clioteName).getID() + " " + FusionPlay.getConnection(clioteName).getStatus().toString());
+					FusionPlay.dumpToRedis();
 					break;
 				case "alive":
 					for(int i = 0; i < FusionPlay.cliotesOnCheck.size(); i++){

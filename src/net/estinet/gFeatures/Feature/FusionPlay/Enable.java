@@ -61,7 +61,8 @@ public class Enable{
         	            		FusionPlay.usedID.remove((Object)fc.getID());
         	            		FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(fc.getClioteName())).setID(-1);
         	            		FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(fc.getClioteName())).setStatus(FusionStatus.OFFLINE);
-        	            		FusionPlay.syncCommands.del("server-" + fc.getID());
+        	            		//FusionPlay.syncCommands.del("server-" + fc.getID());
+        	            		FusionPlay.dumpToRedis();
         	            		FusionPlay.replaceConnection(fc.getClioteName());
         	            	}
         	            }

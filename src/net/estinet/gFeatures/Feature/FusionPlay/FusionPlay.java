@@ -111,7 +111,8 @@ public class FusionPlay extends gFeature implements Events{
 				pp.sendMessage(ChatColor.DARK_GRAY + "Sorry! One of our servers went offline, and we can't restore the session!");
 			}
 			FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.OFFLINE);
-			FusionPlay.syncCommands.del("server-" + FusionPlay.getConnection(clioteName).getID());
+			//FusionPlay.syncCommands.del("server-" + FusionPlay.getConnection(clioteName).getID());
+			FusionPlay.dumpToRedis();
 			usedID.remove((Object)FusionPlay.getConnection(clioteName).getID());
 			FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setID(-1);
 		}
@@ -135,7 +136,7 @@ public class FusionPlay extends gFeature implements Events{
 		}
 		else{
 			CliotePing cp = new CliotePing();
-			cp.sendMessage("fusionplay other", fc.getClioteName()); //ADD ALIVE CHECK
+			cp.sendMessage("fusionplay other " + clioteName, fc.getClioteName()); //ADD ALIVE CHECK
 			cliotesOnCheck.add(fc);
 			ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
 	            public void run() {
@@ -237,5 +238,10 @@ public class FusionPlay extends gFeature implements Events{
 		}
 		return false;
 	}
-	
+	public static void dumpToRedis(){
+		syncCommands.flushdb();
+		for(FusionCon fc : connections){
+			syncCommands.set("server-" + fc.getClioteName(), fc.getCurrentType() + " " + fc.getID() + " " + fc.getStatus().toString());
+		}
+	}
 }
