@@ -1,9 +1,13 @@
 package net.estinet.gFeatures.Feature.FusionPlay;
+
+import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.event.PlayerHandshakeEvent;
+
 /*
 gFeatures
-https://github.com/EstiNet/gFeatures
+https://github.com/EstiNet/gFeaturesBungee
 
-   Copyright 2016 EstiNet
+   Copyright 2017 EstiNet
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -17,9 +21,6 @@ https://github.com/EstiNet/gFeatures
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.event.PlayerHandshakeEvent;
 
 public class EventHub{
 	public void onPlayerJoin(PlayerHandshakeEvent event){

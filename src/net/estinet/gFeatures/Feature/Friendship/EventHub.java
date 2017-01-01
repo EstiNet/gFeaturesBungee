@@ -1,9 +1,21 @@
 package net.estinet.gFeatures.Feature.Friendship;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import net.md_5.bungee.api.event.PlayerDisconnectEvent;
+import net.md_5.bungee.api.event.PostLoginEvent;
+
 /*
 gFeatures
-https://github.com/EstiNet/gFeatures
+https://github.com/EstiNet/gFeaturesBungee
 
-   Copyright 2016 EstiNet
+   Copyright 2017 EstiNet
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -17,17 +29,6 @@ https://github.com/EstiNet/gFeatures
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
-import net.md_5.bungee.api.event.PlayerDisconnectEvent;
-import net.md_5.bungee.api.event.PostLoginEvent;
 
 public class EventHub{
 	public void onPlayerJoin(PostLoginEvent event){

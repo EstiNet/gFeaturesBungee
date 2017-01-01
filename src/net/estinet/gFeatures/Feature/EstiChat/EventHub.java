@@ -1,9 +1,21 @@
 package net.estinet.gFeatures.Feature.EstiChat;
+
+import java.util.concurrent.TimeUnit;
+
+import net.estinet.gFeatures.ClioteSky.API.CliotePing;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.event.PlayerDisconnectEvent;
+import net.md_5.bungee.api.event.PostLoginEvent;
+import net.md_5.bungee.api.event.ServerConnectEvent;
+import net.md_5.bungee.api.event.ServerSwitchEvent;
+
 /*
 gFeatures
-https://github.com/EstiNet/gFeatures
+https://github.com/EstiNet/gFeaturesBungee
 
-   Copyright 2016 EstiNet
+   Copyright 2017 EstiNet
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -16,18 +28,7 @@ https://github.com/EstiNet/gFeatures
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
- */
-
-import java.util.concurrent.TimeUnit;
-
-import net.estinet.gFeatures.ClioteSky.API.CliotePing;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.event.PlayerDisconnectEvent;
-import net.md_5.bungee.api.event.PostLoginEvent;
-import net.md_5.bungee.api.event.ServerConnectEvent;
-import net.md_5.bungee.api.event.ServerSwitchEvent;
+*/
 
 public class EventHub{
 	@SuppressWarnings("deprecation")
