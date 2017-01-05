@@ -1,4 +1,4 @@
-package net.estinet.gFeatures.Feature.Base;
+package net.estinet.gFeatures.Feature.EstiBans;
 
 import net.md_5.bungee.api.ProxyServer;
 
@@ -23,6 +23,6 @@ https://github.com/EstiNet/gFeaturesBungee
 
 public class Disable{
 	public static void onDisable(){
-		ProxyServer.getInstance().getLogger().info("Base Plugin Disabled!");
+		ProxyServer.getInstance().getLogger().info("[EstiBans] Disabled!");
 	}
 }

@@ -1,7 +1,6 @@
-package net.estinet.gFeatures.Feature.Base;
+package net.estinet.gFeatures.Feature.EstiBans;
 
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.event.PlayerHandshakeEvent;
+import net.md_5.bungee.api.event.LoginEvent;
 
 /*
 gFeatures
@@ -23,7 +22,9 @@ https://github.com/EstiNet/gFeaturesBungee
 */
 
 public class EventHub{
-	public void onPlayerJoin(PlayerHandshakeEvent event){
-		ProxyServer.getInstance().getLogger().info("Player Joined!");
+	public void onPlayerJoin(LoginEvent event){
+		if(EstiBans.isBanned(event.getConnection().getUniqueId())){
+			
+		}
 	}
 }

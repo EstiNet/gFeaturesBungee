@@ -1,8 +1,7 @@
-package net.estinet.gFeatures.Feature.Base;
+package net.estinet.gFeatures.Feature.EstiBans;
 
 import net.estinet.gFeatures.Basic;
 import net.estinet.gFeatures.Configs;
-import net.estinet.gFeatures.Feature.Base.Commands.TestCommand;
 /*
 gFeatures
 https://github.com/EstiNet/gFeaturesBungee
@@ -21,14 +20,18 @@ https://github.com/EstiNet/gFeaturesBungee
    See the License for the specific language governing permissions and
    limitations under the License.
 */
+import net.estinet.gFeatures.Feature.EstiBans.Commands.BanCommand;
+import net.estinet.gFeatures.Feature.EstiBans.Commands.KickCommand;
+import net.estinet.gFeatures.Feature.EstiBans.Commands.MuteCommand;
 
 public class Configure{
 	@Configs
 	public static void onSetup(){
-		Base base = new Base("Base", "1.2.5");
+		EstiBans base = new EstiBans("EstiBans", "1.0.0");
 		Basic.addFeature(base);
 		
-		Basic.addCommand(new TestCommand(base));
-		
+		Basic.addCommand(new BanCommand(base));
+		Basic.addCommand(new KickCommand(base));
+		Basic.addCommand(new MuteCommand(base));
 	}
 }

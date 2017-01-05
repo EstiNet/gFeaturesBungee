@@ -25,4 +25,6 @@ public interface Events {
 	public void onServerSwitch();
 	public void onPostLogin();
 	public void onServerConnect();
+	public void onPreLogin();
+	public void onLogin();
 }

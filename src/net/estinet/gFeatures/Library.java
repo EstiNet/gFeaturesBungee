@@ -4,9 +4,11 @@ import java.util.ConcurrentModificationException;
 import java.util.List;
 
 import net.estinet.gFeatures.API.Resolver.JoinHandler;
+import net.md_5.bungee.api.event.LoginEvent;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PlayerHandshakeEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
+import net.md_5.bungee.api.event.PreLoginEvent;
 import net.md_5.bungee.api.event.ServerConnectEvent;
 import net.md_5.bungee.api.event.ServerSwitchEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -54,6 +56,14 @@ public class Library implements Listener{
 	@EventHandler
 	public void onServerConnect(ServerConnectEvent event){
 		check("onServerConnect", event);
+	}
+	@EventHandler
+	public void onPreLogin(PreLoginEvent event){
+		check("onPreLogin", event);
+	}
+	@EventHandler
+	public void onLogin(LoginEvent event){
+		check("onLogin", event);
 	}
     public void check(String methodname, Event event){
     	List<gFeature> features = Basic.getFeatures();

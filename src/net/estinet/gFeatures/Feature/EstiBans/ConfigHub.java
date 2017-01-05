@@ -1,4 +1,4 @@
-package net.estinet.gFeatures.Feature.Base;
+package net.estinet.gFeatures.Feature.EstiBans;
 
 import net.estinet.gFeatures.Configuration.Config;
 
@@ -24,6 +24,7 @@ https://github.com/EstiNet/gFeaturesBungee
 public class ConfigHub {
 	Config config = new Config();
 	public void setupConfig(){
-		config.createDirectory("plugins/gFeatures/Test", "Base plugin directory set!");
+		config.createDirectory("plugins/gFeatures/EstiBans", "[EstiBans] Plugin directory set!");
+		config.createDirectory("plugins/gFeatures/EstiBans/playerdata", "[EstiBans] Playerdata directory set!");
 	}
 }
