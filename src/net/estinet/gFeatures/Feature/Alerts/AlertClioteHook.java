@@ -45,9 +45,9 @@ public class AlertClioteHook extends ClioteHook{
 			
 			Title bt = ProxyServer.getInstance().createTitle().reset();
 			bt.title(new TextComponent(ChatColor.BOLD + "[" + ChatColor.RED + "Alert" + ChatColor.RESET + "" + ChatColor.BOLD + "]"));
-			bt.fadeIn(2);
-			bt.stay(4);
-			bt.fadeOut(2);
+			bt.fadeIn(20);
+			bt.stay(40);
+			bt.fadeOut(20);
 			bt.subTitle(tc);
 			for(ProxiedPlayer p : ProxyServer.getInstance().getPlayers()){
 				p.sendTitle(bt);

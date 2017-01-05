@@ -2,6 +2,7 @@ package net.estinet.gFeatures.Feature.SlashServer.Commands;
 
 import net.estinet.gFeatures.EstiCommand;
 import net.estinet.gFeatures.gFeature;
+import net.estinet.gFeatures.ClioteSky.API.CliotePing;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
@@ -37,8 +38,8 @@ public class SlashSurvival extends EstiCommand{
 	public void execute(CommandSender sender, String[] args) {
 		if(sender instanceof ProxiedPlayer){
 			ProxiedPlayer player = (ProxiedPlayer) sender;
-			ServerInfo target = ProxyServer.getInstance().getServerInfo("Survival");
-			player.connect(target);
+			CliotePing cp = new CliotePing();
+			cp.sendMessage("survival " + player.getName(), "all");
 		}
 		else{
 			sender.sendMessage(new ComponentBuilder("This command can only be run by a player!").color(ChatColor.AQUA).create());
