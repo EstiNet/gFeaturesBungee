@@ -31,6 +31,7 @@ public class BanCommand extends EstiCommand{
 						reason += args[i];
 					}
 					EstiBans.banPlayer(args[0], args[1], reason);
+					sender.sendMessage(new TextComponent(EstiBans.estiBansPrefix + "Banned player " + args[0] + " for a long time on " + args[1] + " because of \"" + reason + "\""));
 				}
 			}
 			catch(Exception e){
@@ -71,6 +72,7 @@ public class BanCommand extends EstiCommand{
 						EstiBans.banPlayer(args[0], args[2], reason);
 						return;
 					}
+					sender.sendMessage(new TextComponent(EstiBans.estiBansPrefix + "Banned player " + args[0] + " for " + args[1]) + " on " + args[1] + " because of \"" + reason + "\"");
 					EstiBans.banPlayer(args[0], args[2], time, reason);
 				}
 			}

@@ -126,6 +126,9 @@ public class EstiBans extends gFeature implements Events{
 	public static void kickPlayer(String name, String reason){
 		ProxyServer.getInstance().getPlayer(name).disconnect(reason);
 	}
+	public static boolean isServer(String server){
+		
+	}
 	public static void replaceSelected(String replaceWith, String type, File f) {
 	    try {
 	        // input the file content to the String "input"
