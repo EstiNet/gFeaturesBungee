@@ -68,5 +68,5 @@ public class gFeature{
 	public void onPostLogin(){}
 	public void onServerConnect(){}
 	public void onPreLogin(){}
-	public void onLogin();
+	public void onLogin(){}
 }

@@ -17,7 +17,7 @@ public class EstiBans extends gFeature implements Events{
 	
 	EventHub eh = new EventHub();
 	
-	public static String estiBansPrefix = ChatColor.BOLD + "[" + ChatColor.DARK_AQUA + "Esti" + ChatColor.GOLD + "Bans" + ChatColor.RESET + "" + ChatColor.BOLD + "] " + ChatColor.RESET + "" + ChatColor.RED;
+	public static String estiBansPrefix = ChatColor.BOLD + "[" + ChatColor.DARK_AQUA + "Esti" + ChatColor.GOLD + "Bans" + ChatColor.RESET + "" + ChatColor.BOLD + "] " + ChatColor.RESET + "" + ChatColor.AQUA;
 	
 	public EstiBans(String featurename, String d) {
 		super(featurename, d);
@@ -40,16 +40,22 @@ public class EstiBans extends gFeature implements Events{
 	@Retrieval
 	public void onLogin(){}
 	
-	public static boolean isBanned(String name){
-		return isBanned(ResolverFetcher.getUUIDfromName(name));
+	public static boolean isBannedOn(String name, String server){
+		return isBannedOn(ResolverFetcher.getUUIDfromName(name), server);
 	}
-	public static boolean isBanned(UUID uuid){
+	public static boolean isBannedOn(UUID uuid, String server){
 		
 	}
-	public static void banPlayer(String name, String server, double millis){
-		banPlayer(ResolverFetcher.getUUIDfromName(name), server, millis);
+	public static void banPlayer(String name, String server, String reason){
+		banPlayer(ResolverFetcher.getUUIDfromName(name), server, reason);
 	}
-	public static void banPlayer(UUID uuid, String server, double millis){
+	public static void banPlayer(UUID uuid, String server, String reason){
+		
+	}
+	public static void banPlayer(String name, String server, double millis, String reason){
+		banPlayer(ResolverFetcher.getUUIDfromName(name), server, millis, reason);
+	}
+	public static void banPlayer(UUID uuid, String server, double millis, String reason){
 		
 	}
 	public static void unbanPlayer(String name, String server){
@@ -58,10 +64,10 @@ public class EstiBans extends gFeature implements Events{
 	public static void unbanPlayer(UUID uuid, String server){
 		
 	}
-	public static void mutePlayer(String name, String server, double millis){
-		mutePlayer(ResolverFetcher.getUUIDfromName(name), server, millis);
+	public static void mutePlayer(String name, String server, double millis, String reason){
+		mutePlayer(ResolverFetcher.getUUIDfromName(name), server, millis, reason);
 	}
-	public static void mutePlayer(UUID uuid, String server, double millis){
+	public static void mutePlayer(UUID uuid, String server, double millis, String reason){
 		
 	}
 	public static void unmutePlayer(String name, String server){
@@ -70,10 +76,10 @@ public class EstiBans extends gFeature implements Events{
 	public static void unmutePlayer(UUID uuid, String server){
 		
 	}
-	public static void warnPlayer(String name, String server, double millis){
-		warnPlayer(ResolverFetcher.getUUIDfromName(name), server, millis);
+	public static void warnPlayer(String name, String server, double millis, String reason){
+		warnPlayer(ResolverFetcher.getUUIDfromName(name), server, millis, reason);
 	}
-	public static void warnPlayer(UUID uuid, String server, double millis){
+	public static void warnPlayer(UUID uuid, String server, double millis, String reason){
 		
 	}
 	public static void unwarnPlayer(String name, String server){
