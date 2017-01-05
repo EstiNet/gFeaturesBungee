@@ -22,6 +22,14 @@ https://github.com/EstiNet/gFeaturesBungee
 */
 
 public class ConfigHub {
+	
+	/*
+	 * Layout of player data.
+	 * Line 1: bansiqs [if banned (true/false)] [milliseconds to unban] [server] [reason]
+	 * Line 2: mutesiqs [if muted (true/false)] [milliseconds to unmute] [server] [reason]
+	 * Line 3+: warniqs[num] [milliseconds to unwarn] [reason]
+	 */
+	
 	Config config = new Config();
 	public void setupConfig(){
 		config.createDirectory("plugins/gFeatures/EstiBans", "[EstiBans] Plugin directory set!");
