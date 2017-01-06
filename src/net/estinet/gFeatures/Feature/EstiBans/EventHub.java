@@ -56,7 +56,7 @@ public class EventHub{
 			}
 		}
 		if(EstiBans.isBannedOn(event.getPlayer().getUniqueId(), event.getTarget().getName())){
-			event.getPlayer().disconnect(new TextComponent(EstiBans.getBanReason(event.getPlayer().getUniqueId())));
+			event.getPlayer().disconnect(new TextComponent(EstiBans.getBanReason(event.getPlayer().getUniqueId(), event.getTarget().getName())));
 			event.setCancelled(true);
 		}
 	}

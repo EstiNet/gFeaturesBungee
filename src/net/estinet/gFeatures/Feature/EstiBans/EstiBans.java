@@ -9,6 +9,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import net.estinet.gFeatures.Events;
@@ -68,6 +70,25 @@ public class EstiBans extends gFeature implements Events{
 			e.printStackTrace();
 		}
 		return false;
+	}
+	public static String[] getBans(String name){
+		return getBans(ResolverFetcher.getUUIDfromName(name));
+	}
+	public static String[] getBans(UUID uuid){
+		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-bans");
+		List<String> list = new ArrayList<>();
+		try {
+			FileReader fr = new FileReader(f);
+			BufferedReader br = new BufferedReader(fr);
+			String str = "";
+			while((str = br.readLine()) != null) {
+				list.add(str);
+			}   
+			br.close(); 
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+		return (String[]) list.toArray();
 	}
 	public static String getBanReason(String name, String server){
 		return getBanReason(ResolverFetcher.getUUIDfromName(name), server);
@@ -146,6 +167,25 @@ public class EstiBans extends gFeature implements Events{
 			e.printStackTrace();
 		}
 		deleteLine(f, new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-banstmp.txt"), line);
+	}
+	public static String[] getMutes(String name){
+		return getMutes(ResolverFetcher.getUUIDfromName(name));
+	}
+	public static String[] getMutes(UUID uuid){
+		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-mutes");
+		List<String> list = new ArrayList<>();
+		try {
+			FileReader fr = new FileReader(f);
+			BufferedReader br = new BufferedReader(fr);
+			String str = "";
+			while((str = br.readLine()) != null) {
+				list.add(str);
+			}   
+			br.close(); 
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+		return (String[]) list.toArray();
 	}
 	public static boolean isMutedOn(String name, String server){
 		return isMutedOn(ResolverFetcher.getUUIDfromName(name), server);
@@ -247,15 +287,34 @@ public class EstiBans extends gFeature implements Events{
 		}
 		deleteLine(f, new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-mutestmp.txt"), line);
 	}
-	public static void warnPlayer(String name, String server, double millis, String reason){
-		warnPlayer(ResolverFetcher.getUUIDfromName(name), server, millis, reason);
+	public static String[] getWarnings(String name){
+		return getWarnings(ResolverFetcher.getUUIDfromName(name));
 	}
-	public static void warnPlayer(UUID uuid, String server, double millis, String reason){
+	public static String[] getWarnings(UUID uuid){
+		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-warnings");
+		List<String> list = new ArrayList<>();
+		try {
+			FileReader fr = new FileReader(f);
+			BufferedReader br = new BufferedReader(fr);
+			String str = "";
+			while((str = br.readLine()) != null) {
+				list.add(str);
+			}   
+			br.close(); 
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+		return (String[]) list.toArray();
+	}
+	public static void warnPlayer(String name, String id, double millis, String reason){
+		warnPlayer(ResolverFetcher.getUUIDfromName(name), id, millis, reason);
+	}
+	public static void warnPlayer(UUID uuid, String id, double millis, String reason){
 		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-warnings");
 		PrintWriter pw;
 		try {
 			pw = new PrintWriter(f);
-			pw.write(millis + " " + reason);
+			pw.write(millis + " " + id + " " + reason);
 			pw.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

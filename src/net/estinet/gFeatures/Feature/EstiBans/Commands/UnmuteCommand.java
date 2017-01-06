@@ -20,11 +20,11 @@ public class UnmuteCommand extends EstiCommand{
 			sender.sendMessage(EstiBans.estiBansPrefix + "/unmute [Player] [Server]");
 		}
 		else{
-			if(EstiBans.isMutedOn(args[0], args[1])){
-				sender.sendMessage(new TextComponent(EstiBans.estiBansPrefix + ChatColor.RED + "Player already muted!"));
+			if(!EstiBans.isMutedOn(args[0], args[1])){
+				sender.sendMessage(new TextComponent(EstiBans.estiBansPrefix + ChatColor.RED + "Player is not muted!"));
 			}
 			else{
-				sender.sendMessage(new TextComponent(EstiBans.estiBansPrefix + ));
+				sender.sendMessage(new TextComponent(EstiBans.estiBansPrefix + "Player " + args[0] + " has been unmuted on " + args[1] + "."));
 				EstiBans.unmutePlayer(args[0], args[1]);
 			}
 		}
