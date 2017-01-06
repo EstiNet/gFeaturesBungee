@@ -21,8 +21,11 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 import net.estinet.gFeatures.Feature.EstiBans.Commands.BanCommand;
+import net.estinet.gFeatures.Feature.EstiBans.Commands.EstiBansCommand;
 import net.estinet.gFeatures.Feature.EstiBans.Commands.KickCommand;
 import net.estinet.gFeatures.Feature.EstiBans.Commands.MuteCommand;
+import net.estinet.gFeatures.Feature.EstiBans.Commands.UnbanCommand;
+import net.estinet.gFeatures.Feature.EstiBans.Commands.UnmuteCommand;
 
 public class Configure{
 	@Configs
@@ -33,5 +36,8 @@ public class Configure{
 		Basic.addCommand(new BanCommand(base));
 		Basic.addCommand(new KickCommand(base));
 		Basic.addCommand(new MuteCommand(base));
+		Basic.addCommand(new UnbanCommand(base));
+		Basic.addCommand(new UnmuteCommand(base));
+		Basic.addCommand(new EstiBansCommand(base));
 	}
 }

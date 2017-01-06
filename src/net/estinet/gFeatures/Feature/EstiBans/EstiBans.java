@@ -20,6 +20,7 @@ import net.estinet.gFeatures.API.Resolver.ResolverFetcher;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.event.ServerConnectEvent;
+import net.md_5.bungee.api.event.ServerSwitchEvent;
 import net.md_5.bungee.api.plugin.Event;
 
 public class EstiBans extends gFeature implements Events{
@@ -44,11 +45,17 @@ public class EstiBans extends gFeature implements Events{
 		if(event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("serverconnectevent")){
 			eh.onPlayerJoin((ServerConnectEvent)event);
 		}
+		else if(event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("serverswitchevent")){
+			eh.onServerSwitch((ServerSwitchEvent) event);
+		}
 	}
 	@Override
 	@Retrieval
 	public void onServerConnect(){}
-
+	@Override
+	@Retrieval
+	public void onServerSwitch(){}
+	
 	public static boolean isBannedOn(String name, String server){
 		return isBannedOn(ResolverFetcher.getUUIDfromName(name), server);
 	}
@@ -104,7 +111,7 @@ public class EstiBans extends gFeature implements Events{
 				if(strs[1].equals(server)){
 					String reason = "";
 					for(int i = 2; i < strs.length; i++){
-						reason += strs[i];
+						reason += strs[i] + " ";
 					}
 					br.close();
 					return reason;
@@ -223,7 +230,7 @@ public class EstiBans extends gFeature implements Events{
 				if(strs[1].equals(server)){
 					String reason = "";
 					for(int i = 2; i < strs.length; i++){
-						reason += strs[i];
+						reason += strs[i] + " ";
 					}
 					br.close();
 					return reason;

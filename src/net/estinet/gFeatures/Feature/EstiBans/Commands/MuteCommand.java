@@ -27,7 +27,7 @@ public class MuteCommand extends EstiCommand{
 				try{
 					String reason = "";
 					for(int i = 2; i < args.length; i++){
-						reason += args[i];
+						reason += args[i] + " ";
 					}
 					EstiBans.mutePlayer(args[0], args[1], reason);
 				}
@@ -47,7 +47,7 @@ public class MuteCommand extends EstiCommand{
 				else{
 					String reason = "";
 					for(int i = 3; i < args.length; i++){
-						reason += args[i];
+						reason += args[i] + " ";
 					}
 					long time = System.currentTimeMillis();
 					long numeral = Long.parseLong(args[1].replaceAll("\\D+",""));

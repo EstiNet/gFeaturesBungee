@@ -25,7 +25,7 @@ public class KickCommand extends EstiCommand{
 			else{
 				String reason = "";
 				for(int i = 1; i < args.length; i++){
-					reason += args[i];
+					reason += args[i] + " ";
 				}
 				EstiBans.kickPlayer(args[0], reason);
 				sender.sendMessage(EstiBans.estiBansPrefix + "Kicked Player " + args[0] + " for \"" + reason + "\"");

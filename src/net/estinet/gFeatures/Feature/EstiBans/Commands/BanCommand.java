@@ -28,7 +28,7 @@ public class BanCommand extends EstiCommand{
 				else{
 					String reason = "";
 					for(int i = 2; i < args.length; i++){
-						reason += args[i];
+						reason += args[i] + " ";
 					}
 					EstiBans.banPlayer(args[0], args[1], reason);
 					sender.sendMessage(new TextComponent(EstiBans.estiBansPrefix + "Banned player " + args[0] + " for a long time on " + args[1] + " because of \"" + reason + "\""));
@@ -49,7 +49,7 @@ public class BanCommand extends EstiCommand{
 				else{
 					String reason = "";
 					for(int i = 3; i < args.length; i++){
-						reason += args[i];
+						reason += args[i] + " ";
 					}
 					long time = System.currentTimeMillis();
 					long numeral = Long.parseLong(args[1].replaceAll("\\D+",""));

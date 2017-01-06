@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.event.ServerConnectEvent;
+import net.md_5.bungee.api.event.ServerSwitchEvent;
 
 /*
 gFeatures
@@ -59,5 +60,8 @@ public class EventHub{
 			event.getPlayer().disconnect(new TextComponent(EstiBans.getBanReason(event.getPlayer().getUniqueId(), event.getTarget().getName())));
 			event.setCancelled(true);
 		}
+	}
+	public void onServerSwitch(ServerSwitchEvent event){
+		
 	}
 }

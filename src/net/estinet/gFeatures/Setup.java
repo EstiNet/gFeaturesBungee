@@ -40,5 +40,6 @@ public class Setup {
 		net.estinet.gFeatures.Feature.Friendship.Configure.onSetup();
 		net.estinet.gFeatures.Feature.ServerQuery.Configure.onSetup();
 		net.estinet.gFeatures.Feature.FusionPlay.Configure.onSetup();
+		net.estinet.gFeatures.Feature.EstiBans.Configure.onSetup();
 	}
 }
