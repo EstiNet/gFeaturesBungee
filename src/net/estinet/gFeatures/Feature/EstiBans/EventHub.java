@@ -29,20 +29,29 @@ https://github.com/EstiNet/gFeaturesBungee
 
 public class EventHub{
 	public void onPlayerJoin(ServerConnectEvent event){
-		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + event.getPlayer().getUniqueId());
-		if(!f.exists()){
+		File bans = new File("plugins/gFeatures/EstiBans/playerdata/" + event.getPlayer().getUniqueId() + "-bans");
+		File mutes = new File("plugins/gFeatures/EstiBans/playerdata/" + event.getPlayer().getUniqueId() + "-mutes");
+		File warnings = new File("plugins/gFeatures/EstiBans/playerdata/" + event.getPlayer().getUniqueId() + "-warnings");
+		if(!bans.exists()){
 			try {
-				f.createNewFile();
-				
+				bans.createNewFile();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			try {
-				PrintWriter pw = new PrintWriter(f);
-				pw.write("bansiqs false");
-				pw.write("mutesiqs false");
-				pw.close();
-			} catch (FileNotFoundException e) {
+		}
+		if(!mutes.exists()){
+			try{
+				mutes.createNewFile();
+			}
+			catch(IOException e){
+				e.printStackTrace();
+			}
+		}
+		if(!warnings.exists()){
+			try{
+				warnings.createNewFile();
+			}
+			catch(IOException e){
 				e.printStackTrace();
 			}
 		}

@@ -25,9 +25,9 @@ public class ConfigHub {
 	
 	/*
 	 * Layout of player data.
-	 * Line 1: bansiqs [if banned (true/false)] [milliseconds to unban] [server] [reason]
-	 * Line 2: mutesiqs [if muted (true/false)] [milliseconds to unmute] [server] [reason]
-	 * Line 3+: warniqs[num] [milliseconds to unwarn] [reason]
+	 * Bans: [id] [milliseconds to unban] [server] [reason]
+	 * Mutes: [id] [milliseconds to unmute] [server] [reason]
+	 * Warnings: [id] [milliseconds to unwarn] [reason]
 	 */
 	
 	Config config = new Config();
