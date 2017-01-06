@@ -173,7 +173,7 @@ public class EstiBans extends gFeature implements Events{
 		return getMuteReason(ResolverFetcher.getUUIDfromName(name), server);
 	}
 	public static String getMuteReason(UUID uuid, String server){
-		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-bans");
+		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-mutes");
 		try {
 			FileReader fr = new FileReader(f);
 			BufferedReader br = new BufferedReader(fr);
@@ -199,34 +199,91 @@ public class EstiBans extends gFeature implements Events{
 		mutePlayer(ResolverFetcher.getUUIDfromName(name), server, reason);
 	}
 	public static void mutePlayer(UUID uuid, String server, String reason){
-		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString());
-		replaceSelected("bansiqs", "muteiqs true forever " + server + " " + reason, f);
+		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-mutes");
+		PrintWriter pw;
+		try {
+			pw = new PrintWriter(f);
+			pw.write("forever " + server + " " + reason);
+			pw.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 	public static void mutePlayer(String name, String server, double millis, String reason){
 		mutePlayer(ResolverFetcher.getUUIDfromName(name), server, millis, reason);
 	}
 	public static void mutePlayer(UUID uuid, String server, double millis, String reason){
-		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString());
-		replaceSelected("bansiqs", "muteiqs true " + millis + " " + server + " " + reason, f);
+		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-mutes");
+		PrintWriter pw;
+		try {
+			pw = new PrintWriter(f);
+			pw.write(millis + " " + server + " " + reason);
+			pw.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 	public static void unmutePlayer(String name, String server){
 		unmutePlayer(ResolverFetcher.getUUIDfromName(name), server);
 	}
 	public static void unmutePlayer(UUID uuid, String server){
-		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString());
-		replaceSelected("bansiqs", "muteiqs false", f);
+		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-mutes");
+		String line = "";
+		try {
+			FileReader fr = new FileReader(f);
+			BufferedReader br = new BufferedReader(fr);
+			String str = "";
+			while((str = br.readLine()) != null) {
+				String[] strs = str.split(" ");
+				if(strs[1].equals(server)){
+					br.close();
+					line = str;
+					break;
+				}
+			}   
+			br.close(); 
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+		deleteLine(f, new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-mutestmp.txt"), line);
 	}
 	public static void warnPlayer(String name, String server, double millis, String reason){
 		warnPlayer(ResolverFetcher.getUUIDfromName(name), server, millis, reason);
 	}
 	public static void warnPlayer(UUID uuid, String server, double millis, String reason){
-
+		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-warnings");
+		PrintWriter pw;
+		try {
+			pw = new PrintWriter(f);
+			pw.write(millis + " " + reason);
+			pw.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
-	public static void unwarnPlayer(String name, String server){
-		unwarnPlayer(ResolverFetcher.getUUIDfromName(name), server);
+	public static void unwarnPlayer(String name, String id){
+		unwarnPlayer(ResolverFetcher.getUUIDfromName(name), id);
 	}
-	public static void unwarnPlayer(UUID uuid, String server){
-
+	public static void unwarnPlayer(UUID uuid, String id){
+		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-warnings");
+		String line = "";
+		try {
+			FileReader fr = new FileReader(f);
+			BufferedReader br = new BufferedReader(fr);
+			String str = "";
+			while((str = br.readLine()) != null) {
+				String[] strs = str.split(" ");
+				if(strs[1].equals(id)){
+					br.close();
+					line = str;
+					break;
+				}
+			}   
+			br.close(); 
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+		deleteLine(f, new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-warningstmp.txt"), line);
 	}
 	@SuppressWarnings("deprecation")
 	public static void kickPlayer(String name, String reason){

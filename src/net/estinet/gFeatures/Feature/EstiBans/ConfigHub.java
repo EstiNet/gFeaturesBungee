@@ -25,9 +25,9 @@ public class ConfigHub {
 	
 	/*
 	 * Layout of player data.
-	 * Bans: [id] [milliseconds to unban] [server] [reason]
-	 * Mutes: [id] [milliseconds to unmute] [server] [reason]
-	 * Warnings: [id] [milliseconds to unwarn] [reason]
+	 * Bans: [milliseconds to unban] [server] [reason]
+	 * Mutes: [milliseconds to unmute] [server] [reason]
+	 * Warnings: [milliseconds to unwarn] [id] [reason]
 	 */
 	
 	Config config = new Config();
