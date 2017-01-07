@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.event.ServerConnectEvent;
@@ -36,6 +37,7 @@ public class EventHub{
 		if(!bans.exists()){
 			try {
 				bans.createNewFile();
+				EstiBans.bans.put(event.getPlayer().getUniqueId(), new ArrayList<>());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -43,6 +45,7 @@ public class EventHub{
 		if(!mutes.exists()){
 			try{
 				mutes.createNewFile();
+				EstiBans.mutes.put(event.getPlayer().getUniqueId(), new ArrayList<>());
 			}
 			catch(IOException e){
 				e.printStackTrace();
@@ -51,6 +54,7 @@ public class EventHub{
 		if(!warnings.exists()){
 			try{
 				warnings.createNewFile();
+				EstiBans.warnings.put(event.getPlayer().getUniqueId(), new ArrayList<>());
 			}
 			catch(IOException e){
 				e.printStackTrace();
