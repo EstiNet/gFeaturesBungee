@@ -30,6 +30,7 @@ public class MuteCommand extends EstiCommand{
 					for(int i = 2; i < args.length; i++){
 						reason += args[i] + " ";
 					}
+					sender.sendMessage(new TextComponent(EstiBans.estiBansPrefix + "Muted player " + args[0] + " for a long time on " + args[1] + " because of \"" + reason + "\""));
 					EstiBans.mutePlayer(args[0], args[1], reason);
 				}
 				catch(Exception e){

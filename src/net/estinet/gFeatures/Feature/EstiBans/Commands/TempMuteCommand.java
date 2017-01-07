@@ -18,7 +18,7 @@ public class TempMuteCommand extends EstiCommand{
 	@Override
 	public void execute(CommandSender sender, String[] args) {
 		if(args.length < 3){
-			sender.sendMessage(EstiBans.estiBansPrefix + "/mute [Player] [Length] [Server] [Reason]");
+			sender.sendMessage(EstiBans.estiBansPrefix + "/tempmute [Player] [Length] [Server] [Reason]");
 		}
 		else{
 			try{
@@ -51,6 +51,7 @@ public class TempMuteCommand extends EstiCommand{
 						EstiBans.mutePlayer(args[0], args[2], reason);
 						return;
 					}
+					sender.sendMessage(new TextComponent(EstiBans.estiBansPrefix + "Muted player " + args[0] + " for " + args[1]) + " on " + args[1] + " because of \"" + reason + "\"");
 					EstiBans.mutePlayer(args[0], args[2], time, reason);
 				}
 			}
