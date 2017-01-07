@@ -19,7 +19,11 @@ public class EstiBansCommand extends EstiCommand{
 		if(args.length == 1){
 			if(args[0].equalsIgnoreCase("help")){
 				sender.sendMessage(ChatColor.AQUA + "----- EstiBans -----");
-				sender.sendMessage(ChatColor.AQUA + "/estibans info [Player]");
+				sender.sendMessage(ChatColor.AQUA + "/estibans info [Player] - Obtains player information.");
+				sender.sendMessage(ChatColor.AQUA + "/estibans reload - Reloads from the config.");
+			}
+			else if(args[0].equalsIgnoreCase("reload")){
+				
 			}
 			else{
 				sender.sendMessage(EstiBans.estiBansPrefix + "/estibans help");

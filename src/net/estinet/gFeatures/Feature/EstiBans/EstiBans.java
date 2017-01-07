@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,6 +28,10 @@ public class EstiBans extends gFeature implements Events{
 
 	EventHub eh = new EventHub();
 
+	public static HashMap<UUID, List<String>> bans = new HashMap<>();
+	public static HashMap<UUID, List<String>> mutes = new HashMap<>();
+	public static HashMap<UUID, List<String>> warnings = new HashMap<>();
+	
 	public static String estiBansPrefix = ChatColor.BOLD + "[" + ChatColor.DARK_AQUA + "Esti" + ChatColor.GOLD + "Bans" + ChatColor.RESET + "" + ChatColor.BOLD + "] " + ChatColor.RESET + "" + ChatColor.AQUA;
 
 	public EstiBans(String featurename, String d) {
@@ -56,10 +61,10 @@ public class EstiBans extends gFeature implements Events{
 	@Retrieval
 	public void onServerSwitch(){}
 	
-	public static boolean isBannedOn(String name, String server){
-		return isBannedOn(ResolverFetcher.getUUIDfromName(name), server);
+	public static boolean isBannedOnDirect(String name, String server){
+		return isBannedOnDirect(ResolverFetcher.getUUIDfromName(name), server);
 	}
-	public static boolean isBannedOn(UUID uuid, String server){
+	public static boolean isBannedOnDirect(UUID uuid, String server){
 		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-bans");
 		try {
 			FileReader fr = new FileReader(f);
@@ -78,10 +83,26 @@ public class EstiBans extends gFeature implements Events{
 		}
 		return false;
 	}
-	public static String[] getBans(String name){
-		return getBans(ResolverFetcher.getUUIDfromName(name));
+	public static boolean isBannedOn(String name, String server){
+		return isBannedOn(ResolverFetcher.getUUIDfromName(name), server);
 	}
-	public static String[] getBans(UUID uuid){
+	public static boolean isBannedOn(UUID uuid, String server){
+		try {
+			for(String line : bans.get(uuid)){
+				String[] str = line.split(" ");
+				if(str[1].equalsIgnoreCase(server)){
+					return true;
+				}
+			}
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		return false;
+	}
+	public static String[] getBansDirect(String name){
+		return getBansDirect(ResolverFetcher.getUUIDfromName(name));
+	}
+	public static String[] getBansDirect(UUID uuid){
 		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-bans");
 		List<String> list = new ArrayList<>();
 		try {
@@ -96,6 +117,12 @@ public class EstiBans extends gFeature implements Events{
 			e.printStackTrace();
 		}
 		return (String[]) list.toArray();
+	}
+	public static String[] getBans(String name){
+		return getBans(ResolverFetcher.getUUIDfromName(name));
+	}
+	public static String[] getBans(UUID uuid){
+		return (String[]) bans.get(uuid).toArray();
 	}
 	public static String getBanReason(String name, String server){
 		return getBanReason(ResolverFetcher.getUUIDfromName(name), server);
