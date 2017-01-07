@@ -206,7 +206,9 @@ public class EstiBans extends gFeature implements Events{
 	public static void unbanPlayer(UUID uuid, String server){
 		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-bans");
 		for(int i = 0; i < bans.get(uuid).size(); i++){
-			
+			if(bans.get(uuid).get(i).split(" ")[1].equals(server)){
+				
+			}
 		}
 		String line = "";
 		try {
