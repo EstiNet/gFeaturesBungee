@@ -124,10 +124,10 @@ public class EstiBans extends gFeature implements Events{
 	public static String[] getBans(UUID uuid){
 		return (String[]) bans.get(uuid).toArray();
 	}
-	public static String getBanReason(String name, String server){
-		return getBanReason(ResolverFetcher.getUUIDfromName(name), server);
+	public static String getBanReasonDirect(String name, String server){
+		return getBanReasonDirect(ResolverFetcher.getUUIDfromName(name), server);
 	}
-	public static String getBanReason(UUID uuid, String server){
+	public static String getBanReasonDirect(UUID uuid, String server){
 		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-bans");
 		try {
 			FileReader fr = new FileReader(f);
@@ -150,11 +150,32 @@ public class EstiBans extends gFeature implements Events{
 		}
 		return null;
 	}
+	public static String getBanReason(String name, String server){
+		return getBanReason(ResolverFetcher.getUUIDfromName(name), server);
+	}
+	public static String getBanReason(UUID uuid, String server){
+		try {
+			for(String line : bans.get(uuid)){
+				String[] str = line.split(" ");
+				if(str[1].equalsIgnoreCase(server)){
+					String reason = "";
+					for(int i = 2; i < str.length; i++){
+						reason += str[i] + " ";
+					}
+					return reason;
+				}
+			}
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
 	public static void banPlayer(String name, String server, String reason){
 		banPlayer(ResolverFetcher.getUUIDfromName(name), server, reason);
 	}
 	public static void banPlayer(UUID uuid, String server, String reason){
 		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-bans");
+		bans.get(uuid).add("forever " + server + " " + reason);
 		PrintWriter pw;
 		try {
 			pw = new PrintWriter(f);
@@ -169,6 +190,7 @@ public class EstiBans extends gFeature implements Events{
 	}
 	public static void banPlayer(UUID uuid, String server, double millis, String reason){
 		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-bans");
+		bans.get(uuid).add(millis + " " + server + " " + reason);
 		PrintWriter pw;
 		try {
 			pw = new PrintWriter(f);
@@ -183,6 +205,9 @@ public class EstiBans extends gFeature implements Events{
 	}
 	public static void unbanPlayer(UUID uuid, String server){
 		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-bans");
+		for(int i = 0; i < bans.get(uuid).size(); i++){
+			
+		}
 		String line = "";
 		try {
 			FileReader fr = new FileReader(f);
