@@ -51,6 +51,10 @@ public class TempBanCommand extends EstiCommand{
 						EstiBans.banPlayer(args[0], args[2], reason);
 						return;
 					}
+					else{
+						sender.sendMessage(new TextComponent(EstiBans.estiBansPrefix + ChatColor.RED + "Incorrect timestamp."));
+						return;
+					}
 					sender.sendMessage(new TextComponent(EstiBans.estiBansPrefix + "Banned player " + args[0] + " for " + args[1]) + " on " + args[1] + " because of \"" + reason + "\"");
 					EstiBans.banPlayer(args[0], args[2], time, reason);
 				}

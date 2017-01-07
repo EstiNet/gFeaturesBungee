@@ -1,8 +1,11 @@
 package net.estinet.gFeatures.Feature.EstiBans.Commands;
 
+import java.util.UUID;
+
 import net.estinet.gFeatures.EstiCommand;
 import net.estinet.gFeatures.Listeners;
 import net.estinet.gFeatures.gFeature;
+import net.estinet.gFeatures.API.Resolver.ResolverFetcher;
 import net.estinet.gFeatures.Feature.EstiBans.EstiBans;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
@@ -43,12 +46,12 @@ public class WarnCommand extends EstiCommand{
 				else if(args[1].contains("d")){
 					time += numeral * 8.64e+7;
 				}
-				else if(args[1].contains("f")){
-					EstiBans.banPlayer(args[0], args[2], reason);
+				else{
+					sender.sendMessage(new TextComponent(EstiBans.estiBansPrefix + ChatColor.RED + "Incorrect timestamp."));
 					return;
 				}
-					EstiBans.banPlayer(args[0], args[1], reason);
-					sender.sendMessage(new TextComponent(EstiBans.estiBansPrefix + "Banned player " + args[0] + " for a long time on " + args[1] + " because of \"" + reason + "\""));
+					EstiBans.warnPlayer(args[0], EstiBans.getNextWarnID(UUID.fromString(ResolverFetcher.getUUIDfromName(args[0]))), time, reason);
+					sender.sendMessage(new TextComponent(EstiBans.estiBansPrefix + "Warned player " + args[0] + " for " + args[1] + " on " + args[2] + " because of \"" + reason + "\""));
 			}
 			catch(Exception e){
 				if(Listeners.debug){

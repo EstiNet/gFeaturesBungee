@@ -51,6 +51,10 @@ public class TempMuteCommand extends EstiCommand{
 						EstiBans.mutePlayer(args[0], args[2], reason);
 						return;
 					}
+					else{
+						sender.sendMessage(new TextComponent(EstiBans.estiBansPrefix + ChatColor.RED + "Incorrect timestamp."));
+						return;
+					}
 					sender.sendMessage(new TextComponent(EstiBans.estiBansPrefix + "Muted player " + args[0] + " for " + args[1]) + " on " + args[1] + " because of \"" + reason + "\"");
 					EstiBans.mutePlayer(args[0], args[2], time, reason);
 				}
