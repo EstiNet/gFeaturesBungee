@@ -66,6 +66,8 @@ public class EventHub{
 		}
 	}
 	public void onServerSwitch(ServerSwitchEvent event){
-		
+		if(EstiBans.isBannedOn(event.getPlayer().getUniqueId(), event.getPlayer().getServer().getInfo().getName())){
+			event.getPlayer().disconnect(new TextComponent(EstiBans.getBanReason(event.getPlayer().getUniqueId(), event.getPlayer().getServer().getInfo().getName())));
+		}
 	}
 }

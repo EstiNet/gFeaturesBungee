@@ -24,8 +24,12 @@ import net.estinet.gFeatures.Feature.EstiBans.Commands.BanCommand;
 import net.estinet.gFeatures.Feature.EstiBans.Commands.EstiBansCommand;
 import net.estinet.gFeatures.Feature.EstiBans.Commands.KickCommand;
 import net.estinet.gFeatures.Feature.EstiBans.Commands.MuteCommand;
+import net.estinet.gFeatures.Feature.EstiBans.Commands.TempBanCommand;
+import net.estinet.gFeatures.Feature.EstiBans.Commands.TempMuteCommand;
 import net.estinet.gFeatures.Feature.EstiBans.Commands.UnbanCommand;
 import net.estinet.gFeatures.Feature.EstiBans.Commands.UnmuteCommand;
+import net.estinet.gFeatures.Feature.EstiBans.Commands.UnwarnCommand;
+import net.estinet.gFeatures.Feature.EstiBans.Commands.WarnCommand;
 
 public class Configure{
 	@Configs
@@ -39,5 +43,9 @@ public class Configure{
 		Basic.addCommand(new UnbanCommand(base));
 		Basic.addCommand(new UnmuteCommand(base));
 		Basic.addCommand(new EstiBansCommand(base));
+		Basic.addCommand(new TempBanCommand(base));
+		Basic.addCommand(new TempMuteCommand(base));
+		Basic.addCommand(new UnwarnCommand(base));
+		Basic.addCommand(new WarnCommand(base));
 	}
 }
