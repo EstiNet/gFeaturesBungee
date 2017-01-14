@@ -26,6 +26,7 @@ import net.estinet.gFeatures.API.Resolver.ResolverFetcher;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ServerConnectEvent;
 import net.md_5.bungee.api.event.ServerSwitchEvent;
 import net.md_5.bungee.api.plugin.Event;
@@ -37,7 +38,7 @@ public class EstiBans extends gFeature implements Events{
 	public static HashMap<UUID, List<String>> bans = new HashMap<>();
 	public static HashMap<UUID, List<String>> mutes = new HashMap<>();
 	public static HashMap<UUID, List<String>> warnings = new HashMap<>();
-	
+
 	public static String estiBansPrefix = ChatColor.BOLD + "[" + ChatColor.DARK_AQUA + "Esti" + ChatColor.GOLD + "Bans" + ChatColor.RESET + "" + ChatColor.BOLD + "] " + ChatColor.RESET + "" + ChatColor.AQUA;
 
 	public EstiBans(String featurename, String d) {
@@ -66,9 +67,9 @@ public class EstiBans extends gFeature implements Events{
 	@Override
 	@Retrieval
 	public void onServerSwitch(){}
-	
+
 	public static boolean isBannedOnDirect(String name, String server){
-		return isBannedOnDirect(ResolverFetcher.getUUIDfromName(name), server);
+		return isBannedOnDirect(UUID.fromString(ResolverFetcher.getUUIDfromName(name)), server);
 	}
 	public static boolean isBannedOnDirect(UUID uuid, String server){
 		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-bans");
@@ -79,11 +80,13 @@ public class EstiBans extends gFeature implements Events{
 			while((str = br.readLine()) != null) {
 				String[] strs = str.split(" ");
 				if(strs[1].equals(server)){
-					if(System.currentTimeMillis() >= Double.parseDouble(strs[0])){
-						unbanPlayer(uuid, server);
-						br.close();
-						return false;
-					}
+					try{
+						if(System.currentTimeMillis() >= Double.parseDouble(strs[0])){
+							unbanPlayer(uuid, server);
+							br.close();
+							return false;
+						}
+					}catch(NumberFormatException e){}
 					br.close(); 
 					return true;
 				}
@@ -95,17 +98,20 @@ public class EstiBans extends gFeature implements Events{
 		return false;
 	}
 	public static boolean isBannedOn(String name, String server){
-		return isBannedOn(ResolverFetcher.getUUIDfromName(name), server);
+		return isBannedOn(UUID.fromString(ResolverFetcher.getUUIDfromName(name)), server);
 	}
 	public static boolean isBannedOn(UUID uuid, String server){
 		try {
 			for(String line : bans.get(uuid)){
 				String[] str = line.split(" ");
 				if(str[1].equalsIgnoreCase(server)){
-					if(System.currentTimeMillis() >= Double.parseDouble(str[0])){
-						unbanPlayer(uuid, server);
-						return false;
+					try{
+						if(System.currentTimeMillis() >= Double.parseDouble(str[0])){
+							unbanPlayer(uuid, server);
+							return false;
+						}
 					}
+					catch(NumberFormatException e){}
 					return true;
 				}
 			}
@@ -115,7 +121,7 @@ public class EstiBans extends gFeature implements Events{
 		return false;
 	}
 	public static String[] getBansDirect(String name){
-		return getBansDirect(ResolverFetcher.getUUIDfromName(name));
+		return getBansDirect(UUID.fromString(ResolverFetcher.getUUIDfromName(name)));
 	}
 	public static String[] getBansDirect(UUID uuid){
 		checkOverdueBans(uuid);
@@ -135,7 +141,7 @@ public class EstiBans extends gFeature implements Events{
 		return (String[]) list.toArray();
 	}
 	public static String[] getBans(String name){
-		return getBans(ResolverFetcher.getUUIDfromName(name));
+		return getBans(UUID.fromString(ResolverFetcher.getUUIDfromName(name)));
 	}
 	public static String[] getBans(UUID uuid){
 		checkOverdueBans(uuid);
@@ -150,7 +156,7 @@ public class EstiBans extends gFeature implements Events{
 		}
 	}
 	public static String getBanReasonDirect(String name, String server){
-		return getBanReasonDirect(ResolverFetcher.getUUIDfromName(name), server);
+		return getBanReasonDirect(UUID.fromString(ResolverFetcher.getUUIDfromName(name)), server);
 	}
 	public static String getBanReasonDirect(UUID uuid, String server){
 		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-bans");
@@ -176,7 +182,7 @@ public class EstiBans extends gFeature implements Events{
 		return null;
 	}
 	public static String getBanReason(String name, String server){
-		return getBanReason(ResolverFetcher.getUUIDfromName(name), server);
+		return getBanReason(UUID.fromString(ResolverFetcher.getUUIDfromName(name)), server);
 	}
 	public static String getBanReason(UUID uuid, String server){
 		try {
@@ -196,11 +202,13 @@ public class EstiBans extends gFeature implements Events{
 		return null;
 	}
 	public static void banPlayer(String name, String server, String reason){
-		banPlayer(ResolverFetcher.getUUIDfromName(name), server, reason);
+		banPlayer(UUID.fromString(ResolverFetcher.getUUIDfromName(name)), server, reason);
 	}
 	public static void banPlayer(UUID uuid, String server, String reason){
 		try{
-			ProxyServer.getInstance().getPlayer(uuid).disconnect(new TextComponent(getProperBanReason(reason, "never")));
+			if(isOnServer(ProxyServer.getInstance().getPlayer(uuid), server)){
+				ProxyServer.getInstance().getPlayer(uuid).disconnect(new TextComponent(getProperBanReason(reason, "never")));
+			}
 		}
 		catch(Exception e){}
 		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-bans");
@@ -215,14 +223,16 @@ public class EstiBans extends gFeature implements Events{
 		}
 	}
 	public static void banPlayer(String name, String server, double millis, String reason){
-		banPlayer(ResolverFetcher.getUUIDfromName(name), server, millis, reason);
+		banPlayer(UUID.fromString(ResolverFetcher.getUUIDfromName(name)), server, millis, reason);
 	}
 	public static void banPlayer(UUID uuid, String server, double millis, String reason){
 		Date date = new Date((long) (millis - System.currentTimeMillis()));
 		DateFormat formatter = new SimpleDateFormat("HH:mm:ss:SSS");
 		String dateFormatted = formatter.format(date);
 		try{
-			ProxyServer.getInstance().getPlayer(uuid).disconnect(new TextComponent(getProperBanReason(reason, dateFormatted)));
+			if(isOnServer(ProxyServer.getInstance().getPlayer(uuid), server)){
+				ProxyServer.getInstance().getPlayer(uuid).disconnect(new TextComponent(getProperBanReason(reason, dateFormatted)));
+			}
 		}
 		catch(Exception e){}
 		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-bans");
@@ -237,7 +247,7 @@ public class EstiBans extends gFeature implements Events{
 		}
 	}
 	public static void unbanPlayer(String name, String server){
-		unbanPlayer(ResolverFetcher.getUUIDfromName(name), server);
+		unbanPlayer(UUID.fromString(ResolverFetcher.getUUIDfromName(name)), server);
 	}
 	public static void unbanPlayer(UUID uuid, String server){
 		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-bans");
@@ -267,7 +277,7 @@ public class EstiBans extends gFeature implements Events{
 		deleteLine(f, new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-banstmp.txt"), line);
 	}
 	public static String[] getMutesDirect(String name){
-		return getMutesDirect(ResolverFetcher.getUUIDfromName(name));
+		return getMutesDirect(UUID.fromString(ResolverFetcher.getUUIDfromName(name)));
 	}
 	public static String[] getMutesDirect(UUID uuid){
 		checkOverdueMutes(uuid);
@@ -287,14 +297,14 @@ public class EstiBans extends gFeature implements Events{
 		return (String[]) list.toArray();
 	}
 	public static String[] getMutes(String name){
-		return getMutes(ResolverFetcher.getUUIDfromName(name));
+		return getMutes(UUID.fromString(ResolverFetcher.getUUIDfromName(name)));
 	}
 	public static String[] getMutes(UUID uuid){
 		checkOverdueMutes(uuid);
 		return (String[]) mutes.get(uuid).toArray();
 	}
 	public static boolean isMutedOnDirect(String name, String server){
-		return isMutedOnDirect(ResolverFetcher.getUUIDfromName(name), server);
+		return isMutedOnDirect(UUID.fromString(ResolverFetcher.getUUIDfromName(name)), server);
 	}
 	public static boolean isMutedOnDirect(UUID uuid, String server){
 		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-mutes");
@@ -305,11 +315,13 @@ public class EstiBans extends gFeature implements Events{
 			while((str = br.readLine()) != null) {
 				String[] strs = str.split(" ");
 				if(strs[1].equals(server)){
-					if(System.currentTimeMillis() >= Double.parseDouble(strs[0])){
-						unmutePlayer(uuid, server);
-						br.close();
-						return false;
-					}
+					try{
+						if(System.currentTimeMillis() >= Double.parseDouble(strs[0])){
+							unmutePlayer(uuid, server);
+							br.close();
+							return false;
+						}
+					}catch(NumberFormatException e){}
 					br.close(); 
 					return true;
 				}
@@ -321,17 +333,19 @@ public class EstiBans extends gFeature implements Events{
 		return false;
 	}
 	public static boolean isMutedOn(String name, String server){
-		return isMutedOn(ResolverFetcher.getUUIDfromName(name), server);
+		return isMutedOn(UUID.fromString(ResolverFetcher.getUUIDfromName(name)), server);
 	}
 	public static boolean isMutedOn(UUID uuid, String server){
 		try {
 			for(String line : mutes.get(uuid)){
 				String[] str = line.split(" ");
 				if(str[1].equalsIgnoreCase(server)){
+					try{
 					if(System.currentTimeMillis() >= Double.parseDouble(str[0])){
 						unmutePlayer(uuid, server);
 						return false;
 					}
+				}catch(NumberFormatException e){}
 					return true;
 				}
 			}
@@ -349,7 +363,7 @@ public class EstiBans extends gFeature implements Events{
 		}
 	}
 	public static String getMuteReasonDirect(String name, String server){
-		return getMuteReasonDirect(ResolverFetcher.getUUIDfromName(name), server);
+		return getMuteReasonDirect(UUID.fromString(ResolverFetcher.getUUIDfromName(name)), server);
 	}
 	public static String getMuteReasonDirect(UUID uuid, String server){
 		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-mutes");
@@ -375,7 +389,7 @@ public class EstiBans extends gFeature implements Events{
 		return null;
 	}
 	public static String getMuteReason(String name, String server){
-		return getMuteReason(ResolverFetcher.getUUIDfromName(name), server);
+		return getMuteReason(UUID.fromString(ResolverFetcher.getUUIDfromName(name)), server);
 	}
 	public static String getMuteReason(UUID uuid, String server){
 		try {
@@ -395,7 +409,7 @@ public class EstiBans extends gFeature implements Events{
 		return null;
 	}
 	public static void mutePlayer(String name, String server, String reason){
-		mutePlayer(ResolverFetcher.getUUIDfromName(name), server, reason);
+		mutePlayer(UUID.fromString(ResolverFetcher.getUUIDfromName(name)), server, reason);
 	}
 	public static void mutePlayer(UUID uuid, String server, String reason){
 		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-mutes");
@@ -410,7 +424,7 @@ public class EstiBans extends gFeature implements Events{
 		}
 	}
 	public static void mutePlayer(String name, String server, double millis, String reason){
-		mutePlayer(ResolverFetcher.getUUIDfromName(name), server, millis, reason);
+		mutePlayer(UUID.fromString(ResolverFetcher.getUUIDfromName(name)), server, millis, reason);
 	}
 	public static void mutePlayer(UUID uuid, String server, double millis, String reason){
 		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-mutes");
@@ -425,7 +439,7 @@ public class EstiBans extends gFeature implements Events{
 		}
 	}
 	public static void unmutePlayer(String name, String server){
-		unmutePlayer(ResolverFetcher.getUUIDfromName(name), server);
+		unmutePlayer(UUID.fromString(ResolverFetcher.getUUIDfromName(name)), server);
 	}
 	public static void unmutePlayer(UUID uuid, String server){
 		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-mutes");
@@ -455,7 +469,7 @@ public class EstiBans extends gFeature implements Events{
 		deleteLine(f, new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-mutestmp.txt"), line);
 	}
 	public static String[] getWarningsDirect(String name){
-		return getWarningsDirect(ResolverFetcher.getUUIDfromName(name));
+		return getWarningsDirect(UUID.fromString(ResolverFetcher.getUUIDfromName(name)));
 	}
 	public static String[] getWarningsDirect(UUID uuid){
 		checkOverdueWarnings(uuid);
@@ -475,7 +489,7 @@ public class EstiBans extends gFeature implements Events{
 		return (String[]) list.toArray();
 	}
 	public static String[] getWarnings(String name){
-		return getWarnings(ResolverFetcher.getUUIDfromName(name));
+		return getWarnings(UUID.fromString(ResolverFetcher.getUUIDfromName(name)));
 	}
 	public static String[] getWarnings(UUID uuid){
 		checkOverdueWarnings(uuid);
@@ -518,7 +532,7 @@ public class EstiBans extends gFeature implements Events{
 		return "" + (longs[longs.length - 1] + 1);
 	}
 	public static void warnPlayer(String name, String id, double millis, String reason){
-		warnPlayer(ResolverFetcher.getUUIDfromName(name), id, millis, reason);
+		warnPlayer(UUID.fromString(ResolverFetcher.getUUIDfromName(name)), id, millis, reason);
 	}
 	public static void warnPlayer(UUID uuid, String id, double millis, String reason){
 		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-warnings");
@@ -533,7 +547,7 @@ public class EstiBans extends gFeature implements Events{
 		}
 	}
 	public static void unwarnPlayer(String name, String id){
-		unwarnPlayer(ResolverFetcher.getUUIDfromName(name), id);
+		unwarnPlayer(UUID.fromString(ResolverFetcher.getUUIDfromName(name)), id);
 	}
 	public static void unwarnPlayer(UUID uuid, String id){
 		File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-warnings");
@@ -571,6 +585,15 @@ public class EstiBans extends gFeature implements Events{
 			return true;
 		}
 		if(ProxyServer.getInstance().getServerInfo(server) != null){
+			return true;
+		}
+		return false;
+	}
+	public static boolean isOnServer(ProxiedPlayer player, String server){
+		if(server.equalsIgnoreCase("all")){
+			return true;
+		}
+		if(player.getServer().getInfo().getName().equals(server)){
 			return true;
 		}
 		return false;

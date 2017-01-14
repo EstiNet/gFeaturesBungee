@@ -36,6 +36,6 @@ public class gLoop {
 				oa.run(null);
 				Debug.print("[ClioteSky] Pinging server...");
 			}
-		}, 5, 9999999999999L, TimeUnit.SECONDS);
+		}, 5, 5L, TimeUnit.SECONDS);
 	}
 }
