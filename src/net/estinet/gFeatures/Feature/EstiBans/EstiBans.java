@@ -138,21 +138,24 @@ public class EstiBans extends gFeature implements Events{
 		} catch (IOException e){
 			e.printStackTrace();
 		}
-		return (String[]) list.toArray();
+		return Arrays.copyOf(list.toArray(), list.toArray().length, String[].class);
 	}
 	public static String[] getBans(String name){
 		return getBans(UUID.fromString(ResolverFetcher.getUUIDfromName(name)));
 	}
 	public static String[] getBans(UUID uuid){
 		checkOverdueBans(uuid);
-		return (String[]) bans.get(uuid).toArray();
+		return Arrays.copyOf(bans.get(uuid).toArray(), bans.get(uuid).toArray().length, String[].class);
 	}
 	public static void checkOverdueBans(UUID uuid){
 		for(String str : bans.get(uuid)){
 			String[] strs = str.split(" ");
-			if(System.currentTimeMillis() >= Double.parseDouble(strs[0])){
-				unbanPlayer(uuid, strs[1]);
+			try {
+				if (System.currentTimeMillis() >= Double.parseDouble(strs[0])) {
+					unbanPlayer(uuid, strs[1]);
+				}
 			}
+			catch(NumberFormatException e){}
 		}
 	}
 	public static String getBanReasonDirect(String name, String server){
@@ -294,14 +297,14 @@ public class EstiBans extends gFeature implements Events{
 		} catch (IOException e){
 			e.printStackTrace();
 		}
-		return (String[]) list.toArray();
+		return Arrays.copyOf(list.toArray(), list.toArray().length, String[].class);
 	}
 	public static String[] getMutes(String name){
 		return getMutes(UUID.fromString(ResolverFetcher.getUUIDfromName(name)));
 	}
 	public static String[] getMutes(UUID uuid){
 		checkOverdueMutes(uuid);
-		return (String[]) mutes.get(uuid).toArray();
+		return Arrays.copyOf(mutes.get(uuid).toArray(), mutes.get(uuid).toArray().length, String[].class);
 	}
 	public static boolean isMutedOnDirect(String name, String server){
 		return isMutedOnDirect(UUID.fromString(ResolverFetcher.getUUIDfromName(name)), server);
@@ -357,9 +360,12 @@ public class EstiBans extends gFeature implements Events{
 	public static void checkOverdueMutes(UUID uuid){
 		for(String str : mutes.get(uuid)){
 			String[] strs = str.split(" ");
-			if(System.currentTimeMillis() >= Double.parseDouble(strs[0])){
-				unmutePlayer(uuid, strs[1]);
+			try {
+				if (System.currentTimeMillis() >= Double.parseDouble(strs[0])) {
+					unmutePlayer(uuid, strs[1]);
+				}
 			}
+			catch(NumberFormatException e){}
 		}
 	}
 	public static String getMuteReasonDirect(String name, String server){
@@ -486,21 +492,24 @@ public class EstiBans extends gFeature implements Events{
 		} catch (IOException e){
 			e.printStackTrace();
 		}
-		return (String[]) list.toArray();
+		return Arrays.copyOf(list.toArray(), list.toArray().length, String[].class);
 	}
 	public static String[] getWarnings(String name){
 		return getWarnings(UUID.fromString(ResolverFetcher.getUUIDfromName(name)));
 	}
 	public static String[] getWarnings(UUID uuid){
 		checkOverdueWarnings(uuid);
-		return (String[]) warnings.get(uuid).toArray();
+		return Arrays.copyOf(warnings.get(uuid).toArray(), warnings.get(uuid).toArray().length, String[].class);
 	}
 	public static void checkOverdueWarnings(UUID uuid){
 		for(String str : warnings.get(uuid)){
 			String[] strs = str.split(" ");
-			if(System.currentTimeMillis() >= Double.parseDouble(strs[0])){
-				unwarnPlayer(uuid, strs[1]);
+			try{
+				if(System.currentTimeMillis() >= Double.parseDouble(strs[0])){
+					unwarnPlayer(uuid, strs[1]);
+				}
 			}
+			catch(NumberFormatException e){}
 		}
 	}
 	public static boolean isValidWarnID(UUID uuid, String id){
@@ -598,7 +607,7 @@ public class EstiBans extends gFeature implements Events{
 		}
 		return false;
 	}
-	public static boolean deleteLine(File inputFile, File tempFile, String lineToRemove){
+	public static void deleteLine(File inputFile, File tempFile, String lineToRemove){
 		try{
 			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
 			BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
@@ -617,7 +626,9 @@ public class EstiBans extends gFeature implements Events{
 		catch(Exception e){
 			e.printStackTrace();
 		}
-		return tempFile.renameTo(inputFile);
+
+		tempFile.renameTo(inputFile);
+		tempFile.delete();
 	}
 	public static void replaceSelected(String replaceWith, String type, File f) {
 		try {
