@@ -76,19 +76,19 @@ public class EstiBansCommand extends EstiCommand{
 				sender.sendMessage(EstiBans.estiBansPrefix + "/estibans help");
 			}
 		}
-		else if(args.length == 1){
+		else if(args.length == 2){
 			if(args[0].equalsIgnoreCase("info")){
 				sender.sendMessage(new TextComponent(EstiBans.estiBansPrefix + "Player info for " + args[1]));
 				sender.sendMessage(new TextComponent(ChatColor.DARK_GRAY + "Bans:"));
-				for(String str : EstiBans.getBans(args[0])){
+				for(String str : EstiBans.getBans(args[1])){
 					sender.sendMessage(new TextComponent(ChatColor.DARK_GRAY + "- " + str));
 				}
 				sender.sendMessage(new TextComponent(ChatColor.DARK_GRAY + "Mutes"));
-				for(String str : EstiBans.getMutes(args[0])){
+				for(String str : EstiBans.getMutes(args[1])){
 					sender.sendMessage(new TextComponent(ChatColor.DARK_GRAY + "- " + str));
 				}
 				sender.sendMessage(new TextComponent(ChatColor.DARK_GRAY + "Warnings"));
-				for(String str : EstiBans.getWarnings(args[0])){
+				for(String str : EstiBans.getWarnings(args[1])){
 					sender.sendMessage(new TextComponent(ChatColor.DARK_GRAY + "- " + str));
 				}
 			}

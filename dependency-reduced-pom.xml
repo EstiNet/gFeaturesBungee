@@ -4,7 +4,7 @@
   <groupId>gFeaturesBungee</groupId>
   <artifactId>gFeaturesBungee</artifactId>
   <name>gFeatures</name>
-  <version>3.5.1c</version>
+  <version>3.5.2c</version>
   <description>gFeatures for Bungeecord.</description>
   <build>
     <sourceDirectory>src</sourceDirectory>
@@ -23,12 +23,58 @@
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.5.1</version>
+        <version>3.6.1</version>
+        <executions>
+          <execution>
+            <id>default-compile</id>
+            <phase>none</phase>
+          </execution>
+          <execution>
+            <id>default-testCompile</id>
+            <phase>none</phase>
+          </execution>
+          <execution>
+            <id>java-compile</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>java-test-compile</id>
+            <phase>test-compile</phase>
+            <goals>
+              <goal>testCompile</goal>
+            </goals>
+          </execution>
+        </executions>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
-          <encoding>UTF-8</encoding>
         </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.6</version>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <archive>
+                <manifest>
+                  <mainClass>net.estinet.gFeatures.Listeners</mainClass>
+                </manifest>
+              </archive>
+              <descriptorRefs>
+                <descriptorRef>jar-with-dependencies</descriptorRef>
+              </descriptorRefs>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
@@ -41,9 +87,7 @@
             </goals>
           </execution>
         </executions>
-        <configuration>
-          <encoding>UTF-8</encoding>
-        </configuration>
+        <configuration />
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
