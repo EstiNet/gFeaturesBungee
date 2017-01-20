@@ -9,6 +9,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -297,12 +299,12 @@ public class EstiBans extends gFeature implements Events{
 					line = str;
 					break;
 				}
-			}   
-			br.close(); 
+			}
+			br.close();
 		} catch (IOException e){
 			e.printStackTrace();
 		}
-		deleteLine(f, new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-banstmp.txt"), line);
+		dumpFile(bans, uuid.toString(), f);
 	}
 	public static String[] getMutesDirect(String name){
 		return getMutesDirect(UUID.fromString(ResolverFetcher.getUUIDfromName(name)));
@@ -511,7 +513,7 @@ public class EstiBans extends gFeature implements Events{
 		} catch (IOException e){
 			e.printStackTrace();
 		}
-		deleteLine(f, new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-mutestmp.txt"), line);
+		dumpFile(mutes, uuid.toString(), f);
 	}
 	public static String[] getWarningsDirect(String name){
 		return getWarningsDirect(UUID.fromString(ResolverFetcher.getUUIDfromName(name)));
@@ -622,7 +624,7 @@ public class EstiBans extends gFeature implements Events{
 		} catch (IOException e){
 			e.printStackTrace();
 		}
-		deleteLine(f, new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-warningstmp.txt"), line);
+		dumpFile(warnings, uuid.toString(), f);
 	}
 	@SuppressWarnings("deprecation")
 	public static void kickPlayer(String name, String reason){
@@ -646,6 +648,24 @@ public class EstiBans extends gFeature implements Events{
 		}
 		return false;
 	}
+	public static void dumpFile(HashMap<UUID, List<String>> data, String UUID, File f){
+		f.delete();
+		try {
+			f.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		PrintWriter pw;
+		try {
+			pw = new PrintWriter(f);
+			for(String value : data.get(UUID)){
+				pw.write(value);
+			}
+			pw.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 	public static void deleteLine(File inputFile, File tempFile, String lineToRemove){
 		try{
 			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
@@ -665,9 +685,9 @@ public class EstiBans extends gFeature implements Events{
 		catch(Exception e){
 			e.printStackTrace();
 		}
-
+		Path path = tempFile.toPath();
+		inputFile.delete();
 		tempFile.renameTo(inputFile);
-		tempFile.delete();
 	}
 	public static void replaceSelected(String replaceWith, String type, File f) {
 		try {
