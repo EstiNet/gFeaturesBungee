@@ -104,6 +104,16 @@ public class EstiBans extends gFeature implements Events{
 		try {
 			for(String line : bans.get(uuid)){
 				String[] str = line.split(" ");
+				if(str[1].equalsIgnoreCase("all")){
+					try{
+						if(System.currentTimeMillis() >= Double.parseDouble(str[0])){
+							unbanPlayer(uuid, server);
+							return false;
+						}
+					}
+					catch(NumberFormatException e){}
+					return true;
+				}
 				if(str[1].equalsIgnoreCase(server)){
 					try{
 						if(System.currentTimeMillis() >= Double.parseDouble(str[0])){
@@ -148,7 +158,8 @@ public class EstiBans extends gFeature implements Events{
 		return Arrays.copyOf(bans.get(uuid).toArray(), bans.get(uuid).toArray().length, String[].class);
 	}
 	public static void checkOverdueBans(UUID uuid){
-		for(String str : bans.get(uuid)){
+		for(int i = 0; i < bans.get(uuid).size(); i++){
+			String str = bans.get(uuid).get(i);
 			String[] strs = str.split(" ");
 			try {
 				if (System.currentTimeMillis() >= Double.parseDouble(strs[0])) {
