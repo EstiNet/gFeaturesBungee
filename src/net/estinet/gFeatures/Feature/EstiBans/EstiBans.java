@@ -180,6 +180,13 @@ public class EstiBans extends gFeature implements Events{
 			String str = "";
 			while((str = br.readLine()) != null) {
 				String[] strs = str.split(" ");
+				if(strs[1].equalsIgnoreCase("all")){
+					String reason = "";
+					for(int i = 2; i < strs.length; i++){
+						reason += strs[i] + " ";
+					}
+					return reason;
+				}
 				if(strs[1].equals(server)){
 					String reason = "";
 					for(int i = 2; i < strs.length; i++){
@@ -202,6 +209,13 @@ public class EstiBans extends gFeature implements Events{
 		try {
 			for(String line : bans.get(uuid)){
 				String[] str = line.split(" ");
+				if(str[1].equalsIgnoreCase("all")){
+					String reason = "";
+					for(int i = 2; i < str.length; i++){
+						reason += str[i] + " ";
+					}
+					return reason;
+				}
 				if(str[1].equalsIgnoreCase(server)){
 					String reason = "";
 					for(int i = 2; i < str.length; i++){
@@ -390,6 +404,13 @@ public class EstiBans extends gFeature implements Events{
 			String str = "";
 			while((str = br.readLine()) != null) {
 				String[] strs = str.split(" ");
+				if(strs[1].equalsIgnoreCase("all")){
+					String reason = "";
+					for(int i = 2; i < strs.length; i++){
+						reason += strs[i] + " ";
+					}
+					return reason;
+				}
 				if(strs[1].equals(server)){
 					String reason = "";
 					for(int i = 2; i < strs.length; i++){
@@ -412,6 +433,13 @@ public class EstiBans extends gFeature implements Events{
 		try {
 			for(String line : mutes.get(uuid)){
 				String[] str = line.split(" ");
+				if(str[1].equalsIgnoreCase("all")){
+					String reason = "";
+					for(int i = 2; i < str.length; i++){
+						reason += str[i] + " ";
+					}
+					return reason;
+				}
 				if(str[1].equalsIgnoreCase(server)){
 					String reason = "";
 					for(int i = 2; i < str.length; i++){

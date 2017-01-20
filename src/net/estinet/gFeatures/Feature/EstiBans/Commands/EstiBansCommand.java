@@ -83,11 +83,11 @@ public class EstiBansCommand extends EstiCommand{
 				for(String str : EstiBans.getBans(args[1])){
 					sender.sendMessage(new TextComponent(ChatColor.DARK_GRAY + "- " + str));
 				}
-				sender.sendMessage(new TextComponent(ChatColor.DARK_GRAY + "Mutes"));
+				sender.sendMessage(new TextComponent(ChatColor.DARK_GRAY + "Mutes:"));
 				for(String str : EstiBans.getMutes(args[1])){
 					sender.sendMessage(new TextComponent(ChatColor.DARK_GRAY + "- " + str));
 				}
-				sender.sendMessage(new TextComponent(ChatColor.DARK_GRAY + "Warnings"));
+				sender.sendMessage(new TextComponent(ChatColor.DARK_GRAY + "Warnings:));
 				for(String str : EstiBans.getWarnings(args[1])){
 					sender.sendMessage(new TextComponent(ChatColor.DARK_GRAY + "- " + str));
 				}

@@ -47,13 +47,13 @@ public class EventHub{
 	}
 	@SuppressWarnings("deprecation")
 	public void onPlayerDisconnect(PlayerDisconnectEvent event){
-		for(ProxiedPlayer player : ProxyServer.getInstance().getPlayers()){
-			if(!player.getServer().getInfo().getName().equalsIgnoreCase(event.getPlayer().getServer().getInfo().getName())){
+		CliotePing cp = new CliotePing();
+		cp.sendMessage("consolechat " + event.getPlayer().getServer().getInfo().getName() + " " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Leave" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName(), "all");
+		for(ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+			if (!player.getServer().getInfo().getName().equalsIgnoreCase(event.getPlayer().getServer().getInfo().getName())) {
 				player.sendMessage("[" + event.getPlayer().getServer().getInfo().getName() + "] " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Leave" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName());
 			}
 		}
-		CliotePing cp = new CliotePing();
-		cp.sendMessage("consolechat " + event.getPlayer().getServer().getInfo().getName() + " " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Leave" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName(), "all");
 	}
 	public void onServerConnect(ServerConnectEvent event){
 		EstiChat.switcher.remove(event.getPlayer().getName());
