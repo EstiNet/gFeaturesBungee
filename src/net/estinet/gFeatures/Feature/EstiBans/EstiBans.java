@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.UUID;
 
 import net.estinet.gFeatures.Events;
+import net.estinet.gFeatures.Listeners;
 import net.estinet.gFeatures.Retrieval;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.API.Resolver.ResolverFetcher;
@@ -245,8 +246,8 @@ public class EstiBans extends gFeature implements Events{
 		bans.get(uuid).add("never " + server + " " + reason);
 		PrintWriter pw;
 		try {
-			pw = new PrintWriter(f);
-			pw.write("never " + server + " " + reason);
+			pw = new PrintWriter(new FileOutputStream(f, true));
+			pw.append("\n" + "never " + server + " " + reason);
 			pw.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -269,8 +270,8 @@ public class EstiBans extends gFeature implements Events{
 		bans.get(uuid).add(millis + " " + server + " " + reason);
 		PrintWriter pw;
 		try {
-			pw = new PrintWriter(f);
-			pw.write(millis + " " + server + " " + reason);
+			pw = new PrintWriter(new FileOutputStream(f, true));
+			pw.append("\n" + millis + " " + server + " " + reason);
 			pw.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -287,7 +288,7 @@ public class EstiBans extends gFeature implements Events{
 				break;
 			}
 		}
-		String line = "";
+		/*String line = "";
 		try {
 			FileReader fr = new FileReader(f);
 			BufferedReader br = new BufferedReader(fr);
@@ -303,7 +304,7 @@ public class EstiBans extends gFeature implements Events{
 			br.close();
 		} catch (IOException e){
 			e.printStackTrace();
-		}
+		}*/
 		dumpFile(bans, uuid.toString(), f);
 	}
 	public static String[] getMutesDirect(String name){
@@ -463,8 +464,8 @@ public class EstiBans extends gFeature implements Events{
 		bans.get(uuid).add("never " + server + " " + reason);
 		PrintWriter pw;
 		try {
-			pw = new PrintWriter(f);
-			pw.write("never " + server + " " + reason);
+			pw = new PrintWriter(new FileOutputStream(f, true));
+			pw.append("\n" + "never " + server + " " + reason);
 			pw.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -478,8 +479,8 @@ public class EstiBans extends gFeature implements Events{
 		bans.get(uuid).add(millis + " " + server + " " + reason);
 		PrintWriter pw;
 		try {
-			pw = new PrintWriter(f);
-			pw.write(millis + " " + server + " " + reason);
+			pw = new PrintWriter(new FileOutputStream(f, true));
+			pw.append("\n" + millis + " " + server + " " + reason);
 			pw.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -589,8 +590,8 @@ public class EstiBans extends gFeature implements Events{
 		warnings.get(uuid).add(millis + " " + id + " " + reason);
 		PrintWriter pw;
 		try {
-			pw = new PrintWriter(f);
-			pw.write(millis + " " + id + " " + reason);
+			pw = new PrintWriter(new FileOutputStream(f, true));
+			pw.append("\n" + millis + " " + id + " " + reason);
 			pw.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -657,9 +658,16 @@ public class EstiBans extends gFeature implements Events{
 		}
 		PrintWriter pw;
 		try {
-			pw = new PrintWriter(f);
-			for(String value : data.get(UUID)){
-				pw.write(value);
+			pw = new PrintWriter(new FileOutputStream(f, true));
+			try {
+				for (String value : data.get(UUID)) {
+					pw.write(value);
+				}
+			}
+			catch(NullPointerException e){
+				if(Listeners.debug){
+					e.printStackTrace();
+				}
 			}
 			pw.close();
 		} catch (FileNotFoundException e) {

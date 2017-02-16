@@ -63,8 +63,13 @@ public class NetworkThread {
 					if(input == null){
 						ClioteSky.printError("Couldn't establish connection with server. We'll try a bit later!");
 						ClioteSky.setServerOffline();
-						clientSocket.close();
-						clientSocket = null;
+						try {
+							clientSocket.close();
+							clientSocket = null;
+						}
+						catch(NullPointerException e){
+							e.printStackTrace();
+						}
 						break;
 					}
 					else{
@@ -104,7 +109,7 @@ public class NetworkThread {
 			            public void run() {
 			            	ClioteSky.setSyncedOutput(false);
 			            }
-			         }, 500, TimeUnit.MILLISECONDS);
+			         }, 1000, TimeUnit.MICROSECONDS);
 					}
 					catch(NullPointerException e){
 						ClioteConfigUtil ccu = new ClioteConfigUtil();

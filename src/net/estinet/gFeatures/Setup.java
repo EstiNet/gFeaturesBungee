@@ -41,5 +41,6 @@ public class Setup {
 		net.estinet.gFeatures.Feature.FusionPlay.Configure.onSetup();
 		net.estinet.gFeatures.Feature.EstiBans.Configure.onSetup();
 		net.estinet.gFeatures.Feature.BList.Configure.onSetup();
+		net.estinet.gFeatures.Feature.DDNSCompat.Configure.onSetup();
 	}
 }
