@@ -4,7 +4,7 @@
   <groupId>gFeaturesBungee</groupId>
   <artifactId>gFeaturesBungee</artifactId>
   <name>gFeatures</name>
-  <version>3.5.2c</version>
+  <version>3.5.3c</version>
   <description>gFeatures for Bungeecord.</description>
   <build>
     <sourceDirectory>src</sourceDirectory>

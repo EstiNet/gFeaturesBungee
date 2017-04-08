@@ -105,11 +105,7 @@ public class NetworkThread {
 						outToServer.writeBytes(message + "\n");
 					outToServer.flush();
 					ClioteSky.setSyncedOutput(true);
-					ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
-			            public void run() {
-			            	ClioteSky.setSyncedOutput(false);
-			            }
-			         }, 1000, TimeUnit.MICROSECONDS);
+					ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), () -> ClioteSky.setSyncedOutput(false), 1000, TimeUnit.MICROSECONDS);
 					}
 					catch(NullPointerException e){
 						ClioteConfigUtil ccu = new ClioteConfigUtil();

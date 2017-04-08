@@ -37,21 +37,22 @@ public class OutputAlive extends Packet{
 			ClioteSky.setAliveCache(true);
 			NetworkThread nt = new NetworkThread();
 			nt.sendOutput("alive");
-			ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
-				public void run() {
-					if(ClioteSky.isAliveCache()){
-						if(ClioteSky.isServerOnline()){
-							ClioteSky.printLine("Uh oh! Server went offline.");
-							try {
-								NetworkThread.clientSocket.close();
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
-							ClioteSky.setServerOffline();
-						}
-					}
-				}
-			}, 5, TimeUnit.SECONDS);
+			ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), () -> {
+                //if(ClioteSky.isAliveCache()){
+                    if(!ClioteSky.isServerOnline()){
+                        ClioteSky.printLine("Uh oh! Server went offline.");
+                        try {
+                            NetworkThread.clientSocket.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        ClioteSky.setServerOffline();
+                    }
+                    else{
+                        nt.sendOutput("alive");
+                    }
+                //}
+            }, 5, 999999999999999999L, TimeUnit.SECONDS);
 		}
 	}
 }

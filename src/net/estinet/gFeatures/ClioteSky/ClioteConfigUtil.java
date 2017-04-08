@@ -43,12 +43,12 @@ public class ClioteConfigUtil {
 
 			// get the property value and print it out
 			try{
-				ClioteSky.setName(prop.getProperty("ClioteSky.Name").toString());
-				ClioteSky.setCategory(prop.getProperty("ClioteSky.Category").toString());
-				ClioteSky.setAddress(prop.getProperty("ClioteSky.Address").toString());
-				ClioteSky.setEnable(Boolean.parseBoolean(prop.getProperty("ClioteSky.Enable").toString()));
-				ClioteSky.setPassword(prop.getProperty("ClioteSky.Password").toString());
-				ClioteSky.setPort(prop.getProperty("ClioteSky.Port").toString());
+				ClioteSky.setName(prop.getProperty("ClioteSky.Name"));
+				ClioteSky.setCategory(prop.getProperty("ClioteSky.Category"));
+				ClioteSky.setAddress(prop.getProperty("ClioteSky.Address"));
+				ClioteSky.setEnable(Boolean.parseBoolean(prop.getProperty("ClioteSky.Enable")));
+				ClioteSky.setPassword(prop.getProperty("ClioteSky.Password"));
+				ClioteSky.setPort(prop.getProperty("ClioteSky.Port"));
 			}
 			catch(Exception e){
 				e.printStackTrace();
