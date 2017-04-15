@@ -38,7 +38,7 @@ public class OutputAlive extends Packet{
 			NetworkThread nt = new NetworkThread();
 			nt.sendOutput("alive");
 			ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), () -> {
-                //if(ClioteSky.isAliveCache()){
+                if(ClioteSky.isAliveCache()){
                     if(!ClioteSky.isServerOnline()){
                         ClioteSky.printLine("Uh oh! Server went offline.");
                         try {
@@ -48,11 +48,8 @@ public class OutputAlive extends Packet{
                         }
                         ClioteSky.setServerOffline();
                     }
-                    else{
-                        nt.sendOutput("alive");
-                    }
-                //}
-            }, 5, 999999999999999999L, TimeUnit.SECONDS);
+                }
+            }, 5, TimeUnit.SECONDS);
 		}
 	}
 }
