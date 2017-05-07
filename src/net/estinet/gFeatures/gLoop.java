@@ -30,12 +30,10 @@ public class gLoop {
 		/*
 		 * Initialize gFeatures Core loops here.
 		 */
-		ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
-			public void run(){
-				OutputAlive oa = new OutputAlive();
-				oa.run(null);
-				Debug.print("[ClioteSky] Pinging server...");
-			}
-		}, 5, 5, TimeUnit.SECONDS);
+		ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), () -> {
+            OutputAlive oa = new OutputAlive();
+            oa.run(null);
+            Debug.print("[ClioteSky] Pinging server...");
+        }, 5, 5, TimeUnit.SECONDS);
 	}
 }
