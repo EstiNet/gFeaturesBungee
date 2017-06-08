@@ -4,13 +4,7 @@ import java.util.ConcurrentModificationException;
 import java.util.List;
 
 import net.estinet.gFeatures.API.Resolver.JoinHandler;
-import net.md_5.bungee.api.event.LoginEvent;
-import net.md_5.bungee.api.event.PlayerDisconnectEvent;
-import net.md_5.bungee.api.event.PlayerHandshakeEvent;
-import net.md_5.bungee.api.event.PostLoginEvent;
-import net.md_5.bungee.api.event.PreLoginEvent;
-import net.md_5.bungee.api.event.ServerConnectEvent;
-import net.md_5.bungee.api.event.ServerSwitchEvent;
+import net.md_5.bungee.api.event.*;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.api.plugin.Event;
@@ -60,6 +54,10 @@ public class Library implements Listener{
 	@EventHandler
 	public void onPreLogin(PreLoginEvent event){
 		check("onPreLogin", event);
+	}
+	@EventHandler
+	public void onChat(ChatEvent event) {
+		check("onChat", event);
 	}
 	@EventHandler
 	public void onLogin(LoginEvent event){

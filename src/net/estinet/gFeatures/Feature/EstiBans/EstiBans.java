@@ -30,6 +30,7 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.event.ChatEvent;
 import net.md_5.bungee.api.event.ServerConnectEvent;
 import net.md_5.bungee.api.event.ServerSwitchEvent;
 import net.md_5.bungee.api.plugin.Event;
@@ -63,6 +64,9 @@ public class EstiBans extends gFeature implements Events{
 		else if(event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("serverswitchevent")){
 			eh.onServerSwitch((ServerSwitchEvent) event);
 		}
+		else if(event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("chatevent")){
+			eh.onChat((ChatEvent) event);
+		}
 	}
 	@Override
 	@Retrieval
@@ -70,6 +74,9 @@ public class EstiBans extends gFeature implements Events{
 	@Override
 	@Retrieval
 	public void onServerSwitch(){}
+	@Override
+	@Retrieval
+	public void onChat(){}
 
 	public static boolean isBannedOnDirect(String name, String server){
 		return isBannedOnDirect(UUID.fromString(ResolverFetcher.getUUIDfromName(name)), server);

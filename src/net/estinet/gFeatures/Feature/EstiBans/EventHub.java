@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.md_5.bungee.api.event.ChatEvent;
 import net.md_5.bungee.api.event.ServerConnectEvent;
 import net.md_5.bungee.api.event.ServerSwitchEvent;
 
@@ -63,6 +65,13 @@ public class EventHub{
 		if(EstiBans.isBannedOn(event.getPlayer().getUniqueId(), event.getTarget().getName())){
 			event.getPlayer().disconnect(new TextComponent(EstiBans.getBanReason(event.getPlayer().getUniqueId(), event.getTarget().getName())));
 			event.setCancelled(true);
+		}
+	}
+	public void onChat(ChatEvent event){
+		ProxiedPlayer player = (ProxiedPlayer)event.getSender();
+		if(EstiBans.isMutedOn(player.getUniqueId(), player.getServer().getInfo().getName())){
+			event.setCancelled(true);
+			player.sendMessage("You are currently muted on this server!");
 		}
 	}
 	public void onServerSwitch(ServerSwitchEvent event){
