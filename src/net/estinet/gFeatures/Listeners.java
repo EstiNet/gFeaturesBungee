@@ -1,5 +1,6 @@
 package net.estinet.gFeatures;
 
+import net.estinet.gFeatures.API.Resolver.ResolverInit;
 import net.estinet.gFeatures.ClioteSky.ClioteInit;
 import net.estinet.gFeatures.Configuration.LoadConfig;
 import net.estinet.gFeatures.Configuration.SetupConfig;
@@ -25,7 +26,7 @@ https://github.com/EstiNet/gFeaturesBungee
 */
 
 public class Listeners extends Plugin{
-	public static final String version = "3.5.4c";
+	public static final String version = "3.5.5c";
 	public static boolean debug = false;
 
 	Enabler enable = new Enabler();
@@ -47,11 +48,8 @@ public class Listeners extends Plugin{
 			setup.onSetup();
 			SetupConfig.setup();
 			LoadConfig.load();
-			Thread thr = new Thread(new Runnable(){
-				public void run(){
-					ccu.enable();
-				}
-			});
+			new Thread(ResolverInit::loadCache).start();
+			Thread thr = new Thread(() -> ccu.enable());
 			thr.start();
 		}
 		catch(Exception e){

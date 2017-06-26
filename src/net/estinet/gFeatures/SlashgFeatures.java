@@ -2,6 +2,7 @@ package net.estinet.gFeatures;
 
 import java.util.List;
 
+import net.estinet.gFeatures.API.Resolver.ResolverFetcher;
 import net.estinet.gFeatures.ClioteSky.Network.NetworkThread;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
@@ -47,6 +48,7 @@ public class SlashgFeatures extends Command{
 					sender.sendMessage(ChatColor.GRAY + "/gFeaturesBungee list : Lists all features with their states and versions also.");
 					sender.sendMessage(ChatColor.GRAY + "/gFeaturesBungee featurestate <Feature> : Gets the state of the feature.");
 					sender.sendMessage(ChatColor.GRAY + "/gFeaturesBungee send <Message> : Sends a manual message to the ClioteSky server.");
+					sender.sendMessage(ChatColor.GRAY + "/gFeaturesBungee lookup <Player Name> : Lookup player info (UUID and previous names).");
 					sender.sendMessage(ChatColor.GRAY + "/gFeaturesBungee debug : Turns on debug messages.");
 					break;
 				case "list":
@@ -93,6 +95,16 @@ public class SlashgFeatures extends Command{
 					NetworkThread nt = new NetworkThread();
 					nt.sendOutput(args[1]);
 					sender.sendMessage(ChatColor.GRAY + "Sent message " + args[1] + " to ClioteSky.");
+					break;
+					case "lookup":
+						sender.sendMessage(ChatColor.GRAY + "----- Player info for " + args[1] + " -----");
+						sender.sendMessage(ChatColor.GRAY + "UUID: " + ResolverFetcher.getUUIDfromName(args[1]));
+						String prev = ChatColor.GRAY + "Previous names: ";
+						List<String> names = ResolverFetcher.getAllNames(ResolverFetcher.getUUIDfromName(args[1]));
+						for(int i = 1; i < names.size(); i++){
+							prev += names.get(i) + " ";
+						}
+						sender.sendMessage(prev);
 					break;
 				default:
 					sender.sendMessage(ChatColor.GRAY + "Please do /gFeaturesBungee help.");
