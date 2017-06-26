@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /*
@@ -26,68 +27,28 @@ https://github.com/EstiNet/gFeaturesBungee
 */
 
 public class ResolverFetcher {
+	public static HashMap<String, List<String>> nameData = new HashMap<>();
+	/*
+	 * Caveat: this method fetches previous names as well, so if someone renamed their name
+	 * to someone else's name, it will return the first UUID on the list
+	 * Possible fix: cache all the previous names, and go through the current names first (may be expensive for RAM)
+	 */
 	public static String getUUIDfromName(String name){
-		File f = new File("plugins/gFeatures/Resolver");
-		for(File fs : f.listFiles()){
-				try {
-					FileReader fr = new FileReader(new File(fs.getPath() + "/current.txt"));
-					BufferedReader br = new BufferedReader(fr);
-					String status = br.readLine();
-					br.close();
-					if(status.equalsIgnoreCase(name)){
-						return fs.getName();
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-		}
-		return null;
-	}
-	public static String getNamefromUUID(String uuid){
-		File f = new File("plugins/gFeatures/Resolver");
-		for(File fs : f.listFiles()){
-			if(fs.getName().equals(uuid)){
-				try {
-					FileReader fr = new FileReader(new File(fs.getPath() + "/current.txt"));
-					BufferedReader br = new BufferedReader(fr);
-					String status = br.readLine();
-					br.close();
-					return status;
-
-				} catch (Exception e) {
-					e.printStackTrace();
+		for(String uuid : nameData.keySet()){
+			List<String> names = nameData.get(uuid);
+			for(int i = 0; i < names.size(); i++){
+				String n = names.get(i);
+				if(n.equals(name)){
+					return uuid;
 				}
 			}
 		}
 		return null;
 	}
-	public static List<String> getPreviousNames(String name){
-		List<String> names = new ArrayList<>();
-		File f = new File("plugins/gFeatures/Resolver");
-		for(File fs : f.listFiles()){
-				try {
-					FileReader fr = new FileReader(new File(fs.getPath() + "/current.txt"));
-					BufferedReader br = new BufferedReader(fr);
-					String status = br.readLine();
-					br.close();
-					if(status.equalsIgnoreCase(name)){
-						FileReader frs = new FileReader(new File(fs.getPath() + "/previous.txt"));
-						BufferedReader brs = new BufferedReader(frs);
-						while(true){
-							String readline = brs.readLine();
-							if(readline.equals(null)){
-								break;
-							}
-							else{
-								names.add(readline);
-							}
-						}
-						brs.close();
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-		}
-		return names;
+	public static String getNamefromUUID(String uuid){
+		return nameData.get(uuid).get(0);
+	}
+	public static List<String> getAllNames(String uuid){
+		return nameData.get(uuid);
 	}
 }

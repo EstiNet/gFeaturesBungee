@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
@@ -36,14 +37,18 @@ public class JoinHandler {
 			f.mkdir();
 		}
 		if(!cur.exists()){
-			try {
-				cur.createNewFile();
-				PrintWriter pw = new PrintWriter(cur);
-				pw.write(p.getName());
-				pw.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			ResolverFetcher.nameData.put(p.getName(), Arrays.asList(p.getName()));
+			new Thread(() -> {
+				try {
+					cur.createNewFile();
+					PrintWriter pw = new PrintWriter(cur);
+					pw.write(p.getName());
+					pw.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}).start();
+
 		}
 		if(!pre.exists()){
 			try {
@@ -59,14 +64,22 @@ public class JoinHandler {
 			String status = br.readLine();
 			if(!(status == null)){
 				if(!status.equals(p.getName())){
-					cur.delete();
-					cur.createNewFile();
-					PrintWriter pw = new PrintWriter(cur);
-					pw.write(p.getName());
-					pw.close();
-					PrintWriter pws = new PrintWriter(pre);
-					pws.write(status + "\n");
-					pws.close();
+					ResolverFetcher.nameData.get(p.getUniqueId().toString()).add(0, p.getName());
+					new Thread(() -> {
+						try{
+							cur.delete();
+							cur.createNewFile();
+							PrintWriter pw = new PrintWriter(cur);
+							pw.write(p.getName());
+							pw.close();
+							PrintWriter pws = new PrintWriter(pre);
+							pws.write(status + "\n");
+							pws.close();
+						}
+						catch(Exception e){
+							e.printStackTrace();
+						}
+					}).start();
 				}
 			}
 			else{
