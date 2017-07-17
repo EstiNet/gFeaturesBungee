@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>gFeaturesBungee</groupId>
 	<artifactId>gFeaturesBungee</artifactId>
-	<version>3.5.5c</version>
+	<version>3.6.0c</version>
 	<name>gFeatures</name>
 	<description>gFeatures for Bungeecord.</description>
 	<build>
@@ -111,21 +111,16 @@
 	</repositories>
 	<dependencies>
 		<dependency>
-			<groupId>org.jetbrains.kotlin</groupId>
-			<artifactId>kotlin-stdlib</artifactId>
-			<version>1.0.6</version>
-		</dependency>
-		<dependency>
 			<groupId>net.md-5</groupId>
 			<artifactId>bungeecord-api</artifactId>
-			<version>1.11-SNAPSHOT</version>
+			<version>1.12-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.md-5</groupId>
 			<artifactId>bungeecord-api</artifactId>
-			<version>1.11-SNAPSHOT</version>
+			<version>1.12-SNAPSHOT</version>
 			<type>javadoc</type>
 			<scope>provided</scope>
 		</dependency>
