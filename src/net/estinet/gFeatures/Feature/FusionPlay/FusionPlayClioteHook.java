@@ -34,7 +34,6 @@ public class FusionPlayClioteHook extends ClioteHook{
 	public FusionPlayClioteHook(gFeature feature) {
 		super(feature, "fusionplay");
 	}
-	//hi 2017 :DDDDDDDD
 	@Override
 	public void run(List<String> args, String categoryName, String clioteName){
 		try{

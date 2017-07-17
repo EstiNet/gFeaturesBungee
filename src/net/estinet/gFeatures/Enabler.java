@@ -23,7 +23,7 @@ https://github.com/EstiNet/gFeaturesBungee
 
 public class Enabler {
 	public void onEnable(){
-		List<gFeature> features = Basic.getFeatures();
+		List<gFeature> features = gFeatures.getFeatures();
 		for(gFeature feature : features){
 			if(feature.getState().equals(FeatureState.ENABLE)){
 				try{

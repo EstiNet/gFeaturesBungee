@@ -24,7 +24,7 @@ https://github.com/EstiNet/gFeaturesBungee
 
 public class Debug {
 	public static void print(String str){
-		if(Listeners.debug == true){
+		if(Listeners.debug){
 			ProxyServer.getInstance().getLogger().info("[Debug] " + str);
 		} 
 	}

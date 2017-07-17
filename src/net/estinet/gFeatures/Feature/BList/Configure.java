@@ -1,7 +1,7 @@
 package net.estinet.gFeatures.Feature.BList;
 
-import net.estinet.gFeatures.Basic;
 import net.estinet.gFeatures.Configs;
+import net.estinet.gFeatures.gFeatures;
 /*
 gFeatures
 https://github.com/EstiNet/gFeaturesBungee
@@ -25,7 +25,7 @@ public class Configure {
 	@Configs
 	public static void onSetup(){
 		BList base = new BList("BList", "1.0.0");
-		Basic.addFeature(base);
-		Basic.addCommand(new BListCommand(base));
+		gFeatures.addFeature(base);
+		gFeatures.addCommand(new BListCommand(base));
 	}
 }

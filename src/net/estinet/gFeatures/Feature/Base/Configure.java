@@ -1,8 +1,8 @@
 package net.estinet.gFeatures.Feature.Base;
 
-import net.estinet.gFeatures.Basic;
 import net.estinet.gFeatures.Configs;
 import net.estinet.gFeatures.Feature.Base.Commands.TestCommand;
+import net.estinet.gFeatures.gFeatures;
 /*
 gFeatures
 https://github.com/EstiNet/gFeaturesBungee
@@ -26,9 +26,9 @@ public class Configure{
 	@Configs
 	public static void onSetup(){
 		Base base = new Base("Base", "1.2.5");
-		Basic.addFeature(base);
+		gFeatures.addFeature(base);
 		
-		Basic.addCommand(new TestCommand(base));
+		gFeatures.addCommand(new TestCommand(base));
 		
 	}
 }

@@ -1,6 +1,5 @@
 package net.estinet.gFeatures.Feature.EstiMail;
 
-import net.estinet.gFeatures.Basic;
 import net.estinet.gFeatures.Configs;
 /*
 gFeatures
@@ -21,6 +20,7 @@ https://github.com/EstiNet/gFeatures
    limitations under the License.
 */
 import net.estinet.gFeatures.Feature.EstiMail.Commands.SlashMail;
+import net.estinet.gFeatures.gFeatures;
 
 /*
 gFeatures
@@ -45,8 +45,8 @@ public class Configure{
 	@Configs
 	public static void onSetup(){
 		EstiMail base = new EstiMail("EstiMail", "1.0.1");
-		Basic.addFeature(base);
+		gFeatures.addFeature(base);
 		
-		Basic.addCommand(new SlashMail(base));
+		gFeatures.addCommand(new SlashMail(base));
 	}
 }

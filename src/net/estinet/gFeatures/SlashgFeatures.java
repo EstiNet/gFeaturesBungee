@@ -52,7 +52,7 @@ public class SlashgFeatures extends Command{
 					sender.sendMessage(ChatColor.GRAY + "/gFeaturesBungee debug : Turns on debug messages.");
 					break;
 				case "list":
-					List<gFeature> features = Basic.getFeatures();
+					List<gFeature> features = gFeatures.getFeatures();
 					sender.sendMessage(ChatColor.GRAY + "Features:");
 					sender.sendMessage(ChatColor.GRAY + "Enabled:");
 					for(gFeature feature : features){
@@ -88,7 +88,7 @@ public class SlashgFeatures extends Command{
 			else if(args.length == 2){
 				switch(args[0]){
 				case "featurestate":
-					gFeature feature = Basic.getFeature(args[1]);
+					gFeature feature = gFeatures.getFeature(args[1]);
 					sender.sendMessage(ChatColor.GRAY + "Feature " + args[1] + " state is " + feature.getState().toString());
 					break;
 				case "send":

@@ -1,6 +1,5 @@
 package net.estinet.gFeatures.Feature.SlashServer;
 
-import net.estinet.gFeatures.Basic;
 import net.estinet.gFeatures.Configs;
 /*
 gFeatures
@@ -21,6 +20,7 @@ https://github.com/EstiNet/gFeatures
    limitations under the License.
 */
 import net.estinet.gFeatures.Feature.SlashServer.Commands.*;
+import net.estinet.gFeatures.gFeatures;
 
 /*
 gFeatures
@@ -45,13 +45,13 @@ public class Configure{
 	@Configs
 	public static void onSetup(){
 		SlashServer base = new SlashServer("SlashServer", "1.0.0");
-		Basic.addFeature(base);
+		gFeatures.addFeature(base);
 		
-		Basic.addCommand(new SlashCreative(base));
-		Basic.addCommand(new SlashFactions(base));
-		Basic.addCommand(new SlashgWars(base));
-		Basic.addCommand(new SlashHub(base));
-		Basic.addCommand(new SlashSkyblock(base));
-		Basic.addCommand(new SlashSurvival(base));
+		gFeatures.addCommand(new SlashCreative(base));
+		gFeatures.addCommand(new SlashFactions(base));
+		gFeatures.addCommand(new SlashgWars(base));
+		gFeatures.addCommand(new SlashHub(base));
+		gFeatures.addCommand(new SlashSkyblock(base));
+		gFeatures.addCommand(new SlashSurvival(base));
 	}
 }

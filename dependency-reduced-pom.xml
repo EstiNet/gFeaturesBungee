@@ -4,7 +4,7 @@
   <groupId>gFeaturesBungee</groupId>
   <artifactId>gFeaturesBungee</artifactId>
   <name>gFeatures</name>
-  <version>3.5.5c</version>
+  <version>3.6.0c</version>
   <description>gFeatures for Bungeecord.</description>
   <build>
     <sourceDirectory>src</sourceDirectory>
@@ -112,7 +112,7 @@
     <dependency>
       <groupId>net.md-5</groupId>
       <artifactId>bungeecord-api</artifactId>
-      <version>1.11-SNAPSHOT</version>
+      <version>1.12-SNAPSHOT</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -136,7 +136,7 @@
     <dependency>
       <groupId>net.md-5</groupId>
       <artifactId>bungeecord-api</artifactId>
-      <version>1.11-SNAPSHOT</version>
+      <version>1.12-SNAPSHOT</version>
       <type>javadoc</type>
       <scope>provided</scope>
       <exclusions>

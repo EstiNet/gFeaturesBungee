@@ -9,8 +9,8 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Properties;
 
-import net.estinet.gFeatures.Basic;
 import net.estinet.gFeatures.gFeature;
+import net.estinet.gFeatures.gFeatures;
 
 /*
 gFeatures
@@ -35,7 +35,7 @@ public class SetupConfig {
 
 	static Config config = new Config();
 	static File f = new File("plugins/gFeatures/Config.yml");
-	static List<gFeature> features = Basic.getFeatures();
+	static List<gFeature> features = gFeatures.getFeatures();
 	public static void setup(){
 		config.createDirectory("plugins/gFeatures", "Setup the gFeatures directory for use!");
 		config.createFile("plugins/gFeatures/Config.yml", "Setup the gFeatures config for use!");

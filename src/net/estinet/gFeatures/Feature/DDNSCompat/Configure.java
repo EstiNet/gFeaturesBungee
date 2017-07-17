@@ -1,18 +1,15 @@
 package net.estinet.gFeatures.Feature.DDNSCompat;
 
-import net.estinet.gFeatures.Basic;
 import net.estinet.gFeatures.Configs;
+import net.estinet.gFeatures.gFeatures;
 
-/**
- * Created by Devin on 2017-01-29.
- */
 public class Configure {
     @Configs
     public static void onSetup(){
         DDNSCompat base = new DDNSCompat("DDNSCompat", "1.0.0");
-        Basic.addFeature(base);
+        gFeatures.addFeature(base);
 
-        Basic.addCommand(new DDNSRefreshCommand(base));
+        gFeatures.addCommand(new DDNSRefreshCommand(base));
 
     }
 }

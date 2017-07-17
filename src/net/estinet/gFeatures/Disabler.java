@@ -26,7 +26,7 @@ https://github.com/EstiNet/gFeaturesBungee
 
 public class Disabler {
 	public void onDisable(){
-		List<gFeature> features = Basic.getFeatures();
+		List<gFeature> features = gFeatures.getFeatures();
 		for(gFeature feature : features){
 			if(feature.getState().equals(FeatureState.ENABLE)){
 				try{
@@ -36,7 +36,7 @@ public class Disabler {
 				}
 			}
 		}
-		Basic.resetFeatures();
+		gFeatures.resetFeatures();
 		if(ClioteSky.isEnable()){
 			try {
 				NetworkThread.clientSocket.close();

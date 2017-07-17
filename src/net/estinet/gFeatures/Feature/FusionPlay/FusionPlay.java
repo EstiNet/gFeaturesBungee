@@ -124,6 +124,22 @@ public class FusionPlay extends gFeature implements Events{
 		FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.OFFLINE);
 		int id = FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).getID();
 		FusionCon fc = queueConnections.poll();
+
+		Runnable run = () -> {
+			ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
+				public void run() {
+					if(cliotesOnCheck.contains(fc)){
+						cliotesOnCheck.remove(fc);
+						connections.get(FusionPlay.getConnectionArrayID(fc.getClioteName())).setStatus(FusionStatus.OFFLINE);
+						for(ProxiedPlayer pp : ProxyServer.getInstance().getServerInfo(clioteName).getPlayers()){
+							pp.sendMessage(ChatColor.DARK_GRAY + "Please wait a bit longer, shuffling servers...");
+						}
+						replaceConnection(clioteName);
+					}
+				}
+			}, 5, TimeUnit.SECONDS);
+		};
+
 		if(fc == null){//temporary, until there are servers to take care and dynamic allocation
 			for(ProxiedPlayer pp : ProxyServer.getInstance().getServerInfo(clioteName).getPlayers()){
 				pp.connect(ProxyServer.getInstance().getServerInfo("MinigameHub"));
@@ -137,38 +153,16 @@ public class FusionPlay extends gFeature implements Events{
 		}
 		else if(!connections.get(getConnectionArrayID(clioteName)).getCurrentType().equals(fc.getCurrentType())){
 			CliotePing cp = new CliotePing();
-			cp.sendMessage("fusionplay start", fc.getClioteName()); //ADD ALIVE CHECK
+			cp.sendMessage("fusionplay start", fc.getClioteName());
 			fc.setID(id);
 			cliotesOnCheck.add(fc);
-			ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
-	            public void run() {
-	            	if(cliotesOnCheck.contains(fc)){
-	            		cliotesOnCheck.remove(fc);
-	            		connections.get(FusionPlay.getConnectionArrayID(fc.getClioteName())).setStatus(FusionStatus.OFFLINE);
-	            		for(ProxiedPlayer pp : ProxyServer.getInstance().getServerInfo(clioteName).getPlayers()){
-	        				pp.sendMessage(ChatColor.DARK_GRAY + "Please wait a bit longer, shuffling servers...");
-	        			}
-	            		replaceConnection(clioteName);
-	            	}
-	            }
-	         }, 5, TimeUnit.SECONDS);
+			run.run();
 		}
 		else{
 			CliotePing cp = new CliotePing();
 			cp.sendMessage("fusionplay other " + clioteName, fc.getClioteName()); //ADD ALIVE CHECK
 			cliotesOnCheck.add(fc);
-			ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
-	            public void run() {
-	            	if(cliotesOnCheck.contains(fc)){
-	            		cliotesOnCheck.remove(fc);
-	            		connections.get(FusionPlay.getConnectionArrayID(fc.getClioteName())).setStatus(FusionStatus.OFFLINE);
-	            		for(ProxiedPlayer pp : ProxyServer.getInstance().getServerInfo(clioteName).getPlayers()){
-	        				pp.sendMessage(ChatColor.DARK_GRAY + "Please wait a bit longer, shuffling servers...");
-	        			}
-	            		replaceConnection(clioteName);
-	            	}
-	            }
-	         }, 5, TimeUnit.SECONDS);
+			run.run();
 		}
 	}
 	public static FusionCon getPairedConFromID(FusionCon fc){

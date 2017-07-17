@@ -1,6 +1,5 @@
 package net.estinet.gFeatures.Feature.Friendship;
 
-import net.estinet.gFeatures.Basic;
 import net.estinet.gFeatures.Configs;
 /*
 gFeatures
@@ -21,6 +20,7 @@ https://github.com/EstiNet/gFeatures
    limitations under the License.
 */
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
+import net.estinet.gFeatures.gFeatures;
 
 /*
 gFeatures
@@ -45,7 +45,7 @@ public class Configure{
 	@Configs
 	public static void onSetup(){
 		Friendship base = new Friendship("Friendship", "1.0.5");
-		Basic.addFeature(base);
+		gFeatures.addFeature(base);
 		
 		FriendsClioteHook mmap = new FriendsClioteHook(base);
 		ClioteSky.addClioteHook(mmap);

@@ -1,9 +1,9 @@
 package net.estinet.gFeatures.Feature.MinigameAssister;
 
-import net.estinet.gFeatures.Basic;
 import net.estinet.gFeatures.Configs;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.estinet.gFeatures.Feature.MinigameAssister.Commands.SlashListgames;
+import net.estinet.gFeatures.gFeatures;
 
 /*
 gFeatures
@@ -28,7 +28,7 @@ public class Configure{
 	@Configs
 	public static void onSetup(){
 		MinigameAssister base = new MinigameAssister("MinigameAssister", "1.0.1");
-		Basic.addFeature(base);
+		gFeatures.addFeature(base);
 		
 		MAClioteHook grch = new MAClioteHook(base);
 		ClioteSky.addClioteHook(grch);
@@ -41,6 +41,6 @@ public class Configure{
 		ClioteSky.addClioteHook(mgch);
 		MGMapClioteHook mmap = new MGMapClioteHook(base);
 		ClioteSky.addClioteHook(mmap);
-		Basic.addCommand(new SlashListgames(base));
+		gFeatures.addCommand(new SlashListgames(base));
 	}
 }

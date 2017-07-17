@@ -1,6 +1,5 @@
 package net.estinet.gFeatures.Feature.EstiBans;
 
-import net.estinet.gFeatures.Basic;
 import net.estinet.gFeatures.Configs;
 /*
 gFeatures
@@ -30,22 +29,23 @@ import net.estinet.gFeatures.Feature.EstiBans.Commands.UnbanCommand;
 import net.estinet.gFeatures.Feature.EstiBans.Commands.UnmuteCommand;
 import net.estinet.gFeatures.Feature.EstiBans.Commands.UnwarnCommand;
 import net.estinet.gFeatures.Feature.EstiBans.Commands.WarnCommand;
+import net.estinet.gFeatures.gFeatures;
 
 public class Configure{
 	@Configs
 	public static void onSetup(){
 		EstiBans base = new EstiBans("EstiBans", "1.0.0");
-		Basic.addFeature(base);
+		gFeatures.addFeature(base);
 		
-		Basic.addCommand(new BanCommand(base));
-		Basic.addCommand(new KickCommand(base));
-		Basic.addCommand(new MuteCommand(base));
-		Basic.addCommand(new UnbanCommand(base));
-		Basic.addCommand(new UnmuteCommand(base));
-		Basic.addCommand(new EstiBansCommand(base));
-		Basic.addCommand(new TempBanCommand(base));
-		Basic.addCommand(new TempMuteCommand(base));
-		Basic.addCommand(new UnwarnCommand(base));
-		Basic.addCommand(new WarnCommand(base));
+		gFeatures.addCommand(new BanCommand(base));
+		gFeatures.addCommand(new KickCommand(base));
+		gFeatures.addCommand(new MuteCommand(base));
+		gFeatures.addCommand(new UnbanCommand(base));
+		gFeatures.addCommand(new UnmuteCommand(base));
+		gFeatures.addCommand(new EstiBansCommand(base));
+		gFeatures.addCommand(new TempBanCommand(base));
+		gFeatures.addCommand(new TempMuteCommand(base));
+		gFeatures.addCommand(new UnwarnCommand(base));
+		gFeatures.addCommand(new WarnCommand(base));
 	}
 }

@@ -2,17 +2,15 @@ package net.estinet.gFeatures.Configuration;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import net.estinet.gFeatures.Basic;
 import net.estinet.gFeatures.FeatureState;
 import net.estinet.gFeatures.gFeature;
+import net.estinet.gFeatures.gFeatures;
 
 /*
 gFeatures
@@ -36,7 +34,7 @@ https://github.com/EstiNet/gFeaturesBungee
 public class LoadConfig {
 	static Config config = new Config();
 	static File f = new File("plugins/gFeatures/Config.yml");
-	static List<gFeature> features = Basic.getFeatures();
+	static List<gFeature> features = gFeatures.getFeatures();
 	public static void load(){
 
 		Properties prop = new Properties();
@@ -61,7 +59,7 @@ public class LoadConfig {
 					}
 					featur.add(feature);
 				}
-				Basic.setFeatures(featur);
+				gFeatures.setFeatures(featur);
 			}
 			catch(Exception e){
 				e.printStackTrace();

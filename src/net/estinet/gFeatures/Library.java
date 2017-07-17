@@ -64,7 +64,7 @@ public class Library implements Listener{
 		check("onLogin", event);
 	}
     public void check(String methodname, Event event){
-    	List<gFeature> features = Basic.getFeatures();
+    	List<gFeature> features = gFeatures.getFeatures();
 		for(gFeature feature : features){
 			try {
 				if(!(feature.getClass().getDeclaredMethod(methodname).equals(null))){
