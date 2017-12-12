@@ -42,7 +42,7 @@ public class EventHub{
 		File f = new File("plugins/gFeatures/Friendship/" + event.getPlayer().getUniqueId() + "/seen");
 		if(!f.exists()){
 			try {
-				f.createNewFile();
+				boolean sesh = f.createNewFile();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

@@ -34,7 +34,6 @@ public class FriendsClioteHook extends ClioteHook{
 	public FriendsClioteHook(gFeature feature) {
 		super(feature, "friends");
 	}
-	@SuppressWarnings("deprecation")
 	@Override
 	public void run(List<String> args, String categoryName, String clioteName){
 		try{
@@ -44,7 +43,7 @@ public class FriendsClioteHook extends ClioteHook{
 				File f = new File("plugins/gFeatures/Friendship/" + ResolverFetcher.getUUIDfromName(args.get(2)) + "/");
 				ProxyServer.getInstance().getLogger().info(f.getPath());
 				if(f.isDirectory()){
-					Friendship.friendRequest(p, ResolverFetcher.getUUIDfromName(args.get(2)).toString());
+					Friendship.friendRequest(p, ResolverFetcher.getUUIDfromName(args.get(2)));
 				}
 				else{
 					p.sendMessage("[" + ChatColor.GOLD + "Friends" + ChatColor.WHITE + "] " + ChatColor.RED + "Player has never joined, or they don't exist!");
