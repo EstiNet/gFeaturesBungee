@@ -2,6 +2,7 @@ package net.estinet.gFeatures.Feature.ServerQuery;
 
 import java.util.List;
 
+import net.estinet.gFeatures.API.Resolver.ResolverFetcher;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.ClioteSky.API.ClioteHook;
 import net.estinet.gFeatures.ClioteSky.API.CliotePing;
@@ -26,28 +27,36 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class ServerQueryClioteHook extends ClioteHook{
+public class ServerQueryClioteHook extends ClioteHook {
 
-	public ServerQueryClioteHook(gFeature feature) {
-		super(feature, "info");
-	}
-	@Override
-	public void run(List<String> args, String categoryName, String clioteName){
-		try{
-			if(!clioteName.equals("Bungee")){
-				CliotePing cp = new CliotePing();
-				switch(args.get(0)){
-				case "online":
-					cp.sendMessage("info online " + ProxyServer.getInstance().getOnlineCount(), clioteName);
-					break;
-				case "serverget":
-					cp.sendMessage("info serverget " + args.get(1) + " " + ProxyServer.getInstance().getPlayer(args.get(2)).getServer().getInfo().getName(), clioteName);
-					break;
-				}
-			}
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-	}
+    public ServerQueryClioteHook(gFeature feature) {
+        super(feature, "info");
+    }
+
+    @Override
+    public void run(List<String> args, String categoryName, String clioteName) {
+        try {
+            if (!clioteName.equals("Bungee")) {
+                CliotePing cp = new CliotePing();
+                switch (args.get(0)) {
+                    case "online":
+                        cp.sendMessage("info online " + ProxyServer.getInstance().getOnlineCount(), clioteName);
+                        break;
+                    case "serverget":
+                        cp.sendMessage("info serverget " + args.get(1) + " " + ProxyServer.getInstance().getPlayer(args.get(2)).getServer().getInfo().getName(), clioteName);
+                        break;
+                    case "uuidlookup":
+                        String uuid = ResolverFetcher.getUUIDfromName(args.get(1));
+                        if (uuid == null) {
+                            cp.sendMessage("info uuidlookup *", clioteName);
+                        } else {
+                            cp.sendMessage("info uuidlookup " + uuid, clioteName);
+                        }
+                        break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
