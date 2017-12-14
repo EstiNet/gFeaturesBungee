@@ -37,8 +37,6 @@ import net.md_5.bungee.api.plugin.Event;
 
 public class EstiBans extends gFeature implements Events {
 
-    EventHub eh = new EventHub();
-
     public static HashMap<UUID, List<String>> bans = new HashMap<>();
     public static HashMap<UUID, List<String>> mutes = new HashMap<>();
     public static HashMap<UUID, List<String>> warnings = new HashMap<>();
@@ -62,60 +60,25 @@ public class EstiBans extends gFeature implements Events {
     @Override
     public void eventTrigger(Event event) {
         if (event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("serverconnectevent")) {
-            eh.onPlayerJoin((ServerConnectEvent) event);
+            EventHub.onPlayerJoin((ServerConnectEvent) event);
         } else if (event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("serverswitchevent")) {
-            eh.onServerSwitch((ServerSwitchEvent) event);
+            EventHub.onServerSwitch((ServerSwitchEvent) event);
         } else if (event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("chatevent")) {
-            eh.onChat((ChatEvent) event);
+            EventHub.onChat((ChatEvent) event);
         }
     }
 
     @Override
     @Retrieval
-    public void onServerConnect() {
-    }
+    public void onServerConnect() {}
 
     @Override
     @Retrieval
-    public void onServerSwitch() {
-    }
+    public void onServerSwitch() {}
 
     @Override
     @Retrieval
-    public void onChat() {
-    }
-
-    public static boolean isBannedOnDirect(String name, String server) {
-        return isBannedOnDirect(UUID.fromString(ResolverFetcher.getUUIDfromName(name)), server);
-    }
-
-    public static boolean isBannedOnDirect(UUID uuid, String server) {
-        File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-bans");
-        try {
-            FileReader fr = new FileReader(f);
-            BufferedReader br = new BufferedReader(fr);
-            String str = "";
-            while ((str = br.readLine()) != null) {
-                String[] strs = str.split(" ");
-                if (strs[1].equals(server)) {
-                    try {
-                        if (System.currentTimeMillis() >= Double.parseDouble(strs[0])) {
-                            unbanPlayer(uuid, server);
-                            br.close();
-                            return false;
-                        }
-                    } catch (NumberFormatException e) {
-                    }
-                    br.close();
-                    return true;
-                }
-            }
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
+    public void onChat() {}
 
     public static boolean isBannedOn(String name, String server) {
         return isBannedOn(UUID.fromString(ResolverFetcher.getUUIDfromName(name)), server);
@@ -152,28 +115,6 @@ public class EstiBans extends gFeature implements Events {
         return false;
     }
 
-    public static String[] getBansDirect(String name) {
-        return getBansDirect(UUID.fromString(ResolverFetcher.getUUIDfromName(name)));
-    }
-
-    public static String[] getBansDirect(UUID uuid) {
-        checkOverdueBans(uuid);
-        File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-bans");
-        List<String> list = new ArrayList<>();
-        try {
-            FileReader fr = new FileReader(f);
-            BufferedReader br = new BufferedReader(fr);
-            String str = "";
-            while ((str = br.readLine()) != null) {
-                list.add(str);
-            }
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return Arrays.copyOf(list.toArray(), list.toArray().length, String[].class);
-    }
-
     public static String[] getBans(String name) {
         return getBans(UUID.fromString(ResolverFetcher.getUUIDfromName(name)));
     }
@@ -194,41 +135,6 @@ public class EstiBans extends gFeature implements Events {
             } catch (NumberFormatException e) {
             }
         }
-    }
-
-    public static String getBanReasonDirect(String name, String server) {
-        return getBanReasonDirect(UUID.fromString(ResolverFetcher.getUUIDfromName(name)), server);
-    }
-
-    public static String getBanReasonDirect(UUID uuid, String server) {
-        File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-bans");
-        try {
-            FileReader fr = new FileReader(f);
-            BufferedReader br = new BufferedReader(fr);
-            String str = "";
-            while ((str = br.readLine()) != null) {
-                String[] strs = str.split(" ");
-                if (strs[1].equalsIgnoreCase("all")) {
-                    String reason = "";
-                    for (int i = 2; i < strs.length; i++) {
-                        reason += strs[i] + " ";
-                    }
-                    return reason;
-                }
-                if (strs[1].equals(server)) {
-                    String reason = "";
-                    for (int i = 2; i < strs.length; i++) {
-                        reason += strs[i] + " ";
-                    }
-                    br.close();
-                    return reason;
-                }
-            }
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public static String getBanReason(String name, String server) {
@@ -321,46 +227,7 @@ public class EstiBans extends gFeature implements Events {
                 break;
             }
         }
-        /*String line = "";
-		try {
-			FileReader fr = new FileReader(f);
-			BufferedReader br = new BufferedReader(fr);
-			String str = "";
-			while((str = br.readLine()) != null) {
-				String[] strs = str.split(" ");
-				if(strs[1].equals(server)){
-					br.close();
-					line = str;
-					break;
-				}
-			}
-			br.close();
-		} catch (IOException e){
-			e.printStackTrace();
-		}*/
         dumpFile(bans, uuid.toString(), f);
-    }
-
-    public static String[] getMutesDirect(String name) {
-        return getMutesDirect(UUID.fromString(ResolverFetcher.getUUIDfromName(name)));
-    }
-
-    public static String[] getMutesDirect(UUID uuid) {
-        checkOverdueMutes(uuid);
-        File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-mutes");
-        List<String> list = new ArrayList<>();
-        try {
-            FileReader fr = new FileReader(f);
-            BufferedReader br = new BufferedReader(fr);
-            String str = "";
-            while ((str = br.readLine()) != null) {
-                list.add(str);
-            }
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return Arrays.copyOf(list.toArray(), list.toArray().length, String[].class);
     }
 
     public static String[] getMutes(String name) {
@@ -370,38 +237,6 @@ public class EstiBans extends gFeature implements Events {
     public static String[] getMutes(UUID uuid) {
         checkOverdueMutes(uuid);
         return Arrays.copyOf(mutes.get(uuid).toArray(), mutes.get(uuid).toArray().length, String[].class);
-    }
-
-    public static boolean isMutedOnDirect(String name, String server) {
-        return isMutedOnDirect(UUID.fromString(ResolverFetcher.getUUIDfromName(name)), server);
-    }
-
-    public static boolean isMutedOnDirect(UUID uuid, String server) {
-        File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-mutes");
-        try {
-            FileReader fr = new FileReader(f);
-            BufferedReader br = new BufferedReader(fr);
-            String str = "";
-            while ((str = br.readLine()) != null) {
-                String[] strs = str.split(" ");
-                if (strs[1].equals(server)) {
-                    try {
-                        if (System.currentTimeMillis() >= Double.parseDouble(strs[0])) {
-                            unmutePlayer(uuid, server);
-                            br.close();
-                            return false;
-                        }
-                    } catch (NumberFormatException e) {
-                    }
-                    br.close();
-                    return true;
-                }
-            }
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 
     public static boolean isMutedOn(String name, String server) {
@@ -441,41 +276,6 @@ public class EstiBans extends gFeature implements Events {
         }
     }
 
-    public static String getMuteReasonDirect(String name, String server) {
-        return getMuteReasonDirect(UUID.fromString(ResolverFetcher.getUUIDfromName(name)), server);
-    }
-
-    public static String getMuteReasonDirect(UUID uuid, String server) {
-        File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-mutes");
-        try {
-            FileReader fr = new FileReader(f);
-            BufferedReader br = new BufferedReader(fr);
-            String str = "";
-            while ((str = br.readLine()) != null) {
-                String[] strs = str.split(" ");
-                if (strs[1].equalsIgnoreCase("all")) {
-                    String reason = "";
-                    for (int i = 2; i < strs.length; i++) {
-                        reason += strs[i] + " ";
-                    }
-                    return reason;
-                }
-                if (strs[1].equals(server)) {
-                    String reason = "";
-                    for (int i = 2; i < strs.length; i++) {
-                        reason += strs[i] + " ";
-                    }
-                    br.close();
-                    return reason;
-                }
-            }
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public static String getMuteReason(String name, String server) {
         return getMuteReason(UUID.fromString(ResolverFetcher.getUUIDfromName(name)), server);
     }
@@ -485,18 +285,18 @@ public class EstiBans extends gFeature implements Events {
             for (String line : mutes.get(uuid)) {
                 String[] str = line.split(" ");
                 if (str[1].equalsIgnoreCase("all")) {
-                    String reason = "";
+                    StringBuilder reason = new StringBuilder();
                     for (int i = 2; i < str.length; i++) {
-                        reason += str[i] + " ";
+                        reason.append(str[i]).append(" ");
                     }
-                    return reason;
+                    return reason.toString();
                 }
                 if (str[1].equalsIgnoreCase(server)) {
-                    String reason = "";
+                    StringBuilder reason = new StringBuilder();
                     for (int i = 2; i < str.length; i++) {
-                        reason += str[i] + " ";
+                        reason.append(str[i]).append(" ");
                     }
-                    return reason;
+                    return reason.toString();
                 }
             }
         } catch (Exception e) {
@@ -510,23 +310,14 @@ public class EstiBans extends gFeature implements Events {
     }
 
     public static void mutePlayer(UUID uuid, String server, String reason) {
-        File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-mutes");
-        bans.get(uuid).add("never " + server + " " + reason);
-        PrintWriter pw;
-        try {
-            pw = new PrintWriter(new FileOutputStream(f, true));
-            pw.append("\n" + "never " + server + " " + reason);
-            pw.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        mutePlayer(uuid, server, "never", reason);
     }
 
-    public static void mutePlayer(String name, String server, double millis, String reason) {
+    public static void mutePlayer(String name, String server, String millis, String reason) {
         mutePlayer(UUID.fromString(ResolverFetcher.getUUIDfromName(name)), server, millis, reason);
     }
 
-    public static void mutePlayer(UUID uuid, String server, double millis, String reason) {
+    public static void mutePlayer(UUID uuid, String server, String millis, String reason) {
         File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-mutes");
         bans.get(uuid).add(millis + " " + server + " " + reason);
         PrintWriter pw;
@@ -552,45 +343,7 @@ public class EstiBans extends gFeature implements Events {
                 break;
             }
         }
-        try {
-            FileReader fr = new FileReader(f);
-            BufferedReader br = new BufferedReader(fr);
-            String str = "";
-            while ((str = br.readLine()) != null) {
-                String[] strs = str.split(" ");
-                if (strs[1].equals(server)) {
-                    br.close();
-                    line = str;
-                    break;
-                }
-            }
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         dumpFile(mutes, uuid.toString(), f);
-    }
-
-    public static String[] getWarningsDirect(String name) {
-        return getWarningsDirect(UUID.fromString(ResolverFetcher.getUUIDfromName(name)));
-    }
-
-    public static String[] getWarningsDirect(UUID uuid) {
-        checkOverdueWarnings(uuid);
-        File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-warnings");
-        List<String> list = new ArrayList<>();
-        try {
-            FileReader fr = new FileReader(f);
-            BufferedReader br = new BufferedReader(fr);
-            String str = "";
-            while ((str = br.readLine()) != null) {
-                list.add(str);
-            }
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return Arrays.copyOf(list.toArray(), list.toArray().length, String[].class);
     }
 
     public static String[] getWarnings(String name) {
@@ -610,6 +363,7 @@ public class EstiBans extends gFeature implements Events {
                     unwarnPlayer(uuid, strs[1]);
                 }
             } catch (NumberFormatException e) {
+            	e.printStackTrace();
             }
         }
     }
@@ -672,22 +426,6 @@ public class EstiBans extends gFeature implements Events {
                 warnings.get(uuid).remove(i);
                 break;
             }
-        }
-        try {
-            FileReader fr = new FileReader(f);
-            BufferedReader br = new BufferedReader(fr);
-            String str = "";
-            while ((str = br.readLine()) != null) {
-                String[] strs = str.split(" ");
-                if (strs[1].equals(id)) {
-                    br.close();
-                    line = str;
-                    break;
-                }
-            }
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         dumpFile(warnings, uuid.toString(), f);
     }

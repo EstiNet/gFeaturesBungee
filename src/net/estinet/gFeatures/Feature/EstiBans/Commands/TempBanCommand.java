@@ -26,9 +26,9 @@ public class TempBanCommand extends EstiCommand{
 					sender.sendMessage(new TextComponent(EstiBans.estiBansPrefix + ChatColor.RED + "Player already banned on this server!"));
 				}
 				else{
-					String reason = "";
+					StringBuilder reason = new StringBuilder();
 					for(int i = 3; i < args.length; i++){
-						reason += args[i] + " ";
+						reason.append(args[i]).append(" ");
 					}
 					long time = System.currentTimeMillis();
 					long numeral = Long.parseLong(args[1].replaceAll("\\D+",""));
@@ -48,7 +48,7 @@ public class TempBanCommand extends EstiCommand{
 						time += numeral * 8.64e+7;
 					}
 					else if(args[1].contains("f")){
-						EstiBans.banPlayer(args[0], args[2], reason);
+						EstiBans.banPlayer(args[0], args[2], reason.toString());
 						return;
 					}
 					else{
@@ -56,7 +56,7 @@ public class TempBanCommand extends EstiCommand{
 						return;
 					}
 					sender.sendMessage(new TextComponent(EstiBans.estiBansPrefix + "Banned player " + args[0] + " for " + args[1]) + " on " + args[1] + " because of \"" + reason + "\"");
-					EstiBans.banPlayer(args[0], args[2], time, reason);
+					EstiBans.banPlayer(args[0], args[2], time, reason.toString());
 				}
 			}
 			catch(Exception e){

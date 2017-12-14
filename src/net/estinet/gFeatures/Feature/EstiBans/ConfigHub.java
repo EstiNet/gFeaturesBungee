@@ -42,8 +42,8 @@ public class ConfigHub {
 	 * Warnings: [milliseconds to unwarn] [id] [reason]
 	 */
 	
-	Config config = new Config();
-	public void setupConfig(){
+	static Config config = new Config();
+	public static void setupConfig(){
 		config.createDirectory("plugins/gFeatures/EstiBans", "[EstiBans] Plugin directory set!");
 		config.createDirectory("plugins/gFeatures/EstiBans/playerdata", "[EstiBans] Playerdata directory set!");
 		try(Stream<Path> paths = Files.walk(Paths.get("plugins/gFeatures/EstiBans/playerdata"))) {

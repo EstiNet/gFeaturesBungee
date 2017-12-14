@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ChatEvent;
@@ -32,7 +33,7 @@ https://github.com/EstiNet/gFeaturesBungee
 */
 
 public class EventHub{
-	public void onPlayerJoin(ServerConnectEvent event){
+	public static void onPlayerJoin(ServerConnectEvent event){
 		File bans = new File("plugins/gFeatures/EstiBans/playerdata/" + event.getPlayer().getUniqueId() + "-bans");
 		File mutes = new File("plugins/gFeatures/EstiBans/playerdata/" + event.getPlayer().getUniqueId() + "-mutes");
 		File warnings = new File("plugins/gFeatures/EstiBans/playerdata/" + event.getPlayer().getUniqueId() + "-warnings");
@@ -67,14 +68,16 @@ public class EventHub{
 			event.setCancelled(true);
 		}
 	}
-	public void onChat(ChatEvent event){
+	public static void onChat(ChatEvent event){
 		ProxiedPlayer player = (ProxiedPlayer)event.getSender();
 		if(EstiBans.isMutedOn(player.getUniqueId(), player.getServer().getInfo().getName())){
 			event.setCancelled(true);
-			player.sendMessage("You are currently muted on this server!");
+			TextComponent tc = new TextComponent("You are currently muted on this server! Reason: " + EstiBans.getMuteReason(player.getUniqueId(), player.getServer().getInfo().getName()));
+			tc.setBold(true);
+			player.sendMessage(tc);
 		}
 	}
-	public void onServerSwitch(ServerSwitchEvent event){
+	public static void onServerSwitch(ServerSwitchEvent event){
 		if(EstiBans.isBannedOn(event.getPlayer().getUniqueId(), event.getPlayer().getServer().getInfo().getName())){
 			event.getPlayer().disconnect(new TextComponent(EstiBans.getBanReason(event.getPlayer().getUniqueId(), event.getPlayer().getServer().getInfo().getName())));
 		}
