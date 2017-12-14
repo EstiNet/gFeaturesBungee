@@ -37,11 +37,11 @@ public class AlertClioteHook extends ClioteHook{
 	@Override
 	public void run(List<String> args, String categoryName, String clioteName){
 		try{
-			String message = "";
+			StringBuilder message = new StringBuilder();
 			for(String add : args){
-				message += add + " ";
+				message.append(add).append(" ");
 			}
-			TextComponent tc = new TextComponent(message);
+			TextComponent tc = new TextComponent(message.toString());
 			
 			Title bt = ProxyServer.getInstance().createTitle().reset();
 			bt.title(new TextComponent(ChatColor.BOLD + "[" + ChatColor.RED + "Alert" + ChatColor.RESET + "" + ChatColor.BOLD + "]"));

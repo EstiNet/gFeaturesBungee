@@ -20,7 +20,6 @@ https://github.com/EstiNet/gFeaturesBungee
 */
 
 public class Setup {
-	Configs config;
 	public void onSetup() {
 		//Well, unfortunate part of the API :(
 
@@ -29,6 +28,7 @@ public class Setup {
 		 * Make sure that you have your onSetup() setup
 		 * to add to the Basic class. :D
 		 */
+
 		net.estinet.gFeatures.Feature.Base.Configure.onSetup();
 		net.estinet.gFeatures.Feature.ServerRedirect.Configure.onSetup();
 		net.estinet.gFeatures.Feature.SlashServer.Configure.onSetup();
@@ -41,6 +41,5 @@ public class Setup {
 		net.estinet.gFeatures.Feature.FusionPlay.Configure.onSetup();
 		net.estinet.gFeatures.Feature.EstiBans.Configure.onSetup();
 		net.estinet.gFeatures.Feature.BList.Configure.onSetup();
-		net.estinet.gFeatures.Feature.DDNSCompat.Configure.onSetup();
 	}
 }
