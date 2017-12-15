@@ -1,16 +1,16 @@
 package net.estinet.gFeatures.Feature.EstiMail.Commands;
 
-import java.util.Arrays;
-
+import net.estinet.gFeatures.API.Resolver.ResolverFetcher;
 import net.estinet.gFeatures.EstiCommand;
-import net.estinet.gFeatures.gFeature;
-import net.estinet.gFeatures.API.MojangAPI.UUIDFetcher;
 import net.estinet.gFeatures.Feature.EstiMail.EstiMail;
+import net.estinet.gFeatures.gFeature;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
+
+import java.util.Arrays;
 
 /*
 gFeatures
@@ -74,10 +74,9 @@ public class SlashMail extends EstiCommand{
 				if(args[0].equalsIgnoreCase("send")){
 					ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures").getProxy().getScheduler().runAsync(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
 						public void run(){
-							UUIDFetcher uid = new UUIDFetcher(Arrays.asList(args[1]));
 							String uuid = "";
 							try {
-								uuid = uid.call().get(args[1]).toString();
+								uuid = ResolverFetcher.getUUIDfromName(args[1]);
 								ProxyServer.getInstance().getLogger().info(uuid);
 							} catch (Exception e) {
 								e.printStackTrace();

@@ -15,7 +15,6 @@
           <include>**/*.txt</include>
           <include>**/*</include>
           <include>**/*.yml</include>
-          <include>**/*.sk</include>
           <include>plugin.yml</include>
         </includes>
       </resource>
@@ -24,77 +23,29 @@
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.6.1</version>
-        <executions>
-          <execution>
-            <id>default-compile</id>
-            <phase>none</phase>
-          </execution>
-          <execution>
-            <id>default-testCompile</id>
-            <phase>none</phase>
-          </execution>
-          <execution>
-            <id>java-compile</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>java-test-compile</id>
-            <phase>test-compile</phase>
-            <goals>
-              <goal>testCompile</goal>
-            </goals>
-          </execution>
-        </executions>
         <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
+          <source>1.9</source>
+          <target>1.9</target>
         </configuration>
       </plugin>
       <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.6</version>
-        <executions>
-          <execution>
-            <id>make-assembly</id>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-            <configuration>
-              <archive>
-                <manifest>
-                  <mainClass>net.estinet.gFeatures.Listeners</mainClass>
-                </manifest>
-              </archive>
-              <descriptorRefs>
-                <descriptorRef>jar-with-dependencies</descriptorRef>
-              </descriptorRefs>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>2.4.3</version>
+        <version>2.3</version>
         <executions>
           <execution>
             <phase>package</phase>
             <goals>
               <goal>shade</goal>
             </goals>
+            <configuration>
+              <transformers>
+                <transformer>
+                  <mainClass>net.estinet.gFeatures.Listeners</mainClass>
+                </transformer>
+              </transformers>
+            </configuration>
           </execution>
         </executions>
-        <configuration />
-      </plugin>
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.15</version>
-        <configuration>
-          <argLine>-Dfile.encoding=UTF-8</argLine>
-        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -103,10 +54,6 @@
       <id>bungeecord-repo</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </repository>
-    <repository>
-      <id>bungeecord-proxy</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots/net/md-5/bungeecord-proxy/</url>
-    </repository>
   </repositories>
   <dependencies>
     <dependency>
@@ -114,24 +61,6 @@
       <artifactId>bungeecord-api</artifactId>
       <version>1.12-SNAPSHOT</version>
       <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>bungeecord-chat</artifactId>
-          <groupId>net.md-5</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bungeecord-config</artifactId>
-          <groupId>net.md-5</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bungeecord-event</artifactId>
-          <groupId>net.md-5</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bungeecord-protocol</artifactId>
-          <groupId>net.md-5</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>net.md-5</groupId>
@@ -139,24 +68,6 @@
       <version>1.12-SNAPSHOT</version>
       <type>javadoc</type>
       <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>bungeecord-chat</artifactId>
-          <groupId>net.md-5</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bungeecord-config</artifactId>
-          <groupId>net.md-5</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bungeecord-event</artifactId>
-          <groupId>net.md-5</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bungeecord-protocol</artifactId>
-          <groupId>net.md-5</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
   </dependencies>
 </project>

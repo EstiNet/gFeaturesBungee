@@ -6,6 +6,13 @@
 	<version>3.6.0c</version>
 	<name>gFeatures</name>
 	<description>gFeatures for Bungeecord.</description>
+
+    <repositories>
+        <repository>
+            <id>bungeecord-repo</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+    </repositories>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
@@ -15,7 +22,6 @@
 					<include>**/*.txt</include>
 					<include>**/*</include>
 					<include>**/*.yml</include>
-					<include>**/*.sk</include>
 					<include>plugin.yml</include>
 				</includes>
 			</resource>
@@ -26,104 +32,49 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.6.1</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-				<executions>
-					<execution>
-						<id>default-compile</id>
-						<phase>none</phase>
-					</execution>
-					<execution>
-						<id>default-testCompile</id>
-						<phase>none</phase>
-					</execution>
-					<execution>
-						<id>java-compile</id>
-						<phase>compile</phase>
-						<goals> <goal>compile</goal> </goals>
-					</execution>
-					<execution>
-						<id>java-test-compile</id>
-						<phase>test-compile</phase>
-						<goals> <goal>testCompile</goal> </goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.6</version>
-				<executions>
-					<execution>
-						<id>make-assembly</id>
-						<phase>package</phase>
-						<goals> <goal>single</goal> </goals>
-						<configuration>
-							<archive>
-								<manifest>
-									<mainClass>net.estinet.gFeatures.Listeners</mainClass>
-								</manifest>
-							</archive>
-							<descriptorRefs>
-								<descriptorRef>jar-with-dependencies</descriptorRef>
-							</descriptorRefs>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<version>2.4.3</version>
-				<configuration>
-					<!-- put your configurations here -->
-					<!--<encoding>UTF-8</encoding>-->
-				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.15</version>
-				<configuration>
-					<argLine>-Dfile.encoding=UTF-8</argLine>
+					<source>1.9</source>
+					<target>1.9</target>
 				</configuration>
 			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.3</version>
+                <executions>
+                    <!-- Run shade goal on package phase -->
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <!-- add Main-Class to manifest file -->
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>net.estinet.gFeatures.Listeners</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
-	<repositories>
-		<repository>
-			<id>bungeecord-repo</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</repository>
-		<repository>
-			<id>bungeecord-proxy</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots/net/md-5/bungeecord-proxy/</url>
-		</repository>
-	</repositories>
 	<dependencies>
-		<dependency>
-			<groupId>net.md-5</groupId>
-			<artifactId>bungeecord-api</artifactId>
-			<version>1.12-SNAPSHOT</version>
-			<type>jar</type>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>net.md-5</groupId>
-			<artifactId>bungeecord-api</artifactId>
-			<version>1.12-SNAPSHOT</version>
-			<type>javadoc</type>
-			<scope>provided</scope>
-		</dependency>
+        <dependency>
+            <groupId>net.md-5</groupId>
+            <artifactId>bungeecord-api</artifactId>
+            <version>1.12-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.md-5</groupId>
+            <artifactId>bungeecord-api</artifactId>
+            <version>1.12-SNAPSHOT</version>
+            <type>javadoc</type>
+            <scope>provided</scope>
+        </dependency>
 		<dependency>
 			<groupId>biz.paluch.redis</groupId>
 			<artifactId>lettuce</artifactId>
