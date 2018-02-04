@@ -33,17 +33,15 @@ https://github.com/EstiNet/gFeaturesBungee
 public class EventHub{
 	@SuppressWarnings("deprecation")
 	public void onPlayerJoin(PostLoginEvent event){
-		ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
-            public void run() {
-            	for(ProxiedPlayer player : ProxyServer.getInstance().getPlayers()){
-        			if(!player.getServer().getInfo().getName().equalsIgnoreCase(event.getPlayer().getServer().getInfo().getName())){
-        				player.sendMessage("[" + event.getPlayer().getServer().getInfo().getName() + "] " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Join" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName());
-        			}
-        		}
-        		CliotePing cp = new CliotePing();
-        		cp.sendMessage("consolechat " + event.getPlayer().getServer().getInfo().getName() + " " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Join" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName(), "all");   
+		ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), () -> {
+            for(ProxiedPlayer player : ProxyServer.getInstance().getPlayers()){
+                if(!player.getServer().getInfo().getName().equalsIgnoreCase(event.getPlayer().getServer().getInfo().getName())){
+                    player.sendMessage("[" + event.getPlayer().getServer().getInfo().getName() + "] " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Join" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName());
+                }
             }
-         }, 1, TimeUnit.SECONDS);
+            CliotePing cp = new CliotePing();
+            cp.sendMessage("consolechat " + event.getPlayer().getServer().getInfo().getName() + " " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Join" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName(), "all");
+        }, 1, TimeUnit.SECONDS);
 	}
 	@SuppressWarnings("deprecation")
 	public void onPlayerDisconnect(PlayerDisconnectEvent event){
