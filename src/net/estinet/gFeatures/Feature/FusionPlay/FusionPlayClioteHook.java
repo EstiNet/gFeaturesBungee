@@ -14,7 +14,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 gFeatures
 https://github.com/EstiNet/gFeaturesBungee
 
-   Copyright 2017 EstiNet
+   Copyright 2018 EstiNet
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.

@@ -14,7 +14,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 gFeatures
 https://github.com/EstiNet/gFeaturesBungee
 
-   Copyright 2017 EstiNet
+   Copyright 2018 EstiNet
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -38,8 +38,8 @@ public class SlashSurvival extends EstiCommand{
 	public void execute(CommandSender sender, String[] args) {
 		if(sender instanceof ProxiedPlayer){
 			ProxiedPlayer player = (ProxiedPlayer) sender;
-			CliotePing cp = new CliotePing();
-			cp.sendMessage("survival " + player.getName(), "all");
+			ServerInfo target = ProxyServer.getInstance().getServerInfo("Survival");
+			player.connect(target);
 		}
 		else{
 			sender.sendMessage(new ComponentBuilder("This command can only be run by a player!").color(ChatColor.AQUA).create());
