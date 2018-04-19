@@ -31,7 +31,6 @@ public class Listeners extends Plugin{
 
 	Enabler enable = new Enabler();
 	Disabler disable = new Disabler();
-	Library library = new Library();
 	CommandLibrary commands = new CommandLibrary();
 	Setup setup = new Setup();
 	gLoop gl = new gLoop();
