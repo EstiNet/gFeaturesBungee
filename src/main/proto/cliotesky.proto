@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 option java_outer_classname = "ClioteSkyRPC";
+option java_package = "net.estinet.gFeatures.ClioteSky";
 
 service ClioteSkyService {
     rpc Request(Token) returns (stream ClioteMessage);

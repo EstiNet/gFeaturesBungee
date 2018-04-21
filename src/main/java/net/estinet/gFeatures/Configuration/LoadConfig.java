@@ -32,49 +32,46 @@ https://github.com/EstiNet/gFeaturesBungee
 */
 
 public class LoadConfig {
-	static Config config = new Config();
-	static File f = new File("plugins/gFeatures/Config.yml");
-	static List<gFeature> features = gFeatures.getFeatures();
-	public static void load(){
+    static List<gFeature> features = gFeatures.getFeatures();
 
-		Properties prop = new Properties();
-		InputStream input = null;
+    public static void load() {
 
-		try {
+        Properties prop = new Properties();
+        InputStream input = null;
 
-			input = new FileInputStream("plugins/gFeatures/Config.yml");
+        try {
 
-			// load a properties file
-			prop.load(input);
+            input = new FileInputStream("plugins/gFeatures/Config.yml");
 
-			// get the property value and print it out
-			try{
-				List<gFeature> featur = new ArrayList<>();
-				for(gFeature feature : features){
-					if((prop.getProperty("Plugins." + feature.getName()).equals("true"))){
-						feature.setState(FeatureState.ENABLE);
-					}
-					else{
-						feature.setState(FeatureState.DISABLE);
-					}
-					featur.add(feature);
-				}
-				gFeatures.setFeatures(featur);
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		} finally {
-			if (input != null) {
-				try {
-					input.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+            // load a properties file
+            prop.load(input);
 
-	}
+            // get the property value and print it out
+            try {
+                List<gFeature> featur = new ArrayList<>();
+                for (gFeature feature : features) {
+                    if ((prop.getProperty("Plugins." + feature.getName()).equals("true"))) {
+                        feature.setState(FeatureState.ENABLE);
+                    } else {
+                        feature.setState(FeatureState.DISABLE);
+                    }
+                    featur.add(feature);
+                }
+                gFeatures.setFeatures(featur);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
 }

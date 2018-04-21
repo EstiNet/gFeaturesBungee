@@ -33,58 +33,59 @@ https://github.com/EstiNet/gFeaturesBungee
 
 public class SetupConfig {
 
-	static Config config = new Config();
-	static File f = new File("plugins/gFeatures/Config.yml");
-	static List<gFeature> features = gFeatures.getFeatures();
-	public static void setup(){
-		config.createDirectory("plugins/gFeatures", "Setup the gFeatures directory for use!");
-		config.createFile("plugins/gFeatures/Config.yml", "Setup the gFeatures config for use!");
-		config.createDirectory("plugins/gFeatures/Resolver", "Setup the Resolver utility directory!");
+    private static Config config = new Config();
+    private static File f = new File("plugins/gFeatures/Config.yml");
+    private static List<gFeature> features = gFeatures.getFeatures();
 
-		Properties prop = new Properties();
-		OutputStream output = null;
-		InputStream input = null;
-		try {
-			input = new FileInputStream(f.getPath());
-			prop.load(input);
-			input.close();
-			output = new FileOutputStream(f.getPath());
-			for(gFeature feature : features){
-				if(!(prop.containsKey("Plugins." + feature.getName()))){
-					prop.setProperty("Plugins." + feature.getName() , "false");
-				}
-			}
-			if(!(prop.containsKey("ClioteSkyOld.Address"))){
-				prop.setProperty("ClioteSkyOld.Address", "localhost");
-			}
-			if(!(prop.containsKey("ClioteSkyOld.Port"))){
-				prop.setProperty("ClioteSkyOld.Port", "36000");
-			}
-			if(!(prop.containsKey("ClioteSkyOld.Category"))){
-				prop.setProperty("ClioteSkyOld.Category", "Default");
-			}
-			if(!(prop.containsKey("ClioteSkyOld.Name"))){
-				prop.setProperty("ClioteSkyOld.Name", "Server");
-			}
-			if(!(prop.containsKey("ClioteSkyOld.Password"))){
-				prop.setProperty("ClioteSkyOld.Password", "password");
-			}
-			if(!(prop.containsKey("ClioteSkyOld.Enable"))){
-				prop.setProperty("ClioteSkyOld.Enable", "false");
-			}
-			// save properties to project root folder
-			prop.store(output, null);
+    public static void setup() {
+        config.createDirectory("plugins/gFeatures", "Setup the gFeatures directory for use!");
+        config.createFile("plugins/gFeatures/Config.yml", "Setup the gFeatures config for use!");
+        config.createDirectory("plugins/gFeatures/Resolver", "Setup the Resolver utility directory!");
 
-		} catch (IOException io) {
-			io.printStackTrace();
-		} finally {
-			if (output != null) {
-				try {
-					output.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
+        Properties prop = new Properties();
+        OutputStream output = null;
+        InputStream input;
+        try {
+            input = new FileInputStream(f.getPath());
+            prop.load(input);
+            input.close();
+            output = new FileOutputStream(f.getPath());
+            for (gFeature feature : features) {
+                if (!(prop.containsKey("Plugins." + feature.getName()))) {
+                    prop.setProperty("Plugins." + feature.getName(), "false");
+                }
+            }
+            if (!(prop.containsKey("ClioteSky.Address"))) {
+                prop.setProperty("ClioteSky.Address", "localhost");
+            }
+            if (!(prop.containsKey("ClioteSky.Port"))) {
+                prop.setProperty("ClioteSky.Port", "36000");
+            }
+            if (!(prop.containsKey("ClioteSky.Category"))) {
+                prop.setProperty("ClioteSky.Category", "Default");
+            }
+            if (!(prop.containsKey("ClioteSky.Name"))) {
+                prop.setProperty("ClioteSky.Name", "Server");
+            }
+            if (!(prop.containsKey("ClioteSky.Password"))) {
+                prop.setProperty("ClioteSky.Password", "password");
+            }
+            if (!(prop.containsKey("ClioteSky.Enable"))) {
+                prop.setProperty("ClioteSky.Enable", "false");
+            }
+            // save properties to project root folder
+            prop.store(output, null);
+
+        } catch (IOException io) {
+            io.printStackTrace();
+        } finally {
+            if (output != null) {
+                try {
+                    output.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }

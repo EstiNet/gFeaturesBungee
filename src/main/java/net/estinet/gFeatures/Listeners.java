@@ -1,6 +1,7 @@
 package net.estinet.gFeatures;
 
 import net.estinet.gFeatures.API.Resolver.ResolverInit;
+import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.estinet.gFeatures.ClioteSkyOld.ClioteInit;
 import net.estinet.gFeatures.Configuration.LoadConfig;
 import net.estinet.gFeatures.Configuration.SetupConfig;
@@ -25,50 +26,48 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class Listeners extends Plugin{
-	public static final String version = "3.6.0c";
-	public static boolean debug = false;
+public class Listeners extends Plugin {
+    public static final String version = "3.6.0c";
+    public static boolean debug = false;
 
-	Enabler enable = new Enabler();
-	Disabler disable = new Disabler();
-	CommandLibrary commands = new CommandLibrary();
-	Setup setup = new Setup();
-	gLoop gl = new gLoop();
-	ClioteInit ccu = new ClioteInit();
+    Enabler enable = new Enabler();
+    Disabler disable = new Disabler();
+    CommandLibrary commands = new CommandLibrary();
+    Setup setup = new Setup();
+    gLoop gl = new gLoop();
 
-	@Override
-	public void onEnable(){
-		getLogger().info("_________________________________________________________________________");
-		getLogger().info("Starting gFeatures.");
-		getLogger().info("Current version: " + version);
-		getLogger().info("Starting modules!");
-		getProxy().getPluginManager().registerListener(this, new Library());
-		try{
-			setup.onSetup();
-			SetupConfig.setup();
-			LoadConfig.load();
-			new Thread(ResolverInit::loadCache).start();
-			Thread thr = new Thread(() -> ccu.enable());
-			thr.start();
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-		enable.onEnable();
-		gl.start();
-		commands.commandEnabler();
-		getProxy().getPluginManager().registerCommand(this, new SlashgFeatures());
-		getLogger().info("Complete!");
-		getLogger().info("_________________________________________________________________________");
-	}
-	@Override
-	public void onDisable(){
-		getLogger().info("_________________________________________________________________________");
-		getLogger().info("Stopping gFeatures!");
-		getLogger().info("Current version: " + version);
-		getLogger().info("Turning off modules!");
-		disable.onDisable();
-		getLogger().info("Complete!");
-		getLogger().info("_________________________________________________________________________");
-	}
+    @Override
+    public void onEnable() {
+        getLogger().info("_________________________________________________________________________");
+        getLogger().info("Starting gFeatures.");
+        getLogger().info("Current version: " + version);
+        getLogger().info("Starting modules!");
+        getProxy().getPluginManager().registerListener(this, new Library());
+        try {
+            setup.onSetup();
+            SetupConfig.setup();
+            LoadConfig.load();
+            new Thread(ResolverInit::loadCache).start();
+            new Thread(ClioteSky::initClioteSky).start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        enable.onEnable();
+        gl.start();
+        commands.commandEnabler();
+        getProxy().getPluginManager().registerCommand(this, new SlashgFeatures());
+        getLogger().info("Complete!");
+        getLogger().info("_________________________________________________________________________");
+    }
+
+    @Override
+    public void onDisable() {
+        getLogger().info("_________________________________________________________________________");
+        getLogger().info("Stopping gFeatures!");
+        getLogger().info("Current version: " + version);
+        getLogger().info("Turning off modules!");
+        disable.onDisable();
+        getLogger().info("Complete!");
+        getLogger().info("_________________________________________________________________________");
+    }
 }

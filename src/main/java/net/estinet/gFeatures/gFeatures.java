@@ -1,5 +1,6 @@
 package net.estinet.gFeatures;
 
+import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.md_5.bungee.api.plugin.Command;
 
 import java.io.File;
@@ -32,47 +33,64 @@ public class gFeatures {
 
     public static List<gFeature> features = new ArrayList<>();
     private static List<EstiCommand> commands = new ArrayList<>();
-    public static void addFeature(gFeature feature){
+
+    public static ClioteSky clioteSky;
+
+    public static ClioteSky getClioteSky() {
+        return clioteSky;
+    }
+
+    public static void addFeature(gFeature feature) {
         features.add(feature);
     }
-    public static void addCommand(EstiCommand command){
+
+    public static void addCommand(EstiCommand command) {
         commands.add(command);
     }
-    public static void removeFeature(gFeature feature){
+
+    public static void removeFeature(gFeature feature) {
         features.remove(feature);
     }
-    public static void removeCommand(EstiCommand command){
+
+    public static void removeCommand(EstiCommand command) {
         commands.remove(command);
     }
-    public static gFeature getFeature(String name){
-        for(gFeature feature : features){
-            if(feature.getName().equalsIgnoreCase(name)){
+
+    public static gFeature getFeature(String name) {
+        for (gFeature feature : features) {
+            if (feature.getName().equalsIgnoreCase(name)) {
                 return feature;
             }
         }
         return null;
     }
-    public static Command getCommand(String name){
-        for(EstiCommand command : commands){
-            if(command.getName().equalsIgnoreCase(name)){
+
+    public static Command getCommand(String name) {
+        for (EstiCommand command : commands) {
+            if (command.getName().equalsIgnoreCase(name)) {
                 return command;
             }
         }
         return null;
     }
-    public static List<gFeature> getFeatures(){
+
+    public static List<gFeature> getFeatures() {
         return features;
     }
-    public static List<EstiCommand> getCommands(){
+
+    public static List<EstiCommand> getCommands() {
         return commands;
     }
-    public static void setFeatures(List<gFeature> pl){
+
+    public static void setFeatures(List<gFeature> pl) {
         features = pl;
     }
-    public static void setCommands(List<EstiCommand> ec){
+
+    public static void setCommands(List<EstiCommand> ec) {
         commands = ec;
     }
-    public static void resetFeatures(){
+
+    public static void resetFeatures() {
         List<gFeature> feature = new ArrayList<>();
         features = feature;
     }
