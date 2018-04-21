@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 
 import net.estinet.gFeatures.Events;
@@ -16,7 +15,7 @@ import net.estinet.gFeatures.gFeature;
 //import net.estinet.gFeatures.API.MojangAPI.BungeeNameFetcher;
 //import net.estinet.gFeatures.API.MojangAPI.UUIDFetcher;
 import net.estinet.gFeatures.API.Resolver.ResolverFetcher;
-import net.estinet.gFeatures.ClioteSky.API.CliotePing;
+import net.estinet.gFeatures.ClioteSkyOld.API.CliotePing;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;

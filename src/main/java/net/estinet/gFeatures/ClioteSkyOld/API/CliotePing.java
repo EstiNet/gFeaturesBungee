@@ -1,9 +1,6 @@
-package net.estinet.gFeatures.ClioteSky.Network.Protocol.Output;
+package net.estinet.gFeatures.ClioteSkyOld.API;
 
-import java.util.List;
-
-import net.estinet.gFeatures.ClioteSky.Network.NetworkThread;
-import net.estinet.gFeatures.ClioteSky.Network.Protocol.Packet;
+import net.estinet.gFeatures.ClioteSkyOld.Network.NetworkThread;
 
 /*
 gFeatures
@@ -24,15 +21,9 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class OutputSend extends Packet{
-	@Deprecated
-	public void run(List<String> args){
-		String sent = "";
-		for(String st : args){
-			sent += st;
-		}
+public class CliotePing {
+	public void sendMessage(String message, String categoryOrCliote){
 		NetworkThread nt = new NetworkThread();
-		nt.sendOutput(sent);
+		nt.sendOutput("send " + categoryOrCliote + " " + message);
 	}
-
 }

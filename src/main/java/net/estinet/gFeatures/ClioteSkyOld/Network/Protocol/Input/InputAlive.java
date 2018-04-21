@@ -1,10 +1,10 @@
-package net.estinet.gFeatures.ClioteSky.Network.Protocol.Output;
+package net.estinet.gFeatures.ClioteSkyOld.Network.Protocol.Input;
 
 import java.util.List;
 
-import net.estinet.gFeatures.ClioteSky.ClioteSky;
-import net.estinet.gFeatures.ClioteSky.Network.NetworkThread;
-import net.estinet.gFeatures.ClioteSky.Network.Protocol.Packet;
+import net.estinet.gFeatures.API.Logger.Debug;
+import net.estinet.gFeatures.ClioteSkyOld.ClioteSky;
+import net.estinet.gFeatures.ClioteSkyOld.Network.Protocol.Packet;
 
 /*
 gFeatures
@@ -25,11 +25,12 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class OutputCreate extends Packet{
+public class InputAlive extends Packet{
+	public InputAlive(){
+		super.name = "Alive";
+	}
 	public void run(List<String> args){
-		NetworkThread nt = new NetworkThread();
-		nt.sendOutput("create " + ClioteSky.getName() + " " + ClioteSky.getCategory() + " " + ClioteSky.getPassword());
-		OutputHello oh = new OutputHello();
-		oh.run(null);
+		ClioteSky.setAliveCache(false);
+		Debug.print("[ClioteSkyOld] Ping successful.");
 	}
 }

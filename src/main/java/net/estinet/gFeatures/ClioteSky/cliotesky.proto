@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+option java_outer_classname = "ClioteSkyRPC";
+
+service ClioteSkyService {
+    rpc Request(Token) returns (stream ClioteMessage);
+    rpc Send(ClioteSend) returns (Empty);
+    rpc Auth(AuthRequest) returns (Token);
+}
+
+message Empty {}
+message Token {
+    string token = 1;
+}
+message ClioteMessage {
+    bytes data = 1;
+    string identifier = 2;
+    string sender = 3;
+}
+message ClioteSend {
+    bytes data = 1;
+    string token = 2;
+    string identifier = 3;
+    string recipient = 4;
+}
+message AuthRequest {
+    string user = 1;
+    string password = 2;
+}

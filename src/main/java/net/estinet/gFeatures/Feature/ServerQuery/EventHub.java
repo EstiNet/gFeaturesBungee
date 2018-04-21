@@ -1,6 +1,6 @@
 package net.estinet.gFeatures.Feature.ServerQuery;
 
-import net.estinet.gFeatures.ClioteSky.API.CliotePing;
+import net.estinet.gFeatures.ClioteSkyOld.API.CliotePing;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;

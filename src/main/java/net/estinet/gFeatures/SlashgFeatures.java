@@ -3,7 +3,7 @@ package net.estinet.gFeatures;
 import java.util.List;
 
 import net.estinet.gFeatures.API.Resolver.ResolverFetcher;
-import net.estinet.gFeatures.ClioteSky.Network.NetworkThread;
+import net.estinet.gFeatures.ClioteSkyOld.Network.NetworkThread;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -47,7 +47,7 @@ public class SlashgFeatures extends Command {
                         sender.sendMessage(ChatColor.GRAY + "/gFeaturesBungee version : States the version.");
                         sender.sendMessage(ChatColor.GRAY + "/gFeaturesBungee list : Lists all features with their states and versions also.");
                         sender.sendMessage(ChatColor.GRAY + "/gFeaturesBungee featurestate <Feature> : Gets the state of the feature.");
-                        sender.sendMessage(ChatColor.GRAY + "/gFeaturesBungee send <Message> : Sends a manual message to the ClioteSky server.");
+                        sender.sendMessage(ChatColor.GRAY + "/gFeaturesBungee send <Message> : Sends a manual message to the ClioteSkyOld server.");
                         sender.sendMessage(ChatColor.GRAY + "/gFeaturesBungee lookup <Player Name> : Lookup player info (UUID and previous names).");
                         sender.sendMessage(ChatColor.GRAY + "/gFeaturesBungee debug : Turns on debug messages.");
                         break;
@@ -92,7 +92,7 @@ public class SlashgFeatures extends Command {
                     case "send":
                         NetworkThread nt = new NetworkThread();
                         nt.sendOutput(args[1]);
-                        sender.sendMessage(ChatColor.GRAY + "Sent message " + args[1] + " to ClioteSky.");
+                        sender.sendMessage(ChatColor.GRAY + "Sent message " + args[1] + " to ClioteSkyOld.");
                         break;
                     case "lookup":
                         sender.sendMessage(ChatColor.GRAY + "----- Player info for " + args[1] + " -----");
@@ -117,7 +117,7 @@ public class SlashgFeatures extends Command {
                         }
                         NetworkThread nt = new NetworkThread();
                         nt.sendOutput(output);
-                        sender.sendMessage(ChatColor.GRAY + "Sent message " + output + "to ClioteSky.");
+                        sender.sendMessage(ChatColor.GRAY + "Sent message " + output + "to ClioteSkyOld.");
                         break;
                     default:
                         sender.sendMessage(ChatColor.GRAY + "Please do /gFeaturesBungee help.");

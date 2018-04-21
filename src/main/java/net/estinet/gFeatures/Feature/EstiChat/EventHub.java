@@ -2,7 +2,7 @@ package net.estinet.gFeatures.Feature.EstiChat;
 
 import java.util.concurrent.TimeUnit;
 
-import net.estinet.gFeatures.ClioteSky.API.CliotePing;
+import net.estinet.gFeatures.ClioteSkyOld.API.CliotePing;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;

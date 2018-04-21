@@ -3,7 +3,7 @@ package net.estinet.gFeatures;
 import java.util.concurrent.TimeUnit;
 
 import net.estinet.gFeatures.API.Logger.Debug;
-import net.estinet.gFeatures.ClioteSky.Network.Protocol.Output.OutputAlive;
+import net.estinet.gFeatures.ClioteSkyOld.Network.Protocol.Output.OutputAlive;
 import net.md_5.bungee.api.ProxyServer;
 
 /*
@@ -33,7 +33,7 @@ public class gLoop {
 		ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), () -> {
             OutputAlive oa = new OutputAlive();
             oa.run(null);
-            Debug.print("[ClioteSky] Pinging server...");
+            Debug.print("[ClioteSkyOld] Pinging server...");
         }, 5, 5, TimeUnit.SECONDS);
 	}
 }

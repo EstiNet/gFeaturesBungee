@@ -1,8 +1,10 @@
-package net.estinet.gFeatures.ClioteSky.Network.Protocol.Output;
+package net.estinet.gFeatures.ClioteSkyOld.Network;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import net.estinet.gFeatures.ClioteSky.Network.Protocol.Packet;
+import net.estinet.gFeatures.ClioteSkyOld.ClioteSky;
+import net.estinet.gFeatures.ClioteSkyOld.Network.Protocol.Packet;
 
 /*
 gFeatures
@@ -23,9 +25,17 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class OutputChange extends Packet{
-	public void run(List<String> args){
-		
+public class Decosion {
+	public void decode(String message){
+		String[] args = message.split("\\s+");
+		for(Packet packet : ClioteSky.inputPackets){
+			if(args[0].equalsIgnoreCase(packet.name)){
+				List<String> newArgs = new ArrayList<>();
+				for(int i = 1; i<args.length; i++){
+					newArgs.add(args[i]);
+				}
+				packet.run(newArgs);
+			}
+		}
 	}
-
 }

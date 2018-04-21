@@ -2,8 +2,8 @@ package net.estinet.gFeatures;
 
 import java.util.List;
 
-import net.estinet.gFeatures.ClioteSky.ClioteSky;
-import net.estinet.gFeatures.ClioteSky.Network.NetworkThread;
+import net.estinet.gFeatures.ClioteSkyOld.ClioteSky;
+import net.estinet.gFeatures.ClioteSkyOld.Network.NetworkThread;
 
 /*
 gFeatures

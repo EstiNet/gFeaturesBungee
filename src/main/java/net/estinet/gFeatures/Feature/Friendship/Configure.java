@@ -19,7 +19,7 @@ https://github.com/EstiNet/gFeatures
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-import net.estinet.gFeatures.ClioteSky.ClioteSky;
+import net.estinet.gFeatures.ClioteSkyOld.ClioteSky;
 import net.estinet.gFeatures.gFeatures;
 
 /*

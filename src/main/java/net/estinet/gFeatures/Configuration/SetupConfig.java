@@ -54,23 +54,23 @@ public class SetupConfig {
 					prop.setProperty("Plugins." + feature.getName() , "false");
 				}
 			}
-			if(!(prop.containsKey("ClioteSky.Address"))){
-				prop.setProperty("ClioteSky.Address", "localhost");
+			if(!(prop.containsKey("ClioteSkyOld.Address"))){
+				prop.setProperty("ClioteSkyOld.Address", "localhost");
 			}
-			if(!(prop.containsKey("ClioteSky.Port"))){
-				prop.setProperty("ClioteSky.Port", "36000");
+			if(!(prop.containsKey("ClioteSkyOld.Port"))){
+				prop.setProperty("ClioteSkyOld.Port", "36000");
 			}
-			if(!(prop.containsKey("ClioteSky.Category"))){
-				prop.setProperty("ClioteSky.Category", "Default");
+			if(!(prop.containsKey("ClioteSkyOld.Category"))){
+				prop.setProperty("ClioteSkyOld.Category", "Default");
 			}
-			if(!(prop.containsKey("ClioteSky.Name"))){
-				prop.setProperty("ClioteSky.Name", "Server");
+			if(!(prop.containsKey("ClioteSkyOld.Name"))){
+				prop.setProperty("ClioteSkyOld.Name", "Server");
 			}
-			if(!(prop.containsKey("ClioteSky.Password"))){
-				prop.setProperty("ClioteSky.Password", "password");
+			if(!(prop.containsKey("ClioteSkyOld.Password"))){
+				prop.setProperty("ClioteSkyOld.Password", "password");
 			}
-			if(!(prop.containsKey("ClioteSky.Enable"))){
-				prop.setProperty("ClioteSky.Enable", "false");
+			if(!(prop.containsKey("ClioteSkyOld.Enable"))){
+				prop.setProperty("ClioteSkyOld.Enable", "false");
 			}
 			// save properties to project root folder
 			prop.store(output, null);

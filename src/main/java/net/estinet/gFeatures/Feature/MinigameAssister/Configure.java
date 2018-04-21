@@ -1,7 +1,7 @@
 package net.estinet.gFeatures.Feature.MinigameAssister;
 
 import net.estinet.gFeatures.Configs;
-import net.estinet.gFeatures.ClioteSky.ClioteSky;
+import net.estinet.gFeatures.ClioteSkyOld.ClioteSky;
 import net.estinet.gFeatures.Feature.MinigameAssister.Commands.SlashListgames;
 import net.estinet.gFeatures.gFeatures;
 

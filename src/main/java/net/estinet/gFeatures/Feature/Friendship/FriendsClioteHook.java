@@ -5,7 +5,7 @@ import java.util.List;
 
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.API.Resolver.ResolverFetcher;
-import net.estinet.gFeatures.ClioteSky.API.ClioteHook;
+import net.estinet.gFeatures.ClioteSkyOld.API.ClioteHook;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;

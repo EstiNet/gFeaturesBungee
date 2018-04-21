@@ -1,8 +1,10 @@
-package net.estinet.gFeatures.ClioteSky.API;
+package net.estinet.gFeatures.ClioteSkyOld.Network.Protocol.Output;
 
 import java.util.List;
 
-import net.estinet.gFeatures.gFeature;
+import net.estinet.gFeatures.ClioteSkyOld.ClioteSky;
+import net.estinet.gFeatures.ClioteSkyOld.Network.NetworkThread;
+import net.estinet.gFeatures.ClioteSkyOld.Network.Protocol.Packet;
 
 /*
 gFeatures
@@ -23,25 +25,11 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class ClioteHook{
-	private gFeature gf;
-	private String argument;
-	public ClioteHook(gFeature feature, String coreArgument){
-		gf = feature;
-		argument = coreArgument;
+public class OutputCreate extends Packet{
+	public void run(List<String> args){
+		NetworkThread nt = new NetworkThread();
+		nt.sendOutput("create " + ClioteSky.getName() + " " + ClioteSky.getCategory() + " " + ClioteSky.getPassword());
+		OutputHello oh = new OutputHello();
+		oh.run(null);
 	}
-	public gFeature getgFeature(){
-		return gf;
-	}
-	public String getCoreArgument(){
-		return argument;
-	}
-	public void setgFeature(gFeature gf){
-		this.gf = gf;
-	}
-	public void setCoreArgument(String coreArg){
-		argument = coreArg;
-	}
-	//Must override
-	public void run(List<String> args, String categoryName, String clioteName){}
 }

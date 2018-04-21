@@ -1,12 +1,12 @@
-package net.estinet.gFeatures.ClioteSky.Network.Protocol.Output;
+package net.estinet.gFeatures.ClioteSkyOld.Network.Protocol.Output;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import net.estinet.gFeatures.ClioteSky.ClioteSky;
-import net.estinet.gFeatures.ClioteSky.Network.NetworkThread;
-import net.estinet.gFeatures.ClioteSky.Network.Protocol.Packet;
+import net.estinet.gFeatures.ClioteSkyOld.ClioteSky;
+import net.estinet.gFeatures.ClioteSkyOld.Network.NetworkThread;
+import net.estinet.gFeatures.ClioteSkyOld.Network.Protocol.Packet;
 import net.md_5.bungee.api.ProxyServer;
 
 /*

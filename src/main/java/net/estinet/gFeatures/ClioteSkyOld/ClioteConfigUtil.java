@@ -1,4 +1,4 @@
-package net.estinet.gFeatures.ClioteSky;
+package net.estinet.gFeatures.ClioteSkyOld;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -43,12 +43,12 @@ public class ClioteConfigUtil {
 
 			// get the property value and print it out
 			try{
-				ClioteSky.setName(prop.getProperty("ClioteSky.Name"));
-				ClioteSky.setCategory(prop.getProperty("ClioteSky.Category"));
-				ClioteSky.setAddress(prop.getProperty("ClioteSky.Address"));
-				ClioteSky.setEnable(Boolean.parseBoolean(prop.getProperty("ClioteSky.Enable")));
-				ClioteSky.setPassword(prop.getProperty("ClioteSky.Password"));
-				ClioteSky.setPort(prop.getProperty("ClioteSky.Port"));
+				ClioteSky.setName(prop.getProperty("ClioteSkyOld.Name"));
+				ClioteSky.setCategory(prop.getProperty("ClioteSkyOld.Category"));
+				ClioteSky.setAddress(prop.getProperty("ClioteSkyOld.Address"));
+				ClioteSky.setEnable(Boolean.parseBoolean(prop.getProperty("ClioteSkyOld.Enable")));
+				ClioteSky.setPassword(prop.getProperty("ClioteSkyOld.Password"));
+				ClioteSky.setPort(prop.getProperty("ClioteSkyOld.Port"));
 			}
 			catch(Exception e){
 				e.printStackTrace();

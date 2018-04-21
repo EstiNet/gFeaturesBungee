@@ -9,12 +9,11 @@ import java.util.concurrent.TimeUnit;
 import com.lambdaworks.redis.RedisClient;
 import com.lambdaworks.redis.api.StatefulRedisConnection;
 import com.lambdaworks.redis.api.sync.RedisCommands;
-import com.lambdaworks.redis.api.sync.RedisStringCommands;
 
 import net.estinet.gFeatures.Events;
 import net.estinet.gFeatures.Retrieval;
 import net.estinet.gFeatures.gFeature;
-import net.estinet.gFeatures.ClioteSky.API.CliotePing;
+import net.estinet.gFeatures.ClioteSkyOld.API.CliotePing;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
