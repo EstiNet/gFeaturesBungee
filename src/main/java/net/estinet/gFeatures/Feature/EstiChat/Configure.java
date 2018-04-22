@@ -1,7 +1,7 @@
 package net.estinet.gFeatures.Feature.EstiChat;
 
+import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.estinet.gFeatures.Configs;
-import net.estinet.gFeatures.ClioteSkyOld.ClioteSky;
 import net.estinet.gFeatures.gFeatures;
 
 /*
@@ -28,8 +28,7 @@ public class Configure{
 	public static void onSetup(){
 		EstiChat base = new EstiChat("EstiChat", "1.0.0");
 		gFeatures.addFeature(base);
-		
-		ChatClioteHook mmap = new ChatClioteHook(base);
-		ClioteSky.addClioteHook(mmap);
+
+		ClioteSky.getInstance().addHook(new ChatClioteHook("chat", base.getName()));
 	}
 }

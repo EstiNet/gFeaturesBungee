@@ -25,28 +25,33 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class Base extends gFeature implements Events{
-	
-	EventHub eh = new EventHub();
-	
-	public Base(String featurename, String d) {
-		super(featurename, d);
-	}
-	@Override
-	public void enable(){
-		Enable.onEnable();
-	}
-	@Override
-	public void disable(){
-		Disable.onDisable();
-	}
-	@Override
-	public void eventTrigger(Event event) {
-		if(event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("playerhandshakeevent")){
-			eh.onPlayerJoin((PlayerHandshakeEvent)event);
-		}
-	}
-	@Override
-	@Retrieval
-	public void onPlayerHandshake(){}
+public class Base extends gFeature implements Events {
+
+    EventHub eh = new EventHub();
+
+    public Base(String featurename, String d) {
+        super(featurename, d);
+    }
+
+    @Override
+    public void enable() {
+        Enable.onEnable();
+    }
+
+    @Override
+    public void disable() {
+        Disable.onDisable();
+    }
+
+    @Override
+    public void eventTrigger(Event event) {
+        if (event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("playerhandshakeevent")) {
+            eh.onPlayerJoin((PlayerHandshakeEvent) event);
+        }
+    }
+
+    @Override
+    @Retrieval
+    public void onPlayerHandshake() {
+    }
 }

@@ -2,8 +2,7 @@ package net.estinet.gFeatures;
 
 import java.util.List;
 
-import net.estinet.gFeatures.ClioteSkyOld.ClioteSky;
-import net.estinet.gFeatures.ClioteSkyOld.Network.NetworkThread;
+import net.estinet.gFeatures.ClioteSky.ClioteSky;
 
 /*
 gFeatures
@@ -37,11 +36,9 @@ public class Disabler {
 			}
 		}
 		gFeatures.resetFeatures();
-		if(ClioteSky.isEnable()){
-			try {
-				NetworkThread.clientSocket.close();
-			} catch (Exception e) {
-			}
+		if(ClioteSky.enabled){
+		    ClioteSky.getInstance().continueEventLoop = false;
+			ClioteSky.getInstance().channel.shutdown();
 		}
 	}
 }

@@ -1,4 +1,6 @@
 package net.estinet.gFeatures.ClioteSky;
 
-public class ClioteHook {
+public abstract class ClioteHook {
+    protected String identifier, gFeatureName;
+    public abstract void run(byte[] data, String sender);
 }

@@ -1,11 +1,5 @@
 package net.estinet.gFeatures;
 
-import java.util.concurrent.TimeUnit;
-
-import net.estinet.gFeatures.API.Logger.Debug;
-import net.estinet.gFeatures.ClioteSkyOld.Network.Protocol.Output.OutputAlive;
-import net.md_5.bungee.api.ProxyServer;
-
 /*
 gFeatures
 https://github.com/EstiNet/gFeaturesBungee
@@ -30,10 +24,5 @@ public class gLoop {
 		/*
 		 * Initialize gFeatures Core loops here.
 		 */
-		ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), () -> {
-            OutputAlive oa = new OutputAlive();
-            oa.run(null);
-            Debug.print("[ClioteSkyOld] Pinging server...");
-        }, 5, 5, TimeUnit.SECONDS);
 	}
 }

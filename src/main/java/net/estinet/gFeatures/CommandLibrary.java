@@ -25,7 +25,7 @@ public class CommandLibrary {
 	public void commandEnabler(){
 		for(EstiCommand command : gFeatures.getCommands()){
 			if(gFeatures.getFeature(command.feature.getName()).getState().equals(FeatureState.ENABLE)){
-				ProxyServer.getInstance().getPluginManager().registerCommand(ProxyServer.getInstance().getPluginManager().getPlugin("gFeature"), command);
+				ProxyServer.getInstance().getPluginManager().registerCommand(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), command);
 			}
 		}
 	}

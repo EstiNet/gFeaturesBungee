@@ -1,7 +1,7 @@
 package net.estinet.gFeatures.Feature.ServerQuery;
 
+import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.estinet.gFeatures.Configs;
-import net.estinet.gFeatures.ClioteSkyOld.ClioteSky;
 import net.estinet.gFeatures.gFeatures;
 /*
 gFeatures
@@ -27,8 +27,7 @@ public class Configure{
 	public static void onSetup(){
 		ServerQuery base = new ServerQuery("ServerQuery", "1.0.0");
 		gFeatures.addFeature(base);
-		
-		ServerQueryClioteHook sqch = new ServerQueryClioteHook(base);
-		ClioteSky.addClioteHook(sqch);
+
+        ClioteSky.getInstance().addHook(new ServerQueryClioteHook("info", base.getName()));
 	}
 }

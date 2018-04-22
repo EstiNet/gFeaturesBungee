@@ -2,7 +2,6 @@ package net.estinet.gFeatures;
 
 import net.estinet.gFeatures.API.Resolver.ResolverInit;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
-import net.estinet.gFeatures.ClioteSkyOld.ClioteInit;
 import net.estinet.gFeatures.Configuration.LoadConfig;
 import net.estinet.gFeatures.Configuration.SetupConfig;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -27,7 +26,7 @@ https://github.com/EstiNet/gFeaturesBungee
 */
 
 public class Listeners extends Plugin {
-    public static final String version = "3.6.0c";
+    public static final String version = "3.7.0c";
     public static boolean debug = false;
 
     Enabler enable = new Enabler();
@@ -44,11 +43,11 @@ public class Listeners extends Plugin {
         getLogger().info("Starting modules!");
         getProxy().getPluginManager().registerListener(this, new Library());
         try {
-            setup.onSetup();
             SetupConfig.setup();
             LoadConfig.load();
+            if (ClioteSky.enabled) ClioteSky.initClioteSky();
+            setup.onSetup();
             new Thread(ResolverInit::loadCache).start();
-            new Thread(ClioteSky::initClioteSky).start();
         } catch (Exception e) {
             e.printStackTrace();
         }

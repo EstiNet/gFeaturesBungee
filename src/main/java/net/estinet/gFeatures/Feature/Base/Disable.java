@@ -21,8 +21,8 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class Disable{
-	public static void onDisable(){
-		ProxyServer.getInstance().getLogger().info("Base Plugin Disabled!");
-	}
+public class Disable {
+    public static void onDisable() {
+        ProxyServer.getInstance().getLogger().info("Base Plugin Disabled!");
+    }
 }

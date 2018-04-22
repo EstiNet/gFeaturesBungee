@@ -23,21 +23,23 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class Alerts extends gFeature implements Events{
-	
-	EventHub eh = new EventHub();
-	
-	public Alerts(String featurename, String d) {
-		super(featurename, d);
-	}
-	@Override
-	public void enable(){
-		Enable.onEnable();
-	}
-	@Override
-	public void disable(){
-		Disable.onDisable();
-	}
-	@Override
-	public void eventTrigger(Event event) {}
+public class Alerts extends gFeature implements Events {
+
+    public Alerts(String featurename, String d) {
+        super(featurename, d);
+    }
+
+    @Override
+    public void enable() {
+        Enable.onEnable();
+    }
+
+    @Override
+    public void disable() {
+        Disable.onDisable();
+    }
+
+    @Override
+    public void eventTrigger(Event event) {
+    }
 }

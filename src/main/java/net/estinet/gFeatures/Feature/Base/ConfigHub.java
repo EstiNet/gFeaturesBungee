@@ -22,8 +22,9 @@ https://github.com/EstiNet/gFeaturesBungee
 */
 
 public class ConfigHub {
-	Config config = new Config();
-	public void setupConfig(){
-		config.createDirectory("plugins/gFeatures/Test", "Base plugin directory set!");
-	}
+    private static Config config = new Config();
+
+    public static void setupConfig() {
+        config.createDirectory("plugins/gFeatures/Test", "Base plugin directory set!");
+    }
 }

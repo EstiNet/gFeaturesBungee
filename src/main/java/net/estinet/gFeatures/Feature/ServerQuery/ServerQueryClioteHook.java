@@ -3,9 +3,9 @@ package net.estinet.gFeatures.Feature.ServerQuery;
 import java.util.List;
 
 import net.estinet.gFeatures.API.Resolver.ResolverFetcher;
+import net.estinet.gFeatures.ClioteSky.ClioteHook;
+import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.estinet.gFeatures.gFeature;
-import net.estinet.gFeatures.ClioteSkyOld.API.ClioteHook;
-import net.estinet.gFeatures.ClioteSkyOld.API.CliotePing;
 import net.md_5.bungee.api.ProxyServer;
 
 /*
@@ -29,28 +29,29 @@ https://github.com/EstiNet/gFeaturesBungee
 
 public class ServerQueryClioteHook extends ClioteHook {
 
-    public ServerQueryClioteHook(gFeature feature) {
-        super(feature, "info");
+    public ServerQueryClioteHook(String identifier, String gFeatureName) {
+        this.identifier = identifier;
+        this.gFeatureName = gFeatureName;
     }
 
     @Override
-    public void run(List<String> args, String categoryName, String clioteName) {
+    public void run(byte[] data, String clioteName) {
+        List<String> args = ClioteSky.parseBytesToStringList(data);
         try {
             if (!clioteName.equals("Bungee")) {
-                CliotePing cp = new CliotePing();
                 switch (args.get(0)) {
                     case "online":
-                        cp.sendMessage("info online " + ProxyServer.getInstance().getOnlineCount(), clioteName);
+                        ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("online " + ProxyServer.getInstance().getOnlineCount()), "info", clioteName);
                         break;
                     case "serverget":
-                        cp.sendMessage("info serverget " + args.get(1) + " " + ProxyServer.getInstance().getPlayer(args.get(2)).getServer().getInfo().getName(), clioteName);
+                        ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("serverget " + args.get(1) + " " + ProxyServer.getInstance().getPlayer(args.get(2)).getServer().getInfo().getName()), "info", clioteName);
                         break;
                     case "uuidlookup":
                         String uuid = ResolverFetcher.getUUIDfromName(args.get(1));
                         if (uuid == null) {
-                            cp.sendMessage("info uuidlookup *", clioteName);
+                            ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("uuidlookup *"), "info", clioteName);
                         } else {
-                            cp.sendMessage("info uuidlookup " + uuid, clioteName);
+                            ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("uuidlookup " + uuid), "info", clioteName);
                         }
                         break;
                 }

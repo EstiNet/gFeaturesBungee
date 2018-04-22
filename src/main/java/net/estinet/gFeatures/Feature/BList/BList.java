@@ -25,19 +25,23 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class BList extends gFeature implements Events{
+public class BList extends gFeature implements Events {
 
-    public BList(String featurename, String d) {
+    BList(String featurename, String d) {
         super(featurename, d);
     }
+
     @Override
-    public void enable(){
+    public void enable() {
         Enable.onEnable();
     }
+
     @Override
-    public void disable(){
+    public void disable() {
         Disable.onDisable();
     }
+
     @Override
-    public void eventTrigger(Event event) {}
+    public void eventTrigger(Event event) {
+    }
 }

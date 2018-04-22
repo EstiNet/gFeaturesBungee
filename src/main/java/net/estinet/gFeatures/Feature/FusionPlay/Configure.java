@@ -1,7 +1,7 @@
 package net.estinet.gFeatures.Feature.FusionPlay;
 
+import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.estinet.gFeatures.Configs;
-import net.estinet.gFeatures.ClioteSkyOld.ClioteSky;
 import net.estinet.gFeatures.Feature.FusionPlay.Commands.FusionPlayCommand;
 import net.estinet.gFeatures.gFeatures;
 
@@ -32,8 +32,7 @@ public class Configure{
 		
 		FusionPlayCommand fpc = new FusionPlayCommand(base);
 		gFeatures.addCommand(fpc);
-		
-		FusionPlayClioteHook cch = new FusionPlayClioteHook(base);
-		ClioteSky.addClioteHook(cch);
+
+		ClioteSky.getInstance().addHook(new FusionPlayClioteHook("fusionplay", base.getName()));
 	}
 }

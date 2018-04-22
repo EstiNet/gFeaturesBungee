@@ -2,7 +2,7 @@ package net.estinet.gFeatures.Feature.EstiChat;
 
 import java.util.concurrent.TimeUnit;
 
-import net.estinet.gFeatures.ClioteSkyOld.API.CliotePing;
+import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -30,54 +30,65 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class EventHub{
-	@SuppressWarnings("deprecation")
-	public void onPlayerJoin(PostLoginEvent event){
-		ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), () -> {
-            for(ProxiedPlayer player : ProxyServer.getInstance().getPlayers()){
-                if(!player.getServer().getInfo().getName().equalsIgnoreCase(event.getPlayer().getServer().getInfo().getName())){
+public class EventHub {
+    @SuppressWarnings("deprecation")
+    public void onPlayerJoin(PostLoginEvent event) {
+
+        ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), () -> {
+
+            for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+
+                if (!player.getServer().getInfo().getName().equalsIgnoreCase(event.getPlayer().getServer().getInfo().getName())) {
+
                     player.sendMessage("[" + event.getPlayer().getServer().getInfo().getName() + "] " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Join" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName());
+
                 }
             }
-            CliotePing cp = new CliotePing();
-            cp.sendMessage("consolechat " + event.getPlayer().getServer().getInfo().getName() + " " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Join" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName(), "all");
+
+            ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(event.getPlayer().getServer().getInfo().getName() + " " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Join" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName()), "consolechat", "all");
+
         }, 1, TimeUnit.SECONDS);
-	}
-	@SuppressWarnings("deprecation")
-	public void onPlayerDisconnect(PlayerDisconnectEvent event){
-		CliotePing cp = new CliotePing();
-		cp.sendMessage("consolechat " + event.getPlayer().getServer().getInfo().getName() + " " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Leave" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName(), "all");
-		for(ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-			if (!player.getServer().getInfo().getName().equalsIgnoreCase(event.getPlayer().getServer().getInfo().getName())) {
-				player.sendMessage("[" + event.getPlayer().getServer().getInfo().getName() + "] " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Leave" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName());
-			}
-		}
-	}
-	public void onServerConnect(ServerConnectEvent event){
-		EstiChat.switcher.remove(event.getPlayer().getName());
-		try{
-			EstiChat.switcher.put(event.getPlayer().getName(), event.getPlayer().getServer().getInfo().getName());
-		}
-		catch(NullPointerException e){
-			EstiChat.switcher.put(event.getPlayer().getName(), null);
-		}
-	}
-	@SuppressWarnings({ "deprecation", "unused" })
-	public void onServerSwitch(ServerSwitchEvent event){
-		String previous;
-		previous = event.getPlayer().getServer().getInfo().getName();
-		try{
-			String test = EstiChat.switcher.get(event.getPlayer().getName());
-		}
-		catch(NullPointerException e){
-			return;
-		}
-		if(!previous.equals(EstiChat.switcher.get(event.getPlayer().getName())) && !(EstiChat.switcher.get(event.getPlayer().getName()) == null)){
-			for(ProxiedPlayer player : ProxyServer.getInstance().getPlayers()){
-				player.sendMessage(ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Switch" + ChatColor.GOLD + "] " + ChatColor.RESET + "(" + EstiChat.switcher.get(event.getPlayer().getName()) + " -> " + previous + ") " + event.getPlayer().getName());
-			}
-			CliotePing cp = new CliotePing();
-			cp.sendMessage("consolechat " + EstiChat.switcher.get(event.getPlayer().getName()) + " " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Switch" + ChatColor.GOLD + "] " + ChatColor.RESET + "(" + EstiChat.switcher.get(event.getPlayer().getName()) + " -> " + previous + ") " + event.getPlayer().getName(), "all");
-		}
-	}
+    }
+
+    @SuppressWarnings("deprecation")
+    public void onPlayerDisconnect(PlayerDisconnectEvent event) {
+
+        ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(event.getPlayer().getServer().getInfo().getName() + " " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Leave" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName()), "consolechat", "all");
+
+        for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+
+            if (!player.getServer().getInfo().getName().equalsIgnoreCase(event.getPlayer().getServer().getInfo().getName())) {
+                player.sendMessage("[" + event.getPlayer().getServer().getInfo().getName() + "] " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Leave" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName());
+            }
+        
+        }
+    }
+
+    public void onServerConnect(ServerConnectEvent event) {
+        EstiChat.switcher.remove(event.getPlayer().getName());
+        try {
+            EstiChat.switcher.put(event.getPlayer().getName(), event.getPlayer().getServer().getInfo().getName());
+        } catch (NullPointerException e) {
+            EstiChat.switcher.put(event.getPlayer().getName(), null);
+        }
+    }
+
+    @SuppressWarnings({"deprecation", "unused"})
+    public void onServerSwitch(ServerSwitchEvent event) {
+        String previous;
+        previous = event.getPlayer().getServer().getInfo().getName();
+        try {
+            String test = EstiChat.switcher.get(event.getPlayer().getName());
+        } catch (NullPointerException e) {
+            return;
+        }
+        if (!previous.equals(EstiChat.switcher.get(event.getPlayer().getName())) && !(EstiChat.switcher.get(event.getPlayer().getName()) == null)) {
+            for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+                player.sendMessage(ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Switch" + ChatColor.GOLD + "] " + ChatColor.RESET + "(" + EstiChat.switcher.get(event.getPlayer().getName()) + " -> " + previous + ") " + event.getPlayer().getName());
+            }
+
+            ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(EstiChat.switcher.get(event.getPlayer().getName()) + " " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Switch" + ChatColor.GOLD + "] " + ChatColor.RESET + "(" + EstiChat.switcher.get(event.getPlayer().getName()) + " -> " + previous + ") " + event.getPlayer().getName()), "consolechat", "all");
+
+        }
+    }
 }

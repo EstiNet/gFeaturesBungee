@@ -23,7 +23,7 @@ https://github.com/EstiNet/gFeaturesBungee
 */
 
 public class EventHub{
-	public void onPlayerJoin(PlayerHandshakeEvent event){
+	public static void onPlayerJoin(PlayerHandshakeEvent event){
 		ProxyServer.getInstance().getLogger().info("Player Joined!");
 	}
 }

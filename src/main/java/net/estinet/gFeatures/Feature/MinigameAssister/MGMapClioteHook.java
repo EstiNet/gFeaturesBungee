@@ -2,9 +2,9 @@ package net.estinet.gFeatures.Feature.MinigameAssister;
 
 import java.util.List;
 
-import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.API.Logger.Debug;
-import net.estinet.gFeatures.ClioteSkyOld.API.ClioteHook;
+import net.estinet.gFeatures.ClioteSky.ClioteHook;
+import net.estinet.gFeatures.ClioteSky.ClioteSky;
 
 /*
 gFeatures
@@ -25,15 +25,17 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class MGMapClioteHook extends ClioteHook{
+public class MGMapClioteHook extends ClioteHook {
 
-	public MGMapClioteHook(gFeature feature) {
-		super(feature, "mgmap");
+	public MGMapClioteHook(String identifier, String gFeatureName) {
+		this.identifier = identifier;
+		this.gFeatureName = gFeatureName;
 	}
 	@Override
-	public void run(List<String> args, String categoryName, String clioteName){
+	public void run(byte[] data, String clioteName){
+		List<String> args = ClioteSky.parseBytesToStringList(data);
 		try{
-			Debug.print("Comparing mgmap " + clioteName + " " + categoryName);
+			Debug.print("Comparing mgmap " + clioteName);
 			if(!MinigameAssister.maps.containsKey(clioteName)){
 				MinigameAssister.maps.put(clioteName, args.get(0));
 			}

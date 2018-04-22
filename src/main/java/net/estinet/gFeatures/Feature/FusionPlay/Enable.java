@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.lambdaworks.redis.RedisClient;
 import com.lambdaworks.redis.RedisURI;
-import net.estinet.gFeatures.ClioteSkyOld.API.CliotePing;
+import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.md_5.bungee.api.ProxyServer;
 
 /*
@@ -26,49 +26,51 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class Enable{
-	static ConfigHub ch = new ConfigHub();
-	public static void onEnable(){
-		ProxyServer.getInstance().getLogger().info("[FusionPlay] Enabled!");
-		ch.setupConfig();
-		System.out.println("[FusionPlay] Connecting to Redis...");
+public class Enable {
+    static ConfigHub ch = new ConfigHub();
 
-		RedisURI ruri = new RedisURI();
-		ruri.setDatabase(Integer.parseInt(FusionPlay.databaseNum));
-		ruri.setPort(Integer.parseInt(FusionPlay.port));
-		ruri.setPassword(FusionPlay.password);
-		ruri.setHost(FusionPlay.IP);
+    public static void onEnable() {
+        ProxyServer.getInstance().getLogger().info("[FusionPlay] Enabled!");
+        ch.setupConfig();
+        ProxyServer.getInstance().getLogger().info("[FusionPlay] Connecting to Redis...");
 
-		FusionPlay.redisClient = RedisClient.create(ruri);
-		FusionPlay.connection = FusionPlay.redisClient.connect();
-		FusionPlay.syncCommands = FusionPlay.connection.sync();
+        RedisURI ruri = new RedisURI();
+        ruri.setDatabase(Integer.parseInt(FusionPlay.databaseNum));
+        ruri.setPort(Integer.parseInt(FusionPlay.port));
+        ruri.setPassword(FusionPlay.password);
+        ruri.setHost(FusionPlay.IP);
 
-		System.out.println("[FusionPlay] Connected!");
-		CliotePing cp = new CliotePing();
-		cp.sendMessage("fusionplay obtain", "all");
-		FusionPlay.syncCommands.flushdb();
-		
-		ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
-            @Override
-            public void run() {
-                for(FusionCon fc : FusionPlay.getCurrentOnlineGames()){
-                	cp.sendMessage("fusionplay alive", fc.getClioteName());
-                	FusionPlay.cliotesOnCheck.add(fc);
-                	ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
-        	            public void run() {
-        	            	if(FusionPlay.cliotesOnCheck.contains(fc)){
-        	            		FusionPlay.cliotesOnCheck.remove(fc);
-        	            		FusionPlay.usedID.remove((Object)fc.getID());
-        	            		FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(fc.getClioteName())).setID(-1);
-        	            		FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(fc.getClioteName())).setStatus(FusionStatus.OFFLINE);
-        	            		//FusionPlay.syncCommands.del("server-" + fc.getID());
-        	            		FusionPlay.dumpToRedis();
-        	            		FusionPlay.replaceConnection(fc.getClioteName());
-        	            	}
-        	            }
-        	         }, 5, TimeUnit.SECONDS);
-                }
+        FusionPlay.redisClient = RedisClient.create(ruri);
+        FusionPlay.connection = FusionPlay.redisClient.connect();
+        FusionPlay.syncCommands = FusionPlay.connection.sync();
+
+        ProxyServer.getInstance().getLogger().info("[FusionPlay] Connected!");
+
+        ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("obtain"), "fusionplay", "all");
+        FusionPlay.syncCommands.flushdb();
+
+        ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), () -> {
+
+            for (FusionCon fc : FusionPlay.getCurrentOnlineGames()) {
+                ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("alive"), "fusionplay", fc.getClioteName());
+                FusionPlay.cliotesOnCheck.add(fc);
+
+                ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), () -> {
+
+                    if (FusionPlay.cliotesOnCheck.contains(fc)) {
+                        FusionPlay.cliotesOnCheck.remove(fc);
+                        FusionPlay.usedID.remove((Object) fc.getID());
+                        FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(fc.getClioteName())).setID(-1);
+                        FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(fc.getClioteName())).setStatus(FusionStatus.OFFLINE);
+                        //FusionPlay.syncCommands.del("server-" + fc.getID());
+                        FusionPlay.dumpToRedis();
+                        FusionPlay.replaceConnection(fc.getClioteName());
+                    }
+
+                }, 5, TimeUnit.SECONDS);
+
             }
         }, 1, 10, TimeUnit.SECONDS);
-	}
+
+    }
 }

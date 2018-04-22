@@ -71,7 +71,7 @@ public class SetupConfig {
                 prop.setProperty("ClioteSky.Password", "password");
             }
             if (!(prop.containsKey("ClioteSky.Enable"))) {
-                prop.setProperty("ClioteSky.Enable", "false");
+                prop.setProperty("ClioteSky.Enable", "true");
             }
             // save properties to project root folder
             prop.store(output, null);

@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'maven'
 
 group = 'gFeaturesBungee'
-version = '3.6.0c'
+version = '3.7.0c'
 
 description = """gFeatures"""
 

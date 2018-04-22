@@ -1,6 +1,6 @@
 package net.estinet.gFeatures.Feature.ServerQuery;
 
-import net.estinet.gFeatures.ClioteSkyOld.API.CliotePing;
+import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.event.PlayerDisconnectEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
@@ -27,12 +27,10 @@ https://github.com/EstiNet/gFeaturesBungee
 public class EventHub {
 
 	public void onPlayerJoin(PostLoginEvent event) {
-		CliotePing cp = new CliotePing();
-		cp.sendMessage("info online " + ProxyServer.getInstance().getOnlineCount(), "all");
+        ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("online " + ProxyServer.getInstance().getOnlineCount()), "info", "all");
 	}
 	
 	public void onPlayerLeave(PlayerDisconnectEvent event){
-		CliotePing cp = new CliotePing();
-		cp.sendMessage("info online " + (ProxyServer.getInstance().getOnlineCount()-1), "all");
+        ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("online " + (ProxyServer.getInstance().getOnlineCount()-1)), "info", "all");
 	}
 }

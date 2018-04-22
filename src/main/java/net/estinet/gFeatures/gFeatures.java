@@ -29,16 +29,8 @@ https://github.com/EstiNet/gFeaturesBungee
 public class gFeatures {
     public static File f = new File("plugins/gFeatures/Config.yml");
 
-    static Setup setup = new Setup();
-
     public static List<gFeature> features = new ArrayList<>();
     private static List<EstiCommand> commands = new ArrayList<>();
-
-    public static ClioteSky clioteSky;
-
-    public static ClioteSky getClioteSky() {
-        return clioteSky;
-    }
 
     public static void addFeature(gFeature feature) {
         features.add(feature);
@@ -91,7 +83,6 @@ public class gFeatures {
     }
 
     public static void resetFeatures() {
-        List<gFeature> feature = new ArrayList<>();
-        features = feature;
+        features = new ArrayList<>();
     }
 }

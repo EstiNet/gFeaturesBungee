@@ -1,13 +1,13 @@
 package net.estinet.gFeatures;
 
-import java.util.List;
-
 import net.estinet.gFeatures.API.Resolver.ResolverFetcher;
-import net.estinet.gFeatures.ClioteSkyOld.Network.NetworkThread;
+import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
+
+import java.util.List;
 
 /*
 gFeatures
@@ -47,7 +47,7 @@ public class SlashgFeatures extends Command {
                         sender.sendMessage(ChatColor.GRAY + "/gFeaturesBungee version : States the version.");
                         sender.sendMessage(ChatColor.GRAY + "/gFeaturesBungee list : Lists all features with their states and versions also.");
                         sender.sendMessage(ChatColor.GRAY + "/gFeaturesBungee featurestate <Feature> : Gets the state of the feature.");
-                        sender.sendMessage(ChatColor.GRAY + "/gFeaturesBungee send <Message> : Sends a manual message to the ClioteSkyOld server.");
+                        sender.sendMessage(ChatColor.GRAY + "/gFeaturesBungee send <Cliote> <Identifier> <Message> : Sends a manual message to the ClioteSky server.");
                         sender.sendMessage(ChatColor.GRAY + "/gFeaturesBungee lookup <Player Name> : Lookup player info (UUID and previous names).");
                         sender.sendMessage(ChatColor.GRAY + "/gFeaturesBungee debug : Turns on debug messages.");
                         break;
@@ -71,7 +71,7 @@ public class SlashgFeatures extends Command {
                         sender.sendMessage(ChatColor.GRAY + "Usage: /gFeaturesBungee featurestate <Plugin>");
                         break;
                     case "debug":
-                        if (Listeners.debug == true) {
+                        if (Listeners.debug) {
                             Listeners.debug = false;
                             sender.sendMessage(ChatColor.GRAY + "Turned off debugging.");
                         } else {
@@ -89,40 +89,37 @@ public class SlashgFeatures extends Command {
                         gFeature feature = gFeatures.getFeature(args[1]);
                         sender.sendMessage(ChatColor.GRAY + "Feature " + args[1] + " state is " + feature.getState().toString());
                         break;
-                    case "send":
-                        NetworkThread nt = new NetworkThread();
-                        nt.sendOutput(args[1]);
-                        sender.sendMessage(ChatColor.GRAY + "Sent message " + args[1] + " to ClioteSkyOld.");
-                        break;
                     case "lookup":
                         sender.sendMessage(ChatColor.GRAY + "----- Player info for " + args[1] + " -----");
                         sender.sendMessage(ChatColor.GRAY + "UUID: " + ResolverFetcher.getUUIDfromName(args[1]));
-                        String prev = ChatColor.GRAY + "Previous names: ";
+                        StringBuilder prev = new StringBuilder(ChatColor.GRAY + "Previous names: ");
                         List<String> names = ResolverFetcher.getAllNames(ResolverFetcher.getUUIDfromName(args[1]));
                         for (int i = 1; i < names.size(); i++) {
-                            prev += names.get(i) + " ";
+                            prev.append(names.get(i)).append(" ");
                         }
-                        sender.sendMessage(prev);
+                        sender.sendMessage(prev.toString());
+                        break;
+                    default:
+                        sender.sendMessage(ChatColor.GRAY + "Please do /gFeaturesBungee help.");
+                        break;
+                }
+            } else if (args.length >= 4) {
+                switch (args[0]) {
+                    case "send":
+                        StringBuilder output = new StringBuilder();
+                        for (int i = 3; i < args.length; i++) {
+                            output.append(args[i]).append(" ");
+                        }
+
+                        ClioteSky.getInstance().send(ClioteSky.stringToBytes(output.toString()), args[2], args[1]);
+                        sender.sendMessage(ChatColor.GRAY + "Sent message " + output + " to ClioteSky.");
                         break;
                     default:
                         sender.sendMessage(ChatColor.GRAY + "Please do /gFeaturesBungee help.");
                         break;
                 }
             } else {
-                switch (args[0]) {
-                    case "send":
-                        String output = "";
-                        for (int i = 0; i < args.length - 1; i++) {
-                            output += args[i + 1] + " ";
-                        }
-                        NetworkThread nt = new NetworkThread();
-                        nt.sendOutput(output);
-                        sender.sendMessage(ChatColor.GRAY + "Sent message " + output + "to ClioteSkyOld.");
-                        break;
-                    default:
-                        sender.sendMessage(ChatColor.GRAY + "Please do /gFeaturesBungee help.");
-                        break;
-                }
+                sender.sendMessage(ChatColor.GRAY + "Please do /gFeaturesBungee help.");
             }
         } catch (Exception e) {
             e.printStackTrace();

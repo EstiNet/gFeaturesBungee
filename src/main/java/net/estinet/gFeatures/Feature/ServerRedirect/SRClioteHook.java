@@ -2,8 +2,9 @@ package net.estinet.gFeatures.Feature.ServerRedirect;
 
 import java.util.List;
 
+import net.estinet.gFeatures.ClioteSky.ClioteHook;
+import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.estinet.gFeatures.gFeature;
-import net.estinet.gFeatures.ClioteSkyOld.API.ClioteHook;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -27,20 +28,22 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class SRClioteHook extends ClioteHook{
+public class SRClioteHook extends ClioteHook {
 
-	public SRClioteHook(gFeature feature) {
-		super(feature, "redirect");
-	}
-	@Override
-	public void run(List<String> args, String categoryName, String clioteName){
-		try{
-			ProxiedPlayer player = ProxyServer.getInstance().getPlayer(args.get(0));
-			ServerInfo target = ProxyServer.getInstance().getServerInfo(args.get(1));
-			player.connect(target);
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-	}
+    public SRClioteHook(String identifier, String gFeatureName) {
+        this.identifier = identifier;
+        this.gFeatureName = gFeatureName;
+    }
+
+    @Override
+    public void run(byte[] data, String sender) {
+        List<String> args = ClioteSky.parseBytesToStringList(data);
+        try {
+            ProxiedPlayer player = ProxyServer.getInstance().getPlayer(args.get(0));
+            ServerInfo target = ProxyServer.getInstance().getServerInfo(args.get(1));
+            player.connect(target);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

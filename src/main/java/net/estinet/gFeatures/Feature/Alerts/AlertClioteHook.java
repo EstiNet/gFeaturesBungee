@@ -2,8 +2,9 @@ package net.estinet.gFeatures.Feature.Alerts;
 
 import java.util.List;
 
+import net.estinet.gFeatures.ClioteSky.ClioteHook;
+import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.estinet.gFeatures.gFeature;
-import net.estinet.gFeatures.ClioteSkyOld.API.ClioteHook;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -29,33 +30,37 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class AlertClioteHook extends ClioteHook{
+public class AlertClioteHook extends ClioteHook {
 
-	public AlertClioteHook(gFeature feature) {
-		super(feature, "alert");
-	}
-	@Override
-	public void run(List<String> args, String categoryName, String clioteName){
-		try{
-			StringBuilder message = new StringBuilder();
-			for(String add : args){
-				message.append(add).append(" ");
-			}
-			TextComponent tc = new TextComponent(message.toString());
-			
-			Title bt = ProxyServer.getInstance().createTitle().reset();
-			bt.title(new TextComponent(ChatColor.BOLD + "[" + ChatColor.RED + "Alert" + ChatColor.RESET + "" + ChatColor.BOLD + "]"));
-			bt.fadeIn(20);
-			bt.stay(40);
-			bt.fadeOut(20);
-			bt.subTitle(tc);
-			for(ProxiedPlayer p : ProxyServer.getInstance().getPlayers()){
-				p.sendTitle(bt);
-			}
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-	}
+    public AlertClioteHook(String identifier, String gFeatureName) {
+        this.identifier = identifier;
+        this.gFeatureName = gFeatureName;
+    }
+
+    @Override
+    public void run(byte[] data, String identifier) {
+
+        List<String> args = ClioteSky.parseBytesToStringList(data);
+
+        try {
+            StringBuilder message = new StringBuilder();
+            for (String add : args) {
+                message.append(add).append(" ");
+            }
+            TextComponent tc = new TextComponent(message.toString());
+
+            Title bt = ProxyServer.getInstance().createTitle().reset();
+            bt.title(new TextComponent(ChatColor.BOLD + "[" + ChatColor.RED + "Alert" + ChatColor.RESET + "" + ChatColor.BOLD + "]"));
+            bt.fadeIn(20);
+            bt.stay(40);
+            bt.fadeOut(20);
+            bt.subTitle(tc);
+            for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
+                p.sendTitle(bt);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

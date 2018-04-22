@@ -6,14 +6,14 @@ The core of EstiNet.
 EstiNet - The flow of creativity.
 
 ##Version
-gFeatures Core/API: 3.4.1c
+gFeatures Core/API: 3.7.0c
 
 ## Info
 gFeatures (Bungee) is the BungeeCord version of gFeatures. It can communicate with gFeatures (Spigot) through ClioteSky.
 Version numbers are marked with 'c' (gFeatures 3.4.2c) to specify that this is the BungeeCord version of gFeatures.
 ## Dependencies
 gFeatures requires the following dependencies to run:
-* Bungeecord 1.11.2
+* Bungeecord 1.12.2
 * Java 8
 * ClioteSky Server (Optional)
 
@@ -32,6 +32,6 @@ Key map API to store and send keys to other installations.
 ## Copyright
 EstiNet and gFeatures are property of EstiNet.
 
-© 2016 EstiNet - All Rights Reserved.
+© 2018 EstiNet - All Rights Reserved.
 
 https://estinet.net/

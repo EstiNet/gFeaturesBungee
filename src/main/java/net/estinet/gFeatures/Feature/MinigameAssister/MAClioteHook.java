@@ -1,10 +1,7 @@
 package net.estinet.gFeatures.Feature.MinigameAssister;
 
-import java.util.List;
-
-import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.API.Logger.Debug;
-import net.estinet.gFeatures.ClioteSkyOld.API.ClioteHook;
+import net.estinet.gFeatures.ClioteSky.ClioteHook;
 
 /*
 gFeatures
@@ -25,15 +22,16 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class MAClioteHook extends ClioteHook{
+public class MAClioteHook extends ClioteHook {
 
-	public MAClioteHook(gFeature feature) {
-		super(feature, "mgcomplete");
+	public MAClioteHook(String identifier, String gFeatureName) {
+		this.identifier = identifier;
+		this.gFeatureName = gFeatureName;
 	}
 	@Override
-	public void run(List<String> args, String categoryName, String clioteName){
+	public void run(byte[] data, String clioteName){
 		try{
-			Debug.print("Comparing " + clioteName + " " + categoryName);
+			Debug.print("Comparing " + clioteName);
 			if(!MinigameAssister.servers.containsKey(clioteName)){
 				MinigameAssister.servers.put(clioteName, MGState.OFFLINE);
 			}

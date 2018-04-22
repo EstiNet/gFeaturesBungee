@@ -22,9 +22,8 @@ https://github.com/EstiNet/gFeaturesBungee
 */
 
 public class Enable{
-	static ConfigHub ch = new ConfigHub();
 	public static void onEnable(){
 		ProxyServer.getInstance().getLogger().info("Base Plugin enabled!");
-		ch.setupConfig();
+		ConfigHub.setupConfig();
 	}
 }

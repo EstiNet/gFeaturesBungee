@@ -1,6 +1,6 @@
 package net.estinet.gFeatures.Feature.MinigameAssister;
 
-import net.estinet.gFeatures.ClioteSkyOld.API.CliotePing;
+import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.md_5.bungee.api.ProxyServer;
 
 /*
@@ -25,7 +25,6 @@ https://github.com/EstiNet/gFeaturesBungee
 public class Enable{
 	public static void onEnable(){
 		ProxyServer.getInstance().getLogger().info("[MinigameAssister] enabled!");
-		CliotePing cp = new CliotePing();
-		cp.sendMessage("getmginfo", "all");
+		ClioteSky.getInstance().sendAsync(new byte[0], "getmginfo", "all");
 	}
 }

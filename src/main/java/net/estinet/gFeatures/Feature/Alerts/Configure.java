@@ -1,7 +1,7 @@
 package net.estinet.gFeatures.Feature.Alerts;
 
+import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.estinet.gFeatures.Configs;
-import net.estinet.gFeatures.ClioteSkyOld.ClioteSky;
 import net.estinet.gFeatures.gFeatures;
 /*
 gFeatures
@@ -22,14 +22,12 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class Configure{
-	@Configs
-	public static void onSetup(){
-		Alerts base = new Alerts("Alerts", "1.0.0");
-		gFeatures.addFeature(base);
-		
-		AlertClioteHook grch = new AlertClioteHook(base);
-		ClioteSky.addClioteHook(grch);
-		
-	}
+public class Configure {
+    @Configs
+    public static void onSetup() {
+        Alerts base = new Alerts("Alerts", "1.0.0");
+        gFeatures.addFeature(base);
+
+        ClioteSky.getInstance().addHook(new AlertClioteHook("alert", base.getName()));
+    }
 }
