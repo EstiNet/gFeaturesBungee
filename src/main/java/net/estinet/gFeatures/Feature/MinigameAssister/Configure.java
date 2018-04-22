@@ -30,11 +30,11 @@ public class Configure {
         MinigameAssister base = new MinigameAssister("MinigameAssister", "1.0.1");
         gFeatures.addFeature(base);
 
-        ClioteSky.getInstance().addHook(new MAClioteHook("mgcomplete", base.getName()));
-        ClioteSky.getInstance().addHook(new ConfirmClioteHook("mghello", base.getName()));
-        ClioteSky.getInstance().addHook(new StartClioteHook("mgstart", base.getName()));
-        ClioteSky.getInstance().addHook(new MGGetClioteHook("mgget", base.getName()));
-        ClioteSky.getInstance().addHook(new MGMapClioteHook("mgmap", base.getName()));
+        ClioteSky.addHook(new MAClioteHook("mgcomplete", base.getName()));
+        ClioteSky.addHook(new ConfirmClioteHook("mghello", base.getName()));
+        ClioteSky.addHook(new StartClioteHook("mgstart", base.getName()));
+        ClioteSky.addHook(new MGGetClioteHook("mgget", base.getName()));
+        ClioteSky.addHook(new MGMapClioteHook("mgmap", base.getName()));
         gFeatures.addCommand(new SlashListgames(base));
     }
 }

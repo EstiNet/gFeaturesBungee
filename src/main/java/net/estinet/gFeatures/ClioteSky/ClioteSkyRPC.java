@@ -14,6 +14,983 @@ public final class ClioteSkyRPC {
     registerAllExtensions(
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
+  public interface StringOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:String)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string str = 1;</code>
+     */
+    java.lang.String getStr();
+    /**
+     * <code>string str = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getStrBytes();
+  }
+  /**
+   * Protobuf type {@code String}
+   */
+  public  static final class String extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:String)
+      StringOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use String.newBuilder() to construct.
+    private String(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private String() {
+      str_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private String(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              str_ = s;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.internal_static_String_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.internal_static_String_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String.class, net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String.Builder.class);
+    }
+
+    public static final int STR_FIELD_NUMBER = 1;
+    private volatile java.lang.Object str_;
+    /**
+     * <code>string str = 1;</code>
+     */
+    public java.lang.String getStr() {
+      java.lang.Object ref = str_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        str_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string str = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getStrBytes() {
+      java.lang.Object ref = str_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        str_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getStrBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, str_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getStrBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, str_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String)) {
+        return super.equals(obj);
+      }
+      net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String other = (net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String) obj;
+
+      boolean result = true;
+      result = result && getStr()
+          .equals(other.getStr());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + STR_FIELD_NUMBER;
+      hash = (53 * hash) + getStr().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code String}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:String)
+        net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.StringOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.internal_static_String_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.internal_static_String_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String.class, net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String.Builder.class);
+      }
+
+      // Construct using net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        str_ = "";
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.internal_static_String_descriptor;
+      }
+
+      public net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String getDefaultInstanceForType() {
+        return net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String.getDefaultInstance();
+      }
+
+      public net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String build() {
+        net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String buildPartial() {
+        net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String result = new net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String(this);
+        result.str_ = str_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String) {
+          return mergeFrom((net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String other) {
+        if (other == net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String.getDefaultInstance()) return this;
+        if (!other.getStr().isEmpty()) {
+          str_ = other.str_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object str_ = "";
+      /**
+       * <code>string str = 1;</code>
+       */
+      public java.lang.String getStr() {
+        java.lang.Object ref = str_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          str_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string str = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getStrBytes() {
+        java.lang.Object ref = str_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          str_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string str = 1;</code>
+       */
+      public Builder setStr(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        str_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string str = 1;</code>
+       */
+      public Builder clearStr() {
+        
+        str_ = getDefaultInstance().getStr();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string str = 1;</code>
+       */
+      public Builder setStrBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        str_ = value;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:String)
+    }
+
+    // @@protoc_insertion_point(class_scope:String)
+    private static final net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String();
+    }
+
+    public static net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<String>
+        PARSER = new com.google.protobuf.AbstractParser<String>() {
+      public String parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new String(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<String> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<String> getParserForType() {
+      return PARSER;
+    }
+
+    public net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface BooleanOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Boolean)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>bool b = 1;</code>
+     */
+    boolean getB();
+  }
+  /**
+   * Protobuf type {@code Boolean}
+   */
+  public  static final class Boolean extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Boolean)
+      BooleanOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use Boolean.newBuilder() to construct.
+    private Boolean(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private Boolean() {
+      b_ = false;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private Boolean(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+
+              b_ = input.readBool();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.internal_static_Boolean_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.internal_static_Boolean_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean.class, net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean.Builder.class);
+    }
+
+    public static final int B_FIELD_NUMBER = 1;
+    private boolean b_;
+    /**
+     * <code>bool b = 1;</code>
+     */
+    public boolean getB() {
+      return b_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (b_ != false) {
+        output.writeBool(1, b_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (b_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(1, b_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean)) {
+        return super.equals(obj);
+      }
+      net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean other = (net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean) obj;
+
+      boolean result = true;
+      result = result && (getB()
+          == other.getB());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + B_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getB());
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Boolean}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Boolean)
+        net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.BooleanOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.internal_static_Boolean_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.internal_static_Boolean_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean.class, net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean.Builder.class);
+      }
+
+      // Construct using net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        b_ = false;
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.internal_static_Boolean_descriptor;
+      }
+
+      public net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean getDefaultInstanceForType() {
+        return net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean.getDefaultInstance();
+      }
+
+      public net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean build() {
+        net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean buildPartial() {
+        net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean result = new net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean(this);
+        result.b_ = b_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean) {
+          return mergeFrom((net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean other) {
+        if (other == net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean.getDefaultInstance()) return this;
+        if (other.getB() != false) {
+          setB(other.getB());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private boolean b_ ;
+      /**
+       * <code>bool b = 1;</code>
+       */
+      public boolean getB() {
+        return b_;
+      }
+      /**
+       * <code>bool b = 1;</code>
+       */
+      public Builder setB(boolean value) {
+        
+        b_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool b = 1;</code>
+       */
+      public Builder clearB() {
+        
+        b_ = false;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Boolean)
+    }
+
+    // @@protoc_insertion_point(class_scope:Boolean)
+    private static final net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean();
+    }
+
+    public static net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<Boolean>
+        PARSER = new com.google.protobuf.AbstractParser<Boolean>() {
+      public Boolean parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new Boolean(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<Boolean> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Boolean> getParserForType() {
+      return PARSER;
+    }
+
+    public net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface EmptyOrBuilder extends
       // @@protoc_insertion_point(interface_extends:Empty)
       com.google.protobuf.MessageOrBuilder {
@@ -2542,6 +3519,16 @@ public final class ClioteSkyRPC {
      */
     com.google.protobuf.ByteString
         getPasswordBytes();
+
+    /**
+     * <code>string category = 3;</code>
+     */
+    java.lang.String getCategory();
+    /**
+     * <code>string category = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getCategoryBytes();
   }
   /**
    * Protobuf type {@code AuthRequest}
@@ -2558,6 +3545,7 @@ public final class ClioteSkyRPC {
     private AuthRequest() {
       user_ = "";
       password_ = "";
+      category_ = "";
     }
 
     @java.lang.Override
@@ -2601,6 +3589,12 @@ public final class ClioteSkyRPC {
               java.lang.String s = input.readStringRequireUtf8();
 
               password_ = s;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              category_ = s;
               break;
             }
           }
@@ -2695,6 +3689,40 @@ public final class ClioteSkyRPC {
       }
     }
 
+    public static final int CATEGORY_FIELD_NUMBER = 3;
+    private volatile java.lang.Object category_;
+    /**
+     * <code>string category = 3;</code>
+     */
+    public java.lang.String getCategory() {
+      java.lang.Object ref = category_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        category_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string category = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCategoryBytes() {
+      java.lang.Object ref = category_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        category_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -2713,6 +3741,9 @@ public final class ClioteSkyRPC {
       if (!getPasswordBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, password_);
       }
+      if (!getCategoryBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, category_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -2726,6 +3757,9 @@ public final class ClioteSkyRPC {
       }
       if (!getPasswordBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, password_);
+      }
+      if (!getCategoryBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, category_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2747,6 +3781,8 @@ public final class ClioteSkyRPC {
           .equals(other.getUser());
       result = result && getPassword()
           .equals(other.getPassword());
+      result = result && getCategory()
+          .equals(other.getCategory());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -2762,6 +3798,8 @@ public final class ClioteSkyRPC {
       hash = (53 * hash) + getUser().hashCode();
       hash = (37 * hash) + PASSWORD_FIELD_NUMBER;
       hash = (53 * hash) + getPassword().hashCode();
+      hash = (37 * hash) + CATEGORY_FIELD_NUMBER;
+      hash = (53 * hash) + getCategory().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2895,6 +3933,8 @@ public final class ClioteSkyRPC {
 
         password_ = "";
 
+        category_ = "";
+
         return this;
       }
 
@@ -2919,6 +3959,7 @@ public final class ClioteSkyRPC {
         net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.AuthRequest result = new net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.AuthRequest(this);
         result.user_ = user_;
         result.password_ = password_;
+        result.category_ = category_;
         onBuilt();
         return result;
       }
@@ -2966,6 +4007,10 @@ public final class ClioteSkyRPC {
         }
         if (!other.getPassword().isEmpty()) {
           password_ = other.password_;
+          onChanged();
+        }
+        if (!other.getCategory().isEmpty()) {
+          category_ = other.category_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -3132,6 +4177,75 @@ public final class ClioteSkyRPC {
         onChanged();
         return this;
       }
+
+      private java.lang.Object category_ = "";
+      /**
+       * <code>string category = 3;</code>
+       */
+      public java.lang.String getCategory() {
+        java.lang.Object ref = category_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          category_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string category = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCategoryBytes() {
+        java.lang.Object ref = category_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          category_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string category = 3;</code>
+       */
+      public Builder setCategory(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        category_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string category = 3;</code>
+       */
+      public Builder clearCategory() {
+        
+        category_ = getDefaultInstance().getCategory();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string category = 3;</code>
+       */
+      public Builder setCategoryBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        category_ = value;
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFieldsProto3(unknownFields);
@@ -3182,6 +4296,16 @@ public final class ClioteSkyRPC {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_String_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_String_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Boolean_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Boolean_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Empty_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -3215,17 +4339,19 @@ public final class ClioteSkyRPC {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\017cliotesky.proto\"\007\n\005Empty\"\026\n\005Token\022\r\n\005t" +
-      "oken\030\001 \001(\t\"A\n\rClioteMessage\022\014\n\004data\030\001 \001(" +
-      "\014\022\022\n\nidentifier\030\002 \001(\t\022\016\n\006sender\030\003 \001(\t\"P\n" +
-      "\nClioteSend\022\014\n\004data\030\001 \001(\014\022\r\n\005token\030\002 \001(\t" +
-      "\022\022\n\nidentifier\030\003 \001(\t\022\021\n\trecipient\030\004 \001(\t\"" +
-      "-\n\013AuthRequest\022\014\n\004user\030\001 \001(\t\022\020\n\010password" +
-      "\030\002 \001(\t2r\n\020ClioteSkyService\022#\n\007Request\022\006." +
-      "Token\032\016.ClioteMessage0\001\022\033\n\004Send\022\013.Cliote" +
-      "Send\032\006.Empty\022\034\n\004Auth\022\014.AuthRequest\032\006.Tok" +
-      "enB/\n\037net.estinet.gFeatures.ClioteSkyB\014C" +
-      "lioteSkyRPCb\006proto3"
+      "\n\017cliotesky.proto\"\025\n\006String\022\013\n\003str\030\001 \001(\t" +
+      "\"\024\n\007Boolean\022\t\n\001b\030\001 \001(\010\"\007\n\005Empty\"\026\n\005Token" +
+      "\022\r\n\005token\030\001 \001(\t\"A\n\rClioteMessage\022\014\n\004data" +
+      "\030\001 \001(\014\022\022\n\nidentifier\030\002 \001(\t\022\016\n\006sender\030\003 \001" +
+      "(\t\"P\n\nClioteSend\022\014\n\004data\030\001 \001(\014\022\r\n\005token\030" +
+      "\002 \001(\t\022\022\n\nidentifier\030\003 \001(\t\022\021\n\trecipient\030\004" +
+      " \001(\t\"?\n\013AuthRequest\022\014\n\004user\030\001 \001(\t\022\020\n\010pas" +
+      "sword\030\002 \001(\t\022\020\n\010category\030\003 \001(\t2\227\001\n\020Cliote" +
+      "SkyService\022#\n\007Request\022\006.Token\032\016.ClioteMe" +
+      "ssage0\001\022\033\n\004Send\022\013.ClioteSend\032\006.Empty\022\034\n\004" +
+      "Auth\022\014.AuthRequest\032\006.Token\022#\n\016CheckNameT" +
+      "aken\022\007.String\032\010.BooleanB/\n\037net.estinet.g" +
+      "Features.ClioteSkyB\014ClioteSkyRPCb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3239,36 +4365,48 @@ public final class ClioteSkyRPC {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         }, assigner);
-    internal_static_Empty_descriptor =
+    internal_static_String_descriptor =
       getDescriptor().getMessageTypes().get(0);
+    internal_static_String_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_String_descriptor,
+        new java.lang.String[] { "Str", });
+    internal_static_Boolean_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_Boolean_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Boolean_descriptor,
+        new java.lang.String[] { "B", });
+    internal_static_Empty_descriptor =
+      getDescriptor().getMessageTypes().get(2);
     internal_static_Empty_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Empty_descriptor,
         new java.lang.String[] { });
     internal_static_Token_descriptor =
-      getDescriptor().getMessageTypes().get(1);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_Token_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Token_descriptor,
         new java.lang.String[] { "Token", });
     internal_static_ClioteMessage_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_ClioteMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ClioteMessage_descriptor,
         new java.lang.String[] { "Data", "Identifier", "Sender", });
     internal_static_ClioteSend_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_ClioteSend_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ClioteSend_descriptor,
         new java.lang.String[] { "Data", "Token", "Identifier", "Recipient", });
     internal_static_AuthRequest_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_AuthRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AuthRequest_descriptor,
-        new java.lang.String[] { "User", "Password", });
+        new java.lang.String[] { "User", "Password", "Category", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

@@ -29,6 +29,6 @@ public class Configure{
 		EstiChat base = new EstiChat("EstiChat", "1.0.0");
 		gFeatures.addFeature(base);
 
-		ClioteSky.getInstance().addHook(new ChatClioteHook("chat", base.getName()));
+		ClioteSky.addHook(new ChatClioteHook("chat", base.getName()));
 	}
 }

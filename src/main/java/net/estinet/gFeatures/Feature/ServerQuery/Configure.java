@@ -28,6 +28,6 @@ public class Configure{
 		ServerQuery base = new ServerQuery("ServerQuery", "1.0.0");
 		gFeatures.addFeature(base);
 
-        ClioteSky.getInstance().addHook(new ServerQueryClioteHook("info", base.getName()));
+        ClioteSky.addHook(new ServerQueryClioteHook("info", base.getName()));
 	}
 }

@@ -108,7 +108,7 @@ public class SlashgFeatures extends Command {
                     case "send":
                         StringBuilder output = new StringBuilder();
                         for (int i = 3; i < args.length; i++) {
-                            output.append(args[i]).append(" ");
+                            output.append(args[i]).append(i == args.length-1 ? "" : " ");
                         }
 
                         ClioteSky.getInstance().send(ClioteSky.stringToBytes(output.toString()), args[2], args[1]);

@@ -43,10 +43,10 @@ public class Listeners extends Plugin {
         getLogger().info("Starting modules!");
         getProxy().getPluginManager().registerListener(this, new Library());
         try {
+            setup.onSetup();
             SetupConfig.setup();
             LoadConfig.load();
-            if (ClioteSky.enabled) ClioteSky.initClioteSky();
-            setup.onSetup();
+            ClioteSky.initClioteSky();
             new Thread(ResolverInit::loadCache).start();
         } catch (Exception e) {
             e.printStackTrace();

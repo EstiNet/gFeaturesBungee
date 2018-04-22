@@ -29,6 +29,6 @@ public class Configure {
         Friendship base = new Friendship("Friendship", "1.0.5");
         gFeatures.addFeature(base);
 
-        ClioteSky.getInstance().addHook(new FriendsClioteHook("friends", base.getName()));
+        ClioteSky.addHook(new FriendsClioteHook("friends", base.getName()));
     }
 }

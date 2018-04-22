@@ -29,6 +29,6 @@ public class Configure{
 		ServerRedirect base = new ServerRedirect("ServerRedirect", "1.0.0");
 		gFeatures.addFeature(base);
 
-		ClioteSky.getInstance().addHook(new SRClioteHook("redirect", base.getName()));
+		ClioteSky.addHook(new SRClioteHook("redirect", base.getName()));
 	}
 }

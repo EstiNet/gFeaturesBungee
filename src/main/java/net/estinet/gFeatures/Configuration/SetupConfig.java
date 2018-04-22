@@ -67,9 +67,6 @@ public class SetupConfig {
             if (!(prop.containsKey("ClioteSky.Name"))) {
                 prop.setProperty("ClioteSky.Name", "Server");
             }
-            if (!(prop.containsKey("ClioteSky.Password"))) {
-                prop.setProperty("ClioteSky.Password", "password");
-            }
             if (!(prop.containsKey("ClioteSky.Enable"))) {
                 prop.setProperty("ClioteSky.Enable", "true");
             }

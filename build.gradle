@@ -17,6 +17,15 @@ description = """gFeatures"""
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+shadowJar {
+    baseName = 'gFeatures'
+    classifier = null
+    version = null
+    from('src/main/java') {
+        include '**/*.yml'
+    }
+}
+
 jar {
     from('src/main/java') {
         include '**/*.yml'

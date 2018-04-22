@@ -138,6 +138,43 @@ public final class ClioteSkyServiceGrpc {
      }
      return getAuthMethod;
   }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getCheckNameTakenMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String,
+      net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean> METHOD_CHECK_NAME_TAKEN = getCheckNameTakenMethodHelper();
+
+  private static volatile io.grpc.MethodDescriptor<net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String,
+      net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean> getCheckNameTakenMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String,
+      net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean> getCheckNameTakenMethod() {
+    return getCheckNameTakenMethodHelper();
+  }
+
+  private static io.grpc.MethodDescriptor<net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String,
+      net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean> getCheckNameTakenMethodHelper() {
+    io.grpc.MethodDescriptor<net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String, net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean> getCheckNameTakenMethod;
+    if ((getCheckNameTakenMethod = ClioteSkyServiceGrpc.getCheckNameTakenMethod) == null) {
+      synchronized (ClioteSkyServiceGrpc.class) {
+        if ((getCheckNameTakenMethod = ClioteSkyServiceGrpc.getCheckNameTakenMethod) == null) {
+          ClioteSkyServiceGrpc.getCheckNameTakenMethod = getCheckNameTakenMethod = 
+              io.grpc.MethodDescriptor.<net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String, net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "ClioteSkyService", "CheckNameTaken"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean.getDefaultInstance()))
+                  .setSchemaDescriptor(new ClioteSkyServiceMethodDescriptorSupplier("CheckNameTaken"))
+                  .build();
+          }
+        }
+     }
+     return getCheckNameTakenMethod;
+  }
 
   /**
    * Creates a new async stub that supports all call types for the service
@@ -187,6 +224,16 @@ public final class ClioteSkyServiceGrpc {
       asyncUnimplementedUnaryCall(getAuthMethodHelper(), responseObserver);
     }
 
+    /**
+     * <pre>
+     *check if name is taken
+     * </pre>
+     */
+    public void checkNameTaken(net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String request,
+        io.grpc.stub.StreamObserver<net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean> responseObserver) {
+      asyncUnimplementedUnaryCall(getCheckNameTakenMethodHelper(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -210,6 +257,13 @@ public final class ClioteSkyServiceGrpc {
                 net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.AuthRequest,
                 net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Token>(
                   this, METHODID_AUTH)))
+          .addMethod(
+            getCheckNameTakenMethodHelper(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String,
+                net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean>(
+                  this, METHODID_CHECK_NAME_TAKEN)))
           .build();
     }
   }
@@ -255,6 +309,17 @@ public final class ClioteSkyServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(getAuthMethodHelper(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     * <pre>
+     *check if name is taken
+     * </pre>
+     */
+    public void checkNameTaken(net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String request,
+        io.grpc.stub.StreamObserver<net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getCheckNameTakenMethodHelper(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -296,6 +361,16 @@ public final class ClioteSkyServiceGrpc {
       return blockingUnaryCall(
           getChannel(), getAuthMethodHelper(), getCallOptions(), request);
     }
+
+    /**
+     * <pre>
+     *check if name is taken
+     * </pre>
+     */
+    public net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean checkNameTaken(net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String request) {
+      return blockingUnaryCall(
+          getChannel(), getCheckNameTakenMethodHelper(), getCallOptions(), request);
+    }
   }
 
   /**
@@ -331,11 +406,23 @@ public final class ClioteSkyServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(getAuthMethodHelper(), getCallOptions()), request);
     }
+
+    /**
+     * <pre>
+     *check if name is taken
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean> checkNameTaken(
+        net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String request) {
+      return futureUnaryCall(
+          getChannel().newCall(getCheckNameTakenMethodHelper(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_REQUEST = 0;
   private static final int METHODID_SEND = 1;
   private static final int METHODID_AUTH = 2;
+  private static final int METHODID_CHECK_NAME_TAKEN = 3;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -365,6 +452,10 @@ public final class ClioteSkyServiceGrpc {
         case METHODID_AUTH:
           serviceImpl.auth((net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.AuthRequest) request,
               (io.grpc.stub.StreamObserver<net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Token>) responseObserver);
+          break;
+        case METHODID_CHECK_NAME_TAKEN:
+          serviceImpl.checkNameTaken((net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String) request,
+              (io.grpc.stub.StreamObserver<net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.Boolean>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -430,6 +521,7 @@ public final class ClioteSkyServiceGrpc {
               .addMethod(getRequestMethodHelper())
               .addMethod(getSendMethodHelper())
               .addMethod(getAuthMethodHelper())
+              .addMethod(getCheckNameTakenMethodHelper())
               .build();
         }
       }
