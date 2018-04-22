@@ -85,6 +85,7 @@ public class ClioteSky {
     }
 
     public static byte[] stringToBytes(String str) {
+        //lol
         try {
             return str.getBytes("UTF-8");
         } catch (UnsupportedEncodingException e) {
