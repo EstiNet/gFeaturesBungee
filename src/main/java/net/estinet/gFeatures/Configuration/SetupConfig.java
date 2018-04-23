@@ -70,6 +70,9 @@ public class SetupConfig {
             if (!(prop.containsKey("ClioteSky.Enable"))) {
                 prop.setProperty("ClioteSky.Enable", "true");
             }
+            if (!(prop.containsKey("ClioteSky.CheckTLS"))) {
+                prop.setProperty("ClioteSky.CheckTLS", "false");
+            }
             // save properties to project root folder
             prop.store(output, null);
 

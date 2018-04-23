@@ -28,6 +28,7 @@ Specific plugin types to hook into gFeatures Core.
 
 ### ClioteSky
 Key map API to store and send keys to other installations.
+https://github.com/grpc/grpc-java/blob/master/SECURITY.md#troubleshooting
 
 ## Copyright
 EstiNet and gFeatures are property of EstiNet.

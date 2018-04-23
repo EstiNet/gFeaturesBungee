@@ -37,8 +37,12 @@ public class Disabler {
 		}
 		gFeatures.resetFeatures();
 		if(ClioteSky.enabled){
-		    ClioteSky.getInstance().continueEventLoop = false;
-			ClioteSky.getInstance().channel.shutdown();
+		    try {
+                ClioteSky.getInstance().continueEventLoop = false;
+                ClioteSky.getInstance().channel.shutdown();
+            } catch (NullPointerException e) {
+		        e.printStackTrace();
+            }
 		}
 	}
 }

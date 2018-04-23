@@ -5,17 +5,24 @@ import io.grpc.ConnectivityState;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
+import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
+import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
+import io.grpc.netty.shaded.io.netty.handler.ssl.SslContextBuilder;
+import io.grpc.netty.shaded.io.netty.handler.ssl.SslProvider;
+import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import net.estinet.gFeatures.API.Logger.Debug;
 import net.estinet.gFeatures.FeatureState;
+import net.estinet.gFeatures.Listeners;
 import net.estinet.gFeatures.gFeatures;
 import net.md_5.bungee.api.ProxyServer;
 
+import javax.net.ssl.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.util.*;
 
 public class ClioteSky {
-    public static boolean enabled, tls, checktls, reconnector = false;
+    public static boolean enabled, checkTLS;
 
     private static String name, password, address, port, category;
 
@@ -37,12 +44,13 @@ public class ClioteSky {
 
     public static void initClioteSky() {
         ProxyServer.getInstance().getLogger().info("Starting ClioteSky...");
+
         loadConfig();
         if (enabled) {
             clioteSky = new ClioteSky(address, Integer.parseInt(port));
             clioteSky.start();
             clioteSky.startEventLoop();
-            ProxyServer.getInstance().getLogger().info("ClioteSky has been enabled!");
+            ProxyServer.getInstance().getLogger().info("[ClioteSky] enabled!");
         }
     }
 
@@ -63,8 +71,9 @@ public class ClioteSky {
             ClioteSky.address = prop.getProperty("ClioteSky.Address");
             ClioteSky.enabled = Boolean.parseBoolean(prop.getProperty("ClioteSky.Enable"));
             ClioteSky.port = prop.getProperty("ClioteSky.Port");
+            ClioteSky.checkTLS = Boolean.parseBoolean(prop.getProperty("ClioteSky.CheckTLS"));
 
-            File f = new File("plugins/gFeatures/masterkey.key");
+            File f = new File("plugins/gFeatures/masterkey.key"); //get master key password
             if (f.exists()) {
                 ClioteSky.password = new String(Files.readAllBytes(f.toPath()));
             } else {
@@ -109,27 +118,6 @@ public class ClioteSky {
     }
 
     /*
-     * Called once when the grpc server goes offline
-     */
-
-    public static void startReconnector() {
-        try {
-            while (!clioteSky.continueEventLoop) {
-                Thread.sleep(3000);
-                clioteSky = new ClioteSky(address, Integer.parseInt(port));
-                clioteSky.start();
-                clioteSky.startEventLoop();
-                Thread.sleep(1000);
-            }
-            reconnector = false;
-            ProxyServer.getInstance().getLogger().info("[ClioteSky] Connection re-established!");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    /*
      * ClioteSky Object
      */
 
@@ -137,20 +125,36 @@ public class ClioteSky {
     private ClioteSkyServiceGrpc.ClioteSkyServiceBlockingStub blockingStub;
     private ClioteSkyServiceGrpc.ClioteSkyServiceStub asyncStub;
     public boolean continueEventLoop = true;
+    public boolean offline = false;
 
     private String authToken;
 
     public ClioteSky(String host, int port) {
-        this(ManagedChannelBuilder.forAddress(host, port).usePlaintext());
-    }
+        //this(ManagedChannelBuilder.forAddress(host, port));
 
-    public ClioteSky(ManagedChannelBuilder<?> channelBuilder) {
-        channel = channelBuilder.build();
+        // Create all-trusting host name verifier
+        HostnameVerifier allHostsValid = new HostnameVerifier() {
+            public boolean verify(String hostname, SSLSession session) {
+                return true;
+            }
+        };
+        // Install the all-trusting host verifier
+        HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+        try {
+            channel = NettyChannelBuilder.forAddress(host, port).useTransportSecurity().sslContext(GrpcSslContexts.forClient().sslProvider(SslProvider.OPENSSL).trustManager(InsecureTrustManagerFactory.INSTANCE).build()).build();
+        } catch (SSLException e) {
+            e.printStackTrace();
+        }
         blockingStub = ClioteSkyServiceGrpc.newBlockingStub(channel);
         asyncStub = ClioteSkyServiceGrpc.newStub(channel);
     }
 
+    /*
+     * Authenticates with the server and obtains a new auth token
+     */
+
     public void start() {
+        offline = false;
         ClioteSkyRPC.AuthRequest req = ClioteSkyRPC.AuthRequest.newBuilder().setUser(name).setPassword(password).setCategory(category).build();
         try {
             boolean nameTaken = blockingStub.checkNameTaken(net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String.newBuilder().setStr(name).build()).getB();
@@ -158,23 +162,17 @@ public class ClioteSky {
                 ProxyServer.getInstance().getLogger().warning("ClioteSky name has already been taken. Be careful!");
             }
             authToken = blockingStub.auth(req).getToken();
+            ProxyServer.getInstance().getLogger().info("[ClioteSky] Authenticated!");
         } catch (StatusRuntimeException e) {
-            ProxyServer.getInstance().getLogger().severe("RPC failed: " + e.getStatus());
+            ProxyServer.getInstance().getLogger().severe("[ClioteSky] RPC failed: " + e.getStatus());
         }
         channel.notifyWhenStateChanged(ConnectivityState.READY, () -> {
-            ProxyServer.getInstance().getLogger().warning("RPC state changed: " + channel.getState(true));
-            if (channel.getState(true) != ConnectivityState.CONNECTING && channel.getState(true) != ConnectivityState.READY) {
-                continueEventLoop = false;
-                if (!reconnector) {
-                    reconnector = true;
-                    //new Thread(ClioteSky::startReconnector).start();
-                }
-            }
+            ProxyServer.getInstance().getLogger().warning("[ClioteSky] RPC state changed: " + channel.getState(true));
         });
     }
 
     /*
-     * async event loop to check if there are new messages
+     * Async event loop to check if there are new messages
      */
 
     public void startEventLoop() {
@@ -185,6 +183,7 @@ public class ClioteSky {
 
             while (continueEventLoop) {
                 Iterator<ClioteSkyRPC.ClioteMessage> iterator;
+
                 try {
                     iterator = blockingStub.request(ClioteSkyRPC.Token.newBuilder().setToken(authToken).build());
 
@@ -193,7 +192,7 @@ public class ClioteSky {
                         speedupCount = 0;
                         ClioteSkyRPC.ClioteMessage m = iterator.next();
 
-                        Debug.print("[ClioteSky] Received " + m.getIdentifier() + " identifier from "  + m.getSender() + ". Contents: " + m.getData());
+                        Debug.print("[ClioteSky] Received " + m.getIdentifier() + " identifier from " + m.getSender() + ". Contents: " + m.getData());
 
                         for (ClioteHook hook : clioteHookList) {
                             //check if cliotehook has matching identifier, and call
@@ -204,7 +203,19 @@ public class ClioteSky {
                     }
 
                 } catch (StatusRuntimeException e) {
-                    ProxyServer.getInstance().getLogger().severe("RPC failed: " + e.getStatus());
+
+                    boolean printError = true;
+
+                    if (e.getStatus().getDescription().equals("io exception")) {
+                        if (!offline) {
+                            ProxyServer.getInstance().getLogger().severe("[ClioteSky] Can't establish connection to server!");
+                        }
+                        offline = true;
+                        printError = Listeners.debug;
+                    }
+
+                    if (printError)
+                        ProxyServer.getInstance().getLogger().severe("[ClioteSky] RPC failed!: " + e.getStatus());
                     if (e.getStatus().getDescription().equals("invalid authentication token")) {
                         start();
                     }
@@ -238,7 +249,7 @@ public class ClioteSky {
         try {
             blockingStub.send(ClioteSkyRPC.ClioteSend.newBuilder().setData(ByteString.copyFrom(data)).setIdentifier(identifier).setRecipient(recipient).setToken(this.authToken).build());
         } catch (StatusRuntimeException e) {
-            ProxyServer.getInstance().getLogger().severe("RPC failed: " + e.getStatus());
+            ProxyServer.getInstance().getLogger().severe("[ClioteSky] RPC failed: " + e.getStatus());
         }
     }
 
