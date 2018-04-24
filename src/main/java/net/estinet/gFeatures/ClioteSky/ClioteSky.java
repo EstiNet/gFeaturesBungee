@@ -3,11 +3,9 @@ package net.estinet.gFeatures.ClioteSky;
 import com.google.protobuf.ByteString;
 import io.grpc.ConnectivityState;
 import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
-import io.grpc.netty.shaded.io.netty.handler.ssl.SslContextBuilder;
 import io.grpc.netty.shaded.io.netty.handler.ssl.SslProvider;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import net.estinet.gFeatures.API.Logger.Debug;
@@ -125,20 +123,19 @@ public class ClioteSky {
     private ClioteSkyServiceGrpc.ClioteSkyServiceBlockingStub blockingStub;
     private ClioteSkyServiceGrpc.ClioteSkyServiceStub asyncStub;
     public boolean continueEventLoop = true;
-    public boolean offline = false;
+    private boolean offline = false, slowCheck = true;
 
-    private String authToken;
+    private String authToken = "";
 
     public ClioteSky(String host, int port) {
         //this(ManagedChannelBuilder.forAddress(host, port));
+        initConnection(host, port);
+    }
 
-        if(!checkTLS) {
+    private void initConnection(String host, int port) {
+        if (!checkTLS) {
             // Create all-trusting host name verifier
-            HostnameVerifier allHostsValid = new HostnameVerifier() {
-                public boolean verify(String hostname, SSLSession session) {
-                    return true;
-                }
-            };
+            HostnameVerifier allHostsValid = (hostname, session) -> true;
             // Install the all-trusting host verifier
             HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
             try {
@@ -186,10 +183,15 @@ public class ClioteSky {
             int speedupCount = 0;
 
             while (continueEventLoop) {
+                if (blockingStub == null) {
+                    initConnection(ClioteSky.address, Integer.parseInt(ClioteSky.port));
+                }
                 Iterator<ClioteSkyRPC.ClioteMessage> iterator;
 
                 try {
                     iterator = blockingStub.request(ClioteSkyRPC.Token.newBuilder().setToken(authToken).build());
+
+                    slowCheck = false; //the server is online
 
                     while (iterator.hasNext()) {
                         speedup = true;
@@ -223,6 +225,12 @@ public class ClioteSky {
                     if (e.getStatus().getDescription().equals("invalid authentication token")) {
                         start();
                     }
+                } catch (NullPointerException e) { // if the initial connection couldn't be reached on server start
+                    if (Listeners.debug) {
+                        ProxyServer.getInstance().getLogger().severe("Can't establish connection with server. Attempting again...");
+                        e.printStackTrace();
+                    }
+                    initConnection(ClioteSky.address, Integer.parseInt(ClioteSky.port));
                 }
 
                 if (speedupCount < 20) {
@@ -232,6 +240,9 @@ public class ClioteSky {
                 }
 
                 try {
+                    if(slowCheck) {
+                        Thread.sleep(2000);
+                    }
                     if (speedup) {
                         Thread.sleep(200);
                     } else {
