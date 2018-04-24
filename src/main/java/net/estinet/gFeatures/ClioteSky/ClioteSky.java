@@ -247,6 +247,7 @@ public class ClioteSky {
 
     public void send(byte[] data, String identifier, String recipient) {
         try {
+            Debug.print("[ClioteSky] sent " + identifier + " to " + recipient);
             blockingStub.send(ClioteSkyRPC.ClioteSend.newBuilder().setData(ByteString.copyFrom(data)).setIdentifier(identifier).setRecipient(recipient).setToken(this.authToken).build());
         } catch (StatusRuntimeException e) {
             ProxyServer.getInstance().getLogger().severe("[ClioteSky] RPC failed: " + e.getStatus());
