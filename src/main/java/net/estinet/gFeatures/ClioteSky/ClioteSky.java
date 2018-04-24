@@ -132,18 +132,22 @@ public class ClioteSky {
     public ClioteSky(String host, int port) {
         //this(ManagedChannelBuilder.forAddress(host, port));
 
-        // Create all-trusting host name verifier
-        HostnameVerifier allHostsValid = new HostnameVerifier() {
-            public boolean verify(String hostname, SSLSession session) {
-                return true;
+        if(!checkTLS) {
+            // Create all-trusting host name verifier
+            HostnameVerifier allHostsValid = new HostnameVerifier() {
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            };
+            // Install the all-trusting host verifier
+            HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+            try {
+                channel = NettyChannelBuilder.forAddress(host, port).useTransportSecurity().sslContext(GrpcSslContexts.forClient().sslProvider(SslProvider.OPENSSL).trustManager(InsecureTrustManagerFactory.INSTANCE).build()).build();
+            } catch (SSLException e) {
+                e.printStackTrace();
             }
-        };
-        // Install the all-trusting host verifier
-        HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
-        try {
-            channel = NettyChannelBuilder.forAddress(host, port).useTransportSecurity().sslContext(GrpcSslContexts.forClient().sslProvider(SslProvider.OPENSSL).trustManager(InsecureTrustManagerFactory.INSTANCE).build()).build();
-        } catch (SSLException e) {
-            e.printStackTrace();
+        } else {
+            channel = NettyChannelBuilder.forAddress(host, port).useTransportSecurity().build();
         }
         blockingStub = ClioteSkyServiceGrpc.newBlockingStub(channel);
         asyncStub = ClioteSkyServiceGrpc.newStub(channel);
