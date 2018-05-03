@@ -11,6 +11,9 @@ gFeatures Core/API: 3.7.0c
 ## Info
 gFeatures (Bungee) is the BungeeCord version of gFeatures. It can communicate with gFeatures (Spigot) through ClioteSky.
 Version numbers are marked with 'c' (gFeatures 3.4.2c) to specify that this is the BungeeCord version of gFeatures.
+
+Download the latest builds: https://gitlab.dolphinbox.net/mirrors/gfeaturesbungee/pipelines
+
 ## Dependencies
 gFeatures requires the following dependencies to run:
 * Bungeecord 1.12.2
