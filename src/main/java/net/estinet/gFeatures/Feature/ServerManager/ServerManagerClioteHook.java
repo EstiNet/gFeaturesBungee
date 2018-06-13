@@ -27,6 +27,7 @@ public class ServerManagerClioteHook extends ClioteHook {
                     ServerInfo info = ProxyServer.getInstance().constructServerInfo(args.get(1), new InetSocketAddress(args.get(2), Integer.parseInt(args.get(3))), args.get(4), false);
                     ProxyServer.getInstance().getServers().put(info.getName(), info);
                     ProxyServer.getInstance().getLogger().info("Adding server " + args.get(1) + ".");
+                    ServerManager.domains.put(args.get(1), new UnresolvedAddress(args.get(2), args.get(3)));
                     break;
                 case "remove":
                     //servermanager remove [name]
@@ -35,6 +36,7 @@ public class ServerManagerClioteHook extends ClioteHook {
                     }
                     ProxyServer.getInstance().getServers().remove(args.get(1));
                     ProxyServer.getInstance().getLogger().info("Removing server " + args.get(1) + ".");
+                    ServerManager.domains.remove(args.get(1));
                     break;
             }
         }

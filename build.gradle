@@ -42,5 +42,7 @@ dependencies {
     compile 'io.grpc:grpc-netty-shaded:1.11.0'
     compile 'io.grpc:grpc-protobuf:1.11.0'
     compile 'io.grpc:grpc-stub:1.11.0'
+    // https://mvnrepository.com/artifact/org.yaml/snakeyaml
+    compile group: 'org.yaml', name: 'snakeyaml', version: '1.21'
     compileOnly group: 'net.md-5', name: 'bungeecord-api', version:'1.12-SNAPSHOT'
 }
