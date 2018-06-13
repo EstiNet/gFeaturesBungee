@@ -13,14 +13,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
+import net.estinet.gFeatures.API.Logger.Debug;
 import net.estinet.gFeatures.Events;
 import net.estinet.gFeatures.Listeners;
 import net.estinet.gFeatures.Retrieval;
@@ -100,13 +95,14 @@ public class EstiBans extends gFeature implements Events {
     public void onChat() {}
 
     public static boolean isBannedOn(String name, String server) {
-        return isBannedOn(UUID.fromString(ResolverFetcher.getUUIDfromName(name)), server);
+        return isBannedOn(UUID.fromString(Objects.requireNonNull(ResolverFetcher.getUUIDfromName(name))), server);
     }
 
     public static boolean isBannedOn(UUID uuid, String server) {
         try {
             for (String line : bans.get(uuid)) {
                 String[] str = line.split(" ");
+                try {
                 if (str[1].equalsIgnoreCase("all")) {
                     try {
                         if (System.currentTimeMillis() >= Double.parseDouble(str[0])) {
@@ -126,6 +122,9 @@ public class EstiBans extends gFeature implements Events {
                     } catch (NumberFormatException e) {
                     }
                     return true;
+                }
+                } catch (NullPointerException e) {
+                    Debug.print(e.getMessage());
                 }
             }
         } catch (Exception e) {
