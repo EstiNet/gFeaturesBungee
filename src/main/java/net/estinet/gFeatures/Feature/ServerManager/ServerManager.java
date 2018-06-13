@@ -30,7 +30,7 @@ public class ServerManager extends gFeature implements Events {
             e.getTarget().ping((result, error) -> {
                 if (error != null) {
                     //Means that server is not responding : OFFLINE
-                    
+
                 }
 
             });
