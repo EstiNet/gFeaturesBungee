@@ -38,7 +38,7 @@ public class BListCommand extends EstiCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        sender.sendMessage(new TextComponent(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "--------" + ChatColor.RESET + ChatColor.DARK_AQUA + "There are " + ProxyServer.getInstance().getPlayers().size() + " on!" + ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "--------"));
+        sender.sendMessage(new TextComponent(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "--------" + ChatColor.RESET + ChatColor.DARK_AQUA + "There are " + ProxyServer.getInstance().getPlayers().size() + " " + (ProxyServer.getInstance().getPlayers().size() == 1 ? "player" : "players") + " on!" + ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "--------"));
         if (ProxyServer.getInstance().getPlayers().size() == 0) {
             sender.sendMessage(new TextComponent(ChatColor.DARK_AQUA + "No players on right now."));
         }
