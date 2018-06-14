@@ -52,7 +52,6 @@ public class EventHub {
 
     @SuppressWarnings("deprecation")
     public void onPlayerDisconnect(PlayerDisconnectEvent event) {
-
         ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(event.getPlayer().getServer().getInfo().getName() + " " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Leave" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName()), "consolechat", "all");
 
         for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
