@@ -84,15 +84,18 @@ public class EstiBans extends gFeature implements Events {
 
     @Override
     @Retrieval
-    public void onServerConnect() {}
+    public void onServerConnect() {
+    }
 
     @Override
     @Retrieval
-    public void onServerSwitch() {}
+    public void onServerSwitch() {
+    }
 
     @Override
     @Retrieval
-    public void onChat() {}
+    public void onChat() {
+    }
 
     public static boolean isBannedOn(String name, String server) {
         return isBannedOn(UUID.fromString(Objects.requireNonNull(ResolverFetcher.getUUIDfromName(name))), server);
@@ -103,27 +106,27 @@ public class EstiBans extends gFeature implements Events {
             for (String line : bans.get(uuid)) {
                 String[] str = line.split(" ");
                 try {
-                if (str[1].equalsIgnoreCase("all")) {
-                    try {
-                        if (System.currentTimeMillis() >= Double.parseDouble(str[0])) {
-                            unbanPlayer(uuid, server);
-                            return false;
+                    if (str[1].equalsIgnoreCase("all")) {
+                        try {
+                            if (System.currentTimeMillis() >= Double.parseDouble(str[0])) {
+                                unbanPlayer(uuid, server);
+                                return false;
+                            }
+                        } catch (NumberFormatException e) {
                         }
-                    } catch (NumberFormatException e) {
+                        return true;
                     }
-                    return true;
-                }
-                if (str[1].equalsIgnoreCase(server)) {
-                    try {
-                        if (System.currentTimeMillis() >= Double.parseDouble(str[0])) {
-                            unbanPlayer(uuid, server);
-                            return false;
+                    if (str[1].equalsIgnoreCase(server)) {
+                        try {
+                            if (System.currentTimeMillis() >= Double.parseDouble(str[0])) {
+                                unbanPlayer(uuid, server);
+                                return false;
+                            }
+                        } catch (NumberFormatException e) {
                         }
-                    } catch (NumberFormatException e) {
+                        return true;
                     }
-                    return true;
-                }
-                } catch (NullPointerException e) {
+                } catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
                     Debug.print(e.getMessage());
                 }
             }
@@ -381,7 +384,7 @@ public class EstiBans extends gFeature implements Events {
                     unwarnPlayer(uuid, strs[1]);
                 }
             } catch (NumberFormatException e) {
-            	e.printStackTrace();
+                e.printStackTrace();
             }
         }
     }
