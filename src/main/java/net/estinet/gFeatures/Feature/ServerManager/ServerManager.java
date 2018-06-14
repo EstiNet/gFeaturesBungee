@@ -39,7 +39,7 @@ public class ServerManager extends gFeature implements Events {
         yaml = new Yaml(options);
 
         try {
-            yaml.load(new FileInputStream(file));
+            config = yaml.load(new FileInputStream(file));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
