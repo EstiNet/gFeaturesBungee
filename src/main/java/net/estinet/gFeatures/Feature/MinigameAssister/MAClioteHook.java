@@ -24,26 +24,25 @@ https://github.com/EstiNet/gFeaturesBungee
 
 public class MAClioteHook extends ClioteHook {
 
-	public MAClioteHook(String identifier, String gFeatureName) {
-		this.identifier = identifier;
-		this.gFeatureName = gFeatureName;
-	}
-	@Override
-	public void run(byte[] data, String clioteName){
-		try{
-			Debug.print("Comparing " + clioteName);
-			if(!MinigameAssister.servers.containsKey(clioteName)){
-				MinigameAssister.servers.put(clioteName, MGState.OFFLINE);
-			}
-			else{
-				Debug.print("Was found.");
-				MinigameAssister.servers.replace(clioteName, MGState.OFFLINE);
-			}
-			SendAll sa = new SendAll();
-			sa.sendAllInfo();
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-	}
+    public MAClioteHook(String identifier, String gFeatureName) {
+        this.identifier = identifier;
+        this.gFeatureName = gFeatureName;
+    }
+
+    @Override
+    public void run(byte[] data, String clioteName) {
+        try {
+            Debug.print("Comparing " + clioteName);
+            if (!MinigameAssister.servers.containsKey(clioteName)) {
+                MinigameAssister.servers.put(clioteName, MGState.OFFLINE);
+            } else {
+                Debug.print("Was found.");
+                MinigameAssister.servers.replace(clioteName, MGState.OFFLINE);
+            }
+            SendAll sa = new SendAll();
+            sa.sendAllInfo();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
