@@ -26,30 +26,23 @@ https://github.com/EstiNet/gFeaturesBungee
 */
 
 public class Config {
-	public void createDirectory(String path, String message){
-		File f = new File(path);
-		if(!(f.isDirectory())){
-			f.mkdir();
-			ProxyServer.getInstance().getLogger().info(ChatColor.GOLD + "[gFeatures] " + message);
-			return;
-		}
-		else{
-			return;
-		}
-	}
-	public void createFile(String path, String message){
-		File f = new File(path);
-		if(!(f.exists())){
-			try {
-				f.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			ProxyServer.getInstance().getLogger().info(ChatColor.GOLD + "[gFeatures] " + message);
-			return;
-		}
-		else{
-			return;
-		}
-	}
+    public void createDirectory(String path, String message) {
+        File f = new File(path);
+        if (!(f.isDirectory())) {
+            f.mkdir();
+            ProxyServer.getInstance().getLogger().info(ChatColor.GOLD + "[gFeatures] " + message);
+        }
+    }
+
+    public void createFile(String path, String message) {
+        File f = new File(path);
+        if (!(f.exists())) {
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            ProxyServer.getInstance().getLogger().info(ChatColor.GOLD + "[gFeatures] " + message);
+        }
+    }
 }

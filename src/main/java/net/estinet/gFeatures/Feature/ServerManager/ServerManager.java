@@ -44,13 +44,14 @@ public class ServerManager extends gFeature implements Events {
             e.printStackTrace();
         }
 
-        Map<String, Map<String, Object>> base = get("servers");
+        Map<String, Map<String, Object>> base = get("servers", config);
 
         for (Map.Entry<String, Map<String, Object>> entry : base.entrySet()) {
             Map<String, Object> val = entry.getValue();
             String name = entry.getKey();
             String addr = get("address", val);
             domains.put(name, new UnresolvedAddress(addr.split(":")[0], addr.split(":")[1]));
+            ProxyServer.getInstance().getLogger().info("[ServerManager] Found server " + name + ".");
         }
     }
 
@@ -82,16 +83,11 @@ public class ServerManager extends gFeature implements Events {
     public void onServerConnect() {
     }
 
-    private <T> T get(String path) {
-        return get(path, config);
-    }
-
     @SuppressWarnings("unchecked")
     private <T> T get(String path, Map submap) {
         int index = path.indexOf('.');
         if (index == -1) {
             Object val = submap.get(path);
-            ProxyServer.getInstance().getLogger().info("[ServerManager] No servers found!!!");
             return (T) val;
         } else {
             String first = path.substring(0, index);
