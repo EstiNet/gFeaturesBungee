@@ -268,15 +268,29 @@ public class EstiBans extends gFeature implements Events {
         try {
             for (String line : mutes.get(uuid)) {
                 String[] str = line.split(" ");
-                if (str[1].equalsIgnoreCase(server)) {
-                    try {
-                        if (System.currentTimeMillis() >= Double.parseDouble(str[0])) {
-                            unmutePlayer(uuid, server);
-                            return false;
+                try {
+                    if (str[1].equalsIgnoreCase("all")) {
+                        try {
+                            if (System.currentTimeMillis() >= Double.parseDouble(str[0])) {
+                                unmutePlayer(uuid, server);
+                                return false;
+                            }
+                        } catch (NumberFormatException e) {
                         }
-                    } catch (NumberFormatException e) {
+                        return true;
                     }
-                    return true;
+                    if (str[1].equalsIgnoreCase(server)) {
+                        try {
+                            if (System.currentTimeMillis() >= Double.parseDouble(str[0])) {
+                                unmutePlayer(uuid, server);
+                                return false;
+                            }
+                        } catch (NumberFormatException e) {
+                        }
+                        return true;
+                    }
+                } catch (ArrayIndexOutOfBoundsException | NullPointerException e) {
+                    Debug.print(e.getMessage());
                 }
             }
         } catch (Exception e) {

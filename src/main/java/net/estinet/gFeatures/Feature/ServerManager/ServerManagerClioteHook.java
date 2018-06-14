@@ -20,6 +20,8 @@ public class ServerManagerClioteHook extends ClioteHook {
     public void run(byte[] data, String identifier) {
         List<String> args = ClioteSky.parseBytesToStringList(data);
 
+        // ServerManager ClioteSky functions
+
         if (args.size() > 0) {
             switch (args.get(0)) {
                 case "add":

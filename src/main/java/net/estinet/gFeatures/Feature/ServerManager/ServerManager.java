@@ -1,5 +1,6 @@
 package net.estinet.gFeatures.Feature.ServerManager;
 
+import net.estinet.gFeatures.API.Logger.Debug;
 import net.estinet.gFeatures.Events;
 import net.estinet.gFeatures.Retrieval;
 import net.estinet.gFeatures.gFeature;
@@ -18,6 +19,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class ServerManager extends gFeature implements Events {
 
@@ -26,17 +28,19 @@ public class ServerManager extends gFeature implements Events {
     }
 
     public static HashMap<String, UnresolvedAddress> domains = new HashMap<>();
+
     private final File file = new File("config.yml");
     private Map<String, Object> config;
-    private Yaml yaml;
 
     @Override
     public void enable() {
         ProxyServer.getInstance().getLogger().info("[ServerManager] Enabled!");
 
+        // Read BungeeCord config and add all of the servers to the domains map.
+
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        yaml = new Yaml(options);
+        Yaml yaml = new Yaml(options);
 
         try {
             config = yaml.load(new FileInputStream(file));
@@ -53,6 +57,14 @@ public class ServerManager extends gFeature implements Events {
             domains.put(name, new UnresolvedAddress(addr.split(":")[0], addr.split(":")[1]));
             ProxyServer.getInstance().getLogger().info("[ServerManager] Found server " + name + ".");
         }
+
+        // Start scheduler to check for offline servers
+
+        ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), () -> {
+            for (ServerInfo si : ProxyServer.getInstance().getServers().values()) {
+                ProxyServer.getInstance().getScheduler().runAsync(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), () -> resolveServer(si));
+            }
+        }, 5, TimeUnit.MINUTES);
     }
 
     @Override
@@ -68,11 +80,7 @@ public class ServerManager extends gFeature implements Events {
                 if (error != null) {
                     //Means that server is not responding : OFFLINE
                     ServerInfo si = e.getTarget();
-                    ProxyServer.getInstance().getLogger().info("[ServerManager] Attempting to re-resolve offline server " + si.getName() + "...");
-                    ServerInfo newsi = ProxyServer.getInstance().constructServerInfo(si.getName(), new InetSocketAddress(domains.get(si.getName()).address, Integer.parseInt(domains.get(si.getName()).port)), si.getMotd(), false);
-                    ProxyServer.getInstance().getServers().remove(si.getName());
-                    ProxyServer.getInstance().getServers().put(newsi.getName(), newsi);
-                    ProxyServer.getInstance().getLogger().info("[ServerManager] Re-resolved.");
+                    resolveServer(si);
                 }
             });
         }
@@ -82,6 +90,32 @@ public class ServerManager extends gFeature implements Events {
     @Override
     public void onServerConnect() {
     }
+
+    /*
+     * Since some of our hosts use DDNS (dynamic ip), we need to re-resolve the domain
+     * in BungeeCord when the ip changes, since Bungee doesn't do that itself.
+     */
+
+    private void resolveServer(ServerInfo serverInfo) {
+        ProxyServer.getInstance().getLogger().info("[ServerManager] Attempting to re-resolve offline server " + serverInfo.getName() + "...");
+
+        Debug.print("[ServerManager] Resolving old host " + serverInfo.getAddress().getAddress() + ":" + serverInfo.getAddress().getPort());
+
+        InetSocketAddress newAddress = new InetSocketAddress(domains.get(serverInfo.getName()).address, Integer.parseInt(domains.get(serverInfo.getName()).port));
+        ServerInfo newsi = ProxyServer.getInstance().constructServerInfo(serverInfo.getName(), newAddress, serverInfo.getMotd(), false);
+
+        Debug.print("[ServerManager] New host is " + newAddress.getAddress() + ":" + newAddress.getPort());
+
+        ProxyServer.getInstance().getServers().remove(serverInfo.getName());
+        ProxyServer.getInstance().getServers().put(newsi.getName(), newsi);
+
+        ProxyServer.getInstance().getLogger().info("[ServerManager] Re-resolved.");
+    }
+
+    /*
+     * Helper method (totally not from BungeeCord code)
+     * for getting values in the config.yml file.
+     */
 
     @SuppressWarnings("unchecked")
     private <T> T get(String path, Map submap) {
