@@ -44,7 +44,7 @@ public class ServerManager extends gFeature implements Events {
             e.printStackTrace();
         }
 
-        Map<String, Map<String, Object>> base = get("servers", (Map) Collections.singletonMap("lobby", new HashMap<>()));
+        Map<String, Map<String, Object>> base = get("servers");
 
         for (Map.Entry<String, Map<String, Object>> entry : base.entrySet()) {
             Map<String, Object> val = entry.getValue();
