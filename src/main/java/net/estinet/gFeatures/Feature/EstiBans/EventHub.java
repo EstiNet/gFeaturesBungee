@@ -70,7 +70,7 @@ public class EventHub{
 	}
 	public static void onChat(ChatEvent event){
 		ProxiedPlayer player = (ProxiedPlayer)event.getSender();
-		if(EstiBans.isMutedOn(player.getUniqueId(), player.getServer().getInfo().getName())){
+		if(event.getMessage().length() > 0 && event.getMessage().charAt(0) != '/' && EstiBans.isMutedOn(player.getUniqueId(), player.getServer().getInfo().getName())){
 			event.setCancelled(true);
 			TextComponent tc = new TextComponent("You are currently muted on this server! Reason: " + EstiBans.getMuteReason(player.getUniqueId(), player.getServer().getInfo().getName()));
 			tc.setBold(true);
