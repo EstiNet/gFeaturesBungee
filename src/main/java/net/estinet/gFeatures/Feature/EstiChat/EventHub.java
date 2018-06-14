@@ -36,6 +36,8 @@ public class EventHub {
 
         ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), () -> {
 
+            if (event.getPlayer().getServer() == null) return;
+
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
 
                 if (!player.getServer().getInfo().getName().equalsIgnoreCase(event.getPlayer().getServer().getInfo().getName())) {
@@ -52,6 +54,7 @@ public class EventHub {
 
     @SuppressWarnings("deprecation")
     public void onPlayerDisconnect(PlayerDisconnectEvent event) {
+        if (event.getPlayer().getServer() == null) return;
         ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(event.getPlayer().getServer().getInfo().getName() + " " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Leave" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName()), "consolechat", "all");
 
         for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
