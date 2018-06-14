@@ -42,11 +42,11 @@ public class KickCommand extends EstiCommand{
 				sender.sendMessage(EstiBans.estiBansPrefix + "No one is online with that username.");
 			}
 			else{
-				String reason = "";
+				StringBuilder reason = new StringBuilder();
 				for(int i = 1; i < args.length; i++){
-					reason += args[i] + " ";
+					reason.append(args[i]).append(" ");
 				}
-				EstiBans.kickPlayer(args[0], reason);
+				EstiBans.kickPlayer(args[0], reason.toString());
 				sender.sendMessage(EstiBans.estiBansPrefix + "Kicked Player " + args[0] + " for \"" + reason + "\"");
 			}
 		}

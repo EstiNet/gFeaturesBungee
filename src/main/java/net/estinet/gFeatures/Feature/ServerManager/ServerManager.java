@@ -76,13 +76,7 @@ public class ServerManager extends gFeature implements Events {
     public void eventTrigger(Event event) {
         if (event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("serverconnectevent")) {
             ServerConnectEvent e = (ServerConnectEvent) event;
-            e.getTarget().ping((result, error) -> {
-                if (error != null) {
-                    //Means that server is not responding : OFFLINE
-                    ServerInfo si = e.getTarget();
-                    resolveServer(si);
-                }
-            });
+            resolveServer(e.getTarget());
         }
     }
 
@@ -97,19 +91,25 @@ public class ServerManager extends gFeature implements Events {
      */
 
     private void resolveServer(ServerInfo serverInfo) {
-        ProxyServer.getInstance().getLogger().info("[ServerManager] Attempting to re-resolve offline server " + serverInfo.getName() + "...");
+        serverInfo.ping((result, error) -> {
+            if (error != null) {
+                //Means that server is not responding : OFFLINE
 
-        Debug.print("[ServerManager] Resolving old host " + serverInfo.getAddress().getAddress() + ":" + serverInfo.getAddress().getPort());
+                ProxyServer.getInstance().getLogger().info("[ServerManager] Attempting to re-resolve offline server " + serverInfo.getName() + "...");
 
-        InetSocketAddress newAddress = new InetSocketAddress(domains.get(serverInfo.getName()).address, Integer.parseInt(domains.get(serverInfo.getName()).port));
-        ServerInfo newsi = ProxyServer.getInstance().constructServerInfo(serverInfo.getName(), newAddress, serverInfo.getMotd(), false);
+                Debug.print("[ServerManager] Resolving old host " + serverInfo.getAddress().getAddress() + ":" + serverInfo.getAddress().getPort());
 
-        Debug.print("[ServerManager] New host is " + newAddress.getAddress() + ":" + newAddress.getPort());
+                InetSocketAddress newAddress = new InetSocketAddress(domains.get(serverInfo.getName()).address, Integer.parseInt(domains.get(serverInfo.getName()).port));
+                ServerInfo newsi = ProxyServer.getInstance().constructServerInfo(serverInfo.getName(), newAddress, serverInfo.getMotd(), false);
 
-        ProxyServer.getInstance().getServers().remove(serverInfo.getName());
-        ProxyServer.getInstance().getServers().put(newsi.getName(), newsi);
+                Debug.print("[ServerManager] New host is " + newAddress.getAddress() + ":" + newAddress.getPort());
 
-        ProxyServer.getInstance().getLogger().info("[ServerManager] Re-resolved.");
+                ProxyServer.getInstance().getServers().remove(serverInfo.getName());
+                ProxyServer.getInstance().getServers().put(newsi.getName(), newsi);
+
+                ProxyServer.getInstance().getLogger().info("[ServerManager] Re-resolved.");
+            }
+        });
     }
 
     /*
