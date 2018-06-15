@@ -30,41 +30,41 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class EventHub{
-	public void onPlayerJoin(PostLoginEvent event){
-		File f = new File("plugins/gFeatures/Friendship/" + event.getPlayer().getUniqueId() + "/");
-		if(!f.isDirectory()){
-			f.mkdir();
-		}
-	}
+public class EventHub {
+    public void onPlayerJoin(PostLoginEvent event) {
+        File f = new File("plugins/gFeatures/Friendship/" + event.getPlayer().getUniqueId() + "/");
+        if (!f.isDirectory()) {
+            f.mkdir();
+        }
+    }
 
-	public void onPlayerDisconnect(PlayerDisconnectEvent event) {
-		File f = new File("plugins/gFeatures/Friendship/" + event.getPlayer().getUniqueId() + "/seen");
-		if(!f.exists()){
-			try {
-				boolean sesh = f.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		else{
-			f.delete();
-			try {
-				f.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		try {
-			PrintWriter pw = new PrintWriter(f);
-			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-			Calendar cal = Calendar.getInstance();
-			pw.write(dateFormat.format(cal.getTime()) + "\n");
-			pw.write(event.getPlayer().getServer().getInfo().getName());
-			pw.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-	}
+    public void onPlayerDisconnect(PlayerDisconnectEvent event) {
+        if (event.getPlayer().getServer() == null) return;
+        File f = new File("plugins/gFeatures/Friendship/" + event.getPlayer().getUniqueId() + "/seen");
+        if (!f.exists()) {
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            f.delete();
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            PrintWriter pw = new PrintWriter(f);
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Calendar cal = Calendar.getInstance();
+            pw.write(dateFormat.format(cal.getTime()) + "\n");
+            pw.write(event.getPlayer().getServer().getInfo().getName());
+            pw.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
