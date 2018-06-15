@@ -77,7 +77,6 @@ public class SlashMail extends EstiCommand{
 							String uuid = "";
 							try {
 								uuid = ResolverFetcher.getUUIDfromName(args[1]);
-								ProxyServer.getInstance().getLogger().info(uuid);
 							} catch (Exception e) {
 								e.printStackTrace();
 							}

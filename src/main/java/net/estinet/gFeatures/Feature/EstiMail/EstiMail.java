@@ -108,13 +108,11 @@ public class EstiMail extends gFeature implements Events {
         if (array.length > 0)
             receiver.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] " + ChatColor.WHITE + "You have new mail!");
         for (File fs : array) {
-            ProxyServer.getInstance().getLogger().info(fs.getAbsolutePath());
             try {
                 FileReader fr = new FileReader(fs);
                 BufferedReader br = new BufferedReader(fr);
                 int linenum = 1;
                 while ((line = br.readLine()) != null) {
-                    ProxyServer.getInstance().getLogger().info(line);
                     if (linenum == 1) {
                         name = line;
                     } else if (linenum == 2) {
