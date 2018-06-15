@@ -122,7 +122,7 @@ public class EstiBans extends gFeature implements Events {
                 if (System.currentTimeMillis() >= Double.parseDouble(strs[0])) {
                     unbanPlayer(uuid, strs[1]);
                 }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
                 Debug.print("[EstiBans] (Can ignore) " + e.getMessage());
             }
         }
@@ -176,9 +176,12 @@ public class EstiBans extends gFeature implements Events {
     public static void unbanPlayer(UUID uuid, String server) {
         File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-bans");
         for (int i = 0; i < bans.get(uuid).size(); i++) {
-            if (bans.get(uuid).get(i).split(" ")[1].equals(server)) {
-                bans.get(uuid).remove(i);
-                break;
+            try {
+                if (bans.get(uuid).get(i).split(" ")[1].equals(server)) {
+                    bans.get(uuid).remove(i);
+                    break;
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {
             }
         }
         dumpFile(bans, uuid.toString(), f);
@@ -203,12 +206,13 @@ public class EstiBans extends gFeature implements Events {
 
     public static void checkOverdueMutes(UUID uuid) {
         for (String str : mutes.get(uuid)) {
+
             String[] strs = str.split(" ");
             try {
                 if (System.currentTimeMillis() >= Double.parseDouble(strs[0])) {
                     unmutePlayer(uuid, strs[1]);
                 }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
             }
         }
     }
@@ -292,12 +296,15 @@ public class EstiBans extends gFeature implements Events {
         long[] longs = new long[warnings.size()];
         int i = 0;
         for (String str : warnings.get(uuid)) {
-            String[] strs = str.split(" ");
-            if (System.currentTimeMillis() >= Double.parseDouble(strs[0])) {
-                unwarnPlayer(uuid, strs[1]);
-            } else {
-                longs[i] = Long.parseLong(strs[1]);
-                i++;
+            try {
+                String[] strs = str.split(" ");
+                if (System.currentTimeMillis() >= Double.parseDouble(strs[0])) {
+                    unwarnPlayer(uuid, strs[1]);
+                } else {
+                    longs[i] = Long.parseLong(strs[1]);
+                    i++;
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {
             }
         }
         Arrays.sort(longs);
@@ -327,11 +334,13 @@ public class EstiBans extends gFeature implements Events {
 
     public static void unwarnPlayer(UUID uuid, String id) {
         File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-warnings");
-        String line = "";
         for (int i = 0; i < warnings.get(uuid).size(); i++) {
-            if (warnings.get(uuid).get(i).split(" ")[1].equals(id)) {
-                warnings.get(uuid).remove(i);
-                break;
+            try {
+                if (warnings.get(uuid).get(i).split(" ")[1].equals(id)) {
+                    warnings.get(uuid).remove(i);
+                    break;
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {
             }
         }
         dumpFile(warnings, uuid.toString(), f);
@@ -446,6 +455,7 @@ public class EstiBans extends gFeature implements Events {
                         return reason.toString();
                     }
                 }
+
             }
         } catch (Exception e) {
             e.printStackTrace();
