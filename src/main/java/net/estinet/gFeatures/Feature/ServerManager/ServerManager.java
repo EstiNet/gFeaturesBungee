@@ -99,7 +99,6 @@ public class ServerManager extends gFeature implements Events {
 
                 Debug.print("[ServerManager] Resolving old host " + serverInfo.getAddress().getAddress() + ":" + serverInfo.getAddress().getPort());
 
-                String oldAddress = serverInfo.getAddress().getAddress().toString();
                 InetSocketAddress newAddress = new InetSocketAddress(domains.get(serverInfo.getName()).address, Integer.parseInt(domains.get(serverInfo.getName()).port));
                 ServerInfo newsi = ProxyServer.getInstance().constructServerInfo(serverInfo.getName(), newAddress, serverInfo.getMotd(), false);
 
@@ -108,7 +107,7 @@ public class ServerManager extends gFeature implements Events {
                 ProxyServer.getInstance().getServers().remove(serverInfo.getName());
                 ProxyServer.getInstance().getServers().put(newsi.getName(), newsi);
 
-                if(!oldAddress.equals(newAddress.toString())) ProxyServer.getInstance().getLogger().info("[ServerManager] Re-resolved server " + serverInfo.getName() + ".");
+                Debug.print("[ServerManager] Re-resolved server " + serverInfo.getName() + ".");
             }
         });
     }
