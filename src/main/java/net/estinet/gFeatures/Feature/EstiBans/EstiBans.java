@@ -249,10 +249,12 @@ public class EstiBans extends gFeature implements Events {
     public static void unmutePlayer(UUID uuid, String server) {
         File f = new File("plugins/gFeatures/EstiBans/playerdata/" + uuid.toString() + "-mutes");
         for (int i = 0; i < mutes.get(uuid).size(); i++) {
-            if (mutes.get(uuid).get(i).split(" ")[1].equals(server)) {
-                mutes.get(uuid).remove(i);
-                break;
-            }
+            try {
+                if (mutes.get(uuid).get(i).split(" ")[1].equals(server)) {
+                    mutes.get(uuid).remove(i);
+                    break;
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {}
         }
         dumpFile(mutes, uuid.toString(), f);
     }
