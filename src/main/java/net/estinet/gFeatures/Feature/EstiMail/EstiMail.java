@@ -35,110 +35,117 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class EstiMail extends gFeature implements Events{
+public class EstiMail extends gFeature implements Events {
 
-	EventHub eh = new EventHub();
+    EventHub eh = new EventHub();
 
-	public EstiMail(String featurename, String d) {
-		super(featurename, d);
-	}
-	@Override
-	public void enable(){
-		Enable.onEnable();
-	}
-	@Override
-	public void disable(){
-		Disable.onDisable();
-	}
-	@Override
-	public void eventTrigger(Event event) {
-		if(event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("postloginevent")){
-			eh.onPlayerJoin((PostLoginEvent)event);
-		}
-	}
-	@Override
-	@Retrieval
-	public void onPostLogin(){}
+    public EstiMail(String featurename, String d) {
+        super(featurename, d);
+    }
 
-	@SuppressWarnings("deprecation")
-	public static void sendMail(String senderName, String recieverUUID, String mail){
-		File f = new File("plugins/gFeatures/EstiMail/" + recieverUUID);
-		if(!f.isDirectory()){
-			f.mkdir();
-		}
-		File fs = new File("plugins/gFeatures/EstiMail/" + recieverUUID + "/" + (int)Math.floor(Math.random()*10000));
-		if(fs.exists()){
-			sendMail(senderName, recieverUUID, mail);
-			return;
-		}
-		else{
-			try {
-				fs.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			try {
-				PrintWriter pw = new PrintWriter(fs);
-				pw.write(senderName + "\r\n");
-				pw.write(mail);
-				pw.close();
-				try{
-				if(!(ProxyServer.getInstance().getPlayer(recieverUUID) == null)){
-					ProxyServer.getInstance().getPlayer(recieverUUID).sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] " + ChatColor.RESET + "You have new mail! Do /mail read to check!");
-				}
-				}
-				catch(NullPointerException e){}
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	@SuppressWarnings("deprecation")
-	public static void getMail(ProxiedPlayer reciever){
-		File f = new File("plugins/gFeatures/EstiMail/" + reciever.getUniqueId().toString());
-		File[] array = f.listFiles();
-		String line = null;
-		boolean hasmail = false;
-		String name = "";
-		for(File fs : array){
-			ProxyServer.getInstance().getLogger().info(fs.getAbsolutePath());
-			try {
-				FileReader fr = new FileReader(fs);
-				BufferedReader br = new BufferedReader(fr);
-				int linenum = 1;
-				while((line = br.readLine()) != null) {
-					ProxyServer.getInstance().getLogger().info(line);
-					if(linenum == 1){
-						name = line;
-					}
-					else if(linenum == 2){
-						reciever.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] " + ChatColor.RESET + "" + name + ": " + line);
-						hasmail = true;
-					}
-					linenum++;
-				}   
-				br.close(); 
-			} catch (IOException e){
-				e.printStackTrace();
-			}
-		}
-		if(!hasmail){
-			reciever.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] " + ChatColor.WHITE + "You have no new mail.");
-		}
-	}
-	public static void clearMail(ProxiedPlayer reciever){
-		File f = new File("plugins/gFeatures/EstiMail/" + reciever.getUniqueId().toString());
-		for(File fs : f.listFiles()){
-			fs.delete();
-		}
-	}
-	public static boolean checkExists(String uuid) {
-		File f = new File("plugins/gFeatures/EstiMail/" + uuid);
-		if(!f.isDirectory()){
-			return false;
-		}
-		else{
-			return true;
-		}
-	}
+    @Override
+    public void enable() {
+        Enable.onEnable();
+    }
+
+    @Override
+    public void disable() {
+        Disable.onDisable();
+    }
+
+    @Override
+    public void eventTrigger(Event event) {
+        if (event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("postloginevent")) {
+            eh.onPlayerJoin((PostLoginEvent) event);
+        }
+    }
+
+    @Override
+    @Retrieval
+    public void onPostLogin() {
+    }
+
+    @SuppressWarnings("deprecation")
+    public static void sendMail(String senderName, String recieverUUID, String mail) {
+        File f = new File("plugins/gFeatures/EstiMail/" + recieverUUID);
+        if (!f.isDirectory()) {
+            f.mkdir();
+        }
+        File fs = new File("plugins/gFeatures/EstiMail/" + recieverUUID + "/" + (int) Math.floor(Math.random() * 10000));
+        if (fs.exists()) {
+            sendMail(senderName, recieverUUID, mail);
+            return;
+        } else {
+            try {
+                fs.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                PrintWriter pw = new PrintWriter(fs);
+                pw.write(senderName + "\r\n");
+                pw.write(mail);
+                pw.close();
+                try {
+                    if (!(ProxyServer.getInstance().getPlayer(recieverUUID) == null)) {
+                        ProxyServer.getInstance().getPlayer(recieverUUID).sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] " + ChatColor.RESET + "You have new mail! Do /mail read to check!");
+                    }
+                } catch (NullPointerException e) {
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    public static void getMail(ProxiedPlayer receiver) {
+        File f = new File("plugins/gFeatures/EstiMail/" + receiver.getUniqueId().toString());
+        File[] array = f.listFiles();
+        String line;
+        boolean hasmail = false;
+        String name = "";
+        if (array.length > 0)
+            receiver.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] " + ChatColor.WHITE + "You have new mail!");
+        for (File fs : array) {
+            ProxyServer.getInstance().getLogger().info(fs.getAbsolutePath());
+            try {
+                FileReader fr = new FileReader(fs);
+                BufferedReader br = new BufferedReader(fr);
+                int linenum = 1;
+                while ((line = br.readLine()) != null) {
+                    ProxyServer.getInstance().getLogger().info(line);
+                    if (linenum == 1) {
+                        name = line;
+                    } else if (linenum == 2) {
+                        receiver.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] " + ChatColor.RESET + "" + name + ": " + line);
+                        hasmail = true;
+                    }
+                    linenum++;
+                }
+                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (!hasmail) {
+            receiver.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] " + ChatColor.WHITE + "You have no new mail.");
+        }
+    }
+
+    public static void clearMail(ProxiedPlayer reciever) {
+        File f = new File("plugins/gFeatures/EstiMail/" + reciever.getUniqueId().toString());
+        for (File fs : f.listFiles()) {
+            fs.delete();
+        }
+    }
+
+    public static boolean checkExists(String uuid) {
+        File f = new File("plugins/gFeatures/EstiMail/" + uuid);
+        if (!f.isDirectory()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
