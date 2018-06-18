@@ -2,8 +2,8 @@ package net.estinet.gFeatures.Feature.FusionPlay;
 
 import java.util.concurrent.TimeUnit;
 
-import com.lambdaworks.redis.RedisClient;
-import com.lambdaworks.redis.RedisURI;
+import io.lettuce.core.RedisClient;
+import io.lettuce.core.RedisURI;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.md_5.bungee.api.ProxyServer;
 
