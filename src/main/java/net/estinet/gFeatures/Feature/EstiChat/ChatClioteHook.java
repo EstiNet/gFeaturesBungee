@@ -49,7 +49,7 @@ public class ChatClioteHook extends ClioteHook {
 
             ProxyServer.getInstance().getLogger().info(mgs.toString());
             for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                if (!player.getServer().getInfo().getName().equalsIgnoreCase(servername)) {
+                if (!EstiChat.getServerName(player.getServer().getInfo().getName()).equalsIgnoreCase(servername)) {
                     player.sendMessage("[" + servername + "] " + mgs);
                     Debug.print("[EstiChat] Sent player " + player.getName() + " " + "[" + servername + "] " + mgs);
                 }
