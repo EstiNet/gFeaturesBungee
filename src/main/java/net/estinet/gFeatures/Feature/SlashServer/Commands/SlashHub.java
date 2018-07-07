@@ -37,7 +37,7 @@ public class SlashHub extends EstiCommand{
 	public void execute(CommandSender sender, String[] args) {
 		if(sender instanceof ProxiedPlayer){
 			ProxiedPlayer player = (ProxiedPlayer) sender;
-			if(player.getServer().getInfo().getName().equals("Factions") || player.getServer().getInfo().getName().equals("Survival") || player.getServer().getInfo().getName().equals("Skyblock") || player.getServer().getInfo().getName().equals("Creative") || player.getServer().getInfo().getName().equals("gWars")  || player.getServer().getInfo().getName().equals("Hub") || player.getServer().getInfo().getName().equals("Development") || player.getServer().getInfo().getName().equals("Survival2") ){
+			if(player.getServer().getInfo().getName().equals("Factions") || player.getServer().getInfo().getName().equals("Survival") || player.getServer().getInfo().getName().equals("Skyblock") || player.getServer().getInfo().getName().equals("Creative") || player.getServer().getInfo().getName().equals("gWars")  || player.getServer().getInfo().getName().equals("Hub") || player.getServer().getInfo().getName().equals("Development") || player.getServer().getInfo().getName().equals("SurvivalO") ){
 				ServerInfo target = ProxyServer.getInstance().getServerInfo("Hub");
 				player.connect(target);
 			}

@@ -42,12 +42,12 @@ public class EventHub {
 
                 if (!player.getServer().getInfo().getName().equalsIgnoreCase(event.getPlayer().getServer().getInfo().getName())) {
 
-                    player.sendMessage("[" + event.getPlayer().getServer().getInfo().getName() + "] " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Join" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName());
+                    player.sendMessage("[" + EstiChat.getServerName(event.getPlayer().getServer().getInfo().getName()) + "] " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Join" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName());
 
                 }
             }
 
-            ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(event.getPlayer().getServer().getInfo().getName() + " " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Join" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName()), "consolechat", "all");
+            ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(EstiChat.getServerName(event.getPlayer().getServer().getInfo().getName()) + " " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Join" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName()), "consolechat", "all");
 
         }, 1, TimeUnit.SECONDS);
     }
@@ -55,12 +55,12 @@ public class EventHub {
     @SuppressWarnings("deprecation")
     public void onPlayerDisconnect(PlayerDisconnectEvent event) {
         if (event.getPlayer().getServer() == null) return;
-        ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(event.getPlayer().getServer().getInfo().getName() + " " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Leave" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName()), "consolechat", "all");
+        ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(EstiChat.getServerName(event.getPlayer().getServer().getInfo().getName()) + " " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Leave" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName()), "consolechat", "all");
 
         for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
 
             if (!player.getServer().getInfo().getName().equalsIgnoreCase(event.getPlayer().getServer().getInfo().getName())) {
-                player.sendMessage("[" + event.getPlayer().getServer().getInfo().getName() + "] " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Leave" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName());
+                player.sendMessage("[" + EstiChat.getServerName(event.getPlayer().getServer().getInfo().getName()) + "] " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Leave" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName());
             }
         
         }
@@ -69,7 +69,7 @@ public class EventHub {
     public void onServerConnect(ServerConnectEvent event) {
         EstiChat.switcher.remove(event.getPlayer().getName());
         try {
-            EstiChat.switcher.put(event.getPlayer().getName(), event.getPlayer().getServer().getInfo().getName());
+            EstiChat.switcher.put(event.getPlayer().getName(), EstiChat.getServerName(event.getPlayer().getServer().getInfo().getName()));
         } catch (NullPointerException e) {
             EstiChat.switcher.put(event.getPlayer().getName(), null);
         }
@@ -78,7 +78,7 @@ public class EventHub {
     @SuppressWarnings({"deprecation", "unused"})
     public void onServerSwitch(ServerSwitchEvent event) {
         String previous;
-        previous = event.getPlayer().getServer().getInfo().getName();
+        previous = EstiChat.getServerName(event.getPlayer().getServer().getInfo().getName());
         try {
             String test = EstiChat.switcher.get(event.getPlayer().getName());
         } catch (NullPointerException e) {

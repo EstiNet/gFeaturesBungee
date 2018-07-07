@@ -74,4 +74,13 @@ public class EstiChat extends gFeature implements Events{
 	@Override
 	@Retrieval
 	public void onServerSwitch(){}
+
+	public static String getServerName(String name) {
+		if (name.equals("Survival")) {
+			return "Survival Lime";
+		} else if (name.equals("SurvivalO")) {
+			return "Survival Cyan";
+		}
+		return name;
+	}
 }
