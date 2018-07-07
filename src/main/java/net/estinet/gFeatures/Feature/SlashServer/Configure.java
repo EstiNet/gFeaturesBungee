@@ -52,6 +52,6 @@ public class Configure{
 		gFeatures.addCommand(new SlashgWars(base));
 		gFeatures.addCommand(new SlashHub(base));
 		gFeatures.addCommand(new SlashSkyblock(base));
-		gFeatures.addCommand(new SlashSurvival(base));
+		//gFeatures.addCommand(new SlashSurvival(base));
 	}
 }

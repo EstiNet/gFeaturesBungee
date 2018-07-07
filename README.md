@@ -1,9 +1,7 @@
 
 # gFeatures (Bungee)
 
-The core of EstiNet.
-
-EstiNet - The flow of creativity.
+This is what runs on EstiNet's BungeeCord, for our custom services.
 
 ## Version
 gFeatures Core/API: 3.7.0c
@@ -16,7 +14,7 @@ Download the latest builds: https://gitlab.dolphinbox.net/mirrors/gfeaturesbunge
 
 ## Dependencies
 gFeatures requires the following dependencies to run:
-* Bungeecord 1.12.2
+* Bungeecord
 * Java 8
 * ClioteSky Server (Optional)
 
