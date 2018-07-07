@@ -41,7 +41,7 @@ public class ChatClioteHook extends ClioteHook {
         try {
             String name = args.get(0);
             args.remove(0);
-            String servername = ProxyServer.getInstance().getPlayer(name).getServer().getInfo().getName();
+            String servername = EstiChat.getServerName(ProxyServer.getInstance().getPlayer(name).getServer().getInfo().getName());
             StringBuilder mgs = new StringBuilder();
             for (String arg : args) {
                 mgs.append(arg).append(" ");
