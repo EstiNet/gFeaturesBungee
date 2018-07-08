@@ -91,6 +91,9 @@ public class ServerManager extends gFeature implements Events {
      */
 
     private void resolveServer(ServerInfo serverInfo) {
+        if (serverInfo.getPlayers().size() > 0) {
+            return;
+        }
         serverInfo.ping((result, error) -> {
             if (error != null) {
                 //Means that server is not responding : OFFLINE
