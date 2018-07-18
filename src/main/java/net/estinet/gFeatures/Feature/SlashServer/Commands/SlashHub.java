@@ -42,7 +42,7 @@ public class SlashHub extends EstiCommand {
 
             for (String str : Arrays.asList("Factions", "Survival", "SurvivalO", "SurvivalPink", "Skyblock", "Creative", "Development", "gWars", "Hub")) {
                 if (player.getServer().getInfo().getName().equals(str)) {
-                    player.connect(ProxyServer.getInstance().getServerInfo(str));
+                    player.connect(ProxyServer.getInstance().getServerInfo("Hub"));
                     return;
                 }
             }
