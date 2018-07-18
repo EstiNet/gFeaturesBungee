@@ -6,10 +6,7 @@ import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.event.PlayerDisconnectEvent;
-import net.md_5.bungee.api.event.PostLoginEvent;
-import net.md_5.bungee.api.event.ServerConnectEvent;
-import net.md_5.bungee.api.event.ServerSwitchEvent;
+import net.md_5.bungee.api.event.*;
 
 /*
 gFeatures
@@ -91,6 +88,15 @@ public class EventHub {
 
             ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(EstiChat.switcher.get(event.getPlayer().getName()) + " " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Switch" + ChatColor.GOLD + "] " + ChatColor.RESET + "(" + EstiChat.switcher.get(event.getPlayer().getName()) + " -> " + previous + ") " + event.getPlayer().getName()), "consolechat", "all");
 
+        }
+    }
+
+    public void onServerChat(ChatEvent event) {
+        if (event.getSender() instanceof ProxiedPlayer) {
+            ProxiedPlayer p = (ProxiedPlayer) event.getSender();
+            if (p.getServer().getInfo().getName().equals("SurvivalPink")) {
+                ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(p.getName() + " " + p.getDisplayName() + ": " + event.getMessage()), "chat", "Bungee");
+            }
         }
     }
 }

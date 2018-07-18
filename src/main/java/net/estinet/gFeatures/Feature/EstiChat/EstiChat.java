@@ -5,10 +5,7 @@ import java.util.HashMap;
 import net.estinet.gFeatures.Events;
 import net.estinet.gFeatures.Retrieval;
 import net.estinet.gFeatures.gFeature;
-import net.md_5.bungee.api.event.PlayerDisconnectEvent;
-import net.md_5.bungee.api.event.PostLoginEvent;
-import net.md_5.bungee.api.event.ServerConnectEvent;
-import net.md_5.bungee.api.event.ServerSwitchEvent;
+import net.md_5.bungee.api.event.*;
 import net.md_5.bungee.api.plugin.Event;
 
 /*
@@ -61,6 +58,9 @@ public class EstiChat extends gFeature implements Events{
 		else if(event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("serverconnectevent")){
 			eh.onServerConnect((ServerConnectEvent)event);
 		}
+		else if(event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("chatevent")){
+			eh.onServerChat((ChatEvent)event);
+		}
 	}
 	@Override
 	@Retrieval
@@ -74,6 +74,9 @@ public class EstiChat extends gFeature implements Events{
 	@Override
 	@Retrieval
 	public void onServerSwitch(){}
+	@Override
+	@Retrieval
+	public void onChat(){}
 
 	public static String getServerName(String name) {
 		if (name.equals("Survival")) {
