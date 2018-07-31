@@ -33,12 +33,18 @@ import java.util.Arrays;
 public class BListCommand extends EstiCommand {
 
     public BListCommand(gFeature feature) {
-        super("blist", "basic", new String[0], feature);
+        super("blist", "basic", (String[]) Arrays.asList("list").toArray(), feature);
     }
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        sender.sendMessage(new TextComponent(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "--------" + ChatColor.RESET + ChatColor.DARK_AQUA + "There are " + ProxyServer.getInstance().getPlayers().size() + " " + (ProxyServer.getInstance().getPlayers().size() == 1 ? "player" : "players") + " on!" + ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "--------"));
+
+        if (ProxyServer.getInstance().getPlayers().size() == 1) {
+            sender.sendMessage(new TextComponent(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "--------" + ChatColor.RESET + ChatColor.DARK_AQUA + "There is 1 player on!" + ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "--------"));
+        } else {
+            sender.sendMessage(new TextComponent(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "--------" + ChatColor.RESET + ChatColor.DARK_AQUA + "There are " + ProxyServer.getInstance().getPlayers().size() + " players on!" + ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "--------"));
+        }
+
         if (ProxyServer.getInstance().getPlayers().size() == 0) {
             sender.sendMessage(new TextComponent(ChatColor.DARK_AQUA + "No players on right now."));
         }

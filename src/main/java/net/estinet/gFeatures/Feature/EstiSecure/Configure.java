@@ -1,7 +1,7 @@
-package net.estinet.gFeatures.Feature.ServerRedirect;
+package net.estinet.gFeatures.Feature.EstiSecure;
 
-import net.estinet.gFeatures.Configuration.Config;
-
+import net.estinet.gFeatures.Configs;
+import net.estinet.gFeatures.gFeatures;
 /*
 gFeatures
 https://github.com/EstiNet/gFeaturesBungee
@@ -21,9 +21,10 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class ConfigHub {
-	Config config = new Config();
-	public void setupConfig(){
-		config.createDirectory("plugins/gFeatures/Test", "EstiSecure plugin directory set!");
-	}
+public class Configure {
+    @Configs
+    public static void onSetup() {
+        EstiSecure base = new EstiSecure("EstiSecure", "1.0.0");
+        gFeatures.addFeature(base);
+    }
 }

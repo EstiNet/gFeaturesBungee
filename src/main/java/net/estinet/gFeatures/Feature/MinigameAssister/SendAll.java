@@ -26,6 +26,7 @@ https://github.com/EstiNet/gFeaturesBungee
 public class SendAll {
     public void sendAllInfo() {
         ClioteSky.getInstance().sendAsync(new byte[0], "mgstart", "MinigameHubs");
+
         for (String mgs : MinigameAssister.servers.keySet()) {
             ServerInfo target = ProxyServer.getInstance().getServerInfo(mgs);
             ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(mgs + " " + MinigameAssister.servers.get(mgs) + " " + target.getPlayers().size() + " " + MinigameAssister.maps.get(mgs)), "mgrecieve", "MinigameHubs");

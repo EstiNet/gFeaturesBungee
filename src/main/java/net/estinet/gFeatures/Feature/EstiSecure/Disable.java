@@ -1,6 +1,6 @@
-package net.estinet.gFeatures.Feature.ServerRedirect;
+package net.estinet.gFeatures.Feature.EstiSecure;
 
-import net.estinet.gFeatures.Configuration.Config;
+import net.md_5.bungee.api.ProxyServer;
 
 /*
 gFeatures
@@ -21,9 +21,8 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class ConfigHub {
-	Config config = new Config();
-	public void setupConfig(){
-		config.createDirectory("plugins/gFeatures/Test", "EstiSecure plugin directory set!");
-	}
+public class Disable {
+    public static void onDisable() {
+        ProxyServer.getInstance().getLogger().info("[EstiSecure] Plugin Disabled!");
+    }
 }

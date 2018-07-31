@@ -79,11 +79,11 @@ public class EstiChat extends gFeature implements Events{
 	public void onChat(){}
 
 	public static String getServerName(String name) {
-		if (name.equals("Survival")) {
+		/*if (name.equals("Survival")) {
 			return "SurvivalLime";
 		} else if (name.equals("SurvivalO")) {
 			return "SurvivalCyan";
-		}
+		}*/
 		return name;
 	}
 }

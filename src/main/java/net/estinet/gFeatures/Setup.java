@@ -42,5 +42,6 @@ public class Setup {
 		net.estinet.gFeatures.Feature.EstiBans.Configure.onSetup();
 		net.estinet.gFeatures.Feature.BList.Configure.onSetup();
 		net.estinet.gFeatures.Feature.ServerManager.Configure.onSetup();
+		net.estinet.gFeatures.Feature.Hubs.Configure.onSetup();
 	}
 }
