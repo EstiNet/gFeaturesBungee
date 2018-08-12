@@ -28,6 +28,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -50,11 +51,11 @@ public class BListCommand extends EstiCommand {
         if (ProxyServer.getInstance().getPlayers().size() == 0) {
             sender.sendMessage(new TextComponent(ChatColor.DARK_AQUA + "No players on right now."));
         }
-        HashMap<String, List<String>> servers = new HashMap<>();
+        HashMap<String, ArrayList<String>> servers = new HashMap<>();
         for (ProxiedPlayer pp : ProxyServer.getInstance().getPlayers()) {
             String sName = pp.getServer().getInfo().getName();
             if (servers.get(sName) == null) {
-                servers.put(sName, Arrays.asList(pp.getName()));
+                servers.put(sName, new ArrayList<>(Arrays.asList(pp.getName())));
             } else {
                 servers.get(sName).add(pp.getName());
             }
