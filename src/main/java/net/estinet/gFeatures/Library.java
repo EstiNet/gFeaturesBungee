@@ -57,6 +57,11 @@ public class Library implements Listener {
     }
 
     @EventHandler
+    public void onServerConnected(ServerConnectedEvent event) {
+        check("onServerConnected", event);
+    }
+
+    @EventHandler
     public void onPreLogin(PreLoginEvent event) {
         check("onPreLogin", event);
     }

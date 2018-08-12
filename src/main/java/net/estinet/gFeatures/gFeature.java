@@ -70,4 +70,5 @@ public class gFeature{
 	public void onPreLogin(){}
 	public void onLogin(){}
 	public void onChat(){}
+	public void onServerConnected(){}
 }
