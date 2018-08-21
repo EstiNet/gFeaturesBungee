@@ -53,20 +53,22 @@ public class BListCommand extends EstiCommand {
         }
         HashMap<String, ArrayList<String>> servers = new HashMap<>();
         for (ProxiedPlayer pp : ProxyServer.getInstance().getPlayers()) {
-            String sName = pp.getServer().getInfo().getName();
-            if (servers.get(sName) == null) {
-                servers.put(sName, new ArrayList<>(Arrays.asList(pp.getName())));
-            } else {
-                servers.get(sName).add(pp.getName());
+            try {
+                String sName = pp.getServer().getInfo().getName();
+                if (servers.get(sName) == null) {
+                    servers.put(sName, new ArrayList<>(Arrays.asList(pp.getName())));
+                } else {
+                    servers.get(sName).add(pp.getName());
+                }
+            } catch (NullPointerException e) { //line 58 }
+            }
+
+            for (String server : servers.keySet()) {
+                sender.sendMessage(new TextComponent(ChatColor.DARK_AQUA + server + ":"));
+                for (String player : servers.get(server)) {
+                    sender.sendMessage(new TextComponent(ChatColor.AQUA + player));
+                }
             }
         }
 
-        for (String server : servers.keySet()) {
-            sender.sendMessage(new TextComponent(ChatColor.DARK_AQUA + server + ":"));
-            for (String player : servers.get(server)) {
-                sender.sendMessage(new TextComponent(ChatColor.AQUA + player));
-            }
-        }
     }
-
-}
