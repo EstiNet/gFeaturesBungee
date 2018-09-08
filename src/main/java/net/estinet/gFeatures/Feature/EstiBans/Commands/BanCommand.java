@@ -45,11 +45,11 @@ public class BanCommand extends EstiCommand{
 					sender.sendMessage(new TextComponent(EstiBans.estiBansPrefix + ChatColor.RED + "Player already banned on this server!"));
 				}
 				else{
-					String reason = "";
+					StringBuilder reason = new StringBuilder();
 					for(int i = 2; i < args.length; i++){
-						reason += args[i] + " ";
+						reason.append(args[i]).append(" ");
 					}
-					EstiBans.banPlayer(args[0], args[1], reason);
+					EstiBans.banPlayer(args[0], args[1], reason.toString());
 					sender.sendMessage(new TextComponent(EstiBans.estiBansPrefix + "Banned player " + args[0] + " for a long time on " + args[1] + " because of \"" + reason + "\""));
 				}
 			}

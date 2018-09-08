@@ -73,11 +73,11 @@ public class EstiBans extends gFeature implements Events {
 
     @Override
     public void eventTrigger(Event event) {
-        if (event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("serverconnectevent")) {
+        if (event.getClass().getName().substring(26).equalsIgnoreCase("serverconnectevent")) {
             EventHub.onPlayerJoin((ServerConnectEvent) event);
-        } else if (event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("serverswitchevent")) {
+        } else if (event.getClass().getName().substring(26).equalsIgnoreCase("serverswitchevent")) {
             EventHub.onServerSwitch((ServerSwitchEvent) event);
-        } else if (event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("chatevent")) {
+        } else if (event.getClass().getName().substring(26).equalsIgnoreCase("chatevent")) {
             EventHub.onChat((ChatEvent) event);
         }
     }

@@ -1,11 +1,9 @@
 package net.estinet.gFeatures.API.Resolver;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 /*
 gFeatures
@@ -27,28 +25,22 @@ https://github.com/EstiNet/gFeaturesBungee
 */
 
 public class ResolverFetcher {
-	public static HashMap<String, List<String>> nameData = new HashMap<>();
-	/*
-	 * Caveat: this method fetches previous names as well, so if someone renamed their name
-	 * to someone else's name, it will return the first UUID on the list
-	 * Possible fix: cache all the previous names, and go through the current names first (may be expensive for RAM)
-	 */
-	public static String getUUIDfromName(String name){
-		for(String uuid : nameData.keySet()){
-			List<String> names = nameData.get(uuid);
-			for(int i = 0; i < names.size(); i++){
-				String n = names.get(i);
-				if(n.equals(name)){
-					return uuid;
-				}
-			}
-		}
-		return null;
-	}
-	public static String getNamefromUUID(String uuid){
-		return nameData.get(uuid).get(0);
-	}
-	public static List<String> getAllNames(String uuid){
-		return nameData.get(uuid);
-	}
+    public static HashMap<String, ArrayList<String>> uuidToNames = new HashMap<>(); // UUID to Name
+    public static TreeMap<String, String> nameToUUID = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+
+    public static String getUUIDfromName(String name) {
+        return nameToUUID.get(name);
+    }
+
+    public static String getNamefromUUID(String uuid) {
+        List<String> name = uuidToNames.get(uuid);
+        if (name != null) {
+            return name.get(0);
+        }
+        return null;
+    }
+
+    public static List<String> getAllNames(String uuid) {
+        return uuidToNames.get(uuid);
+    }
 }

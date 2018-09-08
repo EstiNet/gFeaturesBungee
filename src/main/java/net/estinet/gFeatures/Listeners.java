@@ -26,7 +26,7 @@ https://github.com/EstiNet/gFeaturesBungee
 */
 
 public class Listeners extends Plugin {
-    public static final String version = "3.7.0c";
+    public static final String version = "3.7.1c";
     public static boolean debug = false;
 
     Enabler enable = new Enabler();

@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 /*
 gFeatures
@@ -26,29 +26,36 @@ https://github.com/EstiNet/gFeaturesBungee
 */
 
 public class ResolverInit {
-    public static void loadCache(){
+    public static void loadCache() {
         File f = new File("plugins/gFeatures/Resolver");
-        for(File fs : f.listFiles()){
+
+        // Browse through current.txt
+        for (File dir : f.listFiles()) {
             try {
-                FileReader fr = new FileReader(new File(fs.getPath() + "/current.txt"));
+                FileReader fr = new FileReader(new File(dir.getPath() + "/current.txt"));
                 BufferedReader br = new BufferedReader(fr);
-                String curname = br.readLine(), uuid = fs.getName();
-                List<String> names = new ArrayList<>();
-                names.add(curname);
+                String name = br.readLine();
+                ResolverFetcher.nameToUUID.put(name, dir.getName());
+                ResolverFetcher.uuidToNames.put(dir.getName(), new ArrayList<>(Arrays.asList(name)));
                 br.close();
-                FileReader frs = new FileReader(new File(fs.getPath() + "/previous.txt"));
-                BufferedReader brs = new BufferedReader(frs);
-                while(true){
-                    String readline = brs.readLine();
-                    if(readline == null){
-                        break;
-                    }
-                    else{
-                        names.add(readline);
-                    }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Browse through previous.txt
+        for (File dir : f.listFiles()) {
+            try {
+                FileReader fr = new FileReader(new File(dir.getPath() + "/previous.txt"));
+                BufferedReader br = new BufferedReader(fr);
+                while (true) {
+                    String name = br.readLine();
+                    if (name == null) break;
+                    if (ResolverFetcher.nameToUUID.get(name) == null)
+                        ResolverFetcher.nameToUUID.put(name, dir.getName());
+                    ResolverFetcher.uuidToNames.get(dir.getName()).add(name);
                 }
-                brs.close();
-                ResolverFetcher.nameData.put(uuid, names);
+                br.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
