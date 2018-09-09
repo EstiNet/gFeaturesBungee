@@ -9,6 +9,7 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /*
 gFeatures
@@ -45,9 +46,9 @@ public class EstiBansCommand extends EstiCommand {
                 sender.sendMessage(ChatColor.AQUA + "/estibans reload - Reloads from the config.");
 
             } else if (args[0].equalsIgnoreCase("reload")) {
-                EstiBans.bans = new HashMap<>();
-                EstiBans.mutes = new HashMap<>();
-                EstiBans.warnings = new HashMap<>();
+                EstiBans.bans = new ConcurrentHashMap<>();
+                EstiBans.mutes = new ConcurrentHashMap<>();
+                EstiBans.warnings = new ConcurrentHashMap<>();
 
                 ConfigHub.setupConfig();
                 sender.sendMessage(EstiBans.estiBansPrefix + "Completed reload.");

@@ -19,6 +19,7 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
+import net.estinet.gFeatures.API.Logger.Debug;
 import net.estinet.gFeatures.EstiCommand;
 import net.estinet.gFeatures.gFeature;
 import net.md_5.bungee.api.ChatColor;
@@ -60,10 +61,11 @@ public class BListCommand extends EstiCommand {
                 } else {
                     servers.get(sName).add(pp.getName());
                 }
-            } catch (NullPointerException e) { //line 58 }
+            } catch (NullPointerException e) { //line 58
             }
 
             for (String server : servers.keySet()) {
+                Debug.print(server);
                 sender.sendMessage(new TextComponent(ChatColor.DARK_AQUA + server + ":"));
                 for (String player : servers.get(server)) {
                     sender.sendMessage(new TextComponent(ChatColor.AQUA + player));

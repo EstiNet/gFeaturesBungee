@@ -46,16 +46,14 @@ public class JoinHandler {
             } else {
                 ResolverFetcher.uuidToNames.get(p.getUniqueId().toString()).add(0, p.getName());
             }
-            new Thread(() -> {
-                try {
-                    cur.createNewFile();
-                    PrintWriter pw = new PrintWriter(cur);
-                    pw.write(p.getName());
-                    pw.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }).start();
+            try {
+                cur.createNewFile();
+                PrintWriter pw = new PrintWriter(cur);
+                pw.write(p.getName());
+                pw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         if (!pre.exists()) {
             try {

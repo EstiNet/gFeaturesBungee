@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.estinet.gFeatures.API.Logger.Debug;
 import net.estinet.gFeatures.Events;
@@ -51,9 +52,9 @@ https://github.com/EstiNet/gFeaturesBungee
 
 public class EstiBans extends gFeature implements Events {
 
-    public static HashMap<UUID, List<String>> bans = new HashMap<>();
-    public static HashMap<UUID, List<String>> mutes = new HashMap<>();
-    public static HashMap<UUID, List<String>> warnings = new HashMap<>();
+    public static ConcurrentHashMap<UUID, List<String>> bans = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<UUID, List<String>> mutes = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<UUID, List<String>> warnings = new ConcurrentHashMap<>();
 
     public static String estiBansPrefix = ChatColor.BOLD + "[" + ChatColor.DARK_AQUA + "Esti" + ChatColor.GOLD + "Bans" + ChatColor.RESET + "" + ChatColor.BOLD + "] " + ChatColor.RESET + "" + ChatColor.AQUA;
 
@@ -205,8 +206,8 @@ public class EstiBans extends gFeature implements Events {
     }
 
     public static void checkOverdueMutes(UUID uuid) {
-        for (String str : mutes.get(uuid)) {
-
+        for (int i = 0; i < mutes.get(uuid).size(); i++) {
+            String str = mutes.get(uuid).get(i);
             String[] strs = str.split(" ");
             try {
                 if (System.currentTimeMillis() >= Double.parseDouble(strs[0])) {
@@ -269,7 +270,8 @@ public class EstiBans extends gFeature implements Events {
     }
 
     public static void checkOverdueWarnings(UUID uuid) {
-        for (String str : warnings.get(uuid)) {
+        for (int i = 0; i < warnings.get(uuid).size(); i++) {
+            String str = warnings.get(uuid).get(i);
             String[] strs = str.split(" ");
             try {
                 if (System.currentTimeMillis() >= Double.parseDouble(strs[0])) {
@@ -282,7 +284,8 @@ public class EstiBans extends gFeature implements Events {
     }
 
     public static boolean isValidWarnID(UUID uuid, String id) {
-        for (String str : warnings.get(uuid)) {
+        for (int i = 0; i < warnings.get(uuid).size(); i++) {
+            String str = warnings.get(uuid).get(i);
             String[] strs = str.split(" ");
             if (System.currentTimeMillis() >= Double.parseDouble(strs[0])) {
                 unwarnPlayer(uuid, strs[1]);
@@ -297,7 +300,8 @@ public class EstiBans extends gFeature implements Events {
     public static String getNextWarnID(UUID uuid) {
         long[] longs = new long[warnings.size()];
         int i = 0;
-        for (String str : warnings.get(uuid)) {
+        for (int j = 0; j < warnings.get(uuid).size(); j++) {
+            String str = warnings.get(uuid).get(j);
             try {
                 String[] strs = str.split(" ");
                 if (System.currentTimeMillis() >= Double.parseDouble(strs[0])) {
@@ -373,7 +377,7 @@ public class EstiBans extends gFeature implements Events {
         return false;
     }
 
-    public static void dumpFile(HashMap<UUID, List<String>> data, String UUID, File f) {
+    public static void dumpFile(ConcurrentHashMap<UUID, List<String>> data, String UUID, File f) {
         f.delete();
         try {
             f.createNewFile();
@@ -402,7 +406,7 @@ public class EstiBans extends gFeature implements Events {
         return ChatColor.DARK_GRAY + "You are banned! Reason: " + ChatColor.DARK_AQUA + reason + ChatColor.DARK_GRAY + " Time until Unbanning: " + ChatColor.DARK_AQUA + length;
     }
 
-    private static void blankPlayer(HashMap<UUID, List<String>> list, File f, UUID uuid, String server, String millis, String reason) {
+    private static void blankPlayer(ConcurrentHashMap<UUID, List<String>> list, File f, UUID uuid, String server, String millis, String reason) {
         list.get(uuid).add(millis + " " + server + " " + reason);
         PrintWriter pw;
         try {
@@ -414,7 +418,7 @@ public class EstiBans extends gFeature implements Events {
         }
     }
 
-    private static boolean isBlankOn(HashMap<UUID, List<String>> list, UUID uuid, String server, boolean isBans) {
+    private static boolean isBlankOn(ConcurrentHashMap<UUID, List<String>> list, UUID uuid, String server, boolean isBans) {
         try {
             for (String line : list.get(uuid)) {
                 String[] str = line.split(" ");
@@ -444,7 +448,7 @@ public class EstiBans extends gFeature implements Events {
         return false;
     }
 
-    private static String getReason(HashMap<UUID, List<String>> list, UUID uuid, String server) {
+    private static String getReason(ConcurrentHashMap<UUID, List<String>> list, UUID uuid, String server) {
         try {
             for (String line : list.get(uuid)) {
                 String[] str = line.split(" ");
