@@ -64,12 +64,12 @@ public class BListCommand extends EstiCommand {
             } catch (NullPointerException e) { //line 58
             }
 
-            for (String server : servers.keySet()) {
-                Debug.print(server);
-                sender.sendMessage(new TextComponent(ChatColor.DARK_AQUA + server + ":"));
-                for (String player : servers.get(server)) {
-                    sender.sendMessage(new TextComponent(ChatColor.AQUA + player));
-                }
+        }
+        for (String server : servers.keySet()) {
+            Debug.print(server);
+            sender.sendMessage(new TextComponent(ChatColor.DARK_AQUA + server + ":"));
+            for (String player : servers.get(server)) {
+                sender.sendMessage(new TextComponent(ChatColor.AQUA + player));
             }
         }
 
