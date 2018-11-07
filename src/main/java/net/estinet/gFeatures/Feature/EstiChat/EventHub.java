@@ -94,7 +94,7 @@ public class EventHub {
     public void onServerChat(ChatEvent event) {
         if (event.getSender() instanceof ProxiedPlayer && event.getMessage().charAt(0) != '/') {
             ProxiedPlayer p = (ProxiedPlayer) event.getSender();
-            if (p.getServer().getInfo().getName().equals("SurvivalPink")) {
+            if (p.getServer().getInfo().getName().equals("SurvivalPink") || p.getServer().getInfo().getName().equals("SkyAdventures")) {
                 ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(p.getName() + " " + p.getDisplayName() + ": " + event.getMessage()), "chat", "Bungee");
             }
         }
