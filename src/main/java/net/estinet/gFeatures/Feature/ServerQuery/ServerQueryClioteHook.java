@@ -38,7 +38,7 @@ public class ServerQueryClioteHook extends ClioteHook {
     public void run(byte[] data, String clioteName) {
         List<String> args = ClioteSky.parseBytesToStringList(data);
         try {
-            if (!clioteName.equals("Bungee")) {
+            if (!clioteName.contains("Bungee")) {
                 switch (args.get(0)) {
                     case "online":
                         ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("online " + ProxyServer.getInstance().getOnlineCount()), "info", clioteName);
