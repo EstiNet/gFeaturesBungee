@@ -20,7 +20,7 @@ https://github.com/EstiNet/gFeaturesBungee
 */
 
 public class gLoop {
-	public void start(){
+	public static void start(){
 		/*
 		 * Initialize gFeatures Core loops here.
 		 */

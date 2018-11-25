@@ -9,7 +9,7 @@ defaultTasks 'build', 'shadowJar'
 apply plugin: 'java'
 apply plugin: 'maven'
 
-group = 'gFeaturesBungee'
+group = 'gFeaturesProxy'
 version = '3.7.0c'
 
 description = """gFeatures"""
@@ -33,7 +33,7 @@ jar {
 }
 
 repositories {
-     maven { url = "https://oss.sonatype.org/content/repositories/snapshots" }
+     maven { url = "https://repo.velocitypowered.com/snapshots/" }
      maven { url = "http://repo.maven.apache.org/maven2" }
 }
 dependencies {
@@ -43,5 +43,5 @@ dependencies {
     compile 'io.grpc:grpc-protobuf:1.11.0'
     compile 'io.grpc:grpc-stub:1.11.0'
     compile group: 'org.yaml', name: 'snakeyaml', version: '1.21'
-    compileOnly group: 'net.md-5', name: 'bungeecord-api', version:'1.12-SNAPSHOT'
+    compileOnly group: 'com.velocitypowered', name: 'velocity-api', version:'1.0-SNAPSHOT'
 }

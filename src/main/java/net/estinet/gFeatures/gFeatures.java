@@ -1,11 +1,18 @@
 package net.estinet.gFeatures;
 
+import com.velocitypowered.api.plugin.Plugin;
+import com.velocitypowered.api.proxy.ProxyServer;
+import net.estinet.gFeatures.API.Resolver.ResolverInit;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
+import net.estinet.gFeatures.Configuration.LoadConfig;
+import net.estinet.gFeatures.Configuration.SetupConfig;
 import net.md_5.bungee.api.plugin.Command;
 
+import javax.inject.Inject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /*
 gFeatures
@@ -26,11 +33,51 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
+@Plugin(id = "gFeatures", name = "gFeatures", version = "4.0.0p", authors = {"EspiDev"})
 public class gFeatures {
+    public static final String version = "4.0.0p";
+    private static gFeatures gfeatures;
+
+    private final ProxyServer server;
+    private final Logger logger;
+
     public static File f = new File("plugins/gFeatures/Config.yml");
 
     public static List<gFeature> features = new ArrayList<>();
     private static List<EstiCommand> commands = new ArrayList<>();
+
+    @Inject
+    public gFeatures(ProxyServer server, Logger logger) {
+        this.server = server;
+        this.logger = logger;
+        logger.info("_________________________________________________________________________");
+        logger.info("Starting gFeatures.");
+        logger.info("Current version: " + version);
+        logger.info("Starting modules!");
+        gfeatures = this;
+        this.server.getEventManager().register(this, this);
+        try {
+            Setup.onSetup();
+            SetupConfig.setup();
+            LoadConfig.load();
+            ClioteSky.initClioteSky();
+            new Thread(ResolverInit::loadCache).start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Enabler.onEnable();
+        gLoop.start();
+        CommandLibrary.commandEnabler();
+        getProxy().getPluginManager().registerCommand(this, new SlashgFeatures());
+        logger.info("Complete!");
+        logger.info("_________________________________________________________________________");
+    }
+
+    public ProxyServer getProxyServer() { return server; }
+
+    public Logger getLogger() { return logger; }
+
+    public static gFeatures getInstance() { return gfeatures; }
 
     public static void addFeature(gFeature feature) {
         features.add(feature);

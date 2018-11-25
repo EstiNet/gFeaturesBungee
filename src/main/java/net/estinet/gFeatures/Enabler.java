@@ -22,17 +22,16 @@ https://github.com/EstiNet/gFeaturesBungee
 */
 
 public class Enabler {
-	public void onEnable(){
-		List<gFeature> features = gFeatures.getFeatures();
-		for(gFeature feature : features){
-			if(feature.getState().equals(FeatureState.ENABLE)){
-				try{
-					feature.enable();
-				}
-				catch(Exception e){
-					e.printStackTrace();
-				}
-			}
-		}
-	}
+    public static void onEnable() {
+        for (gFeature feature : gFeatures.getFeatures()) {
+            if (feature.isEnabled()) {
+                try {
+                    for (Object listener : feature.getEventListeners()) gFeatures.getInstance().getProxyServer().getEventManager().register(gFeatures.getInstance(), listener);
+                    feature.enable();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }

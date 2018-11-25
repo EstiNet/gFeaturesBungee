@@ -22,7 +22,7 @@ https://github.com/EstiNet/gFeaturesBungee
 */
 
 public class CommandLibrary {
-	public void commandEnabler(){
+	public static void commandEnabler(){
 		for(EstiCommand command : gFeatures.getCommands()){
 			if(gFeatures.getFeature(command.feature.getName()).getState().equals(FeatureState.ENABLE)){
 				ProxyServer.getInstance().getPluginManager().registerCommand(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), command);
