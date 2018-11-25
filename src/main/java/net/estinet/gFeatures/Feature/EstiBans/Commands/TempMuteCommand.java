@@ -1,12 +1,12 @@
 package net.estinet.gFeatures.Feature.EstiBans.Commands;
 
+import com.velocitypowered.api.command.CommandSource;
 import net.estinet.gFeatures.EstiCommand;
-import net.estinet.gFeatures.Listeners;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.Feature.EstiBans.EstiBans;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.estinet.gFeatures.gFeatures;
+import net.kyori.text.TextComponent;
+import net.kyori.text.format.TextColor;
 
 /*
 gFeatures
@@ -30,19 +30,18 @@ https://github.com/EstiNet/gFeaturesBungee
 public class TempMuteCommand extends EstiCommand{
 
 	public TempMuteCommand(gFeature feature) {
-		super("tempmute", "gFeatures.EstiBans.mute", new String[0], feature);
+		super(new String[]{"tempmute"}, "gFeatures.EstiBans.mute", feature);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSource sender, String[] args) {
 		if(args.length < 3){
-			sender.sendMessage(EstiBans.estiBansPrefix + "/tempmute [Player] [Length] [Server] [Reason]");
+			sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("/tempmute [Player] [Length] [Server] [Reason]")));
 		}
 		else{
 			try{
 				if(EstiBans.isMutedOn(args[0], args[1])){
-					sender.sendMessage(new TextComponent(EstiBans.estiBansPrefix + ChatColor.RED + "Player already muted on this server!"));
+					sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("Player already muted on this server!", TextColor.RED)));
 				}
 				else{
 					StringBuilder reason = new StringBuilder();
@@ -71,20 +70,19 @@ public class TempMuteCommand extends EstiCommand{
 						return;
 					}
 					else{
-						sender.sendMessage(new TextComponent(EstiBans.estiBansPrefix + ChatColor.RED + "Incorrect timestamp."));
+						sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("Incorrect timestamp.", TextColor.RED)));
 						return;
 					}
-					sender.sendMessage(new TextComponent(EstiBans.estiBansPrefix + "Muted player " + args[0] + " for " + args[1]) + " on " + args[1] + " because of \"" + reason + "\"");
+					sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("Muted player " + args[0] + " for " + args[1] + " on " + args[1] + " because of \"" + reason + "\"")));
 					EstiBans.mutePlayer(args[0], args[2], Double.toString(time), reason.toString());
 				}
 			}
 			catch(Exception e){
-				if(Listeners.debug){
+				if(gFeatures.debug){
 					e.printStackTrace();
 				}
-				sender.sendMessage(EstiBans.estiBansPrefix + ChatColor.RED + "Error with your input, try again!");
+				sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("Error with your input, try again!", TextColor.RED)));
 			}
 		}
 	}
-
 }

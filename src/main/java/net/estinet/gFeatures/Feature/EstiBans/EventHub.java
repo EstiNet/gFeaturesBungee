@@ -1,17 +1,15 @@
 package net.estinet.gFeatures.Feature.EstiBans;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.event.ChatEvent;
-import net.md_5.bungee.api.event.ServerConnectEvent;
-import net.md_5.bungee.api.event.ServerSwitchEvent;
+import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.player.PlayerChatEvent;
+import com.velocitypowered.api.event.player.ServerPreConnectEvent;
+import com.velocitypowered.api.proxy.Player;
+import net.kyori.text.TextComponent;
+import net.kyori.text.format.TextDecoration;
 
 /*
 gFeatures
@@ -32,54 +30,51 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class EventHub{
-	public static void onPlayerJoin(ServerConnectEvent event){
-		File bans = new File("plugins/gFeatures/EstiBans/playerdata/" + event.getPlayer().getUniqueId() + "-bans");
-		File mutes = new File("plugins/gFeatures/EstiBans/playerdata/" + event.getPlayer().getUniqueId() + "-mutes");
-		File warnings = new File("plugins/gFeatures/EstiBans/playerdata/" + event.getPlayer().getUniqueId() + "-warnings");
-		if(!bans.exists()){
-			try {
-				bans.createNewFile();
-				EstiBans.bans.put(event.getPlayer().getUniqueId(), new ArrayList<>());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		if(!mutes.exists()){
-			try{
-				mutes.createNewFile();
-				EstiBans.mutes.put(event.getPlayer().getUniqueId(), new ArrayList<>());
-			}
-			catch(IOException e){
-				e.printStackTrace();
-			}
-		}
-		if(!warnings.exists()){
-			try{
-				warnings.createNewFile();
-				EstiBans.warnings.put(event.getPlayer().getUniqueId(), new ArrayList<>());
-			}
-			catch(IOException e){
-				e.printStackTrace();
-			}
-		}
-		if(EstiBans.isBannedOn(event.getPlayer().getUniqueId(), event.getTarget().getName())){
-			event.getPlayer().disconnect(new TextComponent(EstiBans.getBanReason(event.getPlayer().getUniqueId(), event.getTarget().getName())));
-			event.setCancelled(true);
-		}
-	}
-	public static void onChat(ChatEvent event){
-		ProxiedPlayer player = (ProxiedPlayer)event.getSender();
-		if(event.getMessage().length() > 0 && event.getMessage().charAt(0) != '/' && EstiBans.isMutedOn(player.getUniqueId(), player.getServer().getInfo().getName())){
-			event.setCancelled(true);
-			TextComponent tc = new TextComponent("You are currently muted on this server! Reason: " + EstiBans.getMuteReason(player.getUniqueId(), player.getServer().getInfo().getName()));
-			tc.setBold(true);
-			player.sendMessage(tc);
-		}
-	}
-	public static void onServerSwitch(ServerSwitchEvent event){
-		if(EstiBans.isBannedOn(event.getPlayer().getUniqueId(), event.getPlayer().getServer().getInfo().getName())){
-			event.getPlayer().disconnect(new TextComponent(EstiBans.getBanReason(event.getPlayer().getUniqueId(), event.getPlayer().getServer().getInfo().getName())));
-		}
-	}
+public class EventHub {
+    @Subscribe
+    public static void onPlayerJoin(ServerPreConnectEvent event) {
+        File bans = new File("plugins/gFeatures/EstiBans/playerdata/" + event.getPlayer().getUniqueId() + "-bans");
+        File mutes = new File("plugins/gFeatures/EstiBans/playerdata/" + event.getPlayer().getUniqueId() + "-mutes");
+        File warnings = new File("plugins/gFeatures/EstiBans/playerdata/" + event.getPlayer().getUniqueId() + "-warnings");
+        if (!bans.exists()) {
+            try {
+                bans.createNewFile();
+                EstiBans.bans.put(event.getPlayer().getUniqueId(), new ArrayList<>());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (!mutes.exists()) {
+            try {
+                mutes.createNewFile();
+                EstiBans.mutes.put(event.getPlayer().getUniqueId(), new ArrayList<>());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (!warnings.exists()) {
+            try {
+                warnings.createNewFile();
+                EstiBans.warnings.put(event.getPlayer().getUniqueId(), new ArrayList<>());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (!event.getResult().getServer().isPresent()) return;
+        if (EstiBans.isBannedOn(event.getPlayer().getUniqueId(), event.getResult().getServer().get().getServerInfo().getName())) {
+            event.getPlayer().disconnect(TextComponent.of(EstiBans.getBanReason(event.getPlayer().getUniqueId(), event.getResult().getServer().get().getServerInfo().getName())));
+            event.setResult(ServerPreConnectEvent.ServerResult.denied());
+        }
+    }
+
+    @Subscribe
+    public static void onChat(PlayerChatEvent event) {
+        Player player = event.getPlayer();
+        if (!player.getCurrentServer().isPresent()) return;
+        if (event.getMessage().length() > 0 && event.getMessage().charAt(0) != '/' && EstiBans.isMutedOn(player.getUniqueId(), player.getCurrentServer().get().getServerInfo().getName())) {
+            event.setResult(PlayerChatEvent.ChatResult.denied());
+            player.sendMessage(TextComponent.of("You are currently muted on this server! Reason: " + EstiBans.getMuteReason(player.getUniqueId(), player.getCurrentServer().get().getServerInfo().getName())).decoration(TextDecoration.BOLD, true));
+        }
+    }
+
 }

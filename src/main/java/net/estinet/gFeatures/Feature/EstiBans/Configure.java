@@ -54,6 +54,7 @@ public class Configure{
 	@Configs
 	public static void onSetup(){
 		EstiBans base = new EstiBans("EstiBans", "1.0.0");
+		base.addEventListener(new EventHub());
 		gFeatures.addFeature(base);
 		
 		gFeatures.addCommand(new BanCommand(base));

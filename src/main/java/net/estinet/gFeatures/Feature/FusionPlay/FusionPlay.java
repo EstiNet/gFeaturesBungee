@@ -74,11 +74,6 @@ public class FusionPlay extends gFeature implements Events {
         }
     }
 
-    @Override
-    @Retrieval
-    public void onPlayerHandshake() {
-    }
-
     public static List<FusionCon> getConnections() {
         return connections;
     }

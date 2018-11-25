@@ -1,6 +1,6 @@
 package net.estinet.gFeatures.Feature.EstiBans;
 
-import net.md_5.bungee.api.ProxyServer;
+import net.estinet.gFeatures.gFeatures;
 
 /*
 gFeatures
@@ -23,7 +23,7 @@ https://github.com/EstiNet/gFeaturesBungee
 
 public class Enable{
 	public static void onEnable(){
-		ProxyServer.getInstance().getLogger().info("[EstiBans] Enabled!");
+		gFeatures.getInstance().getLogger().info("[EstiBans] Enabled!");
 		ConfigHub.setupConfig();
 	}
 }
