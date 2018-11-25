@@ -1,9 +1,9 @@
 package net.estinet.gFeatures.Feature.Base.Commands;
 
+import com.velocitypowered.api.command.CommandSource;
 import net.estinet.gFeatures.EstiCommand;
 import net.estinet.gFeatures.gFeature;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.ProxyServer;
+import net.estinet.gFeatures.gFeatures;
 
 /*
 gFeatures
@@ -27,12 +27,11 @@ https://github.com/EstiNet/gFeaturesBungee
 public class TestCommand extends EstiCommand{
 
 	public TestCommand(gFeature feature) {
-		super("test", "gFeatures.test", new String[0], feature);
+		super(new String[]{"Test"}, "gFeatures.test", feature);
 	}
 
 	@Override
-	public void execute(CommandSender arg0, String[] arg1) {
-		ProxyServer.getInstance().getLogger().info("Test!");
+	public void execute(CommandSource source, String[] args) {
+		gFeatures.getInstance().getLogger().info("Test");
 	}
-	
 }

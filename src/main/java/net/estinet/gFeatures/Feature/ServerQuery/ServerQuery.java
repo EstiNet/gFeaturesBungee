@@ -26,7 +26,7 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class ServerQuery extends gFeature implements Events{
+public class ServerQuery extends gFeature {
 	
 	EventHub eh = new EventHub();
 	
