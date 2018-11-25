@@ -1,5 +1,7 @@
 package net.estinet.gFeatures;
 
+import com.google.common.eventbus.Subscribe;
+import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
 import net.estinet.gFeatures.API.Resolver.ResolverInit;
@@ -64,19 +66,43 @@ public class gFeatures {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Enabler.onEnable();
+
+        // Enable module listeners
+
+        for (gFeature feature : gFeatures.getFeatures()) {
+            if (feature.isEnabled()) {
+                try {
+                    for (Object listener : feature.getEventListeners())
+                        gFeatures.getInstance().getProxyServer().getEventManager().register(gFeatures.getInstance(), listener);
+                    feature.enable();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
         // Enable module commands
 
         for (EstiCommand command : gFeatures.getCommands()) {
             if (gFeatures.getFeature(command.feature.getName()).isEnabled()) {
-                gFeatures.getInstance().getProxyServer().getCommandManager().register(command, command.names);
+                this.server.getCommandManager().register(command, command.names);
             }
         }
 
-        getProxy().getPluginManager().registerCommand(this, new SlashgFeatures());
+        this.server.getCommandManager().register(new SlashgFeatures(), "gfb");
         logger.info("Complete!");
         logger.info("_________________________________________________________________________");
+    }
+
+    @Subscribe
+    void onServerShutdown(ProxyShutdownEvent event) {
+        getLogger().info("_________________________________________________________________________");
+        getLogger().info("Stopping gFeatures!");
+        getLogger().info("Current version: " + version);
+        getLogger().info("Turning off modules!");
+        Disabler.onDisable();
+        getLogger().info("Complete!");
+        getLogger().info("_________________________________________________________________________");
     }
 
     public ProxyServer getProxyServer() { return server; }
@@ -93,27 +119,10 @@ public class gFeatures {
         commands.add(command);
     }
 
-    public static void removeFeature(gFeature feature) {
-        features.remove(feature);
-    }
-
-    public static void removeCommand(EstiCommand command) {
-        commands.remove(command);
-    }
-
     public static gFeature getFeature(String name) {
         for (gFeature feature : features) {
             if (feature.getName().equalsIgnoreCase(name)) {
                 return feature;
-            }
-        }
-        return null;
-    }
-
-    public static Command getCommand(String name) {
-        for (EstiCommand command : commands) {
-            if (command.getName().equalsIgnoreCase(name)) {
-                return command;
             }
         }
         return null;

@@ -24,10 +24,10 @@ https://github.com/EstiNet/gFeaturesBungee
 */
 
 public class Disabler {
-	public void onDisable(){
+	public static void onDisable(){
 		List<gFeature> features = gFeatures.getFeatures();
 		for(gFeature feature : features){
-			if(feature.getState().equals(FeatureState.ENABLE)){
+			if(feature.isEnabled()){
 				try{
 					feature.disable();
 				}catch(Exception e){

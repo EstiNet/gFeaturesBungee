@@ -1,11 +1,11 @@
 package net.estinet.gFeatures;
 
+import com.velocitypowered.api.command.Command;
+import com.velocitypowered.api.command.CommandSource;
 import net.estinet.gFeatures.API.Resolver.ResolverFetcher;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.plugin.Command;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.optional.qual.MaybePresent;
 
 import java.util.List;
 
@@ -28,10 +28,7 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class SlashgFeatures extends Command {
-    public SlashgFeatures() {
-        super("gFeaturesBungee", "gFeatures.admin", "gfb");
-    }
+public class SlashgFeatures implements Command {
 
     public void execute(CommandSender sender, String[] args) {
         try {
@@ -124,5 +121,10 @@ public class SlashgFeatures extends Command {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void execute(CommandSource source, String[] args) {
+
     }
 }
