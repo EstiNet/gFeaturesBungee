@@ -1,9 +1,11 @@
 package net.estinet.gFeatures;
 
 import com.google.common.eventbus.Subscribe;
+import com.velocitypowered.api.event.connection.PostLoginEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
+import net.estinet.gFeatures.API.Resolver.JoinHandler;
 import net.estinet.gFeatures.API.Resolver.ResolverInit;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.estinet.gFeatures.Configuration.LoadConfig;
@@ -104,6 +106,11 @@ public class gFeatures {
         Disabler.onDisable();
         getLogger().info("Complete!");
         getLogger().info("_________________________________________________________________________");
+    }
+
+    @Subscribe
+    void onPostLogin(PostLoginEvent event) {
+        JoinHandler.init(event.getPlayer());
     }
 
     public ProxyServer getProxyServer() { return server; }

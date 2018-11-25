@@ -9,10 +9,7 @@ import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 import io.grpc.netty.shaded.io.netty.handler.ssl.SslProvider;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import net.estinet.gFeatures.API.Logger.Debug;
-import net.estinet.gFeatures.FeatureState;
-import net.estinet.gFeatures.Listeners;
 import net.estinet.gFeatures.gFeatures;
-import net.md_5.bungee.api.ProxyServer;
 
 import javax.net.ssl.*;
 import java.io.*;
@@ -41,14 +38,14 @@ public class ClioteSky {
      */
 
     public static void initClioteSky() {
-        ProxyServer.getInstance().getLogger().info("Starting ClioteSky...");
+        gFeatures.getInstance().getLogger().info("Starting ClioteSky...");
 
         loadConfig();
         if (enabled) {
             clioteSky = new ClioteSky(address, Integer.parseInt(port));
             clioteSky.start();
             clioteSky.startEventLoop();
-            ProxyServer.getInstance().getLogger().info("[ClioteSky] enabled!");
+            gFeatures.getInstance().getLogger().info("[ClioteSky] enabled!");
         }
     }
 
@@ -75,7 +72,7 @@ public class ClioteSky {
             if (f.exists()) {
                 ClioteSky.password = new String(Files.readAllBytes(f.toPath()));
             } else {
-                ProxyServer.getInstance().getLogger().info("No masterkey.key file found! Please add the key file.");
+                gFeatures.getInstance().getLogger().info("No masterkey.key file found! Please add the key file.");
                 f.createNewFile();
             }
 
@@ -160,15 +157,15 @@ public class ClioteSky {
         try {
             boolean nameTaken = blockingStub.checkNameTaken(net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String.newBuilder().setStr(name).build()).getB();
             if (nameTaken) {
-                ProxyServer.getInstance().getLogger().warning("ClioteSky name has already been taken. Be careful!");
+                gFeatures.getInstance().getLogger().warning("ClioteSky name has already been taken. Be careful!");
             }
             authToken = blockingStub.auth(req).getToken();
-            ProxyServer.getInstance().getLogger().info("[ClioteSky] Authenticated!");
+            gFeatures.getInstance().getLogger().info("[ClioteSky] Authenticated!");
         } catch (StatusRuntimeException e) {
-            ProxyServer.getInstance().getLogger().severe("[ClioteSky] RPC failed: " + e.getStatus());
+            gFeatures.getInstance().getLogger().severe("[ClioteSky] RPC failed: " + e.getStatus());
         }
         channel.notifyWhenStateChanged(ConnectivityState.READY, () -> {
-            ProxyServer.getInstance().getLogger().warning("[ClioteSky] RPC state changed: " + channel.getState(true));
+            gFeatures.getInstance().getLogger().warning("[ClioteSky] RPC state changed: " + channel.getState(true));
         });
     }
 
@@ -202,8 +199,8 @@ public class ClioteSky {
 
                         for (ClioteHook hook : clioteHookList) {
                             //check if cliotehook has matching identifier, and call
-                            if (hook.identifier.equals(m.getIdentifier()) && gFeatures.getFeature(hook.gFeatureName).getState() == FeatureState.ENABLE) {
-                                ProxyServer.getInstance().getScheduler().runAsync(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), () -> hook.run(m.getData().toByteArray(), m.getSender()));
+                            if (hook.identifier.equals(m.getIdentifier()) && gFeatures.getFeature(hook.gFeatureName).isEnabled()) {
+                                gFeatures.getInstance().getProxyServer().getScheduler().buildTask(gFeatures.getInstance(), () -> hook.run(m.getData().toByteArray(), m.getSender()));
                             }
                         }
                     }
@@ -214,20 +211,20 @@ public class ClioteSky {
 
                     if (e.getStatus().getDescription().equals("io exception")) {
                         if (!offline) {
-                            ProxyServer.getInstance().getLogger().severe("[ClioteSky] Can't establish connection to server!");
+                            gFeatures.getInstance().getLogger().severe("[ClioteSky] Can't establish connection to server!");
                         }
                         offline = true;
-                        printError = Listeners.debug;
+                        printError = gFeatures.debug;
                     }
 
                     if (printError)
-                        ProxyServer.getInstance().getLogger().severe("[ClioteSky] RPC failed!: " + e.getStatus());
+                        gFeatures.getInstance().getLogger().severe("[ClioteSky] RPC failed!: " + e.getStatus());
                     if (e.getStatus().getDescription().equals("invalid authentication token")) {
                         start();
                     }
                 } catch (NullPointerException e) { // if the initial connection couldn't be reached on server start
-                    if (Listeners.debug) {
-                        ProxyServer.getInstance().getLogger().severe("Can't establish connection with server. Attempting again...");
+                    if (gFeatures.debug) {
+                        gFeatures.getInstance().getLogger().severe("Can't establish connection with server. Attempting again...");
                         e.printStackTrace();
                     }
                     initConnection(ClioteSky.address, Integer.parseInt(ClioteSky.port));
@@ -265,7 +262,7 @@ public class ClioteSky {
             Debug.print("[ClioteSky] sent " + identifier + " to " + recipient);
             blockingStub.send(ClioteSkyRPC.ClioteSend.newBuilder().setData(ByteString.copyFrom(data)).setIdentifier(identifier).setRecipient(recipient).setToken(this.authToken).build());
         } catch (StatusRuntimeException e) {
-            ProxyServer.getInstance().getLogger().severe("[ClioteSky] RPC failed: " + e.getStatus());
+            gFeatures.getInstance().getLogger().severe("[ClioteSky] RPC failed: " + e.getStatus());
         }
     }
 
@@ -274,6 +271,6 @@ public class ClioteSky {
      */
 
     public void sendAsync(byte[] data, String identifier, String recipient) {
-        ProxyServer.getInstance().getScheduler().runAsync(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), () -> send(data, identifier, recipient));
+        gFeatures.getInstance().getProxyServer().getScheduler().buildTask(gFeatures.getInstance(), () -> send(data, identifier, recipient));
     }
 }

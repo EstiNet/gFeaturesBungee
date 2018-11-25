@@ -1,7 +1,6 @@
 package net.estinet.gFeatures.API.Logger;
 
-import net.estinet.gFeatures.Listeners;
-import net.md_5.bungee.api.ProxyServer;
+import net.estinet.gFeatures.gFeatures;
 
 /*
 gFeatures
@@ -24,8 +23,8 @@ https://github.com/EstiNet/gFeaturesBungee
 
 public class Debug {
 	public static void print(String str){
-		if(Listeners.debug){
-			ProxyServer.getInstance().getLogger().info("[Debug] " + str);
+		if(gFeatures.debug){
+			gFeatures.getInstance().getLogger().info("[Debug] " + str);
 		} 
 	}
 }
