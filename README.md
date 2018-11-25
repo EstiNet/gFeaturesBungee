@@ -1,6 +1,5 @@
 
 # gFeatures (Proxy)
-
 This is what runs on EstiNet's Velocity instance, for our custom services.
 
 ## Version
