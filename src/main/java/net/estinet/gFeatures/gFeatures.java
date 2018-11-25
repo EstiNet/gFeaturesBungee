@@ -6,7 +6,6 @@ import net.estinet.gFeatures.API.Resolver.ResolverInit;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.estinet.gFeatures.Configuration.LoadConfig;
 import net.estinet.gFeatures.Configuration.SetupConfig;
-import net.md_5.bungee.api.plugin.Command;
 
 import javax.inject.Inject;
 import java.io.File;
@@ -66,8 +65,15 @@ public class gFeatures {
             e.printStackTrace();
         }
         Enabler.onEnable();
-        gLoop.start();
-        CommandLibrary.commandEnabler();
+
+        // Enable module commands
+
+        for (EstiCommand command : gFeatures.getCommands()) {
+            if (gFeatures.getFeature(command.feature.getName()).isEnabled()) {
+                gFeatures.getInstance().getProxyServer().getCommandManager().register(command, command.names);
+            }
+        }
+
         getProxy().getPluginManager().registerCommand(this, new SlashgFeatures());
         logger.info("Complete!");
         logger.info("_________________________________________________________________________");
