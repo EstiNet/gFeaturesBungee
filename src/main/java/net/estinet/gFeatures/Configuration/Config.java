@@ -3,8 +3,7 @@ package net.estinet.gFeatures.Configuration;
 import java.io.File;
 import java.io.IOException;
 
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.ProxyServer;
+import net.estinet.gFeatures.gFeatures;
 
 /*
 gFeatures
@@ -30,7 +29,7 @@ public class Config {
         File f = new File(path);
         if (!(f.isDirectory())) {
             f.mkdir();
-            ProxyServer.getInstance().getLogger().info(ChatColor.GOLD + "[gFeatures] " + message);
+            gFeatures.getInstance().getLogger().info("[gFeatures] " + message);
         }
     }
 
@@ -42,7 +41,7 @@ public class Config {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            ProxyServer.getInstance().getLogger().info(ChatColor.GOLD + "[gFeatures] " + message);
+            gFeatures.getInstance().getLogger().info("[gFeatures] " + message);
         }
     }
 }

@@ -1,6 +1,5 @@
 package net.estinet.gFeatures.Configuration;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import net.estinet.gFeatures.FeatureState;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.gFeatures;
 
@@ -51,9 +49,9 @@ public class LoadConfig {
                 List<gFeature> featur = new ArrayList<>();
                 for (gFeature feature : features) {
                     if ((prop.getProperty("Plugins." + feature.getName()).equals("true"))) {
-                        feature.setState(FeatureState.ENABLE);
+                        feature.setEnabled(true);
                     } else {
-                        feature.setState(FeatureState.DISABLE);
+                        feature.setEnabled(false);
                     }
                     featur.add(feature);
                 }
