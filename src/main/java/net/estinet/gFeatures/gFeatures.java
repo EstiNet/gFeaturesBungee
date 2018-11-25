@@ -37,6 +37,7 @@ https://github.com/EstiNet/gFeaturesBungee
 @Plugin(id = "gFeatures", name = "gFeatures", version = "4.0.0p", authors = {"EspiDev"})
 public class gFeatures {
     public static final String version = "4.0.0p";
+    public static boolean debug = false;
     private static gFeatures gfeatures;
 
     private final ProxyServer server;
