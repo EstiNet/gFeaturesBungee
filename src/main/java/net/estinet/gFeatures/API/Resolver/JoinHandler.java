@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import net.md_5.bungee.api.connection.ProxiedPlayer;
+import com.velocitypowered.api.proxy.Player;
 
 /*
 gFeatures
@@ -30,7 +30,7 @@ https://github.com/EstiNet/gFeaturesBungee
 */
 
 public class JoinHandler {
-    public void init(ProxiedPlayer p) {
+    public static void init(Player p) {
         File f = new File("plugins/gFeatures/Resolver/" + p.getUniqueId() + "/");
         File cur = new File("plugins/gFeatures/Resolver/" + p.getUniqueId() + "/current.txt");
         File pre = new File("plugins/gFeatures/Resolver/" + p.getUniqueId() + "/previous.txt");
@@ -40,16 +40,16 @@ public class JoinHandler {
             f.mkdir();
         }
         if (!cur.exists()) {
-            ResolverFetcher.nameToUUID.put(p.getName(), p.getUniqueId().toString());
+            ResolverFetcher.nameToUUID.put(p.getUsername(), p.getUniqueId().toString());
             if (ResolverFetcher.uuidToNames.get(p.getUniqueId().toString()) == null) {
-                ResolverFetcher.uuidToNames.put(p.getUniqueId().toString(), new ArrayList<>(Arrays.asList(p.getName())));
+                ResolverFetcher.uuidToNames.put(p.getUniqueId().toString(), new ArrayList<>(Arrays.asList(p.getUsername())));
             } else {
-                ResolverFetcher.uuidToNames.get(p.getUniqueId().toString()).add(0, p.getName());
+                ResolverFetcher.uuidToNames.get(p.getUniqueId().toString()).add(0, p.getUsername());
             }
             try {
                 cur.createNewFile();
                 PrintWriter pw = new PrintWriter(cur);
-                pw.write(p.getName());
+                pw.write(p.getUsername());
                 pw.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -69,19 +69,19 @@ public class JoinHandler {
             BufferedReader br = new BufferedReader(fr);
             String status = br.readLine();
             if (status != null) {
-                if (!status.equals(p.getName())) {
-                    ResolverFetcher.nameToUUID.put(p.getName(), p.getUniqueId().toString());
+                if (!status.equals(p.getUsername())) {
+                    ResolverFetcher.nameToUUID.put(p.getUsername(), p.getUniqueId().toString());
                     if (ResolverFetcher.uuidToNames.get(p.getUniqueId().toString()) == null) {
-                        ResolverFetcher.uuidToNames.put(p.getUniqueId().toString(), new ArrayList<>(Arrays.asList(p.getName())));
+                        ResolverFetcher.uuidToNames.put(p.getUniqueId().toString(), new ArrayList<>(Arrays.asList(p.getUsername())));
                     } else {
-                        ResolverFetcher.uuidToNames.get(p.getUniqueId().toString()).add(0, p.getName());
+                        ResolverFetcher.uuidToNames.get(p.getUniqueId().toString()).add(0, p.getUsername());
                     }
                     new Thread(() -> {
                         try {
                             cur.delete();
                             cur.createNewFile();
                             PrintWriter pw = new PrintWriter(cur);
-                            pw.write(p.getName());
+                            pw.write(p.getUsername());
                             pw.close();
                             PrintWriter pws = new PrintWriter(pre);
                             pws.write(status + "\n");

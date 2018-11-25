@@ -1,12 +1,12 @@
 package net.estinet.gFeatures.Feature.EstiBans.Commands;
 
+import com.velocitypowered.api.command.CommandSource;
 import net.estinet.gFeatures.EstiCommand;
-import net.estinet.gFeatures.Listeners;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.Feature.EstiBans.EstiBans;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.estinet.gFeatures.gFeatures;
+import net.kyori.text.TextComponent;
+import net.kyori.text.format.TextColor;
 
 /*
 gFeatures
@@ -30,19 +30,18 @@ https://github.com/EstiNet/gFeaturesBungee
 public class BanCommand extends EstiCommand{
 
 	public BanCommand(gFeature feature) {
-		super("ban", "gFeatures.EstiBans.ban", new String[0], feature);
+		super(new String[]{"ban"}, "gFeatures.EstiBans.ban", feature);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSource sender, String[] args) {
 		if(args.length < 3){
-			sender.sendMessage(EstiBans.estiBansPrefix + "/ban [Player] [Server] [Reason]");
+			sender.sendMessage(TextComponent.of(EstiBans.estiBansPrefix + "/ban [Player] [Server] [Reason]"));
 		}
 		else{
 			try{
 				if(EstiBans.isBannedOn(args[0], args[1])){
-					sender.sendMessage(new TextComponent(EstiBans.estiBansPrefix + ChatColor.RED + "Player already banned on this server!"));
+					sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of( "Player already banned on this server!", TextColor.RED)));
 				}
 				else{
 					StringBuilder reason = new StringBuilder();
@@ -50,14 +49,14 @@ public class BanCommand extends EstiCommand{
 						reason.append(args[i]).append(" ");
 					}
 					EstiBans.banPlayer(args[0], args[1], reason.toString());
-					sender.sendMessage(new TextComponent(EstiBans.estiBansPrefix + "Banned player " + args[0] + " for a long time on " + args[1] + " because of \"" + reason + "\""));
+					sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("Banned player " + args[0] + " for a long time on " + args[1] + " because of \"" + reason + "\"")));
 				}
 			}
 			catch(Exception e){
-				if(Listeners.debug){
+				if(gFeatures.debug){
 					e.printStackTrace();
 				}
-				sender.sendMessage(EstiBans.estiBansPrefix + ChatColor.RED + "Error with your input, try again!");
+				sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("Error with your input, try again!", TextColor.RED)));
 			}
 		}
 	}

@@ -1,10 +1,9 @@
 package net.estinet.gFeatures.Feature.Base;
 
-import net.estinet.gFeatures.Events;
-import net.estinet.gFeatures.Retrieval;
+import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.connection.PostLoginEvent;
 import net.estinet.gFeatures.gFeature;
-import net.md_5.bungee.api.event.PlayerHandshakeEvent;
-import net.md_5.bungee.api.plugin.Event;
+import net.estinet.gFeatures.gFeatures;
 
 /*
 gFeatures
@@ -25,9 +24,7 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class Base extends gFeature implements Events {
-
-    EventHub eh = new EventHub();
+public class Base extends gFeature {
 
     public Base(String featurename, String d) {
         super(featurename, d);
@@ -43,15 +40,8 @@ public class Base extends gFeature implements Events {
         Disable.onDisable();
     }
 
-    @Override
-    public void eventTrigger(Event event) {
-        if (event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("playerhandshakeevent")) {
-            eh.onPlayerJoin((PlayerHandshakeEvent) event);
-        }
-    }
-
-    @Override
-    @Retrieval
-    public void onPlayerHandshake() {
+    @Subscribe
+    public void onPlayerJoin(PostLoginEvent event){
+        gFeatures.getInstance().getLogger().info("Player Joined!");
     }
 }

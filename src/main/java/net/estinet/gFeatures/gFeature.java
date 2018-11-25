@@ -1,6 +1,8 @@
 package net.estinet.gFeatures;
 
-import net.md_5.bungee.api.plugin.Event;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /*
 gFeatures
@@ -21,54 +23,33 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class gFeature{
+public abstract class gFeature{
 	private String name;
 	private String version;
-	private FeatureState state;
-	private String commandlabel;
-	
+	private boolean isEnabled;
+	private ArrayList<Object> eventListeners = new ArrayList<>(Arrays.asList(this));
+
 	public gFeature(String featurename, String d){
 		name = featurename;
 		version = d;
 	}
-	public void setName(String featurename){
-		name = featurename;
-		return;
-	}
-	public void setVersion(String featureversion){
-		version = featureversion;
-		return;
-	}
-	public void setState(FeatureState states){
-		state = states;
-		return;
-	}
-	public void setCommandLabel(String label){
-		commandlabel = label;
-		return;
-	}
-	public String getName(){
-		return name;
-	}
-	public String getVersion(){
-		return version;
-	}
-	public FeatureState getState(){
-		return state;
-	}
-	public String getCommandLabel(){
-		return commandlabel;
-	}
-	public void enable(){}
-	public void disable(){}
-	public void eventTrigger(Event event){}
-	public void onPlayerHandshake(){}
-	public void onPlayerDisconnect(){}
-	public void onServerSwitch(){}
-	public void onPostLogin(){}
-	public void onServerConnect(){}
-	public void onPreLogin(){}
-	public void onLogin(){}
-	public void onChat(){}
-	public void onServerConnected(){}
+	public void setName(String featurename){ this.name = featurename; }
+
+	public void setVersion(String featureversion){ this.version = featureversion; }
+
+	public void setEnabled(boolean enabled){ this.isEnabled = enabled; }
+
+	public void addEventListener(Object eventListener) { this.eventListeners.add(eventListener); }
+
+	public String getName(){ return this.name; }
+
+	public String getVersion(){ return this.version; }
+
+	public boolean isEnabled(){ return this.isEnabled; }
+
+	public List<Object> getEventListeners() { return eventListeners; }
+
+	public abstract void enable();
+
+	public abstract void disable();
 }

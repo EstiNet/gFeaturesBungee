@@ -1,35 +1,24 @@
 package net.estinet.gFeatures.Feature.EstiBans;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.velocitypowered.api.proxy.Player;
+import com.velocitypowered.api.proxy.ProxyServer;
 import net.estinet.gFeatures.API.Logger.Debug;
-import net.estinet.gFeatures.Events;
-import net.estinet.gFeatures.Listeners;
-import net.estinet.gFeatures.Retrieval;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.API.Resolver.ResolverFetcher;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.event.ChatEvent;
-import net.md_5.bungee.api.event.ServerConnectEvent;
-import net.md_5.bungee.api.event.ServerSwitchEvent;
-import net.md_5.bungee.api.plugin.Event;
+import net.estinet.gFeatures.gFeatures;
+import net.kyori.text.TextComponent;
+import net.kyori.text.format.TextColor;
+import net.kyori.text.format.TextDecoration;
 
 /*
 gFeatures
@@ -50,13 +39,16 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class EstiBans extends gFeature implements Events {
+public class EstiBans extends gFeature {
 
     public static ConcurrentHashMap<UUID, List<String>> bans = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<UUID, List<String>> mutes = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<UUID, List<String>> warnings = new ConcurrentHashMap<>();
 
-    public static String estiBansPrefix = ChatColor.BOLD + "[" + ChatColor.DARK_AQUA + "Esti" + ChatColor.GOLD + "Bans" + ChatColor.RESET + "" + ChatColor.BOLD + "] " + ChatColor.RESET + "" + ChatColor.AQUA;
+    public static TextComponent estiBansPrefix = TextComponent.of("[").decoration(TextDecoration.BOLD, true).
+            append(TextComponent.of("Esti", TextColor.DARK_AQUA).decoration(TextDecoration.BOLD, true)).
+            append(TextComponent.of("Bans", TextColor.GOLD).decoration(TextDecoration.BOLD, true)).
+            append(TextComponent.of("] ").decoration(TextDecoration.BOLD, true));
 
     public EstiBans(String featurename, String d) {
         super(featurename, d);
@@ -70,32 +62,6 @@ public class EstiBans extends gFeature implements Events {
     @Override
     public void disable() {
         Disable.onDisable();
-    }
-
-    @Override
-    public void eventTrigger(Event event) {
-        if (event.getClass().getName().substring(26).equalsIgnoreCase("serverconnectevent")) {
-            EventHub.onPlayerJoin((ServerConnectEvent) event);
-        } else if (event.getClass().getName().substring(26).equalsIgnoreCase("serverswitchevent")) {
-            EventHub.onServerSwitch((ServerSwitchEvent) event);
-        } else if (event.getClass().getName().substring(26).equalsIgnoreCase("chatevent")) {
-            EventHub.onChat((ChatEvent) event);
-        }
-    }
-
-    @Override
-    @Retrieval
-    public void onServerConnect() {
-    }
-
-    @Override
-    @Retrieval
-    public void onServerSwitch() {
-    }
-
-    @Override
-    @Retrieval
-    public void onChat() {
     }
 
     public static boolean isBannedOn(String name, String server) {
@@ -142,9 +108,10 @@ public class EstiBans extends gFeature implements Events {
     }
 
     public static void banPlayer(UUID uuid, String server, String reason) {
+        ProxyServer proxyServer = gFeatures.getInstance().getProxyServer();
         try {
-            if (isOnServer(ProxyServer.getInstance().getPlayer(uuid), server)) {
-                ProxyServer.getInstance().getPlayer(uuid).disconnect(new TextComponent(getProperBanReason(reason, "never")));
+            if (proxyServer.getPlayer(uuid).isPresent() && isOnServer(proxyServer.getPlayer(uuid).get(), server)) {
+                proxyServer.getPlayer(uuid).get().disconnect(getProperBanReason(reason, "never"));
             }
         } catch (Exception e) {
         }
@@ -160,9 +127,10 @@ public class EstiBans extends gFeature implements Events {
         Date date = new Date((long) (millis - System.currentTimeMillis()));
         DateFormat formatter = new SimpleDateFormat("HH:mm:ss:SSS");
         String dateFormatted = formatter.format(date);
+        ProxyServer proxyServer = gFeatures.getInstance().getProxyServer();
         try {
-            if (isOnServer(ProxyServer.getInstance().getPlayer(uuid), server)) {
-                ProxyServer.getInstance().getPlayer(uuid).disconnect(new TextComponent(getProperBanReason(reason, dateFormatted)));
+            if (proxyServer.getPlayer(uuid).isPresent() && isOnServer(proxyServer.getPlayer(uuid).get(), server)) {
+                proxyServer.getPlayer(uuid).get().disconnect(getProperBanReason(reason, dateFormatted));
             }
         } catch (Exception e) {
         }
@@ -354,27 +322,23 @@ public class EstiBans extends gFeature implements Events {
 
     @SuppressWarnings("deprecation")
     public static void kickPlayer(String name, String reason) {
-        ProxyServer.getInstance().getPlayer(name).disconnect(reason);
+        if (!gFeatures.getInstance().getProxyServer().getPlayer(name).isPresent()) return;
+        gFeatures.getInstance().getProxyServer().getPlayer(name).get().disconnect(TextComponent.of(reason));
     }
 
     public static boolean isServer(String server) {
         if (server.equalsIgnoreCase("all")) {
             return true;
         }
-        if (ProxyServer.getInstance().getServerInfo(server) != null) {
-            return true;
-        }
-        return false;
+        return gFeatures.getInstance().getProxyServer().getServer(server).isPresent();
     }
 
-    public static boolean isOnServer(ProxiedPlayer player, String server) {
+    public static boolean isOnServer(Player player, String server) {
         if (server.equalsIgnoreCase("all")) {
             return true;
         }
-        if (player.getServer().getInfo().getName().equals(server)) {
-            return true;
-        }
-        return false;
+        if (!player.getCurrentServer().isPresent()) return false;
+        return player.getCurrentServer().get().getServerInfo().getName().equals(server);
     }
 
     public static void dumpFile(ConcurrentHashMap<UUID, List<String>> data, String UUID, File f) {
@@ -392,7 +356,7 @@ public class EstiBans extends gFeature implements Events {
                     pw.write(value);
                 }
             } catch (NullPointerException e) {
-                if (Listeners.debug) {
+                if (gFeatures.debug) {
                     e.printStackTrace();
                 }
             }
@@ -402,8 +366,11 @@ public class EstiBans extends gFeature implements Events {
         }
     }
 
-    public static String getProperBanReason(String reason, String length) {
-        return ChatColor.DARK_GRAY + "You are banned! Reason: " + ChatColor.DARK_AQUA + reason + ChatColor.DARK_GRAY + " Time until Unbanning: " + ChatColor.DARK_AQUA + length;
+    public static TextComponent getProperBanReason(String reason, String length) {
+        return TextComponent.of("You are banned! Reason: ", TextColor.DARK_GRAY).
+                append(TextComponent.of(reason, TextColor.DARK_AQUA)).
+                append(TextComponent.of(" Time until Unbanning: ", TextColor.DARK_GRAY)).
+                append(TextComponent.of(length, TextColor.DARK_AQUA));
     }
 
     private static void blankPlayer(ConcurrentHashMap<UUID, List<String>> list, File f, UUID uuid, String server, String millis, String reason) {

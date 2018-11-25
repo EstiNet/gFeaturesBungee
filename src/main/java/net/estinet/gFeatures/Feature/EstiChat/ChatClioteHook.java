@@ -2,12 +2,13 @@ package net.estinet.gFeatures.Feature.EstiChat;
 
 import java.util.List;
 
+import com.velocitypowered.api.proxy.Player;
+import com.velocitypowered.api.proxy.ProxyServer;
 import net.estinet.gFeatures.ClioteSky.ClioteHook;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
-import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.API.Logger.Debug;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.estinet.gFeatures.gFeatures;
+import net.kyori.text.TextComponent;
 
 /*
 gFeatures
@@ -41,17 +42,23 @@ public class ChatClioteHook extends ClioteHook {
         try {
             String name = args.get(0);
             args.remove(0);
-            String servername = EstiChat.getServerName(ProxyServer.getInstance().getPlayer(name).getServer().getInfo().getName());
+            ProxyServer proxyServer = gFeatures.getInstance().getProxyServer();
+            String servername;
+            if (!proxyServer.getPlayer(name).isPresent() || !proxyServer.getPlayer(name).get().getCurrentServer().isPresent()) {
+                servername = "";
+            } else {
+                servername = EstiChat.getServerName(proxyServer.getPlayer(name).get().getCurrentServer().get().getServerInfo().getName());
+            }
             StringBuilder mgs = new StringBuilder();
             for (String arg : args) {
                 mgs.append(arg).append(" ");
             }
 
-            ProxyServer.getInstance().getLogger().info(mgs.toString());
-            for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                if (!EstiChat.getServerName(player.getServer().getInfo().getName()).equalsIgnoreCase(servername)) {
-                    player.sendMessage("[" + servername + "] " + mgs);
-                    Debug.print("[EstiChat] Sent player " + player.getName() + " " + "[" + servername + "] " + mgs);
+            gFeatures.getInstance().getLogger().info(mgs.toString());
+            for (Player player : proxyServer.getAllPlayers()) {
+                if (player.getCurrentServer().isPresent() && !EstiChat.getServerName(player.getCurrentServer().get().getServerInfo().getName()).equalsIgnoreCase(servername)) {
+                    player.sendMessage(TextComponent.of("[" + servername + "] " + mgs));
+                    Debug.print("[EstiChat] Sent player " + player.getUsername() + " " + "[" + servername + "] " + mgs);
                 }
             }
             ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(servername + " " + mgs), "consolechat", "all");

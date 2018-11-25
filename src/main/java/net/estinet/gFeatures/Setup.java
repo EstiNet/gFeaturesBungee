@@ -20,7 +20,7 @@ https://github.com/EstiNet/gFeaturesBungee
 */
 
 public class Setup {
-	public void onSetup() {
+	public static void onSetup() {
 		//Well, unfortunate part of the API :(
 
 		/*

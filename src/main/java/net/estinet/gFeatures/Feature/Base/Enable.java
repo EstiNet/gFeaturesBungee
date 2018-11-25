@@ -1,6 +1,6 @@
 package net.estinet.gFeatures.Feature.Base;
 
-import net.md_5.bungee.api.ProxyServer;
+import net.estinet.gFeatures.gFeatures;
 
 /*
 gFeatures
@@ -23,7 +23,7 @@ https://github.com/EstiNet/gFeaturesBungee
 
 public class Enable{
 	public static void onEnable(){
-		ProxyServer.getInstance().getLogger().info("Base Plugin enabled!");
+		gFeatures.getInstance().getLogger().info("Base Plugin enabled!");
 		ConfigHub.setupConfig();
 	}
 }

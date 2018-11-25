@@ -2,14 +2,17 @@ package net.estinet.gFeatures.Feature.Alerts;
 
 import java.util.List;
 
+import com.velocitypowered.api.proxy.Player;
+import com.velocitypowered.api.proxy.ProxyServer;
+import com.velocitypowered.api.util.title.TextTitle;
+import com.velocitypowered.api.util.title.Title;
 import net.estinet.gFeatures.ClioteSky.ClioteHook;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
-import net.estinet.gFeatures.gFeature;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.Title;
+import net.estinet.gFeatures.gFeatures;
+import net.kyori.text.TextComponent;
+import net.kyori.text.format.TextColor;
+import net.kyori.text.format.TextDecoration;
+import net.kyori.text.serializer.ComponentSerializers;
 
 /*
 gFeatures
@@ -47,15 +50,19 @@ public class AlertClioteHook extends ClioteHook {
             for (String add : args) {
                 message.append(add).append(" ");
             }
-            TextComponent tc = new TextComponent(message.toString());
+            TextComponent title = TextComponent.of("[").decoration(TextDecoration.BOLD, true).
+                    append(TextComponent.of("Alert").color(TextColor.RED).resetStyle().
+                            append(TextComponent.of("]").decoration(TextDecoration.BOLD, true)));
 
-            Title bt = ProxyServer.getInstance().createTitle().reset();
-            bt.title(new TextComponent(ChatColor.BOLD + "[" + ChatColor.RED + "Alert" + ChatColor.RESET + "" + ChatColor.BOLD + "]"));
-            bt.fadeIn(20);
-            bt.stay(40);
-            bt.fadeOut(20);
-            bt.subTitle(tc);
-            for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
+            TextTitle bt = TextTitle.builder().
+                    title(title).
+                    subtitle(TextComponent.of(message.toString())).
+                    fadeIn(20).
+                    stay(40).
+                    fadeOut(20).
+                    build();
+
+            for (Player p : gFeatures.getInstance().getProxyServer().getAllPlayers()) {
                 p.sendTitle(bt);
             }
         } catch (Exception e) {

@@ -1,10 +1,6 @@
 package net.estinet.gFeatures.Feature.BList;
 
-import net.estinet.gFeatures.Events;
-import net.estinet.gFeatures.Retrieval;
 import net.estinet.gFeatures.gFeature;
-import net.md_5.bungee.api.event.PlayerHandshakeEvent;
-import net.md_5.bungee.api.plugin.Event;
 
 /*
 gFeatures
@@ -25,7 +21,7 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class BList extends gFeature implements Events {
+public class BList extends gFeature {
 
     BList(String featurename, String d) {
         super(featurename, d);
@@ -41,7 +37,4 @@ public class BList extends gFeature implements Events {
         Disable.onDisable();
     }
 
-    @Override
-    public void eventTrigger(Event event) {
-    }
 }

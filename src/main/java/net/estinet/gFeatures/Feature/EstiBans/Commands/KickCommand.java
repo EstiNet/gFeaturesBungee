@@ -1,10 +1,11 @@
 package net.estinet.gFeatures.Feature.EstiBans.Commands;
 
+import com.velocitypowered.api.command.CommandSource;
 import net.estinet.gFeatures.EstiCommand;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.Feature.EstiBans.EstiBans;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.ProxyServer;
+import net.estinet.gFeatures.gFeatures;
+import net.kyori.text.TextComponent;
 
 /*
 gFeatures
@@ -25,30 +26,27 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class KickCommand extends EstiCommand{
+public class KickCommand extends EstiCommand {
 
-	public KickCommand(gFeature feature) {
-		super("kick", "gFeatures.EstiBans.kick", new String[0], feature);
-	}
+    public KickCommand(gFeature feature) {
+        super(new String[]{"kick"}, "gFeatures.EstiBans.kick", feature);
+    }
 
-	@SuppressWarnings("deprecation")
-	@Override
-	public void execute(CommandSender sender, String[] args) {
-		if(args.length < 2){
-			sender.sendMessage(EstiBans.estiBansPrefix + "/kick [Player] [Reason]");
-		}
-		else{
-			if(ProxyServer.getInstance().getPlayer(args[0]) == null){
-				sender.sendMessage(EstiBans.estiBansPrefix + "No one is online with that username.");
-			}
-			else{
-				StringBuilder reason = new StringBuilder();
-				for(int i = 1; i < args.length; i++){
-					reason.append(args[i]).append(" ");
-				}
-				EstiBans.kickPlayer(args[0], reason.toString());
-				sender.sendMessage(EstiBans.estiBansPrefix + "Kicked Player " + args[0] + " for \"" + reason + "\"");
-			}
-		}
-	}	
+    @Override
+    public void execute(CommandSource sender, String[] args) {
+        if (args.length < 2) {
+            sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("/kick [Player] [Reason]")));
+        } else {
+            if (!gFeatures.getInstance().getProxyServer().getPlayer(args[0]).isPresent()) {
+                sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("No one is online with that username.")));
+            } else {
+                StringBuilder reason = new StringBuilder();
+                for (int i = 1; i < args.length; i++) {
+                    reason.append(args[i]).append(" ");
+                }
+                EstiBans.kickPlayer(args[0], reason.toString());
+                sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("Kicked Player " + args[0] + " for \"" + reason + "\"")));
+            }
+        }
+    }
 }

@@ -1,14 +1,12 @@
 package net.estinet.gFeatures.Feature.EstiBans.Commands;
 
+import com.velocitypowered.api.command.CommandSource;
 import net.estinet.gFeatures.EstiCommand;
 import net.estinet.gFeatures.Feature.EstiBans.ConfigHub;
 import net.estinet.gFeatures.Feature.EstiBans.EstiBans;
 import net.estinet.gFeatures.gFeature;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.chat.TextComponent;
-
-import java.util.HashMap;
+import net.kyori.text.TextComponent;
+import net.kyori.text.format.TextColor;
 import java.util.concurrent.ConcurrentHashMap;
 
 /*
@@ -33,17 +31,16 @@ https://github.com/EstiNet/gFeaturesBungee
 public class EstiBansCommand extends EstiCommand {
 
     public EstiBansCommand(gFeature feature) {
-        super("estibans", "gFeatures.admin", new String[0], feature);
+        super(new String[]{"estibans"}, "gFeatures.admin", feature);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public void execute(CommandSender sender, String[] args) {
+    public void execute(CommandSource sender, String[] args) {
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase("help")) {
-                sender.sendMessage(ChatColor.AQUA + "----- EstiBans -----");
-                sender.sendMessage(ChatColor.AQUA + "/estibans info [Player] - Obtains player information.");
-                sender.sendMessage(ChatColor.AQUA + "/estibans reload - Reloads from the config.");
+                sender.sendMessage(TextComponent.of("----- EstiBans -----", TextColor.AQUA));
+                sender.sendMessage(TextComponent.of("/estibans info [Player] - Obtains player information.", TextColor.AQUA));
+                sender.sendMessage(TextComponent.of("/estibans reload - Reloads from the config.", TextColor.AQUA));
 
             } else if (args[0].equalsIgnoreCase("reload")) {
                 EstiBans.bans = new ConcurrentHashMap<>();
@@ -51,33 +48,33 @@ public class EstiBansCommand extends EstiCommand {
                 EstiBans.warnings = new ConcurrentHashMap<>();
 
                 ConfigHub.setupConfig();
-                sender.sendMessage(EstiBans.estiBansPrefix + "Completed reload.");
+                sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("Completed reload.")));
             } else {
-                sender.sendMessage(EstiBans.estiBansPrefix + "/estibans help");
+                sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("/estibans help")));
             }
         } else if (args.length == 2) {
             if (args[0].equalsIgnoreCase("info")) {
-                sender.sendMessage(new TextComponent(EstiBans.estiBansPrefix + "Player info for " + args[1]));
-                sender.sendMessage(new TextComponent(ChatColor.DARK_GRAY + "Bans:"));
+                sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("Player info for " + args[1])));
+                sender.sendMessage((TextComponent.of("Bans:", TextColor.DARK_GRAY)));
 
                 for (String str : EstiBans.getBans(args[1])) {
-                    if (!str.trim().equals("")) sender.sendMessage(new TextComponent(ChatColor.DARK_GRAY + "- " + str));
+                    if (!str.trim().equals("")) sender.sendMessage(TextComponent.of("- " + str, TextColor.DARK_GRAY));
                 }
 
-                sender.sendMessage(new TextComponent(ChatColor.DARK_GRAY + "Mutes:"));
+                sender.sendMessage(TextComponent.of("Mutes:", TextColor.DARK_GRAY));
                 for (String str : EstiBans.getMutes(args[1])) {
-                    if (!str.trim().equals("")) sender.sendMessage(new TextComponent(ChatColor.DARK_GRAY + "- " + str));
+                    if (!str.trim().equals("")) sender.sendMessage(TextComponent.of("- " + str, TextColor.DARK_GRAY));
                 }
 
-                sender.sendMessage(new TextComponent(ChatColor.DARK_GRAY + "Warnings:"));
+                sender.sendMessage(TextComponent.of("Warnings:", TextColor.DARK_GRAY));
                 for (String str : EstiBans.getWarnings(args[1])) {
-                    if (!str.trim().equals("")) sender.sendMessage(new TextComponent(ChatColor.DARK_GRAY + "- " + str));
+                    if (!str.trim().equals("")) sender.sendMessage(TextComponent.of("- " + str, TextColor.DARK_GRAY));
                 }
             } else {
-                sender.sendMessage(EstiBans.estiBansPrefix + "/estibans help");
+                sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("/estibans help")));
             }
         } else {
-            sender.sendMessage(EstiBans.estiBansPrefix + "/estibans help");
+            sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("/estibans help")));
         }
     }
 }

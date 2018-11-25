@@ -1,6 +1,6 @@
 package net.estinet.gFeatures;
 
-import net.md_5.bungee.api.plugin.Command;
+import com.velocitypowered.api.command.Command;
 
 /*
 gFeatures
@@ -21,12 +21,15 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public abstract class EstiCommand extends Command{
+public abstract class EstiCommand implements Command {
 	
 	public gFeature feature;
-	
-	public EstiCommand(String name, String permission, String[] aliases, gFeature feature) {
-		super(name, permission, aliases);
+	public String permission;
+	public String[] names;
+
+	public EstiCommand(String[] names, String permission, gFeature feature) {
+		this.names = names;
+		this.permission = permission;
 		this.feature = feature;
 	}
 }

@@ -1,8 +1,7 @@
 package net.estinet.gFeatures.Feature.Alerts;
 
-import net.estinet.gFeatures.Events;
 import net.estinet.gFeatures.gFeature;
-import net.md_5.bungee.api.plugin.Event;
+import net.estinet.gFeatures.gFeatures;
 
 /*
 gFeatures
@@ -23,7 +22,7 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class Alerts extends gFeature implements Events {
+public class Alerts extends gFeature {
 
     public Alerts(String featurename, String d) {
         super(featurename, d);
@@ -31,15 +30,11 @@ public class Alerts extends gFeature implements Events {
 
     @Override
     public void enable() {
-        Enable.onEnable();
+        gFeatures.getInstance().getLogger().info("[Alerts] enabled!");
     }
 
     @Override
     public void disable() {
-        Disable.onDisable();
-    }
-
-    @Override
-    public void eventTrigger(Event event) {
+        gFeatures.getInstance().getLogger().info("[Alerts] Disabled!");
     }
 }
