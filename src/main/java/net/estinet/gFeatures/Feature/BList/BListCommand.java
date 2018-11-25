@@ -19,47 +19,51 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
+import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.proxy.Player;
 import net.estinet.gFeatures.API.Logger.Debug;
 import net.estinet.gFeatures.EstiCommand;
 import net.estinet.gFeatures.gFeature;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.config.ServerInfo;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.estinet.gFeatures.gFeatures;
+import net.kyori.text.TextComponent;
+import net.kyori.text.format.TextColor;
+import net.kyori.text.format.TextDecoration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 public class BListCommand extends EstiCommand {
 
     public BListCommand(gFeature feature) {
-        super("blist", "basic", (String[]) Arrays.asList("list").toArray(), feature);
+        super(new String[]{"blist", "list"}, "basic", feature);
     }
 
     @Override
-    public void execute(CommandSender sender, String[] args) {
+    public void execute(CommandSource sender, String[] args) {
 
-        if (ProxyServer.getInstance().getPlayers().size() == 1) {
-            sender.sendMessage(new TextComponent(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "--------" + ChatColor.RESET + ChatColor.DARK_AQUA + "There is 1 player on!" + ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "--------"));
+        if (gFeatures.getInstance().getProxyServer().getAllPlayers().size() == 1) {
+            sender.sendMessage(TextComponent.of("--------", TextColor.GRAY).decoration(TextDecoration.STRIKETHROUGH, true).
+                    append(TextComponent.of("There is 1 player on!", TextColor.DARK_AQUA)).
+                    append(TextComponent.of("--------", TextColor.GRAY).decoration(TextDecoration.STRIKETHROUGH, true)));
         } else {
-            sender.sendMessage(new TextComponent(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "--------" + ChatColor.RESET + ChatColor.DARK_AQUA + "There are " + ProxyServer.getInstance().getPlayers().size() + " players on!" + ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "--------"));
+            sender.sendMessage(TextComponent.of("--------", TextColor.GRAY).decoration(TextDecoration.STRIKETHROUGH, true).
+                    append(TextComponent.of("There are " + gFeatures.getInstance().getProxyServer().getAllPlayers().size() + " players on!", TextColor.DARK_AQUA)).
+                    append(TextComponent.of("--------", TextColor.GRAY).decoration(TextDecoration.STRIKETHROUGH, true)));
         }
 
-        if (ProxyServer.getInstance().getPlayers().size() == 0) {
-            sender.sendMessage(new TextComponent(ChatColor.DARK_AQUA + "No players on right now."));
+        if (gFeatures.getInstance().getProxyServer().getAllPlayers().size() == 0) {
+            sender.sendMessage(TextComponent.of("No players on right now.", TextColor.DARK_AQUA));
         }
         HashMap<String, ArrayList<String>> servers = new HashMap<>();
-        for (ProxiedPlayer pp : ProxyServer.getInstance().getPlayers()) {
+        for (Player pp : gFeatures.getInstance().getProxyServer().getAllPlayers()) {
             try {
-                String sName = pp.getServer().getInfo().getName();
+                if (!pp.getCurrentServer().isPresent()) continue;
+                String sName = pp.getCurrentServer().get().getServerInfo().getName();
                 if (servers.get(sName) == null) {
-                    servers.put(sName, new ArrayList<>(Arrays.asList(pp.getName())));
+                    servers.put(sName, new ArrayList<>(Arrays.asList(pp.getUsername())));
                 } else {
-                    servers.get(sName).add(pp.getName());
+                    servers.get(sName).add(pp.getUsername());
                 }
             } catch (NullPointerException e) { //line 58
             }
@@ -67,9 +71,9 @@ public class BListCommand extends EstiCommand {
         }
         for (String server : servers.keySet()) {
             Debug.print(server);
-            sender.sendMessage(new TextComponent(ChatColor.DARK_AQUA + server + ":"));
+            sender.sendMessage(TextComponent.of(server + ":", TextColor.DARK_AQUA));
             for (String player : servers.get(server)) {
-                sender.sendMessage(new TextComponent(ChatColor.AQUA + player));
+                sender.sendMessage(TextComponent.of(player, TextColor.AQUA));
             }
         }
 
