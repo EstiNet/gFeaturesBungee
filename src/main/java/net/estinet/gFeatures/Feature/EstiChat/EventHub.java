@@ -2,7 +2,13 @@ package net.estinet.gFeatures.Feature.EstiChat;
 
 import java.util.concurrent.TimeUnit;
 
+import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.connection.PostLoginEvent;
+import com.velocitypowered.api.event.player.ServerConnectedEvent;
+import com.velocitypowered.api.event.player.ServerPreConnectEvent;
+import com.velocitypowered.api.proxy.Player;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
+import net.estinet.gFeatures.gFeatures;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -28,28 +34,37 @@ https://github.com/EstiNet/gFeaturesBungee
 */
 
 public class EventHub {
-    @SuppressWarnings("deprecation")
-    public void onPlayerJoin(PostLoginEvent event) {
+    @Subscribe
+    public void onPlayerJoin(ServerPreConnectEvent event) {
+        if (!event.getResult().getServer().isPresent()) return;
 
-        ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), () -> {
+        if (event.getPlayer().getCurrentServer().isPresent()) { // server switching
+            String previous; // TODO SERVER SWITCHING
+            previous = EstiChat.getServerName(event.getPlayer().getServer().getInfo().getName());
+            try {
+                String test = EstiChat.switcher.get(event.getPlayer().getName());
+            } catch (NullPointerException e) {
+                return;
+            }
+            if (!previous.equals(EstiChat.switcher.get(event.getPlayer().getName())) && !(EstiChat.switcher.get(event.getPlayer().getName()) == null)) {
+                for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+                    player.sendMessage(ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Switch" + ChatColor.GOLD + "] " + ChatColor.RESET + "(" + EstiChat.switcher.get(event.getPlayer().getName()) + " -> " + previous + ") " + event.getPlayer().getName());
+                }
 
-            if (event.getPlayer().getServer() == null) return;
+                ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(EstiChat.switcher.get(event.getPlayer().getName()) + " " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Switch" + ChatColor.GOLD + "] " + ChatColor.RESET + "(" + EstiChat.switcher.get(event.getPlayer().getName()) + " -> " + previous + ") " + event.getPlayer().getName()), "consolechat", "all");
 
-            for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-
-                if (!player.getServer().getInfo().getName().equalsIgnoreCase(event.getPlayer().getServer().getInfo().getName())) {
-
+            }
+        } else { // join proxy
+            for (Player player : gFeatures.getInstance().getProxyServer().getAllPlayers()) {
+                if (!player.getCurrentServer().isPresent() && !player.getCurrentServer().get().getServerInfo().getName().equalsIgnoreCase(event.getOriginalServer().getServerInfo().getName())) {
                     player.sendMessage("[" + EstiChat.getServerName(event.getPlayer().getServer().getInfo().getName()) + "] " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Join" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName());
-
                 }
             }
-
             ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(EstiChat.getServerName(event.getPlayer().getServer().getInfo().getName()) + " " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Join" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName()), "consolechat", "all");
-
-        }, 1, TimeUnit.SECONDS);
+        }
     }
 
-    @SuppressWarnings("deprecation")
+    @Subscribe
     public void onPlayerDisconnect(PlayerDisconnectEvent event) {
         if (event.getPlayer().getServer() == null) return;
         ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(EstiChat.getServerName(event.getPlayer().getServer().getInfo().getName()) + " " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Leave" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName()), "consolechat", "all");
@@ -59,10 +74,11 @@ public class EventHub {
             if (!player.getServer().getInfo().getName().equalsIgnoreCase(event.getPlayer().getServer().getInfo().getName())) {
                 player.sendMessage("[" + EstiChat.getServerName(event.getPlayer().getServer().getInfo().getName()) + "] " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Leave" + ChatColor.GOLD + "] " + ChatColor.RESET + event.getPlayer().getName());
             }
-        
+
         }
     }
 
+    @Subscribe
     public void onServerConnect(ServerConnectEvent event) {
         EstiChat.switcher.remove(event.getPlayer().getName());
         try {
@@ -72,25 +88,7 @@ public class EventHub {
         }
     }
 
-    @SuppressWarnings({"deprecation", "unused"})
-    public void onServerSwitch(ServerSwitchEvent event) {
-        String previous;
-        previous = EstiChat.getServerName(event.getPlayer().getServer().getInfo().getName());
-        try {
-            String test = EstiChat.switcher.get(event.getPlayer().getName());
-        } catch (NullPointerException e) {
-            return;
-        }
-        if (!previous.equals(EstiChat.switcher.get(event.getPlayer().getName())) && !(EstiChat.switcher.get(event.getPlayer().getName()) == null)) {
-            for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-                player.sendMessage(ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Switch" + ChatColor.GOLD + "] " + ChatColor.RESET + "(" + EstiChat.switcher.get(event.getPlayer().getName()) + " -> " + previous + ") " + event.getPlayer().getName());
-            }
-
-            ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(EstiChat.switcher.get(event.getPlayer().getName()) + " " + ChatColor.GOLD + "[" + ChatColor.DARK_AQUA + "Switch" + ChatColor.GOLD + "] " + ChatColor.RESET + "(" + EstiChat.switcher.get(event.getPlayer().getName()) + " -> " + previous + ") " + event.getPlayer().getName()), "consolechat", "all");
-
-        }
-    }
-
+    @Subscribe
     public void onServerChat(ChatEvent event) {
         if (event.getSender() instanceof ProxiedPlayer && event.getMessage().charAt(0) != '/') {
             ProxiedPlayer p = (ProxiedPlayer) event.getSender();
