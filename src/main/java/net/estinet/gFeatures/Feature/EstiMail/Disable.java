@@ -1,6 +1,6 @@
 package net.estinet.gFeatures.Feature.EstiMail;
 
-import net.md_5.bungee.api.ProxyServer;
+import net.estinet.gFeatures.gFeatures;
 
 /*
 gFeatures
@@ -23,6 +23,6 @@ https://github.com/EstiNet/gFeaturesBungee
 
 public class Disable{
 	public static void onDisable(){
-		ProxyServer.getInstance().getLogger().info("[EstiMail] Disabled!");
+		gFeatures.getInstance().getLogger().info("[EstiMail] Disabled!");
 	}
 }

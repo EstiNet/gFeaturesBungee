@@ -1,8 +1,10 @@
 package net.estinet.gFeatures.Feature.EstiMail;
+
 import java.io.File;
 
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.event.PostLoginEvent;
+import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.connection.PostLoginEvent;
+import net.estinet.gFeatures.gFeatures;
 
 /*
 gFeatures
@@ -23,15 +25,15 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class EventHub{
-	public void onPlayerJoin(PostLoginEvent event){
-		ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures").getProxy().getScheduler().runAsync(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), new Runnable() {
-			public void run(){
-				File f = new File("plugins/gFeatures/EstiMail/" + event.getPlayer().getUniqueId().toString());
-				if(!f.isDirectory()){
-					f.mkdir();
-				}
-				EstiMail.getMail(event.getPlayer());
-			}});
-	}
+public class EventHub {
+    @Subscribe
+    public void onPlayerJoin(PostLoginEvent event) {
+        gFeatures.getInstance().getProxyServer().getScheduler().buildTask(gFeatures.getInstance(), () -> {
+            File f = new File("plugins/gFeatures/EstiMail/" + event.getPlayer().getUniqueId().toString());
+            if (!f.isDirectory()) {
+                f.mkdir();
+            }
+            EstiMail.getMail(event.getPlayer());
+        }).schedule();
+    }
 }

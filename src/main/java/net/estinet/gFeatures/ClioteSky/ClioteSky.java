@@ -200,7 +200,7 @@ public class ClioteSky {
                         for (ClioteHook hook : clioteHookList) {
                             //check if cliotehook has matching identifier, and call
                             if (hook.identifier.equals(m.getIdentifier()) && gFeatures.getFeature(hook.gFeatureName).isEnabled()) {
-                                gFeatures.getInstance().getProxyServer().getScheduler().buildTask(gFeatures.getInstance(), () -> hook.run(m.getData().toByteArray(), m.getSender()));
+                                gFeatures.getInstance().getProxyServer().getScheduler().buildTask(gFeatures.getInstance(), () -> hook.run(m.getData().toByteArray(), m.getSender())).schedule();
                             }
                         }
                     }
@@ -271,6 +271,6 @@ public class ClioteSky {
      */
 
     public void sendAsync(byte[] data, String identifier, String recipient) {
-        gFeatures.getInstance().getProxyServer().getScheduler().buildTask(gFeatures.getInstance(), () -> send(data, identifier, recipient));
+        gFeatures.getInstance().getProxyServer().getScheduler().buildTask(gFeatures.getInstance(), () -> send(data, identifier, recipient)).schedule();
     }
 }

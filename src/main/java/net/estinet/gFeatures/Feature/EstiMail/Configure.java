@@ -45,6 +45,7 @@ public class Configure{
 	@Configs
 	public static void onSetup(){
 		EstiMail base = new EstiMail("EstiMail", "1.0.1");
+		base.addEventListener(new EventHub());
 		gFeatures.addFeature(base);
 		
 		gFeatures.addCommand(new SlashMail(base));

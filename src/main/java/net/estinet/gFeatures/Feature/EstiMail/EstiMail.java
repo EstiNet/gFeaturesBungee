@@ -7,14 +7,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import net.estinet.gFeatures.Events;
-import net.estinet.gFeatures.Retrieval;
+import com.velocitypowered.api.proxy.Player;
 import net.estinet.gFeatures.gFeature;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.event.PostLoginEvent;
-import net.md_5.bungee.api.plugin.Event;
+import net.estinet.gFeatures.gFeatures;
+import net.kyori.text.TextComponent;
+import net.kyori.text.format.TextColor;
+import net.kyori.text.format.TextDecoration;
 
 /*
 gFeatures
@@ -35,9 +33,13 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class EstiMail extends gFeature implements Events {
+public class EstiMail extends gFeature {
 
-    EventHub eh = new EventHub();
+    public static TextComponent prefix = TextComponent.of("[").decoration(TextDecoration.BOLD, true).append(
+            TextComponent.of("EstiMail", TextColor.AQUA).decoration(TextDecoration.BOLD, true).append(
+                    TextComponent.of("] ", TextColor.WHITE).decoration(TextDecoration.BOLD, true)
+            )
+    );
 
     public EstiMail(String featurename, String d) {
         super(featurename, d);
@@ -53,18 +55,6 @@ public class EstiMail extends gFeature implements Events {
         Disable.onDisable();
     }
 
-    @Override
-    public void eventTrigger(Event event) {
-        if (event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("postloginevent")) {
-            eh.onPlayerJoin((PostLoginEvent) event);
-        }
-    }
-
-    @Override
-    @Retrieval
-    public void onPostLogin() {
-    }
-
     @SuppressWarnings("deprecation")
     public static void sendMail(String senderName, String recieverUUID, String mail) {
         File f = new File("plugins/gFeatures/EstiMail/" + recieverUUID);
@@ -74,7 +64,6 @@ public class EstiMail extends gFeature implements Events {
         File fs = new File("plugins/gFeatures/EstiMail/" + recieverUUID + "/" + (int) Math.floor(Math.random() * 10000));
         if (fs.exists()) {
             sendMail(senderName, recieverUUID, mail);
-            return;
         } else {
             try {
                 fs.createNewFile();
@@ -86,11 +75,8 @@ public class EstiMail extends gFeature implements Events {
                 pw.write(senderName + "\r\n");
                 pw.write(mail);
                 pw.close();
-                try {
-                    if (!(ProxyServer.getInstance().getPlayer(recieverUUID) == null)) {
-                        ProxyServer.getInstance().getPlayer(recieverUUID).sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] " + ChatColor.RESET + "You have new mail! Do /mail read to check!");
-                    }
-                } catch (NullPointerException e) {
+                if (gFeatures.getInstance().getProxyServer().getPlayer(recieverUUID).isPresent()) {
+                    gFeatures.getInstance().getProxyServer().getPlayer(recieverUUID).get().sendMessage(prefix.append(TextComponent.of("You have new mail! Do /mail read to check!")));
                 }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -99,14 +85,14 @@ public class EstiMail extends gFeature implements Events {
     }
 
     @SuppressWarnings("deprecation")
-    public static void getMail(ProxiedPlayer receiver) {
+    public static void getMail(Player receiver) {
         File f = new File("plugins/gFeatures/EstiMail/" + receiver.getUniqueId().toString());
         File[] array = f.listFiles();
         String line;
         boolean hasmail = false;
         String name = "";
         if (array.length > 0)
-            receiver.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] " + ChatColor.WHITE + "You have new mail!");
+            receiver.sendMessage(prefix.append(TextComponent.of( "You have new mail!")));
         for (File fs : array) {
             try {
                 FileReader fr = new FileReader(fs);
@@ -116,7 +102,7 @@ public class EstiMail extends gFeature implements Events {
                     if (linenum == 1) {
                         name = line;
                     } else if (linenum == 2) {
-                        receiver.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] " + ChatColor.RESET + "" + name + ": " + line);
+                        receiver.sendMessage(prefix.append(TextComponent.of("" + name + ": " + line)));
                         hasmail = true;
                     }
                     linenum++;
@@ -127,11 +113,11 @@ public class EstiMail extends gFeature implements Events {
             }
         }
         if (!hasmail) {
-            receiver.sendMessage(ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "EstiMail" + ChatColor.WHITE + "" + ChatColor.BOLD + "] " + ChatColor.WHITE + "You have no new mail.");
+            receiver.sendMessage(prefix.append(TextComponent.of("You have no new mail.")));
         }
     }
 
-    public static void clearMail(ProxiedPlayer reciever) {
+    public static void clearMail(Player reciever) {
         File f = new File("plugins/gFeatures/EstiMail/" + reciever.getUniqueId().toString());
         for (File fs : f.listFiles()) {
             fs.delete();
@@ -140,10 +126,6 @@ public class EstiMail extends gFeature implements Events {
 
     public static boolean checkExists(String uuid) {
         File f = new File("plugins/gFeatures/EstiMail/" + uuid);
-        if (!f.isDirectory()) {
-            return false;
-        } else {
-            return true;
-        }
+        return f.isDirectory();
     }
 }
