@@ -24,8 +24,6 @@ https://github.com/EstiNet/gFeaturesBungee
 */
 
 public class EstiChat extends gFeature {
-	
-	public static HashMap<String, String> switcher = new HashMap<>();
 
 	public EstiChat(String featurename, String d) {
 		super(featurename, d);
