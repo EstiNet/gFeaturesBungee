@@ -1,6 +1,6 @@
 package net.estinet.gFeatures.Feature.Friendship;
 
-import net.md_5.bungee.api.ProxyServer;
+import net.estinet.gFeatures.gFeatures;
 
 /*
 gFeatures
@@ -24,7 +24,7 @@ https://github.com/EstiNet/gFeaturesBungee
 public class Enable{
 	static ConfigHub ch = new ConfigHub();
 	public static void onEnable(){
-		ProxyServer.getInstance().getLogger().info("[Friendships] enabled!");
+		gFeatures.getInstance().getLogger().info("[Friendships] enabled!");
 		ch.setupConfig();
 	}
 }

@@ -8,8 +8,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import net.md_5.bungee.api.event.PlayerDisconnectEvent;
-import net.md_5.bungee.api.event.PostLoginEvent;
+import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.connection.DisconnectEvent;
+import com.velocitypowered.api.event.connection.PostLoginEvent;
 
 /*
 gFeatures
@@ -31,6 +32,7 @@ https://github.com/EstiNet/gFeaturesBungee
 */
 
 public class EventHub {
+    @Subscribe
     public void onPlayerJoin(PostLoginEvent event) {
         File f = new File("plugins/gFeatures/Friendship/" + event.getPlayer().getUniqueId() + "/");
         if (!f.isDirectory()) {
@@ -38,8 +40,9 @@ public class EventHub {
         }
     }
 
-    public void onPlayerDisconnect(PlayerDisconnectEvent event) {
-        if (event.getPlayer().getServer() == null) return;
+    @Subscribe
+    public void onPlayerDisconnect(DisconnectEvent event) {
+        if (!event.getPlayer().getCurrentServer().isPresent()) return;
         File f = new File("plugins/gFeatures/Friendship/" + event.getPlayer().getUniqueId() + "/seen");
         if (!f.exists()) {
             try {
@@ -60,7 +63,7 @@ public class EventHub {
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Calendar cal = Calendar.getInstance();
             pw.write(dateFormat.format(cal.getTime()) + "\n");
-            pw.write(event.getPlayer().getServer().getInfo().getName());
+            pw.write(event.getPlayer().getCurrentServer().get().getServerInfo().getName());
             pw.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();

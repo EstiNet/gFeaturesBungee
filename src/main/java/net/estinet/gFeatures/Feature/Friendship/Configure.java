@@ -27,6 +27,7 @@ public class Configure {
     @Configs
     public static void onSetup() {
         Friendship base = new Friendship("Friendship", "1.0.5");
+        base.addEventListener(new EventHub());
         gFeatures.addFeature(base);
 
         ClioteSky.addHook(new FriendsClioteHook("friends", base.getName()));

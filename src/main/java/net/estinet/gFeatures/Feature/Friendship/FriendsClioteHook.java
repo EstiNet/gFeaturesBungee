@@ -3,13 +3,13 @@ package net.estinet.gFeatures.Feature.Friendship;
 import java.io.File;
 import java.util.List;
 
+import com.velocitypowered.api.proxy.Player;
 import net.estinet.gFeatures.ClioteSky.ClioteHook;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
-import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.API.Resolver.ResolverFetcher;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.estinet.gFeatures.gFeatures;
+import net.kyori.text.TextComponent;
+import net.kyori.text.format.TextColor;
 
 /*
 gFeatures
@@ -45,26 +45,27 @@ public class FriendsClioteHook extends ClioteHook {
         try {
             switch (args.get(0)) {
                 case "request":
-                    ProxiedPlayer p = ProxyServer.getInstance().getPlayer(args.get(1));
+                    if (!gFeatures.getInstance().getProxyServer().getPlayer(args.get(1)).isPresent()) return;
+                    Player p = gFeatures.getInstance().getProxyServer().getPlayer(args.get(1)).get();
                     File f = new File("plugins/gFeatures/Friendship/" + ResolverFetcher.getUUIDfromName(args.get(2)) + "/");
-                    ProxyServer.getInstance().getLogger().info(f.getPath());
+                    gFeatures.getInstance().getLogger().info(f.getPath());
                     if (f.isDirectory()) {
                         Friendship.friendRequest(p, ResolverFetcher.getUUIDfromName(args.get(2)));
                     } else {
-                        p.sendMessage("[" + ChatColor.GOLD + "Friends" + ChatColor.WHITE + "] " + ChatColor.RED + "Player has never joined, or they don't exist!");
+                        p.sendMessage(Friendship.prefix.append(TextComponent.of("Player has never joined, or they don't exist!", TextColor.RED)));
                     }
                     //Player request another player
                     break;
                 case "confirm":
-                    Friendship.friendConfirm(ProxyServer.getInstance().getPlayer(args.get(1)), args.get(2));
+                    Friendship.friendConfirm(gFeatures.getInstance().getProxyServer().getPlayer(args.get(1)).get(), args.get(2));
                     //Player confirms friend request
                     break;
                 case "list":
-                    Friendship.getFriends(ProxyServer.getInstance().getPlayer(args.get(1)), sender);
+                    Friendship.getFriends(gFeatures.getInstance().getProxyServer().getPlayer(args.get(1)).get(), sender);
                     //Gets all friends of player
                     break;
                 case "requests":
-                    Friendship.getFriendRequests(ProxyServer.getInstance().getPlayer(args.get(1)), sender);
+                    Friendship.getFriendRequests(gFeatures.getInstance().getProxyServer().getPlayer(args.get(1)).get(), sender);
                     //Gets all friend requests of player
                     break;
                 case "obtain":
@@ -72,7 +73,7 @@ public class FriendsClioteHook extends ClioteHook {
                     //Get specific details of player
                     break;
                 case "unfriend":
-                    Friendship.unFriend(ProxyServer.getInstance().getPlayer(args.get(1)), args.get(2));
+                    Friendship.unFriend(gFeatures.getInstance().getProxyServer().getPlayer(args.get(1)).get(), args.get(2));
                     //unfriends a player
                     break;
             }

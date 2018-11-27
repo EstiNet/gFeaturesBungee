@@ -9,17 +9,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import com.velocitypowered.api.proxy.Player;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
-import net.estinet.gFeatures.Events;
-import net.estinet.gFeatures.Retrieval;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.API.Resolver.ResolverFetcher;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.event.PlayerDisconnectEvent;
-import net.md_5.bungee.api.event.PostLoginEvent;
-import net.md_5.bungee.api.plugin.Event;
+import net.estinet.gFeatures.gFeatures;
+import net.kyori.text.TextComponent;
+import net.kyori.text.format.TextColor;
 
 /*
 gFeatures
@@ -40,9 +36,14 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class Friendship extends gFeature implements Events {
+public class Friendship extends gFeature {
 
     EventHub eh = new EventHub();
+    public static TextComponent prefix = TextComponent.of("[").append(
+            TextComponent.of("Friends", TextColor.GOLD).append(
+                    TextComponent.of("] ", TextColor.WHITE)
+            )
+    );
 
     public Friendship(String featurename, String d) {
         super(featurename, d);
@@ -58,27 +59,8 @@ public class Friendship extends gFeature implements Events {
         Disable.onDisable();
     }
 
-    @Override
-    public void eventTrigger(Event event) {
-        if (event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("postloginevent")) {
-            eh.onPlayerJoin((PostLoginEvent) event);
-        } else if (event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("playerdisconnectevent")) {
-            eh.onPlayerDisconnect((PlayerDisconnectEvent) event);
-        }
-    }
-
-    @Override
-    @Retrieval
-    public void onPostLogin() {
-    }
-
-    @Override
-    @Retrieval
-    public void onPlayerDisconnect() {
-    }
-
     @SuppressWarnings("deprecation")
-    public static void friendRequest(ProxiedPlayer requester, String friend) {
+    public static void friendRequest(Player requester, String friend) {
         File f = new File("plugins/gFeatures/Friendship/" + requester.getUniqueId() + "/" + friend);
         if (!f.exists()) {
             try {
@@ -93,18 +75,19 @@ public class Friendship extends gFeature implements Events {
                 BufferedReader br = new BufferedReader(fr);
                 String con = br.readLine();
                 if (!(con == null)) {
-                    if (con.equals("requested")) {
-                        requester.sendMessage("[" + ChatColor.GOLD + "Friends" + ChatColor.WHITE + "] " + ChatColor.RED + "Friend request already sent!");
-                        br.close();
-                        return;
-                    } else if (con.equals("pending")) {
-                        friendConfirm(requester, friend);
-                        br.close();
-                        return;
-                    } else if (con.equals("confirmed")) {
-                        requester.sendMessage("[" + ChatColor.GOLD + "Friends" + ChatColor.WHITE + "] " + ChatColor.AQUA + "You're already friends with this player!");
-                        br.close();
-                        return;
+                    switch (con) {
+                        case "requested":
+                            requester.sendMessage(prefix.append(TextComponent.of("Friend request already sent!", TextColor.RED)));
+                            br.close();
+                            return;
+                        case "pending":
+                            friendConfirm(requester, friend);
+                            br.close();
+                            return;
+                        case "confirmed":
+                            requester.sendMessage(prefix.append(TextComponent.of("You're already friends with this player!", TextColor.DARK_AQUA)));
+                            br.close();
+                            return;
                     }
                 } else {
                     f.delete();
@@ -138,11 +121,11 @@ public class Friendship extends gFeature implements Events {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        requester.sendMessage("[" + ChatColor.GOLD + "Friends" + ChatColor.WHITE + "] Friend request sent!");
+        requester.sendMessage(prefix.append(TextComponent.of("Friend request sent!")));
     }
 
     @SuppressWarnings("deprecation")
-    public static void friendConfirm(ProxiedPlayer confirmer, String friend) {
+    public static void friendConfirm(Player confirmer, String friend) {
         //UUIDFetcher uf = new UUIDFetcher(Arrays.asList(friend));
         String name = "";
         try {
@@ -172,14 +155,14 @@ public class Friendship extends gFeature implements Events {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        confirmer.sendMessage("[" + ChatColor.GOLD + "Friends" + ChatColor.WHITE + "] You and " + friend + " are now friends!");
-        if (ProxyServer.getInstance().getPlayer(name) != null) {
-            ProxyServer.getInstance().getPlayer(name).sendMessage("[" + ChatColor.GOLD + "Friends" + ChatColor.WHITE + "] You and " + confirmer.getName() + " are now friends!");
+        confirmer.sendMessage(prefix.append(TextComponent.of("You and " + friend + " are now friends!")));
+        if (gFeatures.getInstance().getProxyServer().getPlayer(name).isPresent()) {
+            gFeatures.getInstance().getProxyServer().getPlayer(name).get().sendMessage(prefix.append(TextComponent.of("You and " + confirmer.getUsername() + " are now friends!")));
         }
     }
 
     @SuppressWarnings("deprecation")
-    public static void unFriend(ProxiedPlayer unfriender, String hates) {
+    public static void unFriend(Player unfriender, String hates) {
         try {
             //UUIDFetcher uf = new UUIDFetcher(Arrays.asList(hates));
             //String hate = uf.call().get(hates).toString();
@@ -188,7 +171,7 @@ public class Friendship extends gFeature implements Events {
             File fs = new File("plugins/gFeatures/Friendship/" + hate + "/" + unfriender.getUniqueId());
             if ((!fs.exists() && !f.exists()) || (!fs.exists() | !f.exists())) {
                 try {
-                    unfriender.sendMessage("[" + ChatColor.GOLD + "Friends" + ChatColor.WHITE + "] " + hates + " is not added as a friend.");
+                    unfriender.sendMessage(prefix.append(TextComponent.of(hates + " is not added as a friend.")));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -196,9 +179,9 @@ public class Friendship extends gFeature implements Events {
                 f.delete();
                 fs.delete();
                 try {
-                    unfriender.sendMessage("[" + ChatColor.GOLD + "Friends" + ChatColor.WHITE + "] Unfriended " + hates + ".");
-                    if (ProxyServer.getInstance().getPlayer(hate) != null) {
-                        ProxyServer.getInstance().getPlayer(hate).sendMessage("[" + ChatColor.GOLD + "Friends" + ChatColor.WHITE + "] " + unfriender.getName() + " unfriended you!");
+                    unfriender.sendMessage(prefix.append(TextComponent.of("Unfriended " + hates + ".")));
+                    if (gFeatures.getInstance().getProxyServer().getPlayer(hate).isPresent()) {
+                        gFeatures.getInstance().getProxyServer().getPlayer(hate).get().sendMessage(prefix.append(TextComponent.of(unfriender.getUsername() + " unfriended you!")));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -209,7 +192,7 @@ public class Friendship extends gFeature implements Events {
         }
     }
 
-    public static void getFriendRequests(ProxiedPlayer p, String cliotename) {
+    public static void getFriendRequests(Player p, String cliotename) {
         File f = new File("plugins/gFeatures/Friendship/" + p.getUniqueId() + "/");
         for (File fs : f.listFiles()) {
             if (!fs.getName().equals("seen")) {
@@ -219,7 +202,7 @@ public class Friendship extends gFeature implements Events {
                     String status = br.readLine();
                     if (!(status == null)) {
                         if (status.equals("pending")) {
-                            ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(ResolverFetcher.getNamefromUUID(fs.getName()) + " " + p.getName()), "friendreq", cliotename);
+                            ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(ResolverFetcher.getNamefromUUID(fs.getName()) + " " + p.getUsername()), "friendreq", cliotename);
                         }
                     } else {
                         f.delete();
@@ -230,23 +213,23 @@ public class Friendship extends gFeature implements Events {
                 }
             }
         }
-        ProxyServer.getInstance().getScheduler().runAsync(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), () -> {
-            ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("done " + p.getName()), "friendreq", cliotename);
-        });
+        gFeatures.getInstance().getProxyServer().getScheduler().buildTask(gFeatures.getInstance(), () -> {
+            ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("done " + p.getUsername()), "friendreq", cliotename);
+        }).schedule();
     }
 
-    public static void getFriends(ProxiedPlayer p, String cliotename) {
+    public static void getFriends(Player p, String cliotename) {
         File f = new File("plugins/gFeatures/Friendship/" + p.getUniqueId() + "/");
         for (File fs : f.listFiles()) {
             if (!fs.getName().equals("seen")) {
-                ProxyServer.getInstance().getLogger().info(fs.getName());
+                gFeatures.getInstance().getLogger().info(fs.getName());
                 try {
                     FileReader fr = new FileReader(fs);
                     BufferedReader br = new BufferedReader(fr);
                     String status = br.readLine();
                     if (!(status == null)) {
                         if (status.equals("confirmed")) {
-                            ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(ResolverFetcher.getNamefromUUID(fs.getName()) + " " + p.getName()), "friendget", cliotename);
+                            ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(ResolverFetcher.getNamefromUUID(fs.getName()) + " " + p.getUsername()), "friendget", cliotename);
                             Friendship.getStatusDetails(ResolverFetcher.getNamefromUUID(fs.getName()), cliotename);
                         }
                     } else {
@@ -259,9 +242,9 @@ public class Friendship extends gFeature implements Events {
                 }
             }
         }
-        ProxyServer.getInstance().getScheduler().runAsync(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), () -> {
-            ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("done " + p.getName()), "friendget", cliotename);
-        });
+        gFeatures.getInstance().getProxyServer().getScheduler().buildTask(gFeatures.getInstance(), () -> {
+            ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("done " + p.getUsername()), "friendget", cliotename);
+        }).schedule();
     }
 
     public static void getStatusDetails(String uuid, String cliotename) {
@@ -273,8 +256,8 @@ public class Friendship extends gFeature implements Events {
         } catch (Exception e1) {
             e1.printStackTrace();
         }
-        if (ProxyServer.getInstance().getPlayer(uuid) != null) {
-            ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("online " + ProxyServer.getInstance().getPlayer(uuid).getServer().getInfo().getName() + " " + uuid), "frienddetails", cliotename);
+        if (gFeatures.getInstance().getProxyServer().getPlayer(uuid).isPresent()) {
+            ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("online " + gFeatures.getInstance().getProxyServer().getPlayer(uuid).get().getCurrentServer().get().getServerInfo().getName() + " " + uuid), "frienddetails", cliotename);
         } else {
             File f = new File("plugins/gFeatures/Friendship/" + name + "/seen");
             try {
