@@ -6,17 +6,15 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 
+import com.velocitypowered.api.proxy.Player;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
-import net.estinet.gFeatures.Events;
-import net.estinet.gFeatures.Retrieval;
 import net.estinet.gFeatures.gFeature;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.plugin.Event;
+import net.estinet.gFeatures.gFeatures;
+import net.kyori.text.TextComponent;
+import net.kyori.text.format.TextColor;
 
 /*
 gFeatures
@@ -37,7 +35,7 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class FusionPlay extends gFeature implements Events {
+public class FusionPlay extends gFeature {
 
     private static List<FusionCon> connections = new ArrayList<>();
     public static List<Integer> usedID = new ArrayList<>();
@@ -51,8 +49,6 @@ public class FusionPlay extends gFeature implements Events {
     public static String IP = "", port = "", password = "", databaseNum = "";
     public static int maxNumOfGames = 1;
 
-    EventHub eh = new EventHub();
-
     public FusionPlay(String featurename, String d) {
         super(featurename, d);
     }
@@ -65,13 +61,6 @@ public class FusionPlay extends gFeature implements Events {
     @Override
     public void disable() {
         Disable.onDisable();
-    }
-
-    @Override
-    public void eventTrigger(Event event) {
-        if (event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("playerhandshakeevent")) {
-            //eh.onPlayerJoin((PlayerHandshakeEvent)event);
-        }
     }
 
     public static List<FusionCon> getConnections() {
@@ -125,28 +114,27 @@ public class FusionPlay extends gFeature implements Events {
         return -1;
     }
 
-    @SuppressWarnings("deprecation")
     public static void replaceConnection(String clioteName) {
         FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.OFFLINE);
         int id = FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).getID();
         FusionCon fc = queueConnections.poll();
 
-        Runnable run = () -> ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), () -> {
+        Runnable run = () -> gFeatures.getInstance().getProxyServer().getScheduler().buildTask(gFeatures.getInstance(), () -> {
             if (cliotesOnCheck.contains(fc)) {
                 cliotesOnCheck.remove(fc);
                 connections.get(FusionPlay.getConnectionArrayID(fc.getClioteName())).setStatus(FusionStatus.OFFLINE);
-                for (ProxiedPlayer pp : ProxyServer.getInstance().getServerInfo(clioteName).getPlayers()) {
-                    pp.sendMessage(ChatColor.DARK_GRAY + "Please wait a bit longer, shuffling servers...");
+                for (Player pp : gFeatures.getInstance().getProxyServer().getServer(clioteName).get().getPlayersConnected()) {
+                    pp.sendMessage(TextComponent.of("Please wait a bit longer, shuffling servers...", TextColor.DARK_GRAY));
                 }
                 replaceConnection(clioteName);
             }
-        }, 5, TimeUnit.SECONDS);
+        }).delay(5, TimeUnit.SECONDS).schedule();
 
         if (fc == null) {//temporary, until there are servers to take care and dynamic allocation
 
-            for (ProxiedPlayer pp : ProxyServer.getInstance().getServerInfo(clioteName).getPlayers()) {
-                pp.connect(ProxyServer.getInstance().getServerInfo("MinigameHub"));
-                pp.sendMessage(ChatColor.DARK_GRAY + "Sorry! One of our servers went offline, and we can't restore the session!");
+            for (Player pp : gFeatures.getInstance().getProxyServer().getServer(clioteName).get().getPlayersConnected()) {
+                pp.createConnectionRequest(gFeatures.getInstance().getProxyServer().getServer("MinigameHub").get()).fireAndForget();
+                pp.sendMessage(TextComponent.of("Sorry! One of our servers went offline, and we can't restore the session!", TextColor.DARK_GRAY));
             }
 
             FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.OFFLINE);

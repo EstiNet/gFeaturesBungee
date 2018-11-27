@@ -2,13 +2,12 @@ package net.estinet.gFeatures.Feature.FusionPlay;
 
 import java.util.List;
 
+import com.velocitypowered.api.proxy.Player;
+import com.velocitypowered.api.proxy.server.RegisteredServer;
 import net.estinet.gFeatures.ClioteSky.ClioteHook;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
-import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.API.Logger.Debug;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.config.ServerInfo;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.estinet.gFeatures.gFeatures;
 
 /*
 gFeatures
@@ -123,14 +122,15 @@ public class FusionPlayClioteHook extends ClioteHook {
 
                         FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(sender)).setStatus(FusionStatus.WAITING);
                         FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(sender)).setCurrentType(args.get(1));
-                        ServerInfo cur = ProxyServer.getInstance().getServerInfo(FusionPlay.getPairedConFromID(sender).getClioteName());
-                        ServerInfo si = ProxyServer.getInstance().getServerInfo(sender);
+
+                        RegisteredServer cur = gFeatures.getInstance().getProxyServer().getServer(FusionPlay.getPairedConFromID(sender).getClioteName()).get();
+                        RegisteredServer si = gFeatures.getInstance().getProxyServer().getServer(sender).get();
                         FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(FusionPlay.getPairedConFromID(sender).getClioteName())).setID(-1);
 
                         ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("start"), "fusionplay", sender);
 
-                        for (ProxiedPlayer pp : cur.getPlayers()) {
-                            pp.connect(si); //make sure the other server restarts after everyone logs off
+                        for (Player pp : cur.getPlayersConnected()) {
+                            pp.createConnectionRequest(si).fireAndForget(); //make sure the other server restarts after everyone logs off
                         } //if the server just came back from a forced minigame switch
 
                         //FusionPlay.syncCommands.set("server-" + FusionPlay.getConnection(FusionPlay.getPairedConFromID(clioteName).getClioteName()).getID(), FusionPlay.getConnection(FusionPlay.getPairedConFromID(clioteName).getClioteName()).getCurrentType() + " " + FusionPlay.getPairedConFromID(clioteName).getClioteName());
@@ -171,11 +171,11 @@ public class FusionPlayClioteHook extends ClioteHook {
                             }
 
                             fc.setStatus(FusionStatus.WAITING);
-                            ServerInfo curs = ProxyServer.getInstance().getServerInfo(FusionPlay.getPairedConFromID(sender).getClioteName());
-                            ServerInfo sis = ProxyServer.getInstance().getServerInfo(fc.getClioteName());
+                            RegisteredServer curs = gFeatures.getInstance().getProxyServer().getServer(FusionPlay.getPairedConFromID(sender).getClioteName()).get();
+                            RegisteredServer sis = gFeatures.getInstance().getProxyServer().getServer(fc.getClioteName()).get();
 
-                            for (ProxiedPlayer pp : curs.getPlayers()) {
-                                pp.connect(sis);
+                            for (Player pp : curs.getPlayersConnected()) {
+                                pp.createConnectionRequest(sis).fireAndForget();
                             }
                             FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(FusionPlay.getPairedConFromID(sender).getClioteName())).setID(-1); //Make sure that the server restart
                         }

@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
-import net.md_5.bungee.api.ProxyServer;
+import net.estinet.gFeatures.gFeatures;
 
 /*
 gFeatures
@@ -30,9 +30,9 @@ public class Enable {
     static ConfigHub ch = new ConfigHub();
 
     public static void onEnable() {
-        ProxyServer.getInstance().getLogger().info("[FusionPlay] Enabled!");
+        gFeatures.getInstance().getLogger().info("[FusionPlay] Enabled!");
         ch.setupConfig();
-        ProxyServer.getInstance().getLogger().info("[FusionPlay] Connecting to Redis...");
+        gFeatures.getInstance().getLogger().info("[FusionPlay] Connecting to Redis...");
 
         RedisURI ruri = new RedisURI();
         ruri.setDatabase(Integer.parseInt(FusionPlay.databaseNum));
@@ -44,18 +44,18 @@ public class Enable {
         FusionPlay.connection = FusionPlay.redisClient.connect();
         FusionPlay.syncCommands = FusionPlay.connection.sync();
 
-        ProxyServer.getInstance().getLogger().info("[FusionPlay] Connected!");
+        gFeatures.getInstance().getLogger().info("[FusionPlay] Connected!");
 
         ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("obtain"), "fusionplay", "all");
         FusionPlay.syncCommands.flushdb();
 
-        ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), () -> {
+        gFeatures.getInstance().getProxyServer().getScheduler().buildTask(gFeatures.getInstance(), () -> {
 
             for (FusionCon fc : FusionPlay.getCurrentOnlineGames()) {
                 ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("alive"), "fusionplay", fc.getClioteName());
                 FusionPlay.cliotesOnCheck.add(fc);
 
-                ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), () -> {
+                gFeatures.getInstance().getProxyServer().getScheduler().buildTask(gFeatures.getInstance(), () -> {
 
                     if (FusionPlay.cliotesOnCheck.contains(fc)) {
                         FusionPlay.cliotesOnCheck.remove(fc);
@@ -67,10 +67,10 @@ public class Enable {
                         FusionPlay.replaceConnection(fc.getClioteName());
                     }
 
-                }, 5, TimeUnit.SECONDS);
+                }).delay(5, TimeUnit.SECONDS).schedule();
 
             }
-        }, 1, 10, TimeUnit.SECONDS);
+        }).repeat(10, TimeUnit.SECONDS).schedule(); // run 10 times
 
     }
 }

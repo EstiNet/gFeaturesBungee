@@ -1,11 +1,13 @@
 package net.estinet.gFeatures.Feature.FusionPlay.Commands;
 
+import com.velocitypowered.api.command.CommandSource;
 import net.estinet.gFeatures.EstiCommand;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.Feature.FusionPlay.FusionCon;
 import net.estinet.gFeatures.Feature.FusionPlay.FusionPlay;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.CommandSender;
+import net.kyori.text.TextComponent;
+import net.kyori.text.format.TextColor;
+import net.kyori.text.serializer.ComponentSerializers;
 
 /*
 gFeatures
@@ -29,27 +31,25 @@ https://github.com/EstiNet/gFeaturesBungee
 public class FusionPlayCommand extends EstiCommand{
 
 	public FusionPlayCommand(gFeature feature) {
-		super("fusionplay", "gFeatures.admin", new String[0], feature);
+		super(new String[]{"fusionplay"}, "gFeatures.admin", feature);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
-	public void execute(CommandSender sender, String[] args) {
+	public void execute(CommandSource sender, String[] args) {
 		if(args.length == 1){
 			args[0] = args[0].toLowerCase();
 			switch(args[0]){
-			case "help":
-				sender.sendMessage(ChatColor.DARK_GRAY + "" + ChatColor.STRIKETHROUGH + "----------" + ChatColor.RESET + "" + ChatColor.AQUA + "FusionPlay Help" + ChatColor.DARK_GRAY + "" + ChatColor.STRIKETHROUGH + "----------");
-				sender.sendMessage(ChatColor.DARK_GRAY + "/fusionplay list : Lists all connection data.");
-				break;
-			case "list":
-				sender.sendMessage(ChatColor.AQUA + "FusionPlay List:");
-				for(FusionCon fc : FusionPlay.getConnections()){
-					sender.sendMessage(ChatColor.DARK_AQUA + fc.getClioteName() + "| ID:" + fc.getID() + " Status:" + fc.getStatus() + " Type:" + fc.getCurrentType());
-				}
-				break;
+				case "help":
+					sender.sendMessage(ComponentSerializers.LEGACY.deserialize("&8&m----------&r&bFusionPlay Help&8&m----------", '&'));
+					sender.sendMessage(ComponentSerializers.LEGACY.deserialize("&8/fusionplay list : Lists all connection data.", '&'));
+					break;
+				case "list":
+					sender.sendMessage(TextComponent.of("FusionPlay List:", TextColor.AQUA));
+					for(FusionCon fc : FusionPlay.getConnections()){
+						sender.sendMessage(TextComponent.of(fc.getClioteName() + "| ID:" + fc.getID() + " Status:" + fc.getStatus() + " Type:" + fc.getCurrentType(), TextColor.DARK_AQUA));
+					}
+					break;
 			}
 		}
 	}
-
 }
