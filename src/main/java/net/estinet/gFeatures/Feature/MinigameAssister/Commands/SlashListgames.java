@@ -1,10 +1,10 @@
 package net.estinet.gFeatures.Feature.MinigameAssister.Commands;
 
+import com.velocitypowered.api.command.CommandSource;
 import net.estinet.gFeatures.EstiCommand;
 import net.estinet.gFeatures.gFeature;
-import net.estinet.gFeatures.Feature.MinigameAssister.MGServer;
 import net.estinet.gFeatures.Feature.MinigameAssister.MinigameAssister;
-import net.md_5.bungee.api.CommandSender;
+import net.kyori.text.TextComponent;
 
 /*
 gFeatures
@@ -27,14 +27,14 @@ https://github.com/EstiNet/gFeaturesBungee
 
 public class SlashListgames extends EstiCommand{
 	public SlashListgames(gFeature feature){
-		super("listgames", "basic", new String[0], feature);
+		super(new String[]{"listgames"}, "basic", feature);
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
-		sender.sendMessage("Servers:");
+	public void execute(CommandSource sender, String[] args) {
+		sender.sendMessage(TextComponent.of("Servers:"));
 		for(String mgs : MinigameAssister.servers.keySet()){
-			sender.sendMessage(mgs + " " + MinigameAssister.servers.get(mgs));
+			sender.sendMessage(TextComponent.of(mgs + " " + MinigameAssister.servers.get(mgs)));
 		}
 	}
 }

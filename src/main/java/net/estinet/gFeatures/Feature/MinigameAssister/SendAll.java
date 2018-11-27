@@ -1,8 +1,8 @@
 package net.estinet.gFeatures.Feature.MinigameAssister;
 
+import com.velocitypowered.api.proxy.server.RegisteredServer;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.config.ServerInfo;
+import net.estinet.gFeatures.gFeatures;
 
 /*
 gFeatures
@@ -28,8 +28,8 @@ public class SendAll {
         ClioteSky.getInstance().sendAsync(new byte[0], "mgstart", "MinigameHubs");
 
         for (String mgs : MinigameAssister.servers.keySet()) {
-            ServerInfo target = ProxyServer.getInstance().getServerInfo(mgs);
-            ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(mgs + " " + MinigameAssister.servers.get(mgs) + " " + target.getPlayers().size() + " " + MinigameAssister.maps.get(mgs)), "mgrecieve", "MinigameHubs");
+            RegisteredServer target = gFeatures.getInstance().getProxyServer().getServer(mgs).get();
+            ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(mgs + " " + MinigameAssister.servers.get(mgs) + " " + target.getPlayersConnected().size() + " " + MinigameAssister.maps.get(mgs)), "mgrecieve", "MinigameHubs");
         }
         ClioteSky.getInstance().sendAsync(new byte[0], "mgdone", "MinigameHubs");
     }

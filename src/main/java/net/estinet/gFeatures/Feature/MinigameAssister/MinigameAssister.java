@@ -2,9 +2,7 @@ package net.estinet.gFeatures.Feature.MinigameAssister;
 
 import java.util.HashMap;
 
-import net.estinet.gFeatures.Events;
 import net.estinet.gFeatures.gFeature;
-import net.md_5.bungee.api.plugin.Event;
 
 /*
 gFeatures
@@ -25,7 +23,7 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class MinigameAssister extends gFeature implements Events{
+public class MinigameAssister extends gFeature {
 	
 	public static HashMap<String, MGState> servers = new HashMap<>();
 	public static HashMap<String, String> maps = new HashMap<>();
@@ -41,6 +39,4 @@ public class MinigameAssister extends gFeature implements Events{
 	public void disable(){
 		Disable.onDisable();
 	}
-	@Override
-	public void eventTrigger(Event event) {}
 }

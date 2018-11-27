@@ -1,9 +1,9 @@
 package net.estinet.gFeatures.Feature.MinigameAssister;
 
+import com.velocitypowered.api.proxy.server.RegisteredServer;
 import net.estinet.gFeatures.ClioteSky.ClioteHook;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.config.ServerInfo;
+import net.estinet.gFeatures.gFeatures;
 
 /*
 gFeatures
@@ -36,8 +36,8 @@ public class MGGetClioteHook extends ClioteHook {
         try {
             ClioteSky.getInstance().sendAsync(new byte[0], "mgstart", "MinigameHubs");
             for (String mgs : MinigameAssister.servers.keySet()) {
-                ServerInfo target = ProxyServer.getInstance().getServerInfo(mgs);
-                ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(mgs + " " + MinigameAssister.servers.get(mgs) + " " + target.getPlayers().size() + " " + MinigameAssister.maps.get(mgs)), "mgrecieve", clioteName);
+                RegisteredServer target = gFeatures.getInstance().getProxyServer().getServer(mgs).get();
+                ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(mgs + " " + MinigameAssister.servers.get(mgs) + " " + target.getPlayersConnected().size() + " " + MinigameAssister.maps.get(mgs)), "mgrecieve", clioteName);
             } //MGS.getName() should be the name of the Cliote as well as server...
             ClioteSky.getInstance().sendAsync(new byte[0], "mgdone", clioteName);
         } catch (Exception e) {
