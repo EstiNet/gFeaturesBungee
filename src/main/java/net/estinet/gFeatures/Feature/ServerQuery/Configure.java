@@ -26,6 +26,7 @@ public class Configure{
 	@Configs
 	public static void onSetup(){
 		ServerQuery base = new ServerQuery("ServerQuery", "1.0.0");
+		base.addEventListener(new EventHub());
 		gFeatures.addFeature(base);
 
         ClioteSky.addHook(new ServerQueryClioteHook("info", base.getName()));

@@ -1,9 +1,10 @@
 package net.estinet.gFeatures.Feature.ServerQuery;
 
+import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.connection.DisconnectEvent;
+import com.velocitypowered.api.event.connection.PostLoginEvent;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.event.PlayerDisconnectEvent;
-import net.md_5.bungee.api.event.PostLoginEvent;
+import net.estinet.gFeatures.gFeatures;
 
 /*
 gFeatures
@@ -26,11 +27,13 @@ https://github.com/EstiNet/gFeaturesBungee
 
 public class EventHub {
 
+	@Subscribe
 	public void onPlayerJoin(PostLoginEvent event) {
-        ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("online " + ProxyServer.getInstance().getOnlineCount()), "info", "all");
+        ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("online " + gFeatures.getInstance().getProxyServer().getAllPlayers().size()), "info", "all");
 	}
-	
-	public void onPlayerLeave(PlayerDisconnectEvent event){
-        ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("online " + (ProxyServer.getInstance().getOnlineCount()-1)), "info", "all");
+
+	@Subscribe
+	public void onPlayerLeave(DisconnectEvent event){
+        ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("online " + (gFeatures.getInstance().getProxyServer().getAllPlayers().size())), "info", "all");
 	}
 }

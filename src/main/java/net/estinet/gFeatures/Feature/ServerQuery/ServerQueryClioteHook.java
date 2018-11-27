@@ -5,8 +5,7 @@ import java.util.List;
 import net.estinet.gFeatures.API.Resolver.ResolverFetcher;
 import net.estinet.gFeatures.ClioteSky.ClioteHook;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
-import net.estinet.gFeatures.gFeature;
-import net.md_5.bungee.api.ProxyServer;
+import net.estinet.gFeatures.gFeatures;
 
 /*
 gFeatures
@@ -41,10 +40,10 @@ public class ServerQueryClioteHook extends ClioteHook {
             if (!clioteName.contains("Bungee")) {
                 switch (args.get(0)) {
                     case "online":
-                        ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("online " + ProxyServer.getInstance().getOnlineCount()), "info", clioteName);
+                        ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("online " + gFeatures.getInstance().getProxyServer().getAllPlayers().size()), "info", clioteName);
                         break;
                     case "serverget":
-                        ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("serverget " + args.get(1) + " " + ProxyServer.getInstance().getPlayer(args.get(2)).getServer().getInfo().getName()), "info", clioteName);
+                        ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("serverget " + args.get(1) + " " + gFeatures.getInstance().getProxyServer().getPlayer(args.get(2)).get().getCurrentServer().get().getServerInfo().getName()), "info", clioteName);
                         break;
                     case "uuidlookup":
                         String uuid = ResolverFetcher.getUUIDfromName(args.get(1));

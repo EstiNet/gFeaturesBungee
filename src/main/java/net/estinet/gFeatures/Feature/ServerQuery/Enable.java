@@ -1,6 +1,6 @@
 package net.estinet.gFeatures.Feature.ServerQuery;
 
-import net.md_5.bungee.api.ProxyServer;
+import net.estinet.gFeatures.gFeatures;
 
 /*
 gFeatures
@@ -23,6 +23,6 @@ https://github.com/EstiNet/gFeaturesBungee
 
 public class Enable{
 	public static void onEnable(){
-		ProxyServer.getInstance().getLogger().info("[ServerQuery] Enabled!");
+		gFeatures.getInstance().getLogger().info("[ServerQuery] Enabled!");
 	}
 }

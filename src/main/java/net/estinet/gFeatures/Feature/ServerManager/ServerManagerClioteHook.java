@@ -2,11 +2,6 @@ package net.estinet.gFeatures.Feature.ServerManager;
 
 import net.estinet.gFeatures.ClioteSky.ClioteHook;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.config.ServerInfo;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-
-import java.net.InetSocketAddress;
 import java.util.List;
 
 public class ServerManagerClioteHook extends ClioteHook {
@@ -23,7 +18,7 @@ public class ServerManagerClioteHook extends ClioteHook {
         // ServerManager ClioteSky functions
 
         if (args.size() > 0) {
-            switch (args.get(0)) {
+            switch (args.get(0)) {/* TODO REDO FOR VELOCITY
                 case "add":
                     //servermanager add [name] [address] [port] [motd]
                     ServerInfo info = ProxyServer.getInstance().constructServerInfo(args.get(1), new InetSocketAddress(args.get(2), Integer.parseInt(args.get(3))), args.get(4), false);
@@ -39,7 +34,7 @@ public class ServerManagerClioteHook extends ClioteHook {
                     ProxyServer.getInstance().getServers().remove(args.get(1));
                     ProxyServer.getInstance().getLogger().info("Removing server " + args.get(1) + ".");
                     ServerManager.domains.remove(args.get(1));
-                    break;
+                    break;*/
             }
         }
     }

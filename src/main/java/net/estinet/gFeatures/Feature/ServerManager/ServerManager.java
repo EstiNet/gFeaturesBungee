@@ -1,13 +1,11 @@
 package net.estinet.gFeatures.Feature.ServerManager;
 
+import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.player.ServerConnectedEvent;
+import com.velocitypowered.api.proxy.server.RegisteredServer;
 import net.estinet.gFeatures.API.Logger.Debug;
-import net.estinet.gFeatures.Events;
-import net.estinet.gFeatures.Retrieval;
 import net.estinet.gFeatures.gFeature;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.config.ServerInfo;
-import net.md_5.bungee.api.event.ServerConnectEvent;
-import net.md_5.bungee.api.plugin.Event;
+import net.estinet.gFeatures.gFeatures;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
@@ -15,13 +13,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.InetSocketAddress;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class ServerManager extends gFeature implements Events {
+public class ServerManager extends gFeature {
 
     public ServerManager(String featurename, String d) {
         super(featurename, d);
@@ -34,7 +31,7 @@ public class ServerManager extends gFeature implements Events {
 
     @Override
     public void enable() {
-        ProxyServer.getInstance().getLogger().info("[ServerManager] Enabled!");
+        gFeatures.getInstance().getLogger().info("[ServerManager] Enabled!");
 
         // Read BungeeCord config and add all of the servers to the domains map.
 
@@ -55,34 +52,26 @@ public class ServerManager extends gFeature implements Events {
             String name = entry.getKey();
             String addr = get("address", val);
             domains.put(name, new UnresolvedAddress(addr.split(":")[0], addr.split(":")[1]));
-            ProxyServer.getInstance().getLogger().info("[ServerManager] Found server " + name + ".");
+            gFeatures.getInstance().getLogger().info("[ServerManager] Found server " + name + ".");
         }
 
         // Start scheduler to check for offline servers
 
-        ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), () -> {
-            for (ServerInfo si : ProxyServer.getInstance().getServers().values()) {
-                ProxyServer.getInstance().getScheduler().runAsync(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), () -> resolveServer(si));
+        gFeatures.getInstance().getProxyServer().getScheduler().buildTask(gFeatures.getInstance(), () -> {
+            for (RegisteredServer si : gFeatures.getInstance().getProxyServer().getAllServers()) {
+                gFeatures.getInstance().getProxyServer().getScheduler().buildTask(gFeatures.getInstance(), () -> resolveServer(si)).schedule();
             }
-        }, 5, TimeUnit.MINUTES);
+        }).repeat(5, TimeUnit.MINUTES).schedule();
     }
 
     @Override
     public void disable() {
-        ProxyServer.getInstance().getLogger().info("[ServerManager] Disabled!");
+        gFeatures.getInstance().getLogger().info("[ServerManager] Disabled!");
     }
 
-    @Override
-    public void eventTrigger(Event event) {
-        if (event.getClass().getName().substring(26, event.getClass().getName().length()).equalsIgnoreCase("serverconnectevent")) {
-            ServerConnectEvent e = (ServerConnectEvent) event;
-            resolveServer(e.getTarget());
-        }
-    }
-
-    @Retrieval
-    @Override
-    public void onServerConnect() {
+    @Subscribe
+    void onServerConnect(ServerConnectedEvent event) {
+        resolveServer(event.getServer());
     }
 
     /*
@@ -90,20 +79,22 @@ public class ServerManager extends gFeature implements Events {
      * in BungeeCord when the ip changes, since Bungee doesn't do that itself.
      */
 
-    private void resolveServer(ServerInfo serverInfo) {
-        if (serverInfo.getPlayers().size() > 0) {
+    private void resolveServer(RegisteredServer serverInfo) {
+        if (serverInfo.getPlayersConnected().size() > 0) {
             return;
         }
+        /* TODO REDO CODE FOR VELOCITY
         serverInfo.ping((result, error) -> {
             if (error != null) {
                 //Means that server is not responding : OFFLINE
+
 
                 Debug.print("[ServerManager] Attempting to re-resolve offline server " + serverInfo.getName() + "...");
 
                 Debug.print("[ServerManager] Resolving old host " + serverInfo.getAddress().getAddress() + ":" + serverInfo.getAddress().getPort());
 
                 InetSocketAddress newAddress = new InetSocketAddress(domains.get(serverInfo.getName()).address, Integer.parseInt(domains.get(serverInfo.getName()).port));
-                ServerInfo newsi = ProxyServer.getInstance().constructServerInfo(serverInfo.getName(), newAddress, serverInfo.getMotd(), false);
+                RegisteredServer newsi = ProxyServer.getInstance().constructServerInfo(serverInfo.getName(), newAddress, serverInfo.getMotd(), false);
 
                 Debug.print("[ServerManager] New host is " + newAddress.getAddress() + ":" + newAddress.getPort());
 
@@ -112,7 +103,7 @@ public class ServerManager extends gFeature implements Events {
 
                 Debug.print("[ServerManager] Re-resolved server " + serverInfo.getName() + ".");
             }
-        });
+        });*/
     }
 
     /*
