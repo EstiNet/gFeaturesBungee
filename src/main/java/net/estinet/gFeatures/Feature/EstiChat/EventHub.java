@@ -94,7 +94,7 @@ public class EventHub {
             if (!p.getCurrentServer().isPresent()) return;
             String server = p.getCurrentServer().get().getServerInfo().getName();
             if (server.equals("SurvivalPink") || server.equals("SkyAdventures")) {
-                ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(p.getUsername() + " : " + event.getMessage()), "chat", "Bungee");
+                ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(p.getUsername() + " " + p.getUsername() + " : " + event.getMessage()), "chat", "Bungee");
             }
         }
     }
