@@ -2,12 +2,11 @@ package net.estinet.gFeatures.Feature.ServerRedirect;
 
 import java.util.List;
 
+import com.velocitypowered.api.proxy.Player;
+import com.velocitypowered.api.proxy.server.RegisteredServer;
 import net.estinet.gFeatures.ClioteSky.ClioteHook;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
-import net.estinet.gFeatures.gFeature;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.config.ServerInfo;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.estinet.gFeatures.gFeatures;
 
 /*
 gFeatures
@@ -39,9 +38,9 @@ public class SRClioteHook extends ClioteHook {
     public void run(byte[] data, String sender) {
         List<String> args = ClioteSky.parseBytesToStringList(data);
         try {
-            ProxiedPlayer player = ProxyServer.getInstance().getPlayer(args.get(0));
-            ServerInfo target = ProxyServer.getInstance().getServerInfo(args.get(1));
-            player.connect(target);
+            Player player = gFeatures.getInstance().getProxyServer().getPlayer(args.get(0)).get();
+            RegisteredServer target = gFeatures.getInstance().getProxyServer().getServer(args.get(1)).get();
+            player.createConnectionRequest(target).fireAndForget();
         } catch (Exception e) {
             e.printStackTrace();
         }

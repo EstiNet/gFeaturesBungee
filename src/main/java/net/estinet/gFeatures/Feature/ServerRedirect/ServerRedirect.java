@@ -1,8 +1,6 @@
 package net.estinet.gFeatures.Feature.ServerRedirect;
 
-import net.estinet.gFeatures.Events;
 import net.estinet.gFeatures.gFeature;
-import net.md_5.bungee.api.plugin.Event;
 
 /*
 gFeatures
@@ -23,7 +21,7 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class ServerRedirect extends gFeature implements Events{
+public class ServerRedirect extends gFeature {
 	public ServerRedirect(String featurename, String d) {
 		super(featurename, d);
 	}
@@ -35,6 +33,4 @@ public class ServerRedirect extends gFeature implements Events{
 	public void disable(){
 		Disable.onDisable();
 	}
-	@Override
-	public void eventTrigger(Event event) {}
 }
