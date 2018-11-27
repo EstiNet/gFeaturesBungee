@@ -25,6 +25,7 @@ public class Configure {
     @Configs
     public static void onSetup() {
         Hubs base = new Hubs("Hubs", "1.2.5");
+        base.addEventListener(new EventHub());
         gFeatures.addFeature(base);
     }
 }

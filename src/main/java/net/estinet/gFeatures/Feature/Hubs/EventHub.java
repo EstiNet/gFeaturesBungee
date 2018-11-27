@@ -1,15 +1,10 @@
 package net.estinet.gFeatures.Feature.Hubs;
 
+import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.connection.PostLoginEvent;
+import com.velocitypowered.api.event.player.ServerConnectedEvent;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.connection.PendingConnection;
-import net.md_5.bungee.api.event.PlayerHandshakeEvent;
-import net.md_5.bungee.api.event.PostLoginEvent;
-import net.md_5.bungee.api.event.ServerConnectEvent;
-import net.md_5.bungee.api.event.ServerConnectedEvent;
-
-import java.lang.reflect.InvocationTargetException;
-import java.net.InetSocketAddress;
+import net.estinet.gFeatures.gFeatures;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -33,37 +28,25 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class EventHub{
-	public static HashMap<UUID, Boolean> hash = new HashMap<>();
-	public static void onPlayerLogin(PostLoginEvent event) {
-		PendingConnection pc = event.getPlayer().getPendingConnection();
-		try {
-			Object handshake = pc.getClass().getMethod("getHandshake").invoke(pc);
-			String host = (String) handshake.getClass().getMethod("getHost").invoke(handshake);
-			if (host.equals("survival.estinet.net")) {
-				hash.put(event.getPlayer().getUniqueId(), true);
-				ProxyServer.getInstance().getScheduler().schedule(ProxyServer.getInstance().getPluginManager().getPlugin("gFeatures"), () -> {
-					hash.remove(event.getPlayer().getUniqueId());
-				}, 1, TimeUnit.MINUTES);
-			}
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		}
-	}
+public class EventHub {
+    private static HashMap<UUID, Boolean> hash = new HashMap<>();
 
-	public static void onServerConnect(ServerConnectEvent event) {
-		if (hash.get(event.getPlayer().getUniqueId()) != null && hash.get(event.getPlayer().getUniqueId())) {
-			hash.remove(event.getPlayer().getUniqueId());
-			if (event.getTarget().getName().equals("Hub")) {
-				ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(event.getPlayer().getName()), "survivalmenu", "Hubs");
-			} else {
-				event.setTarget(ProxyServer.getInstance().getServerInfo("Hub"));
-				ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(event.getPlayer().getName()), "survivalmenu", "Hubs");
-			}
-		}
-	}
+    @Subscribe
+    public static void onPlayerLogin(PostLoginEvent event) {
+        String host = event.getPlayer().getVirtualHost().get().getHostString();
+        if (host.contains("survival.estinet.net")) {
+            hash.put(event.getPlayer().getUniqueId(), true);
+            gFeatures.getInstance().getProxyServer().getScheduler().buildTask(gFeatures.getInstance(), () -> {
+                hash.remove(event.getPlayer().getUniqueId());
+            }).delay(1, TimeUnit.MINUTES).schedule();
+        }
+    }
+
+    @Subscribe
+    public static void onServerConnect(ServerConnectedEvent event) {
+        if (hash.get(event.getPlayer().getUniqueId()) != null && hash.get(event.getPlayer().getUniqueId())) {
+            hash.remove(event.getPlayer().getUniqueId());
+            ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(event.getPlayer().getUsername()), "survivalmenu", "Hubs");
+        }
+    }
 }

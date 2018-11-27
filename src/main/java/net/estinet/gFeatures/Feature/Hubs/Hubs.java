@@ -1,13 +1,6 @@
 package net.estinet.gFeatures.Feature.Hubs;
 
-import net.estinet.gFeatures.Events;
-import net.estinet.gFeatures.Retrieval;
 import net.estinet.gFeatures.gFeature;
-import net.md_5.bungee.api.event.PlayerHandshakeEvent;
-import net.md_5.bungee.api.event.PostLoginEvent;
-import net.md_5.bungee.api.event.ServerConnectEvent;
-import net.md_5.bungee.api.event.ServerConnectedEvent;
-import net.md_5.bungee.api.plugin.Event;
 
 /*
 gFeatures
@@ -28,7 +21,7 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class Hubs extends gFeature implements Events {
+public class Hubs extends gFeature {
 
     public Hubs(String featurename, String d) {
         super(featurename, d);
@@ -44,21 +37,4 @@ public class Hubs extends gFeature implements Events {
         Disable.onDisable();
     }
 
-    @Override
-    public void eventTrigger(Event event) {
-        if (event.getClass().getName().substring(26).equalsIgnoreCase("postloginevent")) {
-            EventHub.onPlayerLogin((PostLoginEvent) event);
-        } else if (event.getClass().getName().substring(26).equalsIgnoreCase("serverconnectevent")) {
-            EventHub.onServerConnect((ServerConnectEvent) event);
-        }
-    }
-
-    @Override
-    @Retrieval
-    public void onServerConnect() {
-    }
-    @Override
-    @Retrieval
-    public void onPostLogin() {
-    }
 }
