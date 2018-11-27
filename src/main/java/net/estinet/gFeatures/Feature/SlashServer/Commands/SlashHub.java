@@ -1,13 +1,12 @@
 package net.estinet.gFeatures.Feature.SlashServer.Commands;
 
+import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.proxy.Player;
 import net.estinet.gFeatures.EstiCommand;
 import net.estinet.gFeatures.gFeature;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.config.ServerInfo;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.estinet.gFeatures.gFeatures;
+import net.kyori.text.TextComponent;
+import net.kyori.text.format.TextColor;
 
 import java.util.Arrays;
 
@@ -32,24 +31,24 @@ https://github.com/EstiNet/gFeaturesBungee
 
 public class SlashHub extends EstiCommand {
     public SlashHub(gFeature feature) {
-        super("hub", "basic", new String[0], feature);
+        super(new String[]{"hub"}, "basic", feature);
     }
 
     @Override
-    public void execute(CommandSender sender, String[] args) {
-        if (sender instanceof ProxiedPlayer) {
-            ProxiedPlayer player = (ProxiedPlayer) sender;
+    public void execute(CommandSource sender, String[] args) {
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
 
             for (String str : Arrays.asList("Factions", "SurvivalLime", "SurvivalCyan", "SurvivalPink", "Skyblock", "Creative", "Development", "gWars", "Hub")) {
-                if (player.getServer().getInfo().getName().equals(str)) {
-                    player.connect(ProxyServer.getInstance().getServerInfo("Hub"));
+                if (player.getCurrentServer().get().getServerInfo().getName().equals(str)) {
+                    player.createConnectionRequest(gFeatures.getInstance().getProxyServer().getServer("Hub").get()).fireAndForget();
                     return;
                 }
             }
 
-            player.connect(ProxyServer.getInstance().getServerInfo("MinigameHub"));
+            player.createConnectionRequest(gFeatures.getInstance().getProxyServer().getServer("MinigameHub").get()).fireAndForget();
         } else {
-            sender.sendMessage(new ComponentBuilder("This command can only be run by a player!").color(ChatColor.AQUA).create());
+            sender.sendMessage(TextComponent.of("This command can only be run by a player!", TextColor.AQUA));
         }
     }
 }

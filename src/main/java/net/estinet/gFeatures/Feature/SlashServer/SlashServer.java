@@ -1,8 +1,12 @@
 package net.estinet.gFeatures.Feature.SlashServer;
 
-import net.estinet.gFeatures.Events;
+import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.proxy.Player;
+import com.velocitypowered.api.proxy.server.RegisteredServer;
 import net.estinet.gFeatures.gFeature;
-import net.md_5.bungee.api.plugin.Event;
+import net.estinet.gFeatures.gFeatures;
+import net.kyori.text.TextComponent;
+import net.kyori.text.format.TextColor;
 
 /*
 gFeatures
@@ -23,19 +27,29 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class SlashServer extends gFeature implements Events{
-	
-	public SlashServer(String featurename, String d) {
-		super(featurename, d);
-	}
-	@Override
-	public void enable(){
-		Enable.onEnable();
-	}
-	@Override
-	public void disable(){
-		Disable.onDisable();
-	}
-	@Override
-	public void eventTrigger(Event event) {}
+public class SlashServer extends gFeature {
+
+    public SlashServer(String featurename, String d) {
+        super(featurename, d);
+    }
+
+    @Override
+    public void enable() {
+        Enable.onEnable();
+    }
+
+    @Override
+    public void disable() {
+        Disable.onDisable();
+    }
+
+    public static void connectToServer(CommandSource sender, String server) {
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            RegisteredServer target = gFeatures.getInstance().getProxyServer().getServer(server).get();
+            player.createConnectionRequest(target).fireAndForget();
+        } else {
+            sender.sendMessage(TextComponent.of("This command can only be run by a player!", TextColor.AQUA));
+        }
+    }
 }

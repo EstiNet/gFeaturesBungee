@@ -1,13 +1,9 @@
 package net.estinet.gFeatures.Feature.SlashServer.Commands;
 
+import com.velocitypowered.api.command.CommandSource;
 import net.estinet.gFeatures.EstiCommand;
+import net.estinet.gFeatures.Feature.SlashServer.SlashServer;
 import net.estinet.gFeatures.gFeature;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.config.ServerInfo;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 /*
 gFeatures
@@ -30,18 +26,11 @@ https://github.com/EstiNet/gFeaturesBungee
 
 public class SlashgWars extends EstiCommand{
 	public SlashgWars(gFeature feature){
-		super("gwars", "basic", new String[0], feature);
+		super(new String[]{"gwars"}, "basic", feature);
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
-		if(sender instanceof ProxiedPlayer){
-			ProxiedPlayer player = (ProxiedPlayer) sender;
-			ServerInfo target = ProxyServer.getInstance().getServerInfo("gWars");
-			player.connect(target);
-		}
-		else{
-			sender.sendMessage(new ComponentBuilder("This command can only be run by a player!").color(ChatColor.AQUA).create());
-		}
+	public void execute(CommandSource sender, String[] args) {
+		SlashServer.connectToServer(sender, "gWars");
 	}
 }

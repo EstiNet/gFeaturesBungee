@@ -1,13 +1,15 @@
 package net.estinet.gFeatures.Feature.SlashServer.Commands;
 
+import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.proxy.Player;
+import com.velocitypowered.api.proxy.ProxyServer;
+import com.velocitypowered.api.proxy.server.ServerInfo;
 import net.estinet.gFeatures.EstiCommand;
+import net.estinet.gFeatures.Feature.SlashServer.SlashServer;
 import net.estinet.gFeatures.gFeature;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.config.ServerInfo;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
+import net.estinet.gFeatures.gFeatures;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.optional.qual.MaybePresent;
 
 /*
 gFeatures
@@ -30,18 +32,11 @@ https://github.com/EstiNet/gFeaturesBungee
 
 public class SlashCreative extends EstiCommand{
 	public SlashCreative(gFeature feature){
-		super("creative", "basic", new String[0], feature);
+		super(new String[]{"creative"}, "basic", feature);
 	}
 
 	@Override
-	public void execute(CommandSender sender, String[] args) {
-		if(sender instanceof ProxiedPlayer){
-			ProxiedPlayer player = (ProxiedPlayer) sender;
-			ServerInfo target = ProxyServer.getInstance().getServerInfo("Creative");
-			player.connect(target);
-		}
-		else{
-			sender.sendMessage(new ComponentBuilder("This command can only be run by a player!").color(ChatColor.AQUA).create());
-		}
+	public void execute(CommandSource sender, String[] args) {
+		SlashServer.connectToServer(sender, "Creative");
 	}
 }
