@@ -32,7 +32,7 @@ public class EventHub {
     private static HashMap<UUID, Boolean> hash = new HashMap<>();
 
     @Subscribe
-    public static void onPlayerLogin(PostLoginEvent event) {
+    public void onPlayerLogin(PostLoginEvent event) {
         String host = event.getPlayer().getVirtualHost().get().getHostString();
         if (host.contains("survival.estinet.net")) {
             hash.put(event.getPlayer().getUniqueId(), true);
@@ -43,7 +43,7 @@ public class EventHub {
     }
 
     @Subscribe
-    public static void onServerConnect(ServerConnectedEvent event) {
+    public void onServerConnect(ServerConnectedEvent event) {
         if (hash.get(event.getPlayer().getUniqueId()) != null && hash.get(event.getPlayer().getUniqueId())) {
             hash.remove(event.getPlayer().getUniqueId());
             ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(event.getPlayer().getUsername()), "survivalmenu", "Hubs");

@@ -47,7 +47,7 @@ public class EventHub {
 
         } else { // join proxy
             for (Player player : gFeatures.getInstance().getProxyServer().getAllPlayers()) {
-                if (!player.getCurrentServer().isPresent() && !player.getCurrentServer().get().getServerInfo().getName().equalsIgnoreCase(event.getOriginalServer().getServerInfo().getName())) {
+                if (player.getCurrentServer().isPresent() && !player.getCurrentServer().get().getServerInfo().getName().equalsIgnoreCase(event.getOriginalServer().getServerInfo().getName())) {
                     player.sendMessage(TextComponent.of("[" + EstiChat.getServerName(event.getResult().getServer().get().getServerInfo().getName()) + "] ").append(
                             TextComponent.of("[", TextColor.GOLD)
                     ).append(
@@ -94,7 +94,7 @@ public class EventHub {
             if (!p.getCurrentServer().isPresent()) return;
             String server = p.getCurrentServer().get().getServerInfo().getName();
             if (server.equals("SurvivalPink") || server.equals("SkyAdventures")) {
-                ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("[" + server + "] " + p.getUsername() + " : " + event.getMessage()), "chat", "Bungee");
+                ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(p.getUsername() + " : " + event.getMessage()), "chat", "Bungee");
             }
         }
     }

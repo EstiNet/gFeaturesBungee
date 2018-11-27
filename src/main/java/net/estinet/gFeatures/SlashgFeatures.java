@@ -34,7 +34,7 @@ public class SlashgFeatures implements Command {
     public void execute(CommandSource sender, String[] args) {
         try {
             if (args.length == 0) {
-                sender.sendMessage(TextComponent.of("Please do /gFeaturesBungee help.", TextColor.GRAY));
+                sender.sendMessage(TextComponent.of("Please do /gfp help.", TextColor.GRAY));
             } else if (args.length == 1) {
                 switch (args[0]) {
                     case "version":
@@ -42,7 +42,7 @@ public class SlashgFeatures implements Command {
                         break;
                     case "help":
                         sender.sendMessage(TextComponent.of("------Help------", TextColor.GRAY));
-                        sender.sendMessage(TextComponent.of("/gFeaturesBungee version : States the version.", TextColor.GRAY));
+                        sender.sendMessage(TextComponent.of("/gfp version : States the version.", TextColor.GRAY));
                         sender.sendMessage(TextComponent.of("/gFeaturesBungee list : Lists all features with their states and versions also.", TextColor.GRAY));
                         sender.sendMessage(TextComponent.of("/gFeaturesBungee featurestate <Feature> : Gets the state of the feature.", TextColor.GRAY));
                         sender.sendMessage(TextComponent.of("/gFeaturesBungee send <Cliote> <Identifier> <Message> : Sends a manual message to the ClioteSky server.", TextColor.GRAY));

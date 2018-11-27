@@ -32,7 +32,7 @@ https://github.com/EstiNet/gFeaturesBungee
 
 public class EventHub {
     @Subscribe
-    public static void onPlayerJoin(ServerPreConnectEvent event) {
+    public void onPlayerJoin(ServerPreConnectEvent event) {
         File bans = new File("plugins/gFeatures/EstiBans/playerdata/" + event.getPlayer().getUniqueId() + "-bans");
         File mutes = new File("plugins/gFeatures/EstiBans/playerdata/" + event.getPlayer().getUniqueId() + "-mutes");
         File warnings = new File("plugins/gFeatures/EstiBans/playerdata/" + event.getPlayer().getUniqueId() + "-warnings");
@@ -68,7 +68,7 @@ public class EventHub {
     }
 
     @Subscribe
-    public static void onChat(PlayerChatEvent event) {
+    public void onChat(PlayerChatEvent event) {
         Player player = event.getPlayer();
         if (!player.getCurrentServer().isPresent()) return;
         if (event.getMessage().length() > 0 && event.getMessage().charAt(0) != '/' && EstiBans.isMutedOn(player.getUniqueId(), player.getCurrentServer().get().getServerInfo().getName())) {

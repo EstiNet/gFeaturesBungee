@@ -157,15 +157,15 @@ public class ClioteSky {
         try {
             boolean nameTaken = blockingStub.checkNameTaken(net.estinet.gFeatures.ClioteSky.ClioteSkyRPC.String.newBuilder().setStr(name).build()).getB();
             if (nameTaken) {
-                gFeatures.getInstance().getLogger().warning("ClioteSky name has already been taken. Be careful!");
+                gFeatures.getInstance().getLogger().warn("ClioteSky name has already been taken. Be careful!");
             }
             authToken = blockingStub.auth(req).getToken();
             gFeatures.getInstance().getLogger().info("[ClioteSky] Authenticated!");
         } catch (StatusRuntimeException e) {
-            gFeatures.getInstance().getLogger().severe("[ClioteSky] RPC failed: " + e.getStatus());
+            gFeatures.getInstance().getLogger().error("[ClioteSky] RPC failed: " + e.getStatus());
         }
         channel.notifyWhenStateChanged(ConnectivityState.READY, () -> {
-            gFeatures.getInstance().getLogger().warning("[ClioteSky] RPC state changed: " + channel.getState(true));
+            gFeatures.getInstance().getLogger().warn("[ClioteSky] RPC state changed: " + channel.getState(true));
         });
     }
 
@@ -211,20 +211,20 @@ public class ClioteSky {
 
                     if (e.getStatus().getDescription().equals("io exception")) {
                         if (!offline) {
-                            gFeatures.getInstance().getLogger().severe("[ClioteSky] Can't establish connection to server!");
+                            gFeatures.getInstance().getLogger().error("[ClioteSky] Can't establish connection to server!");
                         }
                         offline = true;
                         printError = gFeatures.debug;
                     }
 
                     if (printError)
-                        gFeatures.getInstance().getLogger().severe("[ClioteSky] RPC failed!: " + e.getStatus());
+                        gFeatures.getInstance().getLogger().warn("[ClioteSky] RPC failed!: " + e.getStatus());
                     if (e.getStatus().getDescription().equals("invalid authentication token")) {
                         start();
                     }
                 } catch (NullPointerException e) { // if the initial connection couldn't be reached on server start
                     if (gFeatures.debug) {
-                        gFeatures.getInstance().getLogger().severe("Can't establish connection with server. Attempting again...");
+                        gFeatures.getInstance().getLogger().error("Can't establish connection with server. Attempting again...");
                         e.printStackTrace();
                     }
                     initConnection(ClioteSky.address, Integer.parseInt(ClioteSky.port));
@@ -262,7 +262,7 @@ public class ClioteSky {
             Debug.print("[ClioteSky] sent " + identifier + " to " + recipient);
             blockingStub.send(ClioteSkyRPC.ClioteSend.newBuilder().setData(ByteString.copyFrom(data)).setIdentifier(identifier).setRecipient(recipient).setToken(this.authToken).build());
         } catch (StatusRuntimeException e) {
-            gFeatures.getInstance().getLogger().severe("[ClioteSky] RPC failed: " + e.getStatus());
+            gFeatures.getInstance().getLogger().error("[ClioteSky] RPC failed: " + e.getStatus());
         }
     }
 
