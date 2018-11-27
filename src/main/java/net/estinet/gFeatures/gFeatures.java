@@ -88,7 +88,9 @@ public class gFeatures {
 
         for (EstiCommand command : gFeatures.getCommands()) {
             if (gFeatures.getFeature(command.feature.getName()).isEnabled()) {
-                this.server.getCommandManager().register(command, command.names);
+                this.server.getCommandManager().register((source, args) -> {
+                    if (command.permission.equals("basic") || source.hasPermission(command.permission)) command.execute(source, args);
+                    }, command.names);
             }
         }
 
