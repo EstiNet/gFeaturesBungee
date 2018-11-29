@@ -43,11 +43,11 @@ public class SlashgFeatures implements Command {
                     case "help":
                         sender.sendMessage(TextComponent.of("------Help------", TextColor.GRAY));
                         sender.sendMessage(TextComponent.of("/gfp version : States the version.", TextColor.GRAY));
-                        sender.sendMessage(TextComponent.of("/gFeaturesBungee list : Lists all features with their states and versions also.", TextColor.GRAY));
-                        sender.sendMessage(TextComponent.of("/gFeaturesBungee featurestate <Feature> : Gets the state of the feature.", TextColor.GRAY));
-                        sender.sendMessage(TextComponent.of("/gFeaturesBungee send <Cliote> <Identifier> <Message> : Sends a manual message to the ClioteSky server.", TextColor.GRAY));
-                        sender.sendMessage(TextComponent.of("/gFeaturesBungee lookup <Player Name> : Lookup player info (UUID and previous names).", TextColor.GRAY));
-                        sender.sendMessage(TextComponent.of("/gFeaturesBungee debug : Turns on debug messages.", TextColor.GRAY));
+                        sender.sendMessage(TextComponent.of("/gfp list : Lists all features with their states and versions also.", TextColor.GRAY));
+                        sender.sendMessage(TextComponent.of("/gfp featurestate <Feature> : Gets the state of the feature.", TextColor.GRAY));
+                        sender.sendMessage(TextComponent.of("/gfp send <Cliote> <Identifier> <Message> : Sends a manual message to the ClioteSky server.", TextColor.GRAY));
+                        sender.sendMessage(TextComponent.of("/gfp lookup <Player Name> : Lookup player info (UUID and previous names).", TextColor.GRAY));
+                        sender.sendMessage(TextComponent.of("/gfp debug : Turns on debug messages.", TextColor.GRAY));
                         break;
                     case "list":
                         List<gFeature> features = gFeatures.getFeatures();
@@ -60,13 +60,13 @@ public class SlashgFeatures implements Command {
                         }
                         sender.sendMessage(TextComponent.of("Disabled:", TextColor.GRAY));
                         for (gFeature feature : features) {
-                            if (feature.isEnabled()) {
+                            if (!feature.isEnabled()) {
                                 sender.sendMessage(TextComponent.of(" - " + feature.getName() + " " + feature.getVersion(), TextColor.GRAY));
                             }
                         }
                         break;
                     case "featurestate":
-                        sender.sendMessage(TextComponent.of("Usage: /gFeaturesBungee featurestate <Plugin>", TextColor.GRAY));
+                        sender.sendMessage(TextComponent.of("Usage: /gfp featurestate <Plugin>", TextColor.GRAY));
                         break;
                     case "debug":
                         if (gFeatures.debug) {
@@ -98,7 +98,7 @@ public class SlashgFeatures implements Command {
                         sender.sendMessage(TextComponent.of(prev.toString(), TextColor.GRAY));
                         break;
                     default:
-                        sender.sendMessage(TextComponent.of("Please do /gFeaturesBungee help.", TextColor.GRAY));
+                        sender.sendMessage(TextComponent.of("Please do /gfp help.", TextColor.GRAY));
                         break;
                 }
             } else if (args.length >= 4) {
@@ -113,11 +113,11 @@ public class SlashgFeatures implements Command {
                         sender.sendMessage(TextComponent.of("Sent message " + output + " to ClioteSky.", TextColor.GRAY));
                         break;
                     default:
-                        sender.sendMessage(TextComponent.of("Please do /gFeaturesBungee help.", TextColor.GRAY));
+                        sender.sendMessage(TextComponent.of("Please do /gfp help.", TextColor.GRAY));
                         break;
                 }
             } else {
-                sender.sendMessage(TextComponent.of("Please do /gFeaturesBungee help.", TextColor.GRAY));
+                sender.sendMessage(TextComponent.of("Please do /gfp help.", TextColor.GRAY));
             }
         } catch (Exception e) {
             e.printStackTrace();

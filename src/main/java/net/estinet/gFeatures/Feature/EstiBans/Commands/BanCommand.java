@@ -36,7 +36,7 @@ public class BanCommand extends EstiCommand{
 	@Override
 	public void execute(CommandSource sender, String[] args) {
 		if(args.length < 3){
-			sender.sendMessage(TextComponent.of(EstiBans.estiBansPrefix + "/ban [Player] [Server] [Reason]"));
+			sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("/ban [Player] [Server] [Reason]")));
 		}
 		else{
 			try{

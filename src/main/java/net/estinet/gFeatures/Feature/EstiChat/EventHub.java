@@ -35,14 +35,17 @@ public class EventHub {
         if (!event.getResult().getServer().isPresent()) return;
 
         if (event.getPlayer().getCurrentServer().isPresent()) { // server switching
+
             String previousServer = event.getPlayer().getCurrentServer().get().getServerInfo().getName(),
-            targetServer = EstiChat.getServerName(event.getPlayer().getCurrentServer().get().getServerInfo().getName());
+            targetServer = EstiChat.getServerName(event.getOriginalServer().getServerInfo().getName());
+
             for (Player player : gFeatures.getInstance().getProxyServer().getAllPlayers()) {
                 player.sendMessage(TextComponent.of("[", TextColor.GOLD).append(
                         TextComponent.of("Switch", TextColor.DARK_AQUA)
                 ).append(TextComponent.of("] ", TextColor.GOLD)
-                ).append(TextComponent.of("(" + previousServer + " -> " + targetServer + ") " + event.getPlayer().getUsername())));
+                ).resetStyle().append(TextComponent.of("(" + previousServer + " -> " + targetServer + ") " + event.getPlayer().getUsername())));
             }
+
             ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(previousServer + " [Switch] (" + previousServer + " -> " + targetServer + ") " + event.getPlayer().getUsername()), "consolechat", "all");
 
         } else { // join proxy
@@ -54,7 +57,7 @@ public class EventHub {
                             TextComponent.of("Join", TextColor.DARK_AQUA)
                     ).append(
                             TextComponent.of("] ", TextColor.GOLD)
-                    ).append(
+                    ).resetStyle().append(
                             TextComponent.of(event.getPlayer().getUsername())
                     ));
                 }
@@ -79,7 +82,7 @@ public class EventHub {
                         "Leave", TextColor.DARK_AQUA
                 )).append(TextComponent.of(
                         "] ", TextColor.GOLD
-                )).append(TextComponent.of(
+                )).resetStyle().append(TextComponent.of(
                         event.getPlayer().getUsername()
                 )));
             }
