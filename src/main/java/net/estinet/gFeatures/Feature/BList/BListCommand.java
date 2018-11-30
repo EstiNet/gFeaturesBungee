@@ -43,12 +43,12 @@ public class BListCommand extends EstiCommand {
     public void execute(CommandSource sender, String[] args) {
 
         if (gFeatures.getInstance().getProxyServer().getAllPlayers().size() == 1) {
-            sender.sendMessage(TextComponent.of("--------", TextColor.GRAY).decoration(TextDecoration.STRIKETHROUGH, true).resetStyle().
-                    append(TextComponent.of("There is 1 player on!", TextColor.DARK_AQUA)).resetStyle().
+            sender.sendMessage(TextComponent.of("--------", TextColor.GRAY).decoration(TextDecoration.STRIKETHROUGH, true).
+                    append(TextComponent.of("There is 1 player on!", TextColor.DARK_AQUA).decoration(TextDecoration.STRIKETHROUGH, false)).resetStyle().
                     append(TextComponent.of("--------", TextColor.GRAY).decoration(TextDecoration.STRIKETHROUGH, true)));
         } else {
-            sender.sendMessage(TextComponent.of("--------", TextColor.GRAY).decoration(TextDecoration.STRIKETHROUGH, true).resetStyle().
-                    append(TextComponent.of("There are " + gFeatures.getInstance().getProxyServer().getAllPlayers().size() + " players on!", TextColor.DARK_AQUA)).resetStyle().
+            sender.sendMessage(TextComponent.of("--------", TextColor.GRAY).decoration(TextDecoration.STRIKETHROUGH, true).
+                    append(TextComponent.of("There are " + gFeatures.getInstance().getProxyServer().getAllPlayers().size() + " players on!", TextColor.DARK_AQUA).decoration(TextDecoration.STRIKETHROUGH, false)).resetStyle().
                     append(TextComponent.of("--------", TextColor.GRAY).decoration(TextDecoration.STRIKETHROUGH, true)));
         }
 

@@ -32,6 +32,8 @@ public class SlashgFeatures implements Command {
 
     @Override
     public void execute(CommandSource sender, String[] args) {
+        if (!sender.hasPermission("gFeatures.admin")) return;
+
         try {
             if (args.length == 0) {
                 sender.sendMessage(TextComponent.of("Please do /gfp help.", TextColor.GRAY));
