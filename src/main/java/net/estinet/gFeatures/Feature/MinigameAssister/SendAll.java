@@ -28,6 +28,7 @@ public class SendAll {
         ClioteSky.getInstance().sendAsync(new byte[0], "mgstart", "MinigameHubs");
 
         for (String mgs : MinigameAssister.servers.keySet()) {
+            if (!gFeatures.getInstance().getProxyServer().getServer(mgs).isPresent()) continue;
             RegisteredServer target = gFeatures.getInstance().getProxyServer().getServer(mgs).get();
             ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(mgs + " " + MinigameAssister.servers.get(mgs) + " " + target.getPlayersConnected().size() + " " + MinigameAssister.maps.get(mgs)), "mgrecieve", "MinigameHubs");
         }
