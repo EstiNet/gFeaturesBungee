@@ -28,6 +28,7 @@ public class Configure {
         Alerts base = new Alerts("Alerts", "1.0.0");
         gFeatures.addFeature(base);
 
+        gFeatures.addCommand(new AlertCommand(base));
         ClioteSky.addHook(new AlertClioteHook("alert", base.getName()));
     }
 }
