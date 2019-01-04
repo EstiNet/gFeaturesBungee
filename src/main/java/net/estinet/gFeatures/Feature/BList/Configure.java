@@ -29,5 +29,6 @@ public class Configure {
 		gFeatures.addFeature(base);
 		gFeatures.addCommand(new BListCommand(base));
 		ClioteSky.addHook(new FakePlayerClioteHook("fakeplayer", base.getName()));
+		base.addEventListener(base);
 	}
 }

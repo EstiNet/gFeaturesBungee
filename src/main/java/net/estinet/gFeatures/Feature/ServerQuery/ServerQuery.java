@@ -23,8 +23,6 @@ https://github.com/EstiNet/gFeaturesBungee
 
 public class ServerQuery extends gFeature {
 	
-	EventHub eh = new EventHub();
-	
 	public ServerQuery(String featurename, String d) {
 		super(featurename, d);
 	}

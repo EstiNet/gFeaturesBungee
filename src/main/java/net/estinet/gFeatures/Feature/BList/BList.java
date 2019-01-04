@@ -1,5 +1,7 @@
 package net.estinet.gFeatures.Feature.BList;
 
+import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.proxy.ProxyPingEvent;
 import com.velocitypowered.api.proxy.Player;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.gFeatures;
@@ -31,6 +33,7 @@ https://github.com/EstiNet/gFeaturesBungee
 public class BList extends gFeature {
 
     public static HashMap<String, ArrayList<String>> fakePlayers = new HashMap<>();
+    public static int numFake = 0;
 
     BList(String featurename, String d) {
         super(featurename, d);
@@ -64,5 +67,10 @@ public class BList extends gFeature {
             if (!BList.fakePlayers.get(server).isEmpty()) servers.put(server, BList.fakePlayers.get(server));
         }
         return servers;
+    }
+
+    @Subscribe
+    public void onProxyPing(ProxyPingEvent event) {
+        event.setPing(event.getPing().asBuilder().onlinePlayers(numFake + gFeatures.getInstance().getProxyServer().getAllPlayers().size()).build());
     }
 }
