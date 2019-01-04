@@ -45,7 +45,7 @@ public class ChatClioteHook extends ClioteHook {
             ProxyServer proxyServer = gFeatures.getInstance().getProxyServer();
             String servername;
             if (!proxyServer.getPlayer(name).isPresent() || !proxyServer.getPlayer(name).get().getCurrentServer().isPresent()) {
-                servername = sender; // if the player is not on a server, get the name of the cliote that sent it as server 
+                servername = sender; // if the player is not on a server, get the name of the cliote that sent it as server
             } else {
                 servername = EstiChat.getServerName(proxyServer.getPlayer(name).get().getCurrentServer().get().getServerInfo().getName());
             }

@@ -2,6 +2,9 @@ package net.estinet.gFeatures.Feature.BList;
 
 import net.estinet.gFeatures.gFeature;
 
+import java.util.HashMap;
+import java.util.List;
+
 /*
 gFeatures
 https://github.com/EstiNet/gFeaturesBungee
@@ -22,6 +25,8 @@ https://github.com/EstiNet/gFeaturesBungee
 */
 
 public class BList extends gFeature {
+
+    public static HashMap<String, List<String>> fakePlayers = new HashMap<>();
 
     BList(String featurename, String d) {
         super(featurename, d);

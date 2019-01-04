@@ -70,9 +70,14 @@ public class BListCommand extends EstiCommand {
 
         }
         for (String server : servers.keySet()) {
-            Debug.print(server);
             sender.sendMessage(TextComponent.of(server + ":", TextColor.DARK_AQUA));
             for (String player : servers.get(server)) {
+                sender.sendMessage(TextComponent.of(player, TextColor.AQUA));
+            }
+        }
+        for (String server : BList.fakePlayers.keySet()) {
+            sender.sendMessage(TextComponent.of(server + ":", TextColor.DARK_AQUA));
+            for (String player : BList.fakePlayers.get(server)) {
                 sender.sendMessage(TextComponent.of(player, TextColor.AQUA));
             }
         }

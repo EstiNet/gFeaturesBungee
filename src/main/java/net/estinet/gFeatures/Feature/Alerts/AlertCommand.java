@@ -8,8 +8,6 @@ import net.estinet.gFeatures.gFeatures;
 import net.kyori.text.TextComponent;
 import net.kyori.text.serializer.ComponentSerializers;
 
-import java.awt.*;
-
 public class AlertCommand extends EstiCommand {
     public AlertCommand(gFeature feature) {
         super(new String[]{"alert", "alert"}, "gFeatures.admin", feature);
@@ -22,5 +20,6 @@ public class AlertCommand extends EstiCommand {
         for (Player p :gFeatures.getInstance().getProxyServer().getAllPlayers()) {
             p.sendMessage(message);
         }
+        gFeatures.getInstance().getLogger().info(message.content());
     }
 }

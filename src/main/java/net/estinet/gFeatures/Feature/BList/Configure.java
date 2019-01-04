@@ -1,5 +1,6 @@
 package net.estinet.gFeatures.Feature.BList;
 
+import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.estinet.gFeatures.Configs;
 import net.estinet.gFeatures.gFeatures;
 /*
@@ -27,5 +28,6 @@ public class Configure {
 		BList base = new BList("BList", "1.0.0");
 		gFeatures.addFeature(base);
 		gFeatures.addCommand(new BListCommand(base));
+		ClioteSky.addHook(new FakePlayerClioteHook("fakeplayer", base.getName()));
 	}
 }

@@ -2,6 +2,7 @@ package net.estinet.gFeatures.Feature.ServerQuery;
 
 import java.util.List;
 
+import com.velocitypowered.api.proxy.Player;
 import net.estinet.gFeatures.API.Resolver.ResolverFetcher;
 import net.estinet.gFeatures.ClioteSky.ClioteHook;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
@@ -42,7 +43,7 @@ public class ServerQueryClioteHook extends ClioteHook {
                     case "online":
                         ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("online " + gFeatures.getInstance().getProxyServer().getAllPlayers().size()), "info", clioteName);
                         break;
-                    case "serverget":
+                    case "serverget": // get which server the player is on
                         ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("serverget " + args.get(1) + " " + gFeatures.getInstance().getProxyServer().getPlayer(args.get(2)).get().getCurrentServer().get().getServerInfo().getName()), "info", clioteName);
                         break;
                     case "uuidlookup":
@@ -52,6 +53,13 @@ public class ServerQueryClioteHook extends ClioteHook {
                         } else {
                             ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("uuidlookup " + uuid), "info", clioteName);
                         }
+                        break;
+                    case "playerlist": // returns player list separated by §
+                        StringBuilder prep = new StringBuilder();
+                        for (Player p : gFeatures.getInstance().getProxyServer().getAllPlayers()) {
+                            prep.append(p.getUsername()).append("§");
+                        }
+                        ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("playerlist " + prep.substring(0, prep.length()-1)), "info", clioteName);
                         break;
                 }
             }
