@@ -1,7 +1,11 @@
 package net.estinet.gFeatures.Feature.BList;
 
+import com.velocitypowered.api.proxy.Player;
 import net.estinet.gFeatures.gFeature;
+import net.estinet.gFeatures.gFeatures;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,7 +30,7 @@ https://github.com/EstiNet/gFeaturesBungee
 
 public class BList extends gFeature {
 
-    public static HashMap<String, List<String>> fakePlayers = new HashMap<>();
+    public static HashMap<String, ArrayList<String>> fakePlayers = new HashMap<>();
 
     BList(String featurename, String d) {
         super(featurename, d);
@@ -42,4 +46,23 @@ public class BList extends gFeature {
         Disable.onDisable();
     }
 
+    public static HashMap<String, ArrayList<String>> getPlayersWithServer() {
+        HashMap<String, ArrayList<String>> servers = new HashMap<>();
+        for (Player pp : gFeatures.getInstance().getProxyServer().getAllPlayers()) {
+            try {
+                if (!pp.getCurrentServer().isPresent()) continue;
+                String sName = pp.getCurrentServer().get().getServerInfo().getName();
+                if (servers.get(sName) == null) {
+                    servers.put(sName, new ArrayList<>(Arrays.asList(pp.getUsername())));
+                } else {
+                    servers.get(sName).add(pp.getUsername());
+                }
+            } catch (NullPointerException e) { //line 58
+            }
+        }
+        for (String server : BList.fakePlayers.keySet()) {
+            if (!BList.fakePlayers.get(server).isEmpty()) servers.put(server, BList.fakePlayers.get(server));
+        }
+        return servers;
+    }
 }

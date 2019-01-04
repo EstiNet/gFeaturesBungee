@@ -55,32 +55,16 @@ public class BListCommand extends EstiCommand {
         if (gFeatures.getInstance().getProxyServer().getAllPlayers().size() == 0) {
             sender.sendMessage(TextComponent.of("No players on right now.", TextColor.DARK_AQUA));
         }
-        HashMap<String, ArrayList<String>> servers = new HashMap<>();
-        for (Player pp : gFeatures.getInstance().getProxyServer().getAllPlayers()) {
-            try {
-                if (!pp.getCurrentServer().isPresent()) continue;
-                String sName = pp.getCurrentServer().get().getServerInfo().getName();
-                if (servers.get(sName) == null) {
-                    servers.put(sName, new ArrayList<>(Arrays.asList(pp.getUsername())));
-                } else {
-                    servers.get(sName).add(pp.getUsername());
-                }
-            } catch (NullPointerException e) { //line 58
-            }
+        HashMap<String, ArrayList<String>> servers = BList.getPlayersWithServer();
 
-        }
+        // print out
         for (String server : servers.keySet()) {
             sender.sendMessage(TextComponent.of(server + ":", TextColor.DARK_AQUA));
             for (String player : servers.get(server)) {
                 sender.sendMessage(TextComponent.of(player, TextColor.AQUA));
             }
         }
-        for (String server : BList.fakePlayers.keySet()) {
-            sender.sendMessage(TextComponent.of(server + ":", TextColor.DARK_AQUA));
-            for (String player : BList.fakePlayers.get(server)) {
-                sender.sendMessage(TextComponent.of(player, TextColor.AQUA));
-            }
-        }
 
     }
+
 }

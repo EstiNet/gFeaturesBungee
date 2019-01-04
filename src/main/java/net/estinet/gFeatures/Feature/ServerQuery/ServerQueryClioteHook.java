@@ -1,11 +1,15 @@
 package net.estinet.gFeatures.Feature.ServerQuery;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import com.velocitypowered.api.proxy.Player;
 import net.estinet.gFeatures.API.Resolver.ResolverFetcher;
 import net.estinet.gFeatures.ClioteSky.ClioteHook;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
+import net.estinet.gFeatures.Feature.BList.BList;
 import net.estinet.gFeatures.gFeatures;
 
 /*
@@ -54,11 +58,18 @@ public class ServerQueryClioteHook extends ClioteHook {
                             ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("uuidlookup " + uuid), "info", clioteName);
                         }
                         break;
-                    case "playerlist": // returns player list separated by §
+                    case "playerlist": // returns player list separated by § for servers € for players
                         StringBuilder prep = new StringBuilder();
-                        for (Player p : gFeatures.getInstance().getProxyServer().getAllPlayers()) {
-                            prep.append(p.getUsername()).append("§");
+                        // assemble players
+                        HashMap<String, ArrayList<String>> servers = BList.getPlayersWithServer();
+                        for (String server : servers.keySet()) {
+                            StringBuilder serverSpec = new StringBuilder();
+                            for (String p : servers.get(server)) {
+                                serverSpec.append(p).append("€");
+                            }
+                            prep.append(serverSpec.substring(0, serverSpec.length() - 1)).append("§");
                         }
+
                         ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("playerlist " + prep.substring(0, prep.length()-1)), "info", clioteName);
                         break;
                 }

@@ -2,6 +2,7 @@ package net.estinet.gFeatures.Feature.Alerts;
 
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
+import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.estinet.gFeatures.EstiCommand;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.gFeatures;
@@ -15,11 +16,13 @@ public class AlertCommand extends EstiCommand {
 
     @Override
     public void execute(CommandSource sender, String[] args) {
-        TextComponent message = ComponentSerializers.LEGACY.deserialize("&7[&bAlert&7] &r&f", '&');
-        for (String arg : args) message.append(TextComponent.of(arg + " "));
+        StringBuilder l = new StringBuilder();
+        for (String arg : args) l.append(arg).append(" ");
+        TextComponent message = ComponentSerializers.LEGACY.deserialize("&7[&bAlert&7] &r&f" + l.toString(), '&');
         for (Player p :gFeatures.getInstance().getProxyServer().getAllPlayers()) {
             p.sendMessage(message);
         }
-        gFeatures.getInstance().getLogger().info(message.content());
+        gFeatures.getInstance().getLogger().info("[Alert] " + l);
+        ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes("[Alert] " + l), "displaymessage", "all");
     }
 }
