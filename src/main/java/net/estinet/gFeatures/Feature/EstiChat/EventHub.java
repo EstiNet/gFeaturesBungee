@@ -3,12 +3,18 @@ package net.estinet.gFeatures.Feature.EstiChat;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.event.player.PlayerChatEvent;
+import com.velocitypowered.api.event.player.ServerConnectedEvent;
 import com.velocitypowered.api.event.player.ServerPreConnectEvent;
 import com.velocitypowered.api.proxy.Player;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.estinet.gFeatures.gFeatures;
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
+import net.kyori.text.serializer.ComponentSerializers;
+
+import java.util.HashMap;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /*
 gFeatures
@@ -30,23 +36,41 @@ https://github.com/EstiNet/gFeaturesBungee
 */
 
 public class EventHub {
+
+    HashMap<UUID, String> prevServer = new HashMap<>();
+
+    @Subscribe
+    public void onPlayerSwitch(ServerConnectedEvent event) {
+        if (prevServer.containsKey(event.getPlayer().getUniqueId())) {
+            String previousServer = prevServer.get(event.getPlayer().getUniqueId());
+            String targetServer = event.getServer().getServerInfo().getName();
+
+            prevServer.remove(event.getPlayer().getUniqueId());
+
+            for (Player player : gFeatures.getInstance().getProxyServer().getAllPlayers()) {
+                player.sendMessage(ComponentSerializers.LEGACY.deserialize("&6[&3Switch&6] &r(" + previousServer + " -> " + targetServer + ") " + event.getPlayer().getUsername(), '&'));
+            }
+
+            ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(previousServer + " [Switch] (" + previousServer + " -> " + targetServer + ") " + event.getPlayer().getUsername()), "consolechat", "all");
+        }
+    }
+
     @Subscribe
     public void onPlayerJoin(ServerPreConnectEvent event) {
         if (!event.getResult().getServer().isPresent()) return;
 
         if (event.getPlayer().getCurrentServer().isPresent()) { // server switching
 
+            UUID uuid = event.getPlayer().getUniqueId();
             String previousServer = event.getPlayer().getCurrentServer().get().getServerInfo().getName(),
             targetServer = EstiChat.getServerName(event.getOriginalServer().getServerInfo().getName());
 
-            for (Player player : gFeatures.getInstance().getProxyServer().getAllPlayers()) {
-                player.sendMessage(TextComponent.of("[", TextColor.GOLD).append(
-                        TextComponent.of("Switch", TextColor.DARK_AQUA)
-                ).append(TextComponent.of("] ", TextColor.GOLD)
-                ).resetStyle().append(TextComponent.of("(" + previousServer + " -> " + targetServer + ") " + event.getPlayer().getUsername())));
-            }
-
-            ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(previousServer + " [Switch] (" + previousServer + " -> " + targetServer + ") " + event.getPlayer().getUsername()), "consolechat", "all");
+            prevServer.put(uuid, previousServer);
+            gFeatures.getInstance().getProxyServer().getScheduler().buildTask(gFeatures.getInstance(), () -> {
+                if (prevServer.containsKey(uuid) && prevServer.get(uuid).equals(previousServer)) {
+                    prevServer.remove(uuid);
+                }
+            }).delay(60, TimeUnit.SECONDS).schedule();
 
         } else { // join proxy
             for (Player player : gFeatures.getInstance().getProxyServer().getAllPlayers()) {
