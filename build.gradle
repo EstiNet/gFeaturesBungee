@@ -43,5 +43,5 @@ dependencies {
     compile 'io.grpc:grpc-protobuf:1.11.0'
     compile 'io.grpc:grpc-stub:1.11.0'
     compile group: 'org.yaml', name: 'snakeyaml', version: '1.21'
-    compileOnly group: 'com.velocitypowered', name: 'velocity-api', version:'1.0-SNAPSHOT'
+    compileOnly group: 'com.velocitypowered', name: 'velocity-api', version:'1.0.0-SNAPSHOT'
 }

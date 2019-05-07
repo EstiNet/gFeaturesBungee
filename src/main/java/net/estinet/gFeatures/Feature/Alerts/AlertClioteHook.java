@@ -3,16 +3,14 @@ package net.estinet.gFeatures.Feature.Alerts;
 import java.util.List;
 
 import com.velocitypowered.api.proxy.Player;
-import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.util.title.TextTitle;
-import com.velocitypowered.api.util.title.Title;
 import net.estinet.gFeatures.ClioteSky.ClioteHook;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.estinet.gFeatures.gFeatures;
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
 import net.kyori.text.format.TextDecoration;
-import net.kyori.text.serializer.ComponentSerializers;
+import net.kyori.text.serializer.legacy.LegacyComponentSerializer;
 
 /*
 gFeatures
@@ -50,9 +48,7 @@ public class AlertClioteHook extends ClioteHook {
             for (String add : args) {
                 message.append(add).append(" ");
             }
-            TextComponent title = TextComponent.of("[").decoration(TextDecoration.BOLD, true).
-                    append(TextComponent.of("Alert").color(TextColor.RED).resetStyle().
-                            append(TextComponent.of("]").decoration(TextDecoration.BOLD, true)));
+            TextComponent title = LegacyComponentSerializer.INSTANCE.deserialize("&f&l[&cAlert&f&l]", '&');
 
             TextTitle bt = TextTitle.builder().
                     title(title).

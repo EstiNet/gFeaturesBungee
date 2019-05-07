@@ -9,7 +9,7 @@ import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.gFeatures;
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
-import net.kyori.text.serializer.ComponentSerializers;
+import net.kyori.text.serializer.legacy.LegacyComponentSerializer;
 
 /*
 gFeatures
@@ -41,10 +41,10 @@ public class SlashMail extends EstiCommand{
 			Player player = (Player) sender;
 			if(args.length == 1){
 				if(args[0].equalsIgnoreCase("help")){
-					sender.sendMessage(ComponentSerializers.LEGACY.deserialize("&3&l---EstiMail Help---", '&'));
-					sender.sendMessage(ComponentSerializers.LEGACY.deserialize("&6/mail read : Displays your inbox.", '&'));
-					sender.sendMessage(ComponentSerializers.LEGACY.deserialize("&6/mail send [Player] [Message] : Sends a player an email.", '&'));
-					sender.sendMessage(ComponentSerializers.LEGACY.deserialize("&6/mail clear : Clears your inbox.", '&'));
+					sender.sendMessage(LegacyComponentSerializer.INSTANCE.deserialize("&3&l---EstiMail Help---", '&'));
+					sender.sendMessage(LegacyComponentSerializer.INSTANCE.deserialize("&6/mail read : Displays your inbox.", '&'));
+					sender.sendMessage(LegacyComponentSerializer.INSTANCE.deserialize("&6/mail send [Player] [Message] : Sends a player an email.", '&'));
+					sender.sendMessage(LegacyComponentSerializer.INSTANCE.deserialize("&6/mail clear : Clears your inbox.", '&'));
 				}
 				else if(args[0].equalsIgnoreCase("read")){
 					EstiMail.getMail(player);

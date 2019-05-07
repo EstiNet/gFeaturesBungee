@@ -7,7 +7,7 @@ import net.estinet.gFeatures.Feature.FusionPlay.FusionCon;
 import net.estinet.gFeatures.Feature.FusionPlay.FusionPlay;
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
-import net.kyori.text.serializer.ComponentSerializers;
+import net.kyori.text.serializer.legacy.LegacyComponentSerializer;
 
 /*
 gFeatures
@@ -40,8 +40,8 @@ public class FusionPlayCommand extends EstiCommand{
 			args[0] = args[0].toLowerCase();
 			switch(args[0]){
 				case "help":
-					sender.sendMessage(ComponentSerializers.LEGACY.deserialize("&8&m----------&r&bFusionPlay Help&8&m----------", '&'));
-					sender.sendMessage(ComponentSerializers.LEGACY.deserialize("&8/fusionplay list : Lists all connection data.", '&'));
+					sender.sendMessage(LegacyComponentSerializer.INSTANCE.deserialize("&8&m----------&r&bFusionPlay Help&8&m----------", '&'));
+					sender.sendMessage(LegacyComponentSerializer.INSTANCE.deserialize("&8/fusionplay list : Lists all connection data.", '&'));
 					break;
 				case "list":
 					sender.sendMessage(TextComponent.of("FusionPlay List:", TextColor.AQUA));

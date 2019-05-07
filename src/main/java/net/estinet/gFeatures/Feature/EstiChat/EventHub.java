@@ -10,7 +10,7 @@ import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.estinet.gFeatures.gFeatures;
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
-import net.kyori.text.serializer.ComponentSerializers;
+import net.kyori.text.serializer.legacy.LegacyComponentSerializer;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -48,7 +48,7 @@ public class EventHub {
             prevServer.remove(event.getPlayer().getUniqueId());
 
             for (Player player : gFeatures.getInstance().getProxyServer().getAllPlayers()) {
-                player.sendMessage(ComponentSerializers.LEGACY.deserialize("&6[&3Switch&6] &r(" + previousServer + " -> " + targetServer + ") " + event.getPlayer().getUsername(), '&'));
+                player.sendMessage(LegacyComponentSerializer.INSTANCE.deserialize("&6[&3Switch&6] &r(" + previousServer + " -> " + targetServer + ") " + event.getPlayer().getUsername(), '&'));
             }
 
             ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(previousServer + " [Switch] (" + previousServer + " -> " + targetServer + ") " + event.getPlayer().getUsername()), "consolechat", "all");
@@ -75,15 +75,8 @@ public class EventHub {
         } else { // join proxy
             for (Player player : gFeatures.getInstance().getProxyServer().getAllPlayers()) {
                 if (player.getCurrentServer().isPresent() && !player.getCurrentServer().get().getServerInfo().getName().equalsIgnoreCase(event.getOriginalServer().getServerInfo().getName())) {
-                    player.sendMessage(TextComponent.of("[" + EstiChat.getServerName(event.getResult().getServer().get().getServerInfo().getName()) + "] ").append(
-                            TextComponent.of("[", TextColor.GOLD)
-                    ).append(
-                            TextComponent.of("Join", TextColor.DARK_AQUA)
-                    ).append(
-                            TextComponent.of("] ", TextColor.GOLD)
-                    ).resetStyle().append(
-                            TextComponent.of(event.getPlayer().getUsername())
-                    ));
+                    String serverName = EstiChat.getServerName(event.getResult().getServer().get().getServerInfo().getName());
+                    player.sendMessage(LegacyComponentSerializer.INSTANCE.deserialize("[" + serverName + "] &6[&3Join&6]&r " + event.getPlayer().getUsername(), '&'));
                 }
             }
             ClioteSky.getInstance().sendAsync(ClioteSky.stringToBytes(EstiChat.getServerName(event.getResult().getServer().get().getServerInfo().getName()) + " [Join] " + event.getPlayer().getUsername()), "consolechat", "all");
@@ -98,17 +91,8 @@ public class EventHub {
         for (Player player : gFeatures.getInstance().getProxyServer().getAllPlayers()) {
 
             if (player.getCurrentServer().isPresent() && !player.getCurrentServer().get().getServerInfo().getName().equalsIgnoreCase(event.getPlayer().getCurrentServer().get().getServerInfo().getName())) {
-                player.sendMessage(TextComponent.of(
-                        "[" + EstiChat.getServerName(event.getPlayer().getCurrentServer().get().getServerInfo().getName()) + "] "
-                ).append(TextComponent.of(
-                        "[", TextColor.GOLD
-                )).append(TextComponent.of(
-                        "Leave", TextColor.DARK_AQUA
-                )).append(TextComponent.of(
-                        "] ", TextColor.GOLD
-                )).resetStyle().append(TextComponent.of(
-                        event.getPlayer().getUsername()
-                )));
+                String serverName = EstiChat.getServerName(event.getPlayer().getCurrentServer().get().getServerInfo().getName());
+                player.sendMessage(LegacyComponentSerializer.INSTANCE.deserialize("[" + serverName + "] &6[&3Leave&6]&r " + event.getPlayer().getUsername(), '&'));
             }
 
         }

@@ -28,6 +28,7 @@ import net.estinet.gFeatures.gFeatures;
 import net.kyori.text.TextComponent;
 import net.kyori.text.format.TextColor;
 import net.kyori.text.format.TextDecoration;
+import net.kyori.text.serializer.legacy.LegacyComponentSerializer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,13 +44,10 @@ public class BListCommand extends EstiCommand {
     public void execute(CommandSource sender, String[] args) {
 
         if (gFeatures.getInstance().getProxyServer().getAllPlayers().size() == 1) {
-            sender.sendMessage(TextComponent.of("--------", TextColor.GRAY).decoration(TextDecoration.STRIKETHROUGH, true).
-                    append(TextComponent.of("There is 1 player on!", TextColor.DARK_AQUA).decoration(TextDecoration.STRIKETHROUGH, false)).resetStyle().
-                    append(TextComponent.of("--------", TextColor.GRAY).decoration(TextDecoration.STRIKETHROUGH, true)));
+            sender.sendMessage(LegacyComponentSerializer.INSTANCE.deserialize("&7&m--------&r&3There is 1 player on!&7&m--------", '&'));
         } else {
-            sender.sendMessage(TextComponent.of("--------", TextColor.GRAY).decoration(TextDecoration.STRIKETHROUGH, true).
-                    append(TextComponent.of("There are " + gFeatures.getInstance().getProxyServer().getAllPlayers().size() + " players on!", TextColor.DARK_AQUA).decoration(TextDecoration.STRIKETHROUGH, false)).resetStyle().
-                    append(TextComponent.of("--------", TextColor.GRAY).decoration(TextDecoration.STRIKETHROUGH, true)));
+            int size = gFeatures.getInstance().getProxyServer().getAllPlayers().size();
+            sender.sendMessage(LegacyComponentSerializer.INSTANCE.deserialize("&7&m--------&r&3There are " + size + " players on!&7&m--------", '&'));
         }
 
         if (gFeatures.getInstance().getProxyServer().getAllPlayers().size() == 0) {

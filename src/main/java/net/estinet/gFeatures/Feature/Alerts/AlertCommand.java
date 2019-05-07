@@ -7,7 +7,7 @@ import net.estinet.gFeatures.EstiCommand;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.gFeatures;
 import net.kyori.text.TextComponent;
-import net.kyori.text.serializer.ComponentSerializers;
+import net.kyori.text.serializer.legacy.LegacyComponentSerializer;
 
 public class AlertCommand extends EstiCommand {
     public AlertCommand(gFeature feature) {
@@ -18,7 +18,7 @@ public class AlertCommand extends EstiCommand {
     public void execute(CommandSource sender, String[] args) {
         StringBuilder l = new StringBuilder();
         for (String arg : args) l.append(arg).append(" ");
-        TextComponent message = ComponentSerializers.LEGACY.deserialize("&7[&bAlert&7] &r&f" + l.toString(), '&');
+        TextComponent message = LegacyComponentSerializer.INSTANCE.deserialize("&7[&bAlert&7] &r&f" + l.toString(), '&');
         for (Player p :gFeatures.getInstance().getProxyServer().getAllPlayers()) {
             p.sendMessage(message);
         }
