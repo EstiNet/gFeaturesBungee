@@ -7,10 +7,8 @@ import net.estinet.gFeatures.EstiCommand;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.API.Resolver.ResolverFetcher;
 import net.estinet.gFeatures.Feature.EstiBans.EstiBans;
-import net.kyori.text.TextComponent;
-import net.kyori.text.format.TextColor;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.optional.qual.MaybePresent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 /*
 gFeatures
@@ -40,14 +38,14 @@ public class UnwarnCommand extends EstiCommand{
 	@Override
 	public void execute(CommandSource sender, String[] args) {
 		if(args.length != 2){
-			sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("/unwarn [Player] [ID]")));
+			sender.sendMessage(EstiBans.estiBansPrefix.append(Component.text("/unwarn [Player] [ID]")));
 		}
 		else{
 			if(!EstiBans.isValidWarnID(UUID.fromString(ResolverFetcher.getUUIDfromName(args[0])), args[1])){
-				sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("Invalid ID!", TextColor.RED)));
+				sender.sendMessage(EstiBans.estiBansPrefix.append(Component.text("Invalid ID!", NamedTextColor.RED)));
 			}
 			else{
-				sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("Player " + args[0] + " has been unwarned from id " + args[1] + ".")));
+				sender.sendMessage(EstiBans.estiBansPrefix.append(Component.text("Player " + args[0] + " has been unwarned from id " + args[1] + ".")));
 				EstiBans.unmutePlayer(args[0], args[1]);
 			}
 		}

@@ -5,9 +5,9 @@ import net.estinet.gFeatures.EstiCommand;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.Feature.FusionPlay.FusionCon;
 import net.estinet.gFeatures.Feature.FusionPlay.FusionPlay;
-import net.kyori.text.TextComponent;
-import net.kyori.text.format.TextColor;
-import net.kyori.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 /*
 gFeatures
@@ -40,13 +40,13 @@ public class FusionPlayCommand extends EstiCommand{
 			args[0] = args[0].toLowerCase();
 			switch(args[0]){
 				case "help":
-					sender.sendMessage(LegacyComponentSerializer.INSTANCE.deserialize("&8&m----------&r&bFusionPlay Help&8&m----------", '&'));
-					sender.sendMessage(LegacyComponentSerializer.INSTANCE.deserialize("&8/fusionplay list : Lists all connection data.", '&'));
+					sender.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize("&8&m----------&r&bFusionPlay Help&8&m----------"));
+					sender.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize("&8/fusionplay list : Lists all connection data."));
 					break;
 				case "list":
-					sender.sendMessage(TextComponent.of("FusionPlay List:", TextColor.AQUA));
+					sender.sendMessage(Component.text("FusionPlay List:", NamedTextColor.AQUA));
 					for(FusionCon fc : FusionPlay.getConnections()){
-						sender.sendMessage(TextComponent.of(fc.getClioteName() + "| ID:" + fc.getID() + " Status:" + fc.getStatus() + " Type:" + fc.getCurrentType(), TextColor.DARK_AQUA));
+						sender.sendMessage(Component.text(fc.getClioteName() + "| ID:" + fc.getID() + " Status:" + fc.getStatus() + " Type:" + fc.getCurrentType(), NamedTextColor.DARK_AQUA));
 					}
 					break;
 			}

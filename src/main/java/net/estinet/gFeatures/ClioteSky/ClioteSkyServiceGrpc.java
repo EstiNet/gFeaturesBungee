@@ -17,9 +17,9 @@ import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 
 /**
  */
-@javax.annotation.Generated(
+/*@javax.annotation.Generated(
     value = "by gRPC proto compiler (version 1.11.0)",
-    comments = "Source: cliotesky.proto")
+    comments = "Source: cliotesky.proto")*/
 public final class ClioteSkyServiceGrpc {
 
   private ClioteSkyServiceGrpc() {}

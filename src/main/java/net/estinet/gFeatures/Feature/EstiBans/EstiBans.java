@@ -16,9 +16,9 @@ import net.estinet.gFeatures.API.Logger.Debug;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.API.Resolver.ResolverFetcher;
 import net.estinet.gFeatures.gFeatures;
-import net.kyori.text.TextComponent;
-import net.kyori.text.format.TextColor;
-import net.kyori.text.format.TextDecoration;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 
 /*
 gFeatures
@@ -45,10 +45,10 @@ public class EstiBans extends gFeature {
     public static ConcurrentHashMap<UUID, List<String>> mutes = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<UUID, List<String>> warnings = new ConcurrentHashMap<>();
 
-    public static TextComponent estiBansPrefix = TextComponent.of("[").decoration(TextDecoration.BOLD, true).
-            append(TextComponent.of("Esti", TextColor.DARK_AQUA).decoration(TextDecoration.BOLD, true)).
-            append(TextComponent.of("Bans", TextColor.GOLD).decoration(TextDecoration.BOLD, true)).
-            append(TextComponent.of("] ").decoration(TextDecoration.BOLD, true));
+    public static Component estiBansPrefix = Component.text("[").decoration(TextDecoration.BOLD, true).
+            append(Component.text("Esti", NamedTextColor.DARK_AQUA).decoration(TextDecoration.BOLD, true)).
+            append(Component.text("Bans", NamedTextColor.GOLD).decoration(TextDecoration.BOLD, true)).
+            append(Component.text("] ").decoration(TextDecoration.BOLD, true));
 
     public EstiBans(String featurename, String d) {
         super(featurename, d);
@@ -323,7 +323,7 @@ public class EstiBans extends gFeature {
     @SuppressWarnings("deprecation")
     public static void kickPlayer(String name, String reason) {
         if (!gFeatures.getInstance().getProxyServer().getPlayer(name).isPresent()) return;
-        gFeatures.getInstance().getProxyServer().getPlayer(name).get().disconnect(TextComponent.of(reason));
+        gFeatures.getInstance().getProxyServer().getPlayer(name).get().disconnect(Component.text(reason));
     }
 
     public static boolean isServer(String server) {
@@ -366,11 +366,11 @@ public class EstiBans extends gFeature {
         }
     }
 
-    public static TextComponent getProperBanReason(String reason, String length) {
-        return TextComponent.of("You are banned! Reason: ", TextColor.DARK_GRAY).
-                append(TextComponent.of(reason, TextColor.DARK_AQUA)).
-                append(TextComponent.of(" Time until Unbanning: ", TextColor.DARK_GRAY)).
-                append(TextComponent.of(length, TextColor.DARK_AQUA));
+    public static Component getProperBanReason(String reason, String length) {
+        return Component.text("You are banned! Reason: ", NamedTextColor.DARK_GRAY).
+                append(Component.text(reason, NamedTextColor.DARK_AQUA)).
+                append(Component.text(" Time until Unbanning: ", NamedTextColor.DARK_GRAY)).
+                append(Component.text(length, NamedTextColor.DARK_AQUA));
     }
 
     private static void blankPlayer(ConcurrentHashMap<UUID, List<String>> list, File f, UUID uuid, String server, String millis, String reason) {

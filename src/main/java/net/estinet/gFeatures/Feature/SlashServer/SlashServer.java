@@ -5,8 +5,8 @@ import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.gFeatures;
-import net.kyori.text.TextComponent;
-import net.kyori.text.format.TextColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 /*
 gFeatures
@@ -49,7 +49,7 @@ public class SlashServer extends gFeature {
             RegisteredServer target = gFeatures.getInstance().getProxyServer().getServer(server).get();
             player.createConnectionRequest(target).fireAndForget();
         } else {
-            sender.sendMessage(TextComponent.of("This command can only be run by a player!", TextColor.AQUA));
+            sender.sendMessage(Component.text("This command can only be run by a player!", NamedTextColor.AQUA));
         }
     }
 }

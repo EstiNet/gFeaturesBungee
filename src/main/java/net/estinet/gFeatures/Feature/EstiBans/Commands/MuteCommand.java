@@ -5,8 +5,8 @@ import net.estinet.gFeatures.EstiCommand;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.Feature.EstiBans.EstiBans;
 import net.estinet.gFeatures.gFeatures;
-import net.kyori.text.TextComponent;
-import net.kyori.text.format.TextColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 /*
 gFeatures
@@ -36,11 +36,11 @@ public class MuteCommand extends EstiCommand{
 	@Override
 	public void execute(CommandSource sender, String[] args) {
 		if(args.length < 3){
-			sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("/mute [Player] [Server] [Reason]")));
+			sender.sendMessage(EstiBans.estiBansPrefix.append(Component.text("/mute [Player] [Server] [Reason]")));
 		}
 		else if(args.length == 3){
 			if(EstiBans.isMutedOn(args[0], args[1])){
-				sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("Player already muted on this server!", TextColor.RED)));
+				sender.sendMessage(EstiBans.estiBansPrefix.append(Component.text("Player already muted on this server!", NamedTextColor.RED)));
 			}
 			else{
 				try{
@@ -48,14 +48,14 @@ public class MuteCommand extends EstiCommand{
 					for(int i = 2; i < args.length; i++){
 						reason.append(args[i]).append(" ");
 					}
-					sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("Muted player " + args[0] + " for a long time on " + args[1] + " because of \"" + reason + "\"")));
+					sender.sendMessage(EstiBans.estiBansPrefix.append(Component.text("Muted player " + args[0] + " for a long time on " + args[1] + " because of \"" + reason + "\"")));
 					EstiBans.mutePlayer(args[0], args[1], reason.toString());
 				}
 				catch(Exception e){
 					if(gFeatures.debug){
 						e.printStackTrace();
 					}
-					sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("Error with your input, try again!", TextColor.RED)));
+					sender.sendMessage(EstiBans.estiBansPrefix.append(Component.text("Error with your input, try again!", NamedTextColor.RED)));
 				}
 			}
 		}

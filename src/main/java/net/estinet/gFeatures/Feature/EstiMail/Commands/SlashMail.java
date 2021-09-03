@@ -7,9 +7,9 @@ import net.estinet.gFeatures.EstiCommand;
 import net.estinet.gFeatures.Feature.EstiMail.EstiMail;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.gFeatures;
-import net.kyori.text.TextComponent;
-import net.kyori.text.format.TextColor;
-import net.kyori.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 /*
 gFeatures
@@ -41,31 +41,31 @@ public class SlashMail extends EstiCommand{
 			Player player = (Player) sender;
 			if(args.length == 1){
 				if(args[0].equalsIgnoreCase("help")){
-					sender.sendMessage(LegacyComponentSerializer.INSTANCE.deserialize("&3&l---EstiMail Help---", '&'));
-					sender.sendMessage(LegacyComponentSerializer.INSTANCE.deserialize("&6/mail read : Displays your inbox.", '&'));
-					sender.sendMessage(LegacyComponentSerializer.INSTANCE.deserialize("&6/mail send [Player] [Message] : Sends a player an email.", '&'));
-					sender.sendMessage(LegacyComponentSerializer.INSTANCE.deserialize("&6/mail clear : Clears your inbox.", '&'));
+					sender.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize("&3&l---EstiMail Help---"));
+					sender.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize("&6/mail read : Displays your inbox."));
+					sender.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize("&6/mail send [Player] [Message] : Sends a player an email."));
+					sender.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize("&6/mail clear : Clears your inbox."));
 				}
 				else if(args[0].equalsIgnoreCase("read")){
 					EstiMail.getMail(player);
 				}
 				else if(args[0].equalsIgnoreCase("send")){
-					sender.sendMessage(EstiMail.prefix.append(TextComponent.of("/mail send [Player] [Message].")));
+					sender.sendMessage(EstiMail.prefix.append(Component.text("/mail send [Player] [Message].")));
 				}
 				else if(args[0].equalsIgnoreCase("clear")){
 					EstiMail.clearMail(player);
-					sender.sendMessage(EstiMail.prefix.append(TextComponent.of("Mail cleared!", TextColor.DARK_AQUA)));
+					sender.sendMessage(EstiMail.prefix.append(Component.text("Mail cleared!", NamedTextColor.DARK_AQUA)));
 				}
 				else{
-					sender.sendMessage(EstiMail.prefix.append(TextComponent.of( "Do /mail help.")));
+					sender.sendMessage(EstiMail.prefix.append(Component.text( "Do /mail help.")));
 				}
 			}
 			else if(args.length == 2){
 				if(args[0].equalsIgnoreCase("send")){
-					sender.sendMessage(EstiMail.prefix.append(TextComponent.of("/mail send [Player] [Message].")));
+					sender.sendMessage(EstiMail.prefix.append(Component.text("/mail send [Player] [Message].")));
 				}
 				else{
-					sender.sendMessage(EstiMail.prefix.append(TextComponent.of("Do /mail help.")));
+					sender.sendMessage(EstiMail.prefix.append(Component.text("Do /mail help.")));
 				}
 			}
 			else if(args.length >= 3){
@@ -78,7 +78,7 @@ public class SlashMail extends EstiCommand{
 							e.printStackTrace();
 						}
 						if(!EstiMail.checkExists(uuid)){
-							sender.sendMessage(EstiMail.prefix.append(TextComponent.of("Player not found.", TextColor.RED)));
+							sender.sendMessage(EstiMail.prefix.append(Component.text("Player not found.", NamedTextColor.RED)));
 						}
 						else{
 							StringBuilder message = new StringBuilder();
@@ -86,20 +86,20 @@ public class SlashMail extends EstiCommand{
 								message.append(args[i]).append(" ");
 							}
 							EstiMail.sendMail(player.getUsername(), uuid, message.toString());
-							sender.sendMessage(EstiMail.prefix.append(TextComponent.of("Mail sent!", TextColor.DARK_AQUA)));
+							sender.sendMessage(EstiMail.prefix.append(Component.text("Mail sent!", NamedTextColor.DARK_AQUA)));
 						}
 					}).schedule();
 				}
 				else{
-					sender.sendMessage(EstiMail.prefix.append(TextComponent.of("Do /mail help.")));
+					sender.sendMessage(EstiMail.prefix.append(Component.text("Do /mail help.")));
 				}
 			}
 			else{
-				sender.sendMessage(EstiMail.prefix.append(TextComponent.of("Do /mail help.")));
+				sender.sendMessage(EstiMail.prefix.append(Component.text("Do /mail help.")));
 			}
 		}
 		else{
-			sender.sendMessage(TextComponent.of("This command can only be run by a player!", TextColor.AQUA));
+			sender.sendMessage(Component.text("This command can only be run by a player!", NamedTextColor.AQUA));
 		}
 	}
 }

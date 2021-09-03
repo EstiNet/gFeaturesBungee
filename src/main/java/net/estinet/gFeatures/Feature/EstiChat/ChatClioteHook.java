@@ -8,7 +8,8 @@ import net.estinet.gFeatures.ClioteSky.ClioteHook;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.estinet.gFeatures.API.Logger.Debug;
 import net.estinet.gFeatures.gFeatures;
-import net.kyori.text.TextComponent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.Component;
 
 /*
 gFeatures
@@ -57,7 +58,7 @@ public class ChatClioteHook extends ClioteHook {
             gFeatures.getInstance().getLogger().info(mgs.toString());
             for (Player player : proxyServer.getAllPlayers()) {
                 if (player.getCurrentServer().isPresent() && !EstiChat.getServerName(player.getCurrentServer().get().getServerInfo().getName()).equalsIgnoreCase(servername)) {
-                    player.sendMessage(TextComponent.of("[" + servername + "] " + mgs));
+                    player.sendMessage(Component.text("[" + servername + "] " + mgs));
                     Debug.print("[EstiChat] Sent player " + player.getUsername() + " " + "[" + servername + "] " + mgs);
                 }
             }

@@ -5,8 +5,8 @@ import com.velocitypowered.api.proxy.Player;
 import net.estinet.gFeatures.EstiCommand;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.gFeatures;
-import net.kyori.text.TextComponent;
-import net.kyori.text.format.TextColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 import java.util.Arrays;
 
@@ -48,7 +48,7 @@ public class SlashHub extends EstiCommand {
 
             player.createConnectionRequest(gFeatures.getInstance().getProxyServer().getServer("MinigameHub").get()).fireAndForget();
         } else {
-            sender.sendMessage(TextComponent.of("This command can only be run by a player!", TextColor.AQUA));
+            sender.sendMessage(Component.text("This command can only be run by a player!", NamedTextColor.AQUA));
         }
     }
 }

@@ -1,6 +1,7 @@
 package net.estinet.gFeatures;
 
 import com.google.inject.Inject;
+import com.velocitypowered.api.command.CommandMeta;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.PostLoginEvent;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
@@ -93,12 +94,10 @@ public class gFeatures {
 
         for (EstiCommand command : gFeatures.getCommands()) {
             if (gFeatures.getFeature(command.feature.getName()).isEnabled()) {
-                this.server.getCommandManager().register((source, args) -> {
-                    if (command.permission.equals("basic") || source.hasPermission(command.permission)) command.execute(source, args);
-                }, command.names);
+                this.server.getCommandManager().register(this.server.getCommandManager().metaBuilder(command.names[0]).aliases(command.names).build(), command);
             }
         }
-        this.server.getCommandManager().register(new SlashgFeatures(), "gfp");
+        this.server.getCommandManager().register(this.server.getCommandManager().metaBuilder("gfp").build(), new SlashgFeatures());
         logger.info("Complete!");
         logger.info("_________________________________________________________________________");
     }

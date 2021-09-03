@@ -1,16 +1,15 @@
 package net.estinet.gFeatures.Feature.Alerts;
 
+import java.time.Duration;
 import java.util.List;
 
 import com.velocitypowered.api.proxy.Player;
-import com.velocitypowered.api.util.title.TextTitle;
 import net.estinet.gFeatures.ClioteSky.ClioteHook;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.estinet.gFeatures.gFeatures;
-import net.kyori.text.TextComponent;
-import net.kyori.text.format.TextColor;
-import net.kyori.text.format.TextDecoration;
-import net.kyori.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.title.Title;
 
 /*
 gFeatures
@@ -48,18 +47,13 @@ public class AlertClioteHook extends ClioteHook {
             for (String add : args) {
                 message.append(add).append(" ");
             }
-            TextComponent title = LegacyComponentSerializer.INSTANCE.deserialize("&f&l[&cAlert&f&l]", '&');
+            Component title = LegacyComponentSerializer.legacyAmpersand().deserialize("&f&l[&cAlert&f&l]");
 
-            TextTitle bt = TextTitle.builder().
-                    title(title).
-                    subtitle(TextComponent.of(message.toString())).
-                    fadeIn(20).
-                    stay(40).
-                    fadeOut(20).
-                    build();
+            final Title.Times times = Title.Times.of(Duration.ofMillis(1000), Duration.ofMillis(2000), Duration.ofMillis(1000));
+            final Title bt = Title.title(title, Component.text(message.toString()), times);
 
             for (Player p : gFeatures.getInstance().getProxyServer().getAllPlayers()) {
-                p.sendTitle(bt);
+                p.showTitle(bt);
             }
         } catch (Exception e) {
             e.printStackTrace();

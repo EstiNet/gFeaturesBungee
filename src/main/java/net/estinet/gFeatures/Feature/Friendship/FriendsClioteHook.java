@@ -8,8 +8,8 @@ import net.estinet.gFeatures.ClioteSky.ClioteHook;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.estinet.gFeatures.API.Resolver.ResolverFetcher;
 import net.estinet.gFeatures.gFeatures;
-import net.kyori.text.TextComponent;
-import net.kyori.text.format.TextColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 /*
 gFeatures
@@ -52,7 +52,7 @@ public class FriendsClioteHook extends ClioteHook {
                     if (f.isDirectory()) {
                         Friendship.friendRequest(p, ResolverFetcher.getUUIDfromName(args.get(2)));
                     } else {
-                        p.sendMessage(Friendship.prefix.append(TextComponent.of("Player has never joined, or they don't exist!", TextColor.RED)));
+                        p.sendMessage(Friendship.prefix.append(Component.text("Player has never joined, or they don't exist!", NamedTextColor.RED)));
                     }
                     //Player request another player
                     break;

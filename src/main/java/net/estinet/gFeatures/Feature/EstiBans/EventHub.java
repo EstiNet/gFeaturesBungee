@@ -8,8 +8,8 @@ import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.player.PlayerChatEvent;
 import com.velocitypowered.api.event.player.ServerPreConnectEvent;
 import com.velocitypowered.api.proxy.Player;
-import net.kyori.text.TextComponent;
-import net.kyori.text.format.TextDecoration;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 
 /*
 gFeatures
@@ -62,7 +62,7 @@ public class EventHub {
         }
         if (!event.getResult().getServer().isPresent()) return;
         if (EstiBans.isBannedOn(event.getPlayer().getUniqueId(), event.getResult().getServer().get().getServerInfo().getName())) {
-            event.getPlayer().disconnect(TextComponent.of(EstiBans.getBanReason(event.getPlayer().getUniqueId(), event.getResult().getServer().get().getServerInfo().getName())));
+            event.getPlayer().disconnect(Component.text(EstiBans.getBanReason(event.getPlayer().getUniqueId(), event.getResult().getServer().get().getServerInfo().getName())));
             event.setResult(ServerPreConnectEvent.ServerResult.denied());
         }
     }
@@ -73,7 +73,7 @@ public class EventHub {
         if (!player.getCurrentServer().isPresent()) return;
         if (event.getMessage().length() > 0 && event.getMessage().charAt(0) != '/' && EstiBans.isMutedOn(player.getUniqueId(), player.getCurrentServer().get().getServerInfo().getName())) {
             event.setResult(PlayerChatEvent.ChatResult.denied());
-            player.sendMessage(TextComponent.of("You are currently muted on this server! Reason: " + EstiBans.getMuteReason(player.getUniqueId(), player.getCurrentServer().get().getServerInfo().getName())).decoration(TextDecoration.BOLD, true));
+            player.sendMessage(Component.text("You are currently muted on this server! Reason: " + EstiBans.getMuteReason(player.getUniqueId(), player.getCurrentServer().get().getServerInfo().getName())).decoration(TextDecoration.BOLD, true));
         }
     }
 

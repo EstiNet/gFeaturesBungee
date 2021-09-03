@@ -10,9 +10,9 @@ import java.io.PrintWriter;
 import com.velocitypowered.api.proxy.Player;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.gFeatures;
-import net.kyori.text.TextComponent;
-import net.kyori.text.format.TextColor;
-import net.kyori.text.format.TextDecoration;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 
 /*
 gFeatures
@@ -35,9 +35,9 @@ https://github.com/EstiNet/gFeaturesBungee
 
 public class EstiMail extends gFeature {
 
-    public static TextComponent prefix = TextComponent.of("[").decoration(TextDecoration.BOLD, true).append(
-            TextComponent.of("EstiMail", TextColor.AQUA).decoration(TextDecoration.BOLD, true).append(
-                    TextComponent.of("] ", TextColor.WHITE).decoration(TextDecoration.BOLD, true)
+    public static Component prefix = Component.text("[").decoration(TextDecoration.BOLD, true).append(
+            Component.text("EstiMail", NamedTextColor.AQUA).decoration(TextDecoration.BOLD, true).append(
+                    Component.text("] ", NamedTextColor.WHITE).decoration(TextDecoration.BOLD, true)
             )
     );
 
@@ -76,7 +76,7 @@ public class EstiMail extends gFeature {
                 pw.write(mail);
                 pw.close();
                 if (gFeatures.getInstance().getProxyServer().getPlayer(recieverUUID).isPresent()) {
-                    gFeatures.getInstance().getProxyServer().getPlayer(recieverUUID).get().sendMessage(prefix.append(TextComponent.of("You have new mail! Do /mail read to check!")));
+                    gFeatures.getInstance().getProxyServer().getPlayer(recieverUUID).get().sendMessage(prefix.append(Component.text("You have new mail! Do /mail read to check!")));
                 }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -92,7 +92,7 @@ public class EstiMail extends gFeature {
         boolean hasmail = false;
         String name = "";
         if (array.length > 0)
-            receiver.sendMessage(prefix.append(TextComponent.of( "You have new mail!")));
+            receiver.sendMessage(prefix.append(Component.text( "You have new mail!")));
         for (File fs : array) {
             try {
                 FileReader fr = new FileReader(fs);
@@ -102,7 +102,7 @@ public class EstiMail extends gFeature {
                     if (linenum == 1) {
                         name = line;
                     } else if (linenum == 2) {
-                        receiver.sendMessage(prefix.append(TextComponent.of("" + name + ": " + line)));
+                        receiver.sendMessage(prefix.append(Component.text("" + name + ": " + line)));
                         hasmail = true;
                     }
                     linenum++;
@@ -113,7 +113,7 @@ public class EstiMail extends gFeature {
             }
         }
         if (!hasmail) {
-            receiver.sendMessage(prefix.append(TextComponent.of("You have no new mail.")));
+            receiver.sendMessage(prefix.append(Component.text("You have no new mail.")));
         }
     }
 

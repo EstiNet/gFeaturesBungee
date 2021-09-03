@@ -14,8 +14,8 @@ import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.API.Resolver.ResolverFetcher;
 import net.estinet.gFeatures.gFeatures;
-import net.kyori.text.TextComponent;
-import net.kyori.text.format.TextColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 /*
 gFeatures
@@ -39,9 +39,9 @@ https://github.com/EstiNet/gFeaturesBungee
 public class Friendship extends gFeature {
 
     EventHub eh = new EventHub();
-    public static TextComponent prefix = TextComponent.of("[").append(
-            TextComponent.of("Friends", TextColor.GOLD).append(
-                    TextComponent.of("] ", TextColor.WHITE)
+    public static Component prefix = Component.text("[").append(
+            Component.text("Friends", NamedTextColor.GOLD).append(
+                    Component.text("] ", NamedTextColor.WHITE)
             )
     );
 
@@ -77,7 +77,7 @@ public class Friendship extends gFeature {
                 if (!(con == null)) {
                     switch (con) {
                         case "requested":
-                            requester.sendMessage(prefix.append(TextComponent.of("Friend request already sent!", TextColor.RED)));
+                            requester.sendMessage(prefix.append(Component.text("Friend request already sent!", NamedTextColor.RED)));
                             br.close();
                             return;
                         case "pending":
@@ -85,7 +85,7 @@ public class Friendship extends gFeature {
                             br.close();
                             return;
                         case "confirmed":
-                            requester.sendMessage(prefix.append(TextComponent.of("You're already friends with this player!", TextColor.DARK_AQUA)));
+                            requester.sendMessage(prefix.append(Component.text("You're already friends with this player!", NamedTextColor.DARK_AQUA)));
                             br.close();
                             return;
                     }
@@ -121,7 +121,7 @@ public class Friendship extends gFeature {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        requester.sendMessage(prefix.append(TextComponent.of("Friend request sent!")));
+        requester.sendMessage(prefix.append(Component.text("Friend request sent!")));
     }
 
     @SuppressWarnings("deprecation")
@@ -155,9 +155,9 @@ public class Friendship extends gFeature {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        confirmer.sendMessage(prefix.append(TextComponent.of("You and " + friend + " are now friends!")));
+        confirmer.sendMessage(prefix.append(Component.text("You and " + friend + " are now friends!")));
         if (gFeatures.getInstance().getProxyServer().getPlayer(name).isPresent()) {
-            gFeatures.getInstance().getProxyServer().getPlayer(name).get().sendMessage(prefix.append(TextComponent.of("You and " + confirmer.getUsername() + " are now friends!")));
+            gFeatures.getInstance().getProxyServer().getPlayer(name).get().sendMessage(prefix.append(Component.text("You and " + confirmer.getUsername() + " are now friends!")));
         }
     }
 
@@ -171,7 +171,7 @@ public class Friendship extends gFeature {
             File fs = new File("plugins/gFeatures/Friendship/" + hate + "/" + unfriender.getUniqueId());
             if ((!fs.exists() && !f.exists()) || (!fs.exists() | !f.exists())) {
                 try {
-                    unfriender.sendMessage(prefix.append(TextComponent.of(hates + " is not added as a friend.")));
+                    unfriender.sendMessage(prefix.append(Component.text(hates + " is not added as a friend.")));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -179,9 +179,9 @@ public class Friendship extends gFeature {
                 f.delete();
                 fs.delete();
                 try {
-                    unfriender.sendMessage(prefix.append(TextComponent.of("Unfriended " + hates + ".")));
+                    unfriender.sendMessage(prefix.append(Component.text("Unfriended " + hates + ".")));
                     if (gFeatures.getInstance().getProxyServer().getPlayer(hate).isPresent()) {
-                        gFeatures.getInstance().getProxyServer().getPlayer(hate).get().sendMessage(prefix.append(TextComponent.of(unfriender.getUsername() + " unfriended you!")));
+                        gFeatures.getInstance().getProxyServer().getPlayer(hate).get().sendMessage(prefix.append(Component.text(unfriender.getUsername() + " unfriended you!")));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

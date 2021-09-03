@@ -4,7 +4,7 @@ import com.velocitypowered.api.command.CommandSource;
 import net.estinet.gFeatures.EstiCommand;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.Feature.MinigameAssister.MinigameAssister;
-import net.kyori.text.TextComponent;
+import net.kyori.adventure.text.Component;
 
 /*
 gFeatures
@@ -32,9 +32,9 @@ public class SlashListgames extends EstiCommand{
 
 	@Override
 	public void execute(CommandSource sender, String[] args) {
-		sender.sendMessage(TextComponent.of("Servers:"));
+		sender.sendMessage(Component.text("Servers:"));
 		for(String mgs : MinigameAssister.servers.keySet()){
-			sender.sendMessage(TextComponent.of(mgs + " " + MinigameAssister.servers.get(mgs)));
+			sender.sendMessage(Component.text(mgs + " " + MinigameAssister.servers.get(mgs)));
 		}
 	}
 }

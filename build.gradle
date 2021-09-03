@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "2.0.3"
+    id "com.github.johnrengelman.shadow" version "7.0.0"
 }
 
 //use the command /gradle to build
@@ -7,7 +7,7 @@ plugins {
 defaultTasks 'build', 'shadowJar'
 
 apply plugin: 'java'
-apply plugin: 'maven'
+//apply plugin: 'maven'
 
 group = 'gFeaturesProxy'
 version = '3.7.0c'
@@ -18,9 +18,9 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 shadowJar {
-    baseName = 'gFeatures'
+    archiveBaseName = 'gFeatures'
     classifier = null
-    version = null
+    archiveVersion = null
     from('src/main/java') {
         include '**/*.yml'
     }
@@ -33,16 +33,19 @@ jar {
 }
 
 repositories {
-     maven { url = "https://repo.velocitypowered.com/snapshots/" }
-     maven { url = "https://repo.maven.apache.org/maven2" }
+    mavenCentral()
+    maven { url = "https://nexus.velocitypowered.com/repository/maven-public/" }
 }
 dependencies {
-    compile group: 'io.lettuce', name: 'lettuce-core', version: '5.1.0.M1'
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
-    compile 'io.grpc:grpc-netty-shaded:1.40.1'
-    compile 'io.grpc:grpc-netty:1.40.1'
-    compile 'io.grpc:grpc-protobuf:1.40.1'
-    compile 'io.grpc:grpc-stub:1.40.1'
-    compile group: 'org.yaml', name: 'snakeyaml', version: '1.21'
-    compileOnly group: 'com.velocitypowered', name: 'velocity-api', version:'1.0.0-SNAPSHOT'
+    implementation 'io.lettuce:lettuce-core:5.1.0.M1'
+    implementation 'org.apache.commons:commons-lang3:3.0'
+    implementation 'io.grpc:grpc-netty-shaded:1.40.1'
+    implementation 'io.grpc:grpc-netty:1.40.1'
+    implementation 'io.grpc:grpc-protobuf:1.40.1'
+    implementation 'io.grpc:grpc-stub:1.40.1'
+    implementation 'org.yaml:snakeyaml:1.21'
+    implementation 'com.velocitypowered:velocity-api:3.0.1'
+    annotationProcessor 'com.velocitypowered:velocity-api:3.0.1'
+    implementation "net.kyori:adventure-api:4.8.1"
+
 }

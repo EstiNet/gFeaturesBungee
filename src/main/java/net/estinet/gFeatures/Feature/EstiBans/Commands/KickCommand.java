@@ -5,7 +5,7 @@ import net.estinet.gFeatures.EstiCommand;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.Feature.EstiBans.EstiBans;
 import net.estinet.gFeatures.gFeatures;
-import net.kyori.text.TextComponent;
+import net.kyori.adventure.text.Component;
 
 /*
 gFeatures
@@ -35,17 +35,17 @@ public class KickCommand extends EstiCommand {
     @Override
     public void execute(CommandSource sender, String[] args) {
         if (args.length < 2) {
-            sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("/kick [Player] [Reason]")));
+            sender.sendMessage(EstiBans.estiBansPrefix.append(Component.text("/kick [Player] [Reason]")));
         } else {
             if (!gFeatures.getInstance().getProxyServer().getPlayer(args[0]).isPresent()) {
-                sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("No one is online with that username.")));
+                sender.sendMessage(EstiBans.estiBansPrefix.append(Component.text("No one is online with that username.")));
             } else {
                 StringBuilder reason = new StringBuilder();
                 for (int i = 1; i < args.length; i++) {
                     reason.append(args[i]).append(" ");
                 }
                 EstiBans.kickPlayer(args[0], reason.toString());
-                sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("Kicked Player " + args[0] + " for \"" + reason + "\"")));
+                sender.sendMessage(EstiBans.estiBansPrefix.append(Component.text("Kicked Player " + args[0] + " for \"" + reason + "\"")));
             }
         }
     }

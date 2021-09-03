@@ -20,18 +20,14 @@ https://github.com/EstiNet/gFeaturesBungee
 */
 
 import com.velocitypowered.api.command.CommandSource;
-import com.velocitypowered.api.proxy.Player;
-import net.estinet.gFeatures.API.Logger.Debug;
 import net.estinet.gFeatures.EstiCommand;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.gFeatures;
-import net.kyori.text.TextComponent;
-import net.kyori.text.format.TextColor;
-import net.kyori.text.format.TextDecoration;
-import net.kyori.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class BListCommand extends EstiCommand {
@@ -44,22 +40,22 @@ public class BListCommand extends EstiCommand {
     public void execute(CommandSource sender, String[] args) {
 
         if (gFeatures.getInstance().getProxyServer().getAllPlayers().size() == 1) {
-            sender.sendMessage(LegacyComponentSerializer.INSTANCE.deserialize("&7&m--------&r&3There is 1 player on!&7&m--------", '&'));
+            sender.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize("&7&m--------&r&3There is 1 player on!&7&m--------"));
         } else {
             int size = gFeatures.getInstance().getProxyServer().getAllPlayers().size();
-            sender.sendMessage(LegacyComponentSerializer.INSTANCE.deserialize("&7&m--------&r&3There are " + size + " players on!&7&m--------", '&'));
+            sender.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize("&7&m--------&r&3There are " + size + " players on!&7&m--------"));
         }
 
         if (gFeatures.getInstance().getProxyServer().getAllPlayers().size() == 0) {
-            sender.sendMessage(TextComponent.of("No players on right now.", TextColor.DARK_AQUA));
+            sender.sendMessage(Component.text("No players on right now.", NamedTextColor.DARK_AQUA));
         }
         HashMap<String, ArrayList<String>> servers = BList.getPlayersWithServer();
 
         // print out
         for (String server : servers.keySet()) {
-            sender.sendMessage(TextComponent.of(server + ":", TextColor.DARK_AQUA));
+            sender.sendMessage(Component.text(server + ":", NamedTextColor.DARK_AQUA));
             for (String player : servers.get(server)) {
-                sender.sendMessage(TextComponent.of(player, TextColor.AQUA));
+                sender.sendMessage(Component.text(player, NamedTextColor.AQUA));
             }
         }
 

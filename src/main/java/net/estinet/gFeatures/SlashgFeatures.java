@@ -2,10 +2,13 @@ package net.estinet.gFeatures;
 
 import com.velocitypowered.api.command.Command;
 import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.command.InvocableCommand;
+import com.velocitypowered.api.command.SimpleCommand;
 import net.estinet.gFeatures.API.Resolver.ResolverFetcher;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
-import net.kyori.text.TextComponent;
-import net.kyori.text.format.TextColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 import java.util.List;
 
@@ -28,79 +31,81 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public class SlashgFeatures implements Command {
-
+public class SlashgFeatures implements SimpleCommand {
     @Override
-    public void execute(CommandSource sender, String[] args) {
+    public void execute(Invocation invocation) {
+        CommandSource sender = invocation.source();
+        String[] args = invocation.arguments();
+
         if (!sender.hasPermission("gFeatures.admin")) return;
 
         try {
             if (args.length == 0) {
-                sender.sendMessage(TextComponent.of("Please do /gfp help.", TextColor.GRAY));
+                sender.sendMessage(Component.text("Please do /gfp help.", NamedTextColor.GRAY));
             } else if (args.length == 1) {
                 switch (args[0]) {
                     case "version":
-                        sender.sendMessage(TextComponent.of("gFeatures Version " + gFeatures.version, TextColor.GRAY));
+                        sender.sendMessage(Component.text("gFeatures Version " + gFeatures.version, NamedTextColor.GRAY));
                         break;
                     case "help":
-                        sender.sendMessage(TextComponent.of("------Help------", TextColor.GRAY));
-                        sender.sendMessage(TextComponent.of("/gfp version : States the version.", TextColor.GRAY));
-                        sender.sendMessage(TextComponent.of("/gfp list : Lists all features with their states and versions also.", TextColor.GRAY));
-                        sender.sendMessage(TextComponent.of("/gfp featurestate <Feature> : Gets the state of the feature.", TextColor.GRAY));
-                        sender.sendMessage(TextComponent.of("/gfp send <Cliote> <Identifier> <Message> : Sends a manual message to the ClioteSky server.", TextColor.GRAY));
-                        sender.sendMessage(TextComponent.of("/gfp lookup <Player Name> : Lookup player info (UUID and previous names).", TextColor.GRAY));
-                        sender.sendMessage(TextComponent.of("/gfp debug : Turns on debug messages.", TextColor.GRAY));
+                        sender.sendMessage(Component.text("------Help------", NamedTextColor.GRAY));
+                        sender.sendMessage(Component.text("/gfp version : States the version.", NamedTextColor.GRAY));
+                        sender.sendMessage(Component.text("/gfp list : Lists all features with their states and versions also.", NamedTextColor.GRAY));
+                        sender.sendMessage(Component.text("/gfp featurestate <Feature> : Gets the state of the feature.", NamedTextColor.GRAY));
+                        sender.sendMessage(Component.text("/gfp send <Cliote> <Identifier> <Message> : Sends a manual message to the ClioteSky server.", NamedTextColor.GRAY));
+                        sender.sendMessage(Component.text("/gfp lookup <Player Name> : Lookup player info (UUID and previous names).", NamedTextColor.GRAY));
+                        sender.sendMessage(Component.text("/gfp debug : Turns on debug messages.", NamedTextColor.GRAY));
                         break;
                     case "list":
                         List<gFeature> features = gFeatures.getFeatures();
-                        sender.sendMessage(TextComponent.of("Features:", TextColor.GRAY));
-                        sender.sendMessage(TextComponent.of("Enabled:", TextColor.GRAY));
+                        sender.sendMessage(Component.text("Features:", NamedTextColor.GRAY));
+                        sender.sendMessage(Component.text("Enabled:", NamedTextColor.GRAY));
                         for (gFeature feature : features) {
                             if (feature.isEnabled()) {
-                                sender.sendMessage(TextComponent.of(" - " + feature.getName() + " " + feature.getVersion(), TextColor.GRAY));
+                                sender.sendMessage(Component.text(" - " + feature.getName() + " " + feature.getVersion(), NamedTextColor.GRAY));
                             }
                         }
-                        sender.sendMessage(TextComponent.of("Disabled:", TextColor.GRAY));
+                        sender.sendMessage(Component.text("Disabled:", NamedTextColor.GRAY));
                         for (gFeature feature : features) {
                             if (!feature.isEnabled()) {
-                                sender.sendMessage(TextComponent.of(" - " + feature.getName() + " " + feature.getVersion(), TextColor.GRAY));
+                                sender.sendMessage(Component.text(" - " + feature.getName() + " " + feature.getVersion(), NamedTextColor.GRAY));
                             }
                         }
                         break;
                     case "featurestate":
-                        sender.sendMessage(TextComponent.of("Usage: /gfp featurestate <Plugin>", TextColor.GRAY));
+                        sender.sendMessage(Component.text("Usage: /gfp featurestate <Plugin>", NamedTextColor.GRAY));
                         break;
                     case "debug":
                         if (gFeatures.debug) {
                             gFeatures.debug = false;
-                            sender.sendMessage(TextComponent.of("Turned off debugging.", TextColor.GRAY));
+                            sender.sendMessage(Component.text("Turned off debugging.", NamedTextColor.GRAY));
                         } else {
                             gFeatures.debug = true;
-                            sender.sendMessage(TextComponent.of("Turned on debugging.", TextColor.GRAY));
+                            sender.sendMessage(Component.text("Turned on debugging.", NamedTextColor.GRAY));
                         }
                         break;
                     default:
-                        sender.sendMessage(TextComponent.of("Please do /gFeaturesBungee help.", TextColor.GRAY));
+                        sender.sendMessage(Component.text("Please do /gFeaturesBungee help.", NamedTextColor.GRAY));
                         break;
                 }
             } else if (args.length == 2) {
                 switch (args[0]) {
                     case "featurestate":
                         gFeature feature = gFeatures.getFeature(args[1]);
-                        sender.sendMessage(TextComponent.of("Feature " + args[1] + " state is " + feature.isEnabled(), TextColor.GRAY));
+                        sender.sendMessage(Component.text("Feature " + args[1] + " state is " + feature.isEnabled(), NamedTextColor.GRAY));
                         break;
                     case "lookup":
-                        sender.sendMessage(TextComponent.of("----- Player info for " + args[1] + " -----", TextColor.GRAY));
-                        sender.sendMessage(TextComponent.of("UUID: " + ResolverFetcher.getUUIDfromName(args[1]), TextColor.GRAY));
+                        sender.sendMessage(Component.text("----- Player info for " + args[1] + " -----", NamedTextColor.GRAY));
+                        sender.sendMessage(Component.text("UUID: " + ResolverFetcher.getUUIDfromName(args[1]), NamedTextColor.GRAY));
                         StringBuilder prev = new StringBuilder("Previous names: ");
                         List<String> names = ResolverFetcher.getAllNames(ResolverFetcher.getUUIDfromName(args[1]));
                         for (int i = 1; i < names.size(); i++) {
                             prev.append(names.get(i)).append(" ");
                         }
-                        sender.sendMessage(TextComponent.of(prev.toString(), TextColor.GRAY));
+                        sender.sendMessage(Component.text(prev.toString(), NamedTextColor.GRAY));
                         break;
                     default:
-                        sender.sendMessage(TextComponent.of("Please do /gfp help.", TextColor.GRAY));
+                        sender.sendMessage(Component.text("Please do /gfp help.", NamedTextColor.GRAY));
                         break;
                 }
             } else if (args.length >= 4) {
@@ -112,14 +117,14 @@ public class SlashgFeatures implements Command {
                         }
 
                         ClioteSky.getInstance().send(ClioteSky.stringToBytes(output.toString()), args[2], args[1]);
-                        sender.sendMessage(TextComponent.of("Sent message " + output + " to ClioteSky.", TextColor.GRAY));
+                        sender.sendMessage(Component.text("Sent message " + output + " to ClioteSky.", NamedTextColor.GRAY));
                         break;
                     default:
-                        sender.sendMessage(TextComponent.of("Please do /gfp help.", TextColor.GRAY));
+                        sender.sendMessage(Component.text("Please do /gfp help.", NamedTextColor.GRAY));
                         break;
                 }
             } else {
-                sender.sendMessage(TextComponent.of("Please do /gfp help.", TextColor.GRAY));
+                sender.sendMessage(Component.text("Please do /gfp help.", NamedTextColor.GRAY));
             }
         } catch (Exception e) {
             e.printStackTrace();

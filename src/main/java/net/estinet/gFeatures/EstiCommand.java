@@ -1,6 +1,7 @@
 package net.estinet.gFeatures;
 
-import com.velocitypowered.api.command.Command;
+import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.command.SimpleCommand;
 
 /*
 gFeatures
@@ -21,7 +22,7 @@ https://github.com/EstiNet/gFeaturesBungee
    limitations under the License.
 */
 
-public abstract class EstiCommand implements Command {
+public abstract class EstiCommand implements SimpleCommand {
 	
 	public gFeature feature;
 	public String permission;
@@ -32,4 +33,12 @@ public abstract class EstiCommand implements Command {
 		this.permission = permission;
 		this.feature = feature;
 	}
+
+	@Override
+	public void execute(Invocation invocation) {
+		if (this.permission.equals("basic") || invocation.source().hasPermission(this.permission))
+			execute(invocation.source(), invocation.arguments());
+	}
+	public abstract void execute(CommandSource source, String[] args);
+
 }

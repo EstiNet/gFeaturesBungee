@@ -5,8 +5,8 @@ import net.estinet.gFeatures.EstiCommand;
 import net.estinet.gFeatures.Feature.EstiBans.ConfigHub;
 import net.estinet.gFeatures.Feature.EstiBans.EstiBans;
 import net.estinet.gFeatures.gFeature;
-import net.kyori.text.TextComponent;
-import net.kyori.text.format.TextColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import java.util.concurrent.ConcurrentHashMap;
 
 /*
@@ -38,9 +38,9 @@ public class EstiBansCommand extends EstiCommand {
     public void execute(CommandSource sender, String[] args) {
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase("help")) {
-                sender.sendMessage(TextComponent.of("----- EstiBans -----", TextColor.AQUA));
-                sender.sendMessage(TextComponent.of("/estibans info [Player] - Obtains player information.", TextColor.AQUA));
-                sender.sendMessage(TextComponent.of("/estibans reload - Reloads from the config.", TextColor.AQUA));
+                sender.sendMessage(Component.text("----- EstiBans -----", NamedTextColor.AQUA));
+                sender.sendMessage(Component.text("/estibans info [Player] - Obtains player information.", NamedTextColor.AQUA));
+                sender.sendMessage(Component.text("/estibans reload - Reloads from the config.", NamedTextColor.AQUA));
 
             } else if (args[0].equalsIgnoreCase("reload")) {
                 EstiBans.bans = new ConcurrentHashMap<>();
@@ -48,33 +48,33 @@ public class EstiBansCommand extends EstiCommand {
                 EstiBans.warnings = new ConcurrentHashMap<>();
 
                 ConfigHub.setupConfig();
-                sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("Completed reload.")));
+                sender.sendMessage(EstiBans.estiBansPrefix.append(Component.text("Completed reload.")));
             } else {
-                sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("/estibans help")));
+                sender.sendMessage(EstiBans.estiBansPrefix.append(Component.text("/estibans help")));
             }
         } else if (args.length == 2) {
             if (args[0].equalsIgnoreCase("info")) {
-                sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("Player info for " + args[1])));
-                sender.sendMessage((TextComponent.of("Bans:", TextColor.DARK_GRAY)));
+                sender.sendMessage(EstiBans.estiBansPrefix.append(Component.text("Player info for " + args[1])));
+                sender.sendMessage((Component.text("Bans:", NamedTextColor.DARK_GRAY)));
 
                 for (String str : EstiBans.getBans(args[1])) {
-                    if (!str.trim().equals("")) sender.sendMessage(TextComponent.of("- " + str, TextColor.DARK_GRAY));
+                    if (!str.trim().equals("")) sender.sendMessage(Component.text("- " + str, NamedTextColor.DARK_GRAY));
                 }
 
-                sender.sendMessage(TextComponent.of("Mutes:", TextColor.DARK_GRAY));
+                sender.sendMessage(Component.text("Mutes:", NamedTextColor.DARK_GRAY));
                 for (String str : EstiBans.getMutes(args[1])) {
-                    if (!str.trim().equals("")) sender.sendMessage(TextComponent.of("- " + str, TextColor.DARK_GRAY));
+                    if (!str.trim().equals("")) sender.sendMessage(Component.text("- " + str, NamedTextColor.DARK_GRAY));
                 }
 
-                sender.sendMessage(TextComponent.of("Warnings:", TextColor.DARK_GRAY));
+                sender.sendMessage(Component.text("Warnings:", NamedTextColor.DARK_GRAY));
                 for (String str : EstiBans.getWarnings(args[1])) {
-                    if (!str.trim().equals("")) sender.sendMessage(TextComponent.of("- " + str, TextColor.DARK_GRAY));
+                    if (!str.trim().equals("")) sender.sendMessage(Component.text("- " + str, NamedTextColor.DARK_GRAY));
                 }
             } else {
-                sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("/estibans help")));
+                sender.sendMessage(EstiBans.estiBansPrefix.append(Component.text("/estibans help")));
             }
         } else {
-            sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("/estibans help")));
+            sender.sendMessage(EstiBans.estiBansPrefix.append(Component.text("/estibans help")));
         }
     }
 }

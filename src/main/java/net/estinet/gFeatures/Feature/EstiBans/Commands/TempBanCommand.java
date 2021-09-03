@@ -5,8 +5,8 @@ import net.estinet.gFeatures.EstiCommand;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.Feature.EstiBans.EstiBans;
 import net.estinet.gFeatures.gFeatures;
-import net.kyori.text.TextComponent;
-import net.kyori.text.format.TextColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 /*
 gFeatures
@@ -36,12 +36,12 @@ public class TempBanCommand extends EstiCommand{
 	@Override
 	public void execute(CommandSource sender, String[] args) {
 		if(args.length < 3){
-			sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("/tempban [Player] [Length] [Server] [Reason]")));
+			sender.sendMessage(EstiBans.estiBansPrefix.append(Component.text("/tempban [Player] [Length] [Server] [Reason]")));
 		}
 		else{
 			try{
 				if(EstiBans.isBannedOn(args[0], args[1])){
-					sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of( "Player already banned on this server!", TextColor.RED)));
+					sender.sendMessage(EstiBans.estiBansPrefix.append(Component.text("Player already banned on this server!", NamedTextColor.RED)));
 				}
 				else{
 					StringBuilder reason = new StringBuilder();
@@ -70,10 +70,10 @@ public class TempBanCommand extends EstiCommand{
 						return;
 					}
 					else{
-						sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("Incorrect timestamp.", TextColor.RED)));
+						sender.sendMessage(EstiBans.estiBansPrefix.append(Component.text("Incorrect timestamp.", NamedTextColor.RED)));
 						return;
 					}
-					sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("Banned player " + args[0] + " for " + args[1] + " on " + args[1] + " because of \"" + reason + "\"")));
+					sender.sendMessage(EstiBans.estiBansPrefix.append(Component.text("Banned player " + args[0] + " for " + args[1] + " on " + args[1] + " because of \"" + reason + "\"")));
 					EstiBans.banPlayer(args[0], args[2], time, reason.toString());
 				}
 			}
@@ -81,7 +81,7 @@ public class TempBanCommand extends EstiCommand{
 				if(gFeatures.debug){
 					e.printStackTrace();
 				}
-				sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("Error with your input, try again!", TextColor.RED)));
+				sender.sendMessage(EstiBans.estiBansPrefix.append(Component.text("Error with your input, try again!", NamedTextColor.RED)));
 			}
 		}
 	}

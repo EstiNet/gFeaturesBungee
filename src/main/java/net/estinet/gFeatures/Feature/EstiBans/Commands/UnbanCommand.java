@@ -4,10 +4,8 @@ import com.velocitypowered.api.command.CommandSource;
 import net.estinet.gFeatures.EstiCommand;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.Feature.EstiBans.EstiBans;
-import net.kyori.text.TextComponent;
-import net.kyori.text.format.TextColor;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.optional.qual.MaybePresent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 /*
 gFeatures
@@ -37,14 +35,14 @@ public class UnbanCommand extends EstiCommand{
 	@Override
 	public void execute(CommandSource sender, String[] args) {
 		if(args.length != 2){
-			sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("/unban [Player] [Server]")));
+			sender.sendMessage(EstiBans.estiBansPrefix.append(Component.text("/unban [Player] [Server]")));
 		}
 		else{
 			if(!EstiBans.isBannedOn(args[0], args[1])){
-				sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("Player is not banned!", TextColor.RED)));
+				sender.sendMessage(EstiBans.estiBansPrefix.append(Component.text("Player is not banned!", NamedTextColor.RED)));
 			}
 			else{
-				sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("Player " + args[0] + " has been unbanned on " + args[1] + ".")));
+				sender.sendMessage(EstiBans.estiBansPrefix.append(Component.text("Player " + args[0] + " has been unbanned on " + args[1] + ".")));
 				EstiBans.unbanPlayer(args[0], args[1]);
 			}
 		}

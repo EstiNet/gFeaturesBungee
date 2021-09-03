@@ -4,10 +4,8 @@ import com.velocitypowered.api.command.CommandSource;
 import net.estinet.gFeatures.EstiCommand;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.Feature.EstiBans.EstiBans;
-import net.kyori.text.TextComponent;
-import net.kyori.text.format.TextColor;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.optional.qual.MaybePresent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 /*
 gFeatures
@@ -37,14 +35,14 @@ public class UnmuteCommand extends EstiCommand{
 	@Override
 	public void execute(CommandSource sender, String[] args) {
 		if(args.length != 2){
-			sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("/unmute [Player] [Server]")));
+			sender.sendMessage(EstiBans.estiBansPrefix.append(Component.text("/unmute [Player] [Server]")));
 		}
 		else{
 			if(!EstiBans.isMutedOn(args[0], args[1])){
-				sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("Player is not muted!", TextColor.RED)));
+				sender.sendMessage(EstiBans.estiBansPrefix.append(Component.text("Player is not muted!", NamedTextColor.RED)));
 			}
 			else{
-				sender.sendMessage(EstiBans.estiBansPrefix.append(TextComponent.of("Player " + args[0] + " has been unmuted on " + args[1] + ".")));
+				sender.sendMessage(EstiBans.estiBansPrefix.append(Component.text("Player " + args[0] + " has been unmuted on " + args[1] + ".")));
 				EstiBans.unmutePlayer(args[0], args[1]);
 			}
 		}

@@ -13,8 +13,8 @@ import io.lettuce.core.api.sync.RedisCommands;
 import net.estinet.gFeatures.ClioteSky.ClioteSky;
 import net.estinet.gFeatures.gFeature;
 import net.estinet.gFeatures.gFeatures;
-import net.kyori.text.TextComponent;
-import net.kyori.text.format.TextColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 /*
 gFeatures
@@ -124,7 +124,7 @@ public class FusionPlay extends gFeature {
                 cliotesOnCheck.remove(fc);
                 connections.get(FusionPlay.getConnectionArrayID(fc.getClioteName())).setStatus(FusionStatus.OFFLINE);
                 for (Player pp : gFeatures.getInstance().getProxyServer().getServer(clioteName).get().getPlayersConnected()) {
-                    pp.sendMessage(TextComponent.of("Please wait a bit longer, shuffling servers...", TextColor.DARK_GRAY));
+                    pp.sendMessage(Component.text("Please wait a bit longer, shuffling servers...", NamedTextColor.DARK_GRAY));
                 }
                 replaceConnection(clioteName);
             }
@@ -134,7 +134,7 @@ public class FusionPlay extends gFeature {
 
             for (Player pp : gFeatures.getInstance().getProxyServer().getServer(clioteName).get().getPlayersConnected()) {
                 pp.createConnectionRequest(gFeatures.getInstance().getProxyServer().getServer("MinigameHub").get()).fireAndForget();
-                pp.sendMessage(TextComponent.of("Sorry! One of our servers went offline, and we can't restore the session!", TextColor.DARK_GRAY));
+                pp.sendMessage(Component.text("Sorry! One of our servers went offline, and we can't restore the session!", NamedTextColor.DARK_GRAY));
             }
 
             FusionPlay.getConnections().get(FusionPlay.getConnectionArrayID(clioteName)).setStatus(FusionStatus.OFFLINE);

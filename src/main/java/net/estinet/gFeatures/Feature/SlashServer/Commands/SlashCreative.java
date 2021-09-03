@@ -1,15 +1,9 @@
 package net.estinet.gFeatures.Feature.SlashServer.Commands;
 
 import com.velocitypowered.api.command.CommandSource;
-import com.velocitypowered.api.proxy.Player;
-import com.velocitypowered.api.proxy.ProxyServer;
-import com.velocitypowered.api.proxy.server.ServerInfo;
 import net.estinet.gFeatures.EstiCommand;
 import net.estinet.gFeatures.Feature.SlashServer.SlashServer;
 import net.estinet.gFeatures.gFeature;
-import net.estinet.gFeatures.gFeatures;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.optional.qual.MaybePresent;
 
 /*
 gFeatures
